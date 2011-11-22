@@ -1,0 +1,50 @@
+.login {
+    width: 480px;
+    margin: 0px auto;
+    padding: 5px;
+    border: 2px solid #007BA7;
+    border-radius: 10px;
+    background: #D18726;
+}
+
+.login h1 {
+   color: #F1DB85;
+   font-size: x-large;
+   text-align: center;
+    
+}
+
+.login ul {
+    list-style: none;
+    font-size: medium;
+    color: #FFFFFF;
+}
+
+.login .register {
+     color: #FFFFFF;
+     font-size: medium; 
+     font-style: italic;
+}
+
+.login a {
+    color: #007BA7;
+    font-size: inherit;
+}
+
+.login p {
+   color: #FFFFFF;
+}
+
+.button2 {
+    border: 1px solid #007BA7;
+    border-radius: 3px;
+    background: #F1DB85;
+    color: #007BA7;
+    font-size: medium;
+    padding: .5%;
+}
+
+.button2:hover {
+   background: #E1CA73;
+   cursor: pointer;
+}
