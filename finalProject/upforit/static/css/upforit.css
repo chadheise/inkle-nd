@@ -1,0 +1,225 @@
+#content {
+    display: inline;
+    float: left;
+    width: 640px;
+    margin: 10px;
+    padding: 0px;
+}
+
+.form {
+    width: 100%;
+    margin: 0px auto;
+    padding: 0px;
+    border-radius: 10px;
+}
+
+.form h1 {
+   color: #F1DB85;
+   font-size: x-large;
+   text-align: center;
+    
+}
+
+.form ul {
+    list-style: none;
+    font-size: medium;
+    padding: 0px;
+}
+
+.form ul li {
+    width: 100%;
+    display: block;
+    float: left;
+}
+
+.form ul li label {
+    width: 100px;
+    margin: 0px 10px;
+    display: block;
+    float: left;
+    text-align: left;
+    font-size: medium;
+    font-weight: bold;
+    color: #007BA7;
+}
+
+.form ul li input, .form tr td input {
+    width: 240px;
+    display: block;
+    text-align: left;
+    font-size: medium;
+    color: #007BA7;
+    background: #C6BC98;
+    border: 1px solid #007BA7;
+}
+
+.form textarea {
+    width: 480px;
+    height: 100px;
+    margin: 5px 0px;
+    display: block;
+    text-align: left;
+    font-size: medium;
+    color: #007BA7;
+    background: #C6BC98;
+    border: 1px solid #007BA7;
+    resize: vertical;
+    overflow: auto;
+}
+
+.form ul li select {
+    width: 240px;
+    display: block;
+    text-align: left;
+    font-size: medium;
+    color: #007BA7;
+    background: #C6BC98;
+}
+
+.edit_data_form table {
+    margin-left: 0px;
+}
+
+.ingredient_list {
+   margin-left: 100px;
+}
+
+#ingredient_header_Item {
+    width: 250px;
+}
+
+.ingredient_list tr th, .ingredient_list tr td {
+   width: 100px;
+   padding-right: 10px;
+}
+
+.ingredient_list tr td input {
+    width: 75px;
+}
+
+.ingredient_list tr td .ingredient_item {
+    width: 255px;
+}
+
+#new_ingredient {
+   width: auto;
+   color: #B16706;
+   font-weight: none;
+   font-style: italic;
+   text-decoration: underline;
+   cursor: pointer;
+}
+
+#id_card {
+   margin-left: 120px;
+   width: 484px;
+}
+
+p {
+    color: #007BA7;
+    font-size: medium;
+    font-weight: none;
+}
+
+#welcomepic {
+   width: 160px;
+   display: block;
+   float: left;
+   margin-top: 15%;
+   margin-left: 40px;
+}
+
+#welcometext {
+   width: 440px;
+   display: block;
+   float: left;
+}
+
+.recipe_category h2 {
+    color: #007BA7;
+    padding: 0;
+    margin-left: 40px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.recipe_category ul {
+    list-style: none;
+}
+
+.recipe_category ul li {
+    width: 600px;
+    margin: 10px 0px 10px 0px;
+    vertical-align: center;
+}
+
+.recipe_data {
+   width: 580px;
+   border: 1px #007BA7 solid;
+   border-radius: 5px;
+   margin: 10px auto;
+   background: #C6BC98;
+   overflow: auto;
+}
+
+.recipe_data ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.recipe_data ul li {
+    margin: 10px 0px 10px 0px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    color: #007BA7;
+}
+
+.recipe_data label {
+   font-weight: bold;
+   text-align: left;
+   display: block;
+   width: 180px;
+   margin-left: 5px;
+   color: #007BA7;
+}
+
+.recipe_data p {
+   text-align: left;
+   display: block;
+   margin-left: 20px;
+}
+
+.recipe_data ul {
+    margin-left: 20px; 
+}
+
+.recipe_data ul li {
+    width: auto;
+    text-align: left; 
+}
+
+.recipe_button {
+ display: inline;
+ float: left;
+ padding: 0px 5px;
+ margin: 0px 10px 10px 15px;
+}
+
+.footnote {
+ font-style: italic;
+ font-size: small;
+ text-align: right;
+ margin-right: 15px;
+ float: right;
+ color: #007BA7;
+}
+
+.edit_recipe {
+   width: 95%;
+}
+
+.edit_table {
+    margin-left: 0px;
+}

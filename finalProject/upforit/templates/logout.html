@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/login.css" />
+{% endblock title %}
+
+{% block maincontent %}
+    {% include 'header.html' %}
+    
+    <div class="login">
+    
+        <h1>Logout</h1>
+        <p>You have successfully logged out.</p>
+        <p><a href="/upforit/login">Sign In</a> </p>
+        
+    </div>
+    
+{% endblock maincontent %}
