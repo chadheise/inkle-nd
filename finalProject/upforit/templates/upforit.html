@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block title %}
     <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -6,143 +7,17 @@
 {% endblock title%}
 
 {% block maincontent %}
-    {% include 'header.html' %}
-    {% include 'categories.html' %}
-
+    {% include "header.html" %}
     
     <div id="content">
-
-        <div id="welcome" class="dynamic_content">
-            <div id="welcometext">
-                <p>This upforit is dedicated to anyone that has spent time in the kitchen cooking 
-                up something for family and friends. However, the inspiration for this book comes 
-                from Mom, Grandma Ruth. This lady really knew how to cook!</p>
-                <p>Mom&#39s style of cooking was basic home-style fare. However, whatever she made, 
-                whether it was the traditional Thanksgiving dinner of turkey and homemade dressing 
-                or the Easter ham or Sunday dinners of roast beef or chicken with mashed potatoes 
-                and one of her wonderful gravies, or her homemade pies and breads or the special 
-                Christmas treat of Peanut Cake from a recipe handed down to her from her mom, 
-                Grandma Caron, everything started with the same basic ingredient, love for her family.</p>
-                <p>Mom&#39s tradition continues in the pages of this book and in the laughter in the kitchen. </p>
-                <p>Thanks Mom!</p>
-            </div>
-            <div id="welcomepic">
-                <img src="{{ MEDIA_URL }}/images/Ruth_Stienessen.png" width="140px"/>
-            </div>    
-            
-        </div>
-
-        <div id="new_recipe_form" class="form dynamic_content">
-            {% if recipe_form.errors %}
-                <p class="error">Sorry, there are errors in the recipe form.</p>
-            {% endif %}
-
-            <form action="/upforit/" method="post" id="new_recipe_entry_form">
-                {% csrf_token %}
-                <ul>
-                    {% for field in new_recipe_form %}
-                        <li><label>{{ field.label }}:</label>{{ field }}</li>
-                        {% if field.label == "Title" %}
-                            <li><label>Ingredients:<label>
-                                <table id="new_recipe_ingredient_list" class="ingredient_list">
-                                    <tr>
-                                        <th>Qty</th>
-                                        <th>Measurement</th>
-                                        <th>Item</th>
-                                    </tr>
-                                    <tr>
-                                        <td><input id="ingredient1_qty" type="text" name="qty1" maxlength="10" /></td>   
-                                        <td><input id="ingredient1_measurement" type="text" name="measurement1" maxlength="15" /></td>
-                                        <td><input id="ingredient1_item" class="ingredient_item" type="text" name="item1" maxlength="200"/></td>  
-                                    </tr>
-                                </table>
-                            </li>
-                            <span id="new_ingredient">New Ingredient</span>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-                <input id="num_ingredients" type="hidden" name="num_ingredients" value="1"\>
-                <input type="submit" name="submit" value="Submit" class="button"\>
-            </form>
-        </div>
-        
-        {% for category, recipes in recipe_dict.items %}
-            <div id="{{category}}_list" class="dynamic_content recipe_category">
-                <h2>{{category}}</h2>
-                <ul>
-                    {% for rec in recipes %}
-                        <li id="recipe_name_{{rec.id}}" num="{{rec.id}}" class="button recipe_name">{{rec.title}}</li>
-
-                        <div id="recipe_data_{{rec.id}}" class=" recipe_data dynamic_content">
-                            <div id="display_data_{{rec.id}}" class="display_data">
-                                <label>Ingredients:</label>
-                                <p><ul>
-                                    {% for igr in ingredients %}
-                                        {% if igr.recipe == rec %}
-                                            <li>
-                                                <span>{{igr.quantity}} {{igr.measurement_type}} {{igr.item}}</span>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul></p>
-                        
-                                <label>Preparation: </label>
-                                    <p>{{rec.preparation}}</p>
-                                <label>Serving: </label><p>{{rec.serving}}</p>
-                                <label>Notes: </label><p>{{rec.notes}}</p>
-                                <div>
-                                    {% if rec.creator == user %}
-                                        <span class="button2 recipe_button edit_recipe_button" num="{{rec.id}}">Edit</span>
-                                        <!-- <span class="button2 recipe_button delete_recipe_button" num="{{rec.id}}">Delete</span> -->
-                                        <form action="/upforit/" method="post" class="delete_recipe_form" num="{{rec.id}}">
-                                            {% csrf_token %}
-                                            <input class="delete_recipe_value" type="hidden" name="delete_recipe_value" value="-1"\>
-                                            <input type="submit" name="delete" value="Delete" class="button2"\>
-                                        </form>
-                                    {% endif %}
-                                    <span class="footnote">Recipe added by {{rec.creator}}</span>
-                                </div>
-                            </div>
-                            <div id="edit_data_{{rec.id}}" class="edit_data form">
-                                <form action="/upforit/" method="post" class="edit_recipe_form" num="{{rec.id}}">
-                                    {% csrf_token %}
-                                    <label>Ingredients:<label>
-                                    <p><table id="edit_ingredient_table{{rec.id}}" class="ingredient_list edit_table">
-                                        <tr>
-                                            <th>Qty</th>
-                                            <th>Measurement</th>
-                                            <th>Item</th>
-                                        </tr>
-                                        {% for igr in ingredients %}
-                                            {% if igr.recipe == rec %}
-                                                <tr>
-                                                    <td><input id="edit_ingredient{{igr.id}}_qty" type="text" name="edit_ingredient_qty{{igr.id}}" maxlength="10" value="{{igr.quantity}}"/></td>   
-                                                    <td><input id="edit_ingredient{{igr.id}}_measurement" type="text" name="edit_ingredient_measurement{{igr.id}}" maxlength="15" value="{{igr.measurement_type}}"/></td>
-                                                    <td><input id="edit_ingredient{{igr.id}}_item" class="ingredient_item" type="text" name="edit_ingredient_item{{igr.id}}" maxlength="200" value="{{igr.item}}"/></td>
-                                                </tr>
-                                            {% endif %}
-                                        {% endfor %}  
-                                    </table></p>
-                                    <!-- <span class="new_ingredient_edit" num="{{rec.id}}">New Ingredient</span> -->
-                                
-                                    <label>Preparation: </label>
-                                        <textarea id="edit_preparation{{rec.id}}" rows="10" cols="40" name="edit_preparation{{rec.id}}">{{rec.preparation}}</textarea>
-                                    <label>Serving: </label>
-                                        <textarea id="edit_serving{{rec.id}}" rows="10" cols="40" name="edit_serving{{rec.id}}">{{rec.serving}}</textarea>
-                                    <label>Notes: </label>
-                                        <textarea id="edit_notes{{rec.id}}" rows="10" cols="40" name="edit_notes{{rec.id}}">{{rec.notes}}</textarea>
-                                
-                                    <input class="edit_recipe_value" type="hidden" name="edit_recipe_value" value="-1"\>
-                                    <span class="button2 recipe_button cancel_recipe_button" num="{{rec.id}}">Cancel</span>
-                                    <input type="submit" name="submit" value="Submit" class="button2"\>
-                                </form>
-                            </div>
-                        </div>
-
-                    {% endfor %}
-                </ul>
+        {% for location in locations %}
+            <div class="locationContainer">
+                <div class="locationImage">&nbsp;</div>
+                <div class="locationInfo">
+                    <a class="locationName" href="/upforit/location/{{ location.id }}/">{{ location.name }}</a>
+                    <p>{{ location.city }}, {{ location.state }}</p>
+                </div>
             </div>
         {% endfor %}
-        
     </div>
 {% endblock maincontent%}
