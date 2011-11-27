@@ -1,0 +1,18 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+.locationImage
+{
+    height: 80px;
+    width: 80px;
+    border: solid black 1px;
+}
+
+.locationName
+{
+    font-size: 32px;
+    font-weight: bold;
+}
