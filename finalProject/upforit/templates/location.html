@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/location.css" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/location.js"></script>
+{% endblock title%}
+
+{% block maincontent %}
+    {% include "header.html" %}
+    
+    <div id="locationContent">
+        <div class="locationImage">&nbsp;</div>
+        <p class="locationName">{{ location.name }}</a>
+        <p>{{ location.city }}, {{ location.state }} {{ location.zip_code }}</p>
+        <p>{{ location.category }}</p>
+    </div>
+
+    {% if member.is_staff %}
+        <form id="locationEditContent" action="/upforit/edit_location/{{ location.id }}/" method="post">
+            {% csrf_token %}
+            <label for="nameInput">Name:</label>
+            <br />
+            <input id="nameInput" class="editInput" name="name" value="{{ location.name }}" />
+            <br />
+            <label for="cityInput">City:</label>
+            <br />
+            <input id="cityInput" class="editInput" name="city" value="{{ location.city }}" />
+            <br />
+            <label for="stateInput">State:</label>
+            <br />
+            <input id="stateInput" class="editInput" name="state" value="{{ location.state }}" />
+            <br />
+            <label for="zipCodeInput">Zip code:</label>
+            <br />
+            <input id="zipCodeInput" class="editInput" name="zip_code" value="{{ location.zip_code }}" />
+            <br />
+            <label for="categoryInput">Category:</label>
+            <br />
+            <input id="categoryInput" class="editInput" name="category" value="{{ location.category }}" />
+            <br />
+            
+            <div class="actionButtonContainer">
+                <input id="locationSubmitButton" class="actionButton" type="submit" name="submit" value="Submit" />
+                <button id="locationCancelButton" type="button">Cancel</button>
+            </div>
+        </form>
+        <button id="locationEditButton" type="button">Edit</button>
+    {% endif %}
+{% endblock maincontent%}
