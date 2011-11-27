@@ -77,7 +77,11 @@ class Location(models.Model):
     city = models.CharField(max_length = 50)
     state = models.CharField(max_length = 2, choices = STATES, default = "AL")
     zip_code = models.IntegerField(max_length = 5)
+    
     # image ???
+    
+    # hours ???
+    # specials ???
 
     def __unicode__(self):
         return "%s (%s, %s)" % (self.name, self.city, self.state)

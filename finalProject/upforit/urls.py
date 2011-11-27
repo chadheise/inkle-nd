@@ -11,6 +11,6 @@ urlpatterns = patterns(
     (r"^login/$", "login_view"),
     (r"^register/$", "register_view"),
     (r"^logout/$", "logout_view"),
-    #(r'^new_recipe/$', 'new_recipe_view'),
+    (r"^location/(?P<location_id>\d+)/$", "location_view"),
     #(r'^delete_recipe/$', 'delete_recipe_view'),
 )

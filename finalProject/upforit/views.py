@@ -16,6 +16,8 @@ def home_view(request):
     if "member_id" not in request.session:
            return HttpResponseRedirect("/upforit/login")
 
+    locations = Location.objects.all()
+    
     """uid = request.session['member_id']
     user = User.objects.get(pk=uid)
     category_names = [c[1] for c in categories]
@@ -88,7 +90,30 @@ def home_view(request):
     #test_recipe = Recipe.objects.all()
     #test_recipe = test_recipe[0]"""
     
-    return render_to_response("upforit.html", locals(), context_instance = RequestContext(request))
+    return render_to_response(
+                                 "upforit.html",
+                                 locals(),
+                                 context_instance = RequestContext(request)
+                             )
+
+def location_view(request, location_id = None):
+    # Get the member who is logged in
+    member = User.objects.get(pk = request.session["member_id"])
+    
+    # If the location ID is invalid, throw a 404 error
+    try:
+        location = Location.objects.get(pk = location_id)
+    except:
+        raise Http404()
+
+    return render_to_response(
+                                 "location.html",
+                                 {
+                                     "member" : member,
+                                     "location" : location
+                                 },
+                                 context_instance = RequestContext(request)
+                             )
 
 def login_view(request):
     """User login."""
@@ -138,6 +163,7 @@ def register_view(request):
                 password = form.cleaned_data["password"],
                 email = form.cleaned_data["email"]
             )
+            user.is_staff = True
             user.save()
             return HttpResponseRedirect("/upforit/login")
 
