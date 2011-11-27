@@ -6,11 +6,11 @@ from django.conf.urls.defaults import *
 #admin.autodiscover()
 
 urlpatterns = patterns(
-    'upforit.views',
-    (r'^$',  'upforit_view'),
-    (r'^login/$', 'login_view'),
-    (r'^register/$', 'register_view'),
-    (r'^logout/$', 'logout_view'),
-    (r'^new_recipe/$', 'new_recipe_view'),
-    (r'^delete_recipe/$', 'delete_recipe_view'),
+    "upforit.views",
+    (r"^$", "home_view"),
+    (r"^login/$", "login_view"),
+    (r"^register/$", "register_view"),
+    (r"^logout/$", "logout_view"),
+    #(r'^new_recipe/$', 'new_recipe_view'),
+    #(r'^delete_recipe/$', 'delete_recipe_view'),
 )
