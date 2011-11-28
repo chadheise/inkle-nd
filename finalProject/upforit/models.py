@@ -70,6 +70,11 @@ EVENT_CATEGORIES = (
     ("M", "Main event"),
 )
 
+GENDERS = (
+    ("M", "Male"),
+    ("F", "Female"),
+)
+
 class Location(models.Model):
     name = models.CharField(max_length = 100)
     category = models.CharField(max_length = 20, choices = LOCATION_CATEGORIES, default = "Other")
@@ -86,16 +91,49 @@ class Location(models.Model):
     def __unicode__(self):
         return "%s (%s, %s)" % (self.name, self.city, self.state)
 
-class Network(models.Model):
+class Sphere(models.Model):
     name = models.CharField(max_length = 50)
+    
+    def __unicode__(self):
+        return "%s" % (self.name)
+
+class Circle(models.Model):
+    name = models.CharField(max_length = 50)
+    member = models.ManyToManyField("Member")
+    
+    def __unicode__(self):
+        return "%s" % (self.name)
+
+class Follower(models.Model):
+    follower = models.ForeignKey("Member")
+    count = models.IntegerField()
+    
+    def __unicode__(self):
+        return "%s (%d)" % (self.follower.username, count)
 
 class Member(User):
     # User contains id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
-    network = models.ForeignKey(Network)
+    spheres = models.ManyToManyField(Sphere)
+    circles = models.ManyToManyField(Circle, related_name = "+")
+
+    pending = models.ManyToManyField("self")
+    accepted = models.ManyToManyField("self")
+    requested = models.ManyToManyField("self")
+    followers = models.ManyToManyField(Follower)
+    
+    events = models.ManyToManyField(Event)
+
+    gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
+    phone = models.IntegerField(max_length = 10, default = "0000000000")
     # image ???
+    
+    def __unicode__(self):
+        return "%s" % (self.username)
 
 class Event(models.Model):
-    member = models.ForeignKey(Member)
     location = models.ForeignKey(Location)
     category = models.CharField(max_length = 1, choices = EVENT_CATEGORIES, default = "D")
     date = models.DateField(auto_now_add = True)
+    
+    def __unicode__(self):
+        return "%s, %s (%s)" % (self.member.username, self.location.name, self.date)
