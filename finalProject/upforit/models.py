@@ -83,6 +83,9 @@ class Location(models.Model):
     state = models.CharField(max_length = 2, choices = STATES, default = "AL")
     zip_code = models.IntegerField(max_length = 5)
     
+    # phone
+    # website
+    # age restrictions
     # image ???
     
     # hours ???
