@@ -1,30 +1,29 @@
 {% extends "base.html" %}
 {% block title %}
 	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/login.css" />
 {% endblock title %}
 
 {% block maincontent %}
-    {% include 'header.html' %}
+    <div id="header">
+        <p id="headerTitle">Up For It</p>
+        <div id="loginContainer">
+            {% if form.errors %}
+                <p class="error">Sorry, that's not a valid username or password</p>
+            {% endif %}
     
-    <div class="login">
-    
-        <h1>Login</h1>
-        {% if form.errors %}
-            <p class="error">Sorry, that's not a valid username or password</p>
-        {% endif %}
-    
-        <form action="" method="post">
-            {% csrf_token %}
-            <ul>
-                {{ form.as_ul }}
-            </ul>
-            <input type="submit" name="submit" value="Submit" class="button2" \>
-        </form>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <table id="loginTable">
+                    {{ form.as_table }}
+                </table>
+                <input id="loginSubmitButton" type="submit" name="submit" value="Submit" class="button2" \>
+            </form>
 
-        <div class="register">
-            <p>New User? <a href="/upforit/register">Register</a> </p>
-    
+            <!--<div class="register">
+                <p>New User? <a href="/upforit/register">Register</a> </p>
+            </div>-->
         </div>
     </div>
     
