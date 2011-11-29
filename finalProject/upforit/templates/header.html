@@ -1,22 +1,12 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/static/css/header.css" />
-    </head>
-
-    <body id="header">
-        <div class="headerTitle">
-            <h1>Up For It</h1>
+<div id="header">
+    <div id="headerContent">
+        <a id="headerTitle" href="/upforit/">Up For It</a>
+        <div id="headerSearchContainer">
+            <input id="searchInput" type="text" value="Search" />
         </div>
-    
-        {% if uid %}
-            <div class="user_info">
-                <div>
-                    Welcome {{ user }}!
-                </div>
-                <div class="small" >
-                    <a href="/upforit/logout/">Logout</a>
-                </div>
-            </div>
-        {% endif %}
-    </body>
-</html>
+        <div id="headerRightContainer">
+            <p id="username">{{ member.first_name }} {{ member.last_name }}</p>
+            <a id="logout" href="/upforit/logout/">Logout</a>
+        </div>
+    </div>
+</div>

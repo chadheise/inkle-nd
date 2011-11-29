@@ -49,34 +49,6 @@ def location_view(request, location_id = None):
                                  context_instance = RequestContext(request)
                              )
 
-def edit_location_view2(request, location_id, name, street, city, state, zip_code, category):
-    sphere = Sphere(name = "S1")
-    sphere.save()    
-
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-    
-    # If the location ID is invalid, throw a 404 error
-    try:
-        location = Location.objects.get(pk = int(location_id))
-    except:
-        raise Http404()
-
-    location.name = name
-    location.street = street
-    location.city = city
-    location.state = state
-    location.zip_code = int(zip_code)
-    location.category = category
-
-    location.save()
-    
-    return render_to_response(
-                                 "home.html",
-                                 {},
-                                 context_instance = RequestContext(request)
-                             )
-
 def edit_location_view(request, location_id = None):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -103,10 +75,18 @@ def edit_location_view(request, location_id = None):
                              )
 
 def people_view(request):
+    # If a user is not logged in, redirect them to the login page
+    if ("member_id" not in request.session):
+           return HttpResponseRedirect("/upforit/login")
+    
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+
     members = Member.objects.all()
     return render_to_response(
                                  "people.html",
                                  {
+                                     "member" : member,
                                      "members" : members
                                  },
                                  context_instance = RequestContext(request)

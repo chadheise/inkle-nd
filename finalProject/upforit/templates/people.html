@@ -1,25 +1,33 @@
 {% extends "base.html" %}
 
 {% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/people.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
 {% endblock title%}
 
-{% block maincontent %}
+{% block header %}
     {% include "header.html" %}
-    
-    <div id="content">
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent">
         {% for member in members %}
             <div class="memberContainer">
-                <div class="memberImage">&nbsp;</div>
+                <img class="memberImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
                 <div class="memberInfo">
                     <p class="memberName">{{ member.first_name }} {{ member.last_name }}</p>
-                    <p>{{ member.username }}</p>
-                    <p>{{ member.gender }}, {{ member.phone }}</p>
+                    <p class="networks">University of Notre Dame &middot; South Bend</p>
+                    <p class="mutualFriends">15 mutual friends</p>
+                    <input class="friendRequestButton" type="button" value="Request friend" />
+                    <!--<p>{{ member.username }}</p>
+                    <p>{{ member.gender }}, {{ member.phone }}</p>-->
                 </div>
             </div>
             <br />
         {% endfor %}
     </div>
-{% endblock maincontent%}
+{% endblock mainContent%}

@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/location.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/location.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
 
     <script type="text/javascript">
         $('html').ajaxSend(function(event, xhr, settings) {
@@ -33,15 +34,7 @@
 {% endblock title%}
 
 {% block header %}
-    <div id="header">
-        <div id="headerContent">
-            <a id="headerTitle" href="/upforit/">Up For It</a>
-            <div id="headerRightContainer">
-                <p id="username">{{ member.first_name }} {{ member.last_name }}</p>
-                <a id="logout" href="/upforit/logout/">Logout</a>
-            </div>
-        </div>
-    </div>
+    {% include "header.html" %}
 {% endblock header %}
 
 {% block mainContent %}
