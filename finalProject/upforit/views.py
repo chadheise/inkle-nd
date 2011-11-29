@@ -13,14 +13,20 @@ import datetime
 
 def home_view(request):
     # If a user is not logged in, redirect them to the login page
-    if "member_id" not in request.session:
+    if ("member_id" not in request.session):
            return HttpResponseRedirect("/upforit/login")
+    
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
 
     locations = Location.objects.all()
     
     return render_to_response(
-                                 "upforit.html",
-                                 locals(),
+                                 "home.html",
+                                 {
+                                    "member" : member,
+                                    "locations" : locations
+                                 },
                                  context_instance = RequestContext(request)
                              )
 
@@ -66,7 +72,7 @@ def edit_location_view2(request, location_id, name, street, city, state, zip_cod
     location.save()
     
     return render_to_response(
-                                 "upforit.html",
+                                 "home.html",
                                  {},
                                  context_instance = RequestContext(request)
                              )
@@ -185,9 +191,5 @@ def logout_view(request):
     """Logs out the current user."""
     if (request.session["member_id"]):
         del request.session["member_id"]
-
-    return render_to_response(
-                                 "logout.html",
-                                 {},
-                                 context_instance = RequestContext(request)
-                             )
+    
+    return HttpResponseRedirect("/upforit/login")
