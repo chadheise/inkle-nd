@@ -1,0 +1,36 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+.memberContainer
+{
+    border: solid black 1px;
+    padding: 5px;
+    height: 82px;
+    width: 500px;
+    display: inline-block;
+}
+
+.memberImage
+{
+    height: 80px;
+    width: 80px;
+    border: solid black 1px;
+    float: left;
+}
+
+.memberInfo
+{
+    float: left;
+    margin-left: 10px;
+}
+
+.memberName
+{
+    margin-top: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+}

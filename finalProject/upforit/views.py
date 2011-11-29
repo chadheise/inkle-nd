@@ -18,78 +18,6 @@ def home_view(request):
 
     locations = Location.objects.all()
     
-    """uid = request.session['member_id']
-    user = User.objects.get(pk=uid)
-    category_names = [c[1] for c in categories]
-    ingredient_dict = {}
-    #for rec in Recipe.objects.all():
-    #    ingredient_dict[rec] = Ingredient.objects.filter(recipe=rec)
-    ingredients = Ingredient.objects.all()
-    
-    recipe_dict = {}
-    for cat in category_names:
-        recipe_dict[cat] = Recipe.objects.filter(category=cat)
-        
-    if request.POST:
-        new_recipe_form = recipe_form(request.POST, request.FILES)
-        new_ingredient_forms = []
-        
-        #---------Edit recipe if edit was submitted--------------#
-        if 'edit_recipe_value' in request.POST:
-            recipeID = request.POST['edit_recipe_value']
-        else:
-            recipeID = "-1"
-        if (recipeID != "-1"):
-            recipe = Recipe.objects.get(pk=recipeID)
-            recipe.preparation = request.POST['edit_preparation'+recipeID] 
-            recipe.serving = request.POST['edit_serving'+recipeID]
-            recipe.notes = request.POST['edit_notes'+recipeID]
-            recipe.update = datetime.datetime.now()
-            recipe.save()
-            ingredient_list = Ingredient.objects.filter(recipe=recipe) #Get all ingredients for this recipe
-            for ingr in ingredient_list: #update all ingredients with changes
-                ingr.quantity = request.POST['edit_ingredient_qty'+str(ingr.id)]
-                ingr.measurement_type = request.POST['edit_ingredient_measurement'+str(ingr.id)]
-                ingr.item = request.POST['edit_ingredient_item'+str(ingr.id)]
-                ingr.save()
-        #---------Delete recipe if delete was submitted--------------#
-        if 'delete_recipe_value' in request.POST:
-            deleteID = request.POST['delete_recipe_value']
-        else:
-            deleteID = "-1"
-        if (deleteID != "-1"):
-            recipe = Recipe.objects.get(pk=deleteID)
-            ingredient_list = Ingredient.objects.filter(recipe=recipe) #Get all ingredients for this recipe
-            for ingr in ingredient_list:
-                ingr.delete() #Delete all ingredients for this recipe
-            recipe.delete()
-        #---------Create recipe if new recipe was submitted--------------#
-        if new_recipe_form.is_valid():
-            recipe = Recipe.objects.create(category=new_recipe_form.cleaned_data['category'],
-                title = new_recipe_form.cleaned_data['title'],
-                preparation = new_recipe_form.cleaned_data['preparation'],
-                serving = new_recipe_form.cleaned_data['serving'],
-                notes = new_recipe_form.cleaned_data['notes'],
-                creator = user,
-                update = datetime.datetime.now())
-                #card = request.FILES['card'])
-            recipe.save()
-            for i in range(1, int(request.POST['num_ingredients'])+1): #loop over all ingredient forms
-                ingredient = Ingredient.objects.create(item = request.POST['item'+str(i)],
-                    quantity = request.POST['qty'+str(i)],
-                    measurement_type = request.POST['measurement'+str(i)],
-                    recipe = recipe)
-                ingredient.save()
-    else: # request.POST is empty
-        new_recipe_form = recipe_form()
-    
-    #print Recipe.objects.all()
-    #print new_recipe_form.cleaned_data['card']
-    #print recipe.card
-    #print request.FILES
-    #test_recipe = Recipe.objects.all()
-    #test_recipe = test_recipe[0]"""
-    
     return render_to_response(
                                  "upforit.html",
                                  locals(),
@@ -98,7 +26,7 @@ def home_view(request):
 
 def location_view(request, location_id = None):
     # Get the member who is logged in
-    member = User.objects.get(pk = request.session["member_id"])
+    member = Member.objects.get(pk = request.session["member_id"])
     
     # If the location ID is invalid, throw a 404 error
     try:
@@ -120,7 +48,7 @@ def edit_location_view2(request, location_id, name, street, city, state, zip_cod
     sphere.save()    
 
     # Get the member who is logged in
-    member = User.objects.get(pk = request.session["member_id"])
+    member = Member.objects.get(pk = request.session["member_id"])
     
     # If the location ID is invalid, throw a 404 error
     try:
@@ -145,7 +73,7 @@ def edit_location_view2(request, location_id, name, street, city, state, zip_cod
 
 def edit_location_view(request, location_id = None):
     # Get the member who is logged in
-    member = User.objects.get(pk = request.session["member_id"])
+    member = Member.objects.get(pk = request.session["member_id"])
     
     # If the location ID is invalid, throw a 404 error
     try:
@@ -168,6 +96,16 @@ def edit_location_view(request, location_id = None):
                                  context_instance = RequestContext(request)
                              )
 
+def people_view(request):
+    members = Member.objects.all()
+    return render_to_response(
+                                 "people.html",
+                                 {
+                                     "members" : members
+                                 },
+                                 context_instance = RequestContext(request)
+                             )
+
 def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
@@ -184,12 +122,12 @@ def login_view(request):
         if form.is_valid():
             # Check if a member with the given username already exists
             try:
-                member = User.objects.get(username = form.cleaned_data["email"])
+                member = Member.objects.get(username = form.cleaned_data["email"])
             except:
                 return HttpResponseRedirect("/upforit/") #TODO: why go back to home?
 
             # If the member's credentials are correct, log them in and return them to the home page
-            if member.check_password(form.cleaned_data["password"]):
+            if (member.password == form.cleaned_data["password"]):
                 request.session["member_id"] = member.id
                 return HttpResponseRedirect("/upforit/")
     
@@ -205,20 +143,33 @@ def register_view(request):
     """New user registration."""
     # If the POST data is empty, return an empty form
     if (not request.POST):
-        form = login_form()
+        form = register_form()
+        member = None
 
     # If the user has submitted valid POST data, create a new user and send the user to the login page
     else:
-        form = login_form(request.POST)
-        if form.is_valid():
-            user = User.objects.create_user(
-                username = form.cleaned_data["email"],
-                password = form.cleaned_data["password"],
-                email = form.cleaned_data["email"]
-            )
-            user.is_staff = True
-            user.save()
-            return HttpResponseRedirect("/upforit/login")
+        form = register_form(request.POST)
+        if (form.is_valid()):
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            email = form.cleaned_data["email"]
+            email_verify = form.cleaned_data["email_verify"]
+            password = form.cleaned_data["password"]
+            gender = form.cleaned_data["gender"]
+
+            if (email == email_verify):
+                member = Member(
+                    first_name = first_name,
+                    last_name = last_name,
+                    username = email,
+                    password = password,
+                    email = email,
+                    gender = gender,
+                    phone = "7175670234"
+                )
+                member.is_staff = True
+                member.save()
+                return HttpResponseRedirect("/upforit/login")
 
     return render_to_response(
                                  "register.html",
