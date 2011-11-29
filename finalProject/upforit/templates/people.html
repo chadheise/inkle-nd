@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/people.css" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
+{% endblock title%}
+
+{% block maincontent %}
+    {% include "header.html" %}
+    
+    <div id="content">
+        {% for member in members %}
+            <div class="memberContainer">
+                <div class="memberImage">&nbsp;</div>
+                <div class="memberInfo">
+                    <p class="memberName">{{ member.first_name }} {{ member.last_name }}</p>
+                    <p>{{ member.username }}</p>
+                    <p>{{ member.gender }}, {{ member.phone }}</p>
+                </div>
+            </div>
+            <br />
+        {% endfor %}
+    </div>
+{% endblock maincontent%}

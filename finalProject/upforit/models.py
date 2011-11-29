@@ -132,6 +132,7 @@ class Member(User):
     events = models.ManyToManyField(Event)
 
     gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
+    #birthday = models.DateField()
     phone = models.IntegerField(max_length = 10, default = "0000000000")
     # image ???
     
