@@ -1,15 +1,26 @@
 {% extends "base.html" %}
 
 {% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
 {% endblock title%}
 
-{% block maincontent %}
-    {% include "header.html" %}
-    
-    <div id="content">
+{% block header %}
+    <div id="header">
+        <div id="headerContent">
+            <p id="headerTitle">Up For It</p>
+            <div id="headerRightContainer">
+                <p id="username">{{ member.first_name }} {{ member.last_name }}</p>
+                <a id="logout" href="/upforit/logout/">Logout</a>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent">
         {% for location in locations %}
             <div class="locationContainer">
                 <div class="locationImage">&nbsp;</div>
@@ -20,4 +31,4 @@
             </div>
         {% endfor %}
     </div>
-{% endblock maincontent%}
+{% endblock mainContent%}
