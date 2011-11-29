@@ -11,9 +11,69 @@
     text-align: right;
 }
 
-#loginSubmitButton
+#loginTable th
+{
+    padding: 0px 0px 5px 0px;
+}
+
+#loginTable td
+{
+    padding: 0px 0px 5px 0px;
+}
+
+#loginButton
 {
     padding: 5px 10px 5px 10px;
-    margin: 9px 0px 0px 10px;
+    margin: 11px 0px 0px 10px;
     float: left;
+}
+
+#welcomeContainer
+{
+    float: left;
+    width: 450px;
+    margin: 0px 90px 0px 0px;
+}
+
+#welcomeText
+{
+    color: #385E0F;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+#registrationContainer
+{
+    float: left;
+    width: 420px;
+}
+
+#signUpText
+{
+    color: #385E0F;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#registrationTable th
+{
+    text-align: right;
+    padding: 0px 10px 15px 0px;
+}
+
+#registrationTable td
+{
+    padding: 0px 0px 15px 0px;
+}
+
+#registerButton
+{
+    padding: 5px 10px 5px 10px;
+    margin: 10px 0px 0px 125px;
+    background-color: #385E0F;
+    color: white;
+    font-weight: bold;
 }
