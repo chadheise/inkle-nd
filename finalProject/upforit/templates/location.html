@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/location.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/location.js"></script>
@@ -29,56 +30,106 @@
 
         });
     </script>
-
 {% endblock title%}
 
-{% block maincontent %}
-    {% include "header.html" %}
-   
-    <input id="locationID" type="hidden" value="{{ location.id }}" />
-
-    <div id="locationContent">
-        <div class="locationImage">&nbsp;</div>
-        <p><span id="locationName">{{ location.name }}</span></p>
-        <p><span id="locationStreet">{{ location.street }}</span></p>
-        <p><span id="locationCity">{{ location.city }}</span>, <span id="locationState">{{ location.state }}</span> <span id="locationZipCode">{{ location.zip_code }}</span></p>
-        <p><span id="locationCategory">{{ location.category }}</span></p>
-    </div>
-
-    {% if member.is_staff %}
-        <div id="locationEditContent">
-            <label for="nameInput">Name:</label>
-            <br />
-            <input id="nameInput" class="editInput" value="{{ location.name }}" />
-            <br />
-            <label for="streetInput">Street:</label>
-            <br />
-            <input id="streetInput" class="editInput" value="{{ location.street }}" />
-            <br />
-            <label for="cityInput">City:</label>
-            <br />
-            <input id="cityInput" class="editInput" value="{{ location.city }}" />
-            <br />
-            <label for="stateInput">State:</label>
-            <br />
-            <input id="stateInput" class="editInput" value="{{ location.state }}" />
-            <br />
-            <label for="zipCodeInput">Zip code:</label>
-            <br />
-            <input id="zipCodeInput" class="editInput" value="{{ location.zip_code }}" />
-            <br />
-            <label for="categoryInput">Category:</label>
-            <br />
-            <input id="categoryInput" class="editInput" value="{{ location.category }}" />
-            <br />
-            
-            <div class="actionButtonContainer">
-                <input id="locationSubmitButton" class="actionButton" type="submit" value="Submit" />
-                <button id="locationCancelButton" type="button">Cancel</button>
+{% block header %}
+    <div id="header">
+        <div id="headerContent">
+            <a id="headerTitle" href="/upforit/">Up For It</a>
+            <div id="headerRightContainer">
+                <p id="username">{{ member.first_name }} {{ member.last_name }}</p>
+                <a id="logout" href="/upforit/logout/">Logout</a>
             </div>
         </div>
-        <button id="locationEditButton" type="button">Edit</button>
-    {% endif %}
+    </div>
+{% endblock header %}
 
-    <p id="results"></p>
-{% endblock maincontent%}
+{% block mainContent %}
+    <div id="mainContent">
+        <input id="locationID" type="hidden" value="{{ location.id }}" />
+
+        <div id="locationContainer">
+            <div id="locationLeftContainer">
+                <!-- Location image -->
+                <img id="locationImage" src="http://dummyimage.com/300x300/AAA/fff.jpg&text=+" />
+                
+                <!-- Location address -->
+                <div class="infoSection">
+                    <p class="infoLabel">Address:</p>
+                    <p><span id="locationStreet">{{ location.street }}</span></p>
+                    <p><span id="locationCity">{{ location.city }}</span>, <span id="locationState">{{ location.state }}</span> <span id="locationZipCode">{{ location.zip_code }}</span></p>
+                </div>
+                
+                <!-- Location phone -->
+                <div class="infoSection">
+                    <p class="infoLabel">Phone:</p>
+                    <p>(717) 234-6138
+                </div>
+                
+                <!-- Location website -->
+                <div class="infoSection">
+                    <p class="infoLabel">Website:</p>
+                    <a href="#">http://www.jacobstavern.com</a>
+                </div>
+                
+                <!-- Location hours -->
+                <div class="infoSection">
+                    <p class="infoLabel">Hours:</p>
+                    <p>M: 10 AM - 2 AM</p>
+                    <p>T: 10 AM - 2 AM</p>
+                    <p>W: 10 AM - 2 AM</p>
+                    <p>H: 10 AM - 2 AM</p>
+                    <p>F: 10 AM - 4 AM</p>
+                    <p>S: 10 AM - 4 AM</p>
+                    <p>U: 10 AM - 2 AM</p>
+                </div>
+
+                <!-- Location category -->
+                <div class="infoSection">
+                    <p class="infoLabel">Category:</p>
+                    <p><span id="locationCategory">{{ location.category }}</span></p>
+                </div>
+
+                {% if member.is_staff %}
+                    <div id="locationEditContent">
+                        <label for="nameInput">Name:</label>
+                        <br />
+                        <input id="nameInput" class="editInput" value="{{ location.name }}" />
+                        <br />
+                        <label for="streetInput">Street:</label>
+                        <br />
+                        <input id="streetInput" class="editInput" value="{{ location.street }}" />
+                        <br />
+                        <label for="cityInput">City:</label>
+                        <br />
+                        <input id="cityInput" class="editInput" value="{{ location.city }}" />
+                        <br />
+                        <label for="stateInput">State:</label>
+                        <br />
+                        <input id="stateInput" class="editInput" value="{{ location.state }}" />
+                        <br />
+                        <label for="zipCodeInput">Zip code:</label>
+                        <br />
+                        <input id="zipCodeInput" class="editInput" value="{{ location.zip_code }}" />
+                        <br />
+                        <label for="categoryInput">Category:</label>
+                        <br />
+                        <input id="categoryInput" class="editInput" value="{{ location.category }}" />
+                        <br />
+            
+                        <div class="actionButtonContainer">
+                            <input id="locationSubmitButton" class="actionButton" type="submit" value="Submit" />
+                            <button id="locationCancelButton" type="button">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <button id="locationEditButton" type="button">Edit</button>
+                {% endif %}
+            </div>
+
+            <div id="locationRightContainer">
+                <p id="locationName">{{ location.name }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock mainContent%}

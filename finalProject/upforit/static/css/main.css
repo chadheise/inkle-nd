@@ -16,8 +16,9 @@
     color: #FFF;
     font-size: 42px;
     font-weight: bold;
-    padding: 25px 0px 0px 0px;
+    margin: 25px 0px 0px 0px;
     float: left;
+    text-decoration: none;
 }
 
 #headerContent
