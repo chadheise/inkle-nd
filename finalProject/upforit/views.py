@@ -115,6 +115,59 @@ def location_view(request, location_id = None):
                                  context_instance = RequestContext(request)
                              )
 
+def edit_location_view2(request, location_id, name, street, city, state, zip_code, category):
+    sphere = Sphere(name = "S1")
+    sphere.save()    
+
+    # Get the member who is logged in
+    member = User.objects.get(pk = request.session["member_id"])
+    
+    # If the location ID is invalid, throw a 404 error
+    try:
+        location = Location.objects.get(pk = int(location_id))
+    except:
+        raise Http404()
+
+    location.name = name
+    location.street = street
+    location.city = city
+    location.state = state
+    location.zip_code = int(zip_code)
+    location.category = category
+
+    location.save()
+    
+    return render_to_response(
+                                 "upforit.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
+def edit_location_view(request, location_id = None):
+    # Get the member who is logged in
+    member = User.objects.get(pk = request.session["member_id"])
+    
+    # If the location ID is invalid, throw a 404 error
+    try:
+        location = Location.objects.get(pk = location_id)
+    except:
+        raise Http404()
+    
+    location.name = request.POST["name"]
+    location.street = request.POST["street"]
+    location.city = request.POST["city"]
+    location.state = request.POST["state"]
+    location.zip_code = int(request.POST["zipCode"])
+    location.category = request.POST["category"]
+    
+    location.save()
+    
+    return render_to_response(
+                                 "",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
 def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page

@@ -11,9 +11,37 @@ $(document).ready(function() {
     
     // Toggle location edit content
     $("#locationSubmitButton").click(function() {
+        // Show edit content
         $("#locationEditButton").show();
         $("#locationContent").show();
         $("#locationEditContent").hide();
+
+        // Get location ID
+        var locationID = $("#locationID").val();
+
+        // Get input values
+        var name = $("#nameInput").val();
+        var street = $("#streetInput").val();
+        var city = $("#cityInput").val();
+        var state = $("#stateInput").val();
+        var zipCode = $("#zipCodeInput").val();
+        var category = $("#categoryInput").val();
+
+        // Update database
+        $.ajax({
+            type: "POST",
+            url: "/upforit/location/" + parseInt(locationID) + "/edit/",
+            data: { "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : parseInt(zipCode), "category" : category }
+        });
+
+        // Update view text
+        $("#locationName").text(name);
+        $("#locationStreet").text(street);
+        $("#locationCity").text(city);
+        $("#locationState").text(state);
+        $("#locationZipCode").text(zipCode);
+        $("#locationCategory").text(category);
+
     });
     
     // Toggle location edit content
