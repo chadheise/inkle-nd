@@ -114,27 +114,29 @@ def login_view(request):
     
     # If the POST data is empty, return an empty form
     if (not request.POST):
-        form = login_form()
+        log_form = login_form()
+        reg_form = registration_form()
     
     # If the user has submitted POST data, see if the information is valid
     else:
-        form = login_form(request.POST)
-        if form.is_valid():
+        log_form = login_form(request.POST)
+        if log_form.is_valid():
             # Check if a member with the given username already exists
             try:
-                member = Member.objects.get(username = form.cleaned_data["email"])
+                member = Member.objects.get(username = log_form.cleaned_data["email"])
             except:
                 return HttpResponseRedirect("/upforit/") #TODO: why go back to home?
 
             # If the member's credentials are correct, log them in and return them to the home page
-            if (member.password == form.cleaned_data["password"]):
+            if (member.password == log_form.cleaned_data["password"]):
                 request.session["member_id"] = member.id
                 return HttpResponseRedirect("/upforit/")
     
     return render_to_response(
                                  "login.html",
                                  {
-                                     "form" : form
+                                     "login_form" : log_form,
+                                     "registration_form" : reg_form
                                  },
                                  context_instance=RequestContext(request)
                              )
@@ -143,12 +145,12 @@ def register_view(request):
     """New user registration."""
     # If the POST data is empty, return an empty form
     if (not request.POST):
-        form = register_form()
+        form = registration_form()
         member = None
 
     # If the user has submitted valid POST data, create a new user and send the user to the login page
     else:
-        form = register_form(request.POST)
+        form = registration_form(request.POST)
         if (form.is_valid()):
             first_name = form.cleaned_data["first_name"]
             last_name = form.cleaned_data["last_name"]
