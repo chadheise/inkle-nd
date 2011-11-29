@@ -1,0 +1,19 @@
+#loginContainer
+{
+    float: left;
+    margin: 25px 0px 0px 325px;
+}
+
+#loginTable
+{
+    float: left;
+    color: white;
+    text-align: right;
+}
+
+#loginSubmitButton
+{
+    padding: 5px 10px 5px 10px;
+    margin: 9px 0px 0px 10px;
+    float: left;
+}

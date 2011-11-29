@@ -1,22 +1,22 @@
 <html>
-<header>
-    <link rel="stylesheet" type="text/css" href="/static/css/header.css" />
-</header>
-<body class='header'>
-    <div class='page_title'>
-        <h1>Stienessen Online</h1>
-    </div>
-    
-    {% if uid %}
-    <div class="user_info">
-        <div>
-            Welcome {{ user }}!
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/css/header.css" />
+    </head>
+
+    <body id="header">
+        <div class="headerTitle">
+            <h1>Up For It</h1>
         </div>
-        <div class="small" >
-            <a href="/upforit/logout/">Logout</a>
-        </div>
-    </div>
-    {% endif %}
     
-</body>
+        {% if uid %}
+            <div class="user_info">
+                <div>
+                    Welcome {{ user }}!
+                </div>
+                <div class="small" >
+                    <a href="/upforit/logout/">Logout</a>
+                </div>
+            </div>
+        {% endif %}
+    </body>
 </html>
