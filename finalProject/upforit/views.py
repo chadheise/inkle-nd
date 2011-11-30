@@ -125,7 +125,7 @@ def requested_view(request):
                                  context_instance = RequestContext(request)
                              )
 
-def friend_request_view(request):
+def follow_request_view(request):
     # Get the member who is logged in
     from_member = Member.objects.get(pk = request.session["member_id"])
     

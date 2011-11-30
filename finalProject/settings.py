@@ -9,8 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-#mysite_path = '/Users/cheise/Documents/Notre Dame/Courses/E-Technologies/homework/finalProject/'
-mysite_path = "/home/jwenger/etech/finalProject/"
+mysite_path = '/Users/cheise/Documents/Notre Dame/Courses/E-Technologies/homework/upforit/finalProject/'
+#mysite_path = "/home/jwenger/etech/finalProject/"
 
 DATABASES = {
     'default': {

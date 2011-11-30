@@ -1,32 +1,49 @@
 $(document).ready(function() {
-    $(".friendRequestButton").click(function() {
-        if ($(this).val() == "Request friend")
+    $(".followRequestButton").click(function() {
+        var thisElement = $(this);
+        var toMemberID = parseInt($(this).attr("memberID"));
+        
+        if ($(this).val() == "Request to follow")
         {
-            var toMemberID = parseInt($(this).attr("memberID"));
-
             // Send friend request to database
             $.ajax({
                 type: "POST",
-                url: "/upforit/friendRequest/",
-                data: { "toMemberID" : toMemberID }
+                url: "/upforit/followRequest/",
+                data: { "toMemberID" : toMemberID },
+                success: function(html) {
+                    thisElement.val("Revoke request");
+                    thisElement.addClass("requestPending");
+                },
+                error: function(a, b, error) { alert(error); }
             });
-        
-            $(this).val("Revoke request");
-            $(this).addClass("requestPending");
         }
         else if ($(this).val() == "Revoke request")
         {
-            var toMemberID = parseInt($(this).attr("memberID"));
-
             // Send friend request to database
             $.ajax({
                 type: "POST",
                 url: "/upforit/revokeRequest/",
-                data: { "toMemberID" : toMemberID }
+                data: { "toMemberID" : toMemberID },
+                success: function(html) {
+                    thisElement.val("Request to follow");
+                    thisElement.removeClass("requestPending");
+                },
+                error: function(a, b, error) { alert(error); }
             });
-        
-            $(this).val("Request friend");
-            $(this).removeClass("requestPending");
+        else if ($(this).val() == "Stop following")
+            {
+                // Send friend request to database
+                $.ajax({
+                    type: "POST",
+                    url: "/upforit/revokeRequest/",
+                    data: { "toMemberID" : toMemberID },
+                    success: function(html) {
+                        thisElement.val("Request to follow");
+                        thisElement.removeClass("requestPending");
+                    },
+                    error: function(a, b, error) { alert(error); }
+                });
+            
         }
     });
 });
