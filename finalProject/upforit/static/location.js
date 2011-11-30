@@ -7,6 +7,8 @@ $(document).ready(function() {
         $("#locationEditButton").hide();
         $("#locationContent").hide();
         $("#locationEditContent").show();
+    
+        $(".hidden").removeClass("hidden");
     });
     
     // Toggle location edit content
