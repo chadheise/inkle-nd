@@ -248,7 +248,7 @@ def add_to_circle_view(request):
     circle.members.add(to_member)
  
     # If accepted circle
-    if (circle_id == -1):
+    if (int(circle_id) == -1):
         from_member.accepted.remove(to_member)
 
     # If other circle
@@ -289,7 +289,7 @@ def remove_from_circle_view(request):
     circle_id = request.POST["circleID"]
     
     # If accepted circle
-    if (circle_id == -1):
+    if (int(circle_id) == -1):
         from_member.accepted.remove(to_member)
         to_member.followers.remove(from_follower)
         from_follower.delete()
