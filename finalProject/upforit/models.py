@@ -84,8 +84,9 @@ class Location(models.Model):
     state = models.CharField(max_length = 2, choices = STATES, default = "AL")
     zip_code = models.IntegerField(max_length = 5)
     
-    # phone
-    # website
+    phone = models.IntegerField(max_length = 10, default = "0000000000")
+    website = models.CharField(max_length = 100)
+
     # age restrictions
     # image ???
     
@@ -103,7 +104,7 @@ class Sphere(models.Model):
 
 class Circle(models.Model):
     name = models.CharField(max_length = 50)
-    member = models.ManyToManyField("Member", symmetrical = False)
+    members = models.ManyToManyField("Member", symmetrical = False)
     
     def __unicode__(self):
         return "%s" % (self.name)
@@ -136,7 +137,7 @@ class Member(User):
     events = models.ManyToManyField(Event)
 
     gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
-    #birthday = models.DateField()
+    birthday = models.DateField(auto_now_add = True)
     phone = models.IntegerField(max_length = 10, default = "0000000000")
     # image ???
     

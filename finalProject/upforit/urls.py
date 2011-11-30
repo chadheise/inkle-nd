@@ -20,4 +20,5 @@ urlpatterns = patterns(
     (r"^acceptRequest/$", "accept_request_view"),
     (r"^rejectRequest/$", "reject_request_view"),
     (r"^stopFollowing/$", "stop_following_view"),
+    (r"^circles/$", "circles_view"),
 )
