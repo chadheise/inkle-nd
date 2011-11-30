@@ -19,6 +19,7 @@ urlpatterns = patterns(
     (r"^revokeRequest/$", "revoke_request_view"),
     (r"^acceptRequest/$", "accept_request_view"),
     (r"^rejectRequest/$", "reject_request_view"),
+    (r"^removeMember/$", "remove_member_view"),
     (r"^stopFollowing/$", "stop_following_view"),
     (r"^circles/$", "circles_view"),
     (r"^circleMembers/$", "circle_members_view"),
