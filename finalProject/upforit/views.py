@@ -242,11 +242,29 @@ def circles_view(request):
     for c in circles:
         c.ms = c.members.all()
 
+    accepted = member.accepted.all()
+
     return render_to_response(
         "circles.html",
         {
             "member" : member,
+            "accepted" : accepted,
             "circles" : circles
+        },
+        context_instance = RequestContext(request)
+    )
+
+def circle_members_view(request):
+    # Get the circle which was clicked
+    circle_id = request.POST["circleID"]
+    circle = Circle.objects.get(pk = circle_id)
+  
+    members = circle.members.all()
+
+    return render_to_response(
+        "circleMembers.html",
+        {
+            "members" : members
         },
         context_instance = RequestContext(request)
     )
