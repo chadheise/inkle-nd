@@ -9,7 +9,6 @@ urlpatterns = patterns(
     "upforit.views",
     (r"^$", "home_view"),
     (r"^login/$", "login_view"),
-    (r"^register/$", "register_view"),
     (r"^logout/$", "logout_view"),
     (r"^location/(?P<location_id>\d+)/$", "location_view"),
     (r"^location/(?P<location_id>\d+)/edit/$", "edit_location_view"),
