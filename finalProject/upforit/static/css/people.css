@@ -54,3 +54,8 @@
     font-weight: bold;
     float: right;
 }
+
+.requestPending
+{
+    background-color: #009ACD;
+}

@@ -1,19 +1,17 @@
 $(document).ready(function() {
     $("#searchInput").focus(function() {
-        var currentSearch = $("#searchInput").val();
-        if (currentSearch == "Search")
+        if ($(this).val() == "Search")
         {
-            $("#searchInput").val("");
-            $("#searchInput").css("color", "#000");
+            $(this).val("");
+            $(this).css("color", "#000");
         }
     });
     
     $("#searchInput").blur(function() {
-        var currentSearch = $("#searchInput").val();
-        if (currentSearch == "")
+        if ($(this).val() == "")
         {
-            $("#searchInput").val("Search");
-            $("#searchInput").css("color", "#888");
+            $(this).val("Search");
+            $(this).css("color", "#888");
         }
     });
 });

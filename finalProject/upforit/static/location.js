@@ -17,21 +17,21 @@ $(document).ready(function() {
         $("#locationEditContent").hide();
 
         // Get location ID
-        var locationID = $("#locationID").val();
+        var locationID = parseInt($("#locationID").val());
 
         // Get input values
         var name = $("#nameInput").val();
         var street = $("#streetInput").val();
         var city = $("#cityInput").val();
         var state = $("#stateInput").val();
-        var zipCode = $("#zipCodeInput").val();
+        var zipCode = parseInt($("#zipCodeInput").val());
         var category = $("#categoryInput").val();
 
         // Update database
         $.ajax({
             type: "POST",
-            url: "/upforit/location/" + parseInt(locationID) + "/edit/",
-            data: { "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : parseInt(zipCode), "category" : category }
+            url: "/upforit/location/" + locationID + "/edit/",
+            data: { "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "category" : category }
         });
 
         // Update view text
