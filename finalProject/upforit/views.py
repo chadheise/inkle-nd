@@ -157,14 +157,39 @@ def login_view(request):
             # Check if a member with the given username already exists
             try:
                 member = Member.objects.get(username = log_form.cleaned_data["email"])
+            
+                # If the member's credentials are correct, log them in and return them to the home page
+                if (member.password == log_form.cleaned_data["password"]):
+                    request.session["member_id"] = member.id
+                    return HttpResponseRedirect("/upforit/")
             except:
-                return HttpResponseRedirect("/upforit/") #TODO: why go back to home?
+                pass
+        
+        reg_form = registration_form(request.POST)
+        if reg_form.is_valid():
+            first_name = reg_form.cleaned_data["first_name"]
+            last_name = reg_form.cleaned_data["last_name"]
+            email = reg_form.cleaned_data["email"]
+            email_verify = reg_form.cleaned_data["email_verify"]
+            password = reg_form.cleaned_data["password"]
+            gender = reg_form.cleaned_data["gender"]
 
-            # If the member's credentials are correct, log them in and return them to the home page
-            if (member.password == log_form.cleaned_data["password"]):
+            if (email == email_verify):
+                member = Member(
+                    first_name = first_name,
+                    last_name = last_name,
+                    username = email,
+                    password = password,
+                    email = email,
+                    gender = gender
+                )
+                member.is_staff = True
+                member.save()
+                
+                # Log the user in
                 request.session["member_id"] = member.id
                 return HttpResponseRedirect("/upforit/")
-    
+
     return render_to_response(
                                  "login.html",
                                  {
@@ -174,49 +199,11 @@ def login_view(request):
                                  context_instance=RequestContext(request)
                              )
 
-def register_view(request):    
-    """New user registration."""
-    # If the POST data is empty, return an empty form
-    if (not request.POST):
-        form = registration_form()
-        member = None
-
-    # If the user has submitted valid POST data, create a new user and send the user to the login page
-    else:
-        form = registration_form(request.POST)
-        if (form.is_valid()):
-            first_name = form.cleaned_data["first_name"]
-            last_name = form.cleaned_data["last_name"]
-            email = form.cleaned_data["email"]
-            email_verify = form.cleaned_data["email_verify"]
-            password = form.cleaned_data["password"]
-            gender = form.cleaned_data["gender"]
-
-            if (email == email_verify):
-                member = Member(
-                    first_name = first_name,
-                    last_name = last_name,
-                    username = email,
-                    password = password,
-                    email = email,
-                    gender = gender,
-                    phone = "7175670234"
-                )
-                member.is_staff = True
-                member.save()
-                return HttpResponseRedirect("/upforit/login")
-
-    return render_to_response(
-                                 "register.html",
-                                 {
-                                     "form" : form
-                                 },
-                                 context_instance=RequestContext(request)
-                             )
-
 def logout_view(request):
     """Logs out the current user."""
-    if (request.session["member_id"]):
+    try:
         del request.session["member_id"]
-    
-    return HttpResponseRedirect("/upforit/login")
+    except:
+        pass
+
+    return HttpResponseRedirect("/upforit/login/")
