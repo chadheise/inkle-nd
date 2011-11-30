@@ -21,4 +21,5 @@ urlpatterns = patterns(
     (r"^rejectRequest/$", "reject_request_view"),
     (r"^stopFollowing/$", "stop_following_view"),
     (r"^circles/$", "circles_view"),
+    (r"^circleMembers/$", "circle_members_view"),
 )

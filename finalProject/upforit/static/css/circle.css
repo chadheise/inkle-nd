@@ -23,20 +23,22 @@
     float: left;
 }
 
-.circleButton
+.circle
 {
-    border-radius: 75px;
-    padding: 10px;
+    height: 140px;
+    width: 140px;
+    border-radius: 70px;
+   
+    font-size: 14px;
+
     background-color: #385E0F;
     color: #FFF;
     font-weight: bold;
-    height: 150px;
-    width: 150px;
     margin-bottom: 15px;
     border: solid 5px #CCC;
 }
 
-#selectedCircleButton
+#selectedCircle
 {
     background-color: #009ACD;
 }
