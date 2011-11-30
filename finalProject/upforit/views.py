@@ -233,7 +233,7 @@ def stop_following_view(request):
         context_instance = RequestContext(request)
     )
 
-def remove_member_view(request):
+def add_to_circle_view(request):
     # Get the member who is logged in
     from_member = Member.objects.get(pk = request.session["member_id"])
     
@@ -243,22 +243,70 @@ def remove_member_view(request):
 
     # Get the circle which the member is being removed from
     circle_id = request.POST["circleID"]
-    circle = Circle.objects.get(pk = circle_id)
 
-    # Remove them from the circle
-    circle.members.remove(to_member)
+    # Add them from the circle
+    circle.members.add(to_member)
+ 
+    # If accepted circle
+    if (circle_id == -1):
+        from_member.accepted.remove(to_member)
+
+    # If other circle
+    else:
+        circle = Circle.objects.get(pk = circle_id)
+        
+        # TODO: clean this up; possibly use to_member.followers.filter()?
+        for follower in to_member.followers.all():
+            if (from_member == follower.follower):
+                from_follower = follower
+                break
+
+        # Increment the count for the correct follower
+        from_follower.count += 1
+        from_follower.save()
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
+def remove_from_circle_view(request):
+    # Get the member who is logged in
+    from_member = Member.objects.get(pk = request.session["member_id"])
     
+    # Get the member to whom the request is being sent
+    to_member_id = request.POST["toMemberID"]
+    to_member = Member.objects.get(pk = to_member_id)
+    
+    # TODO: Get the follower corresponding to the from_member
     for follower in to_member.followers.all():
         if (from_member == follower.follower):
             from_follower = follower
             break
 
-    if (from_follower.count == 1):
+    # Get the circle which the member is being removed from
+    circle_id = request.POST["circleID"]
+    
+    # If accepted circle
+    if (circle_id == -1):
+        from_member.accepted.remove(to_member)
         to_member.followers.remove(from_follower)
         from_follower.delete()
+
+    # If other circle
     else:
-        from_follower.count -= 1
-        from_follower.save()
+        circle = Circle.objects.get(pk = circle_id)
+
+        # Remove them from the circle
+        circle.members.remove(to_member)
+
+        if (from_follower.count == 1):
+            to_member.followers.remove(from_follower)
+            from_follower.delete()
+        else:
+            from_follower.count -= 1
+            from_follower.save()
 
     return render_to_response(
                                  "login.html",
