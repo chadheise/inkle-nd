@@ -204,6 +204,35 @@ def reject_request_view(request):
                                  context_instance = RequestContext(request)
                              )
 
+
+def stop_following_view(request):
+    # Get the member who is logged in
+    from_member = Member.objects.get(pk = request.session["member_id"])
+
+    # Get the member who is being removed
+    to_member_id = request.POST["toMemberID"]
+    to_member = Member.objects.get(pk = to_member_id)
+
+    # If the user is still in the accepted circle, remove them
+    from_member.accepted.remove(to_member)
+
+    #Remove from all of from_member's circles
+    memberCircles = from_member.circles.all()
+    for circle in memberCircles:
+        circle.member.remove(to_member)
+
+    #Remove from_member as a follower of to_member
+    for f in to_member.followers.all():
+        if from_member == f.follower:
+            to_member.followers.remove(f)
+            f.delete()
+
+    return render_to_response(
+        "login.html",
+        {},
+        context_instance = RequestContext(request)
+    )
+
 def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
