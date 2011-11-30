@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Up For It | Login</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/login.css" />
+{% endblock title %}
+
+{% block header %}
+    <div id="header">
+        <div id="headerContent">
+            <a id="headerTitle" href="/upforit/">Up For It</a>
+            <div id="loginContainer">
+                <!--{% if form.errors %}
+                    <p class="error">Sorry, that's not a valid username or password</p>
+                {% endif %}-->
+    
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <table id="loginTable">
+                        {{ login_form.as_table }}
+                    </table>
+                    <input id="loginButton" type="submit" name="submit" value="Login" \>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent">
+        <div id="welcomeContainer">
+            <p id="welcomeText">Up For It helps you meet up with your friends and see where the big event is happening tonight.</p>
+            <img src="http://dummyimage.com/450x250/AAA/fff.jpg&text=+" />
+        </div>
+        <div id="registrationContainer">
+            <p id="signUpText">Sign up for free</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <table id="registrationTable">
+                    {{ registration_form.as_table }}
+                </table>
+                <input id="registerButton" type="submit" name="submit" value="Register" \>
+            </form>
+        </div>
+        <p>&nbsp;</p>
+    </div>
+{% endblock mainContent %}
+
+{% block footer %}
+    <div id="footer">
+        <div id="footerContent">
+            <p id="footerText">This shit is copyrighted, bitches! Don't fucking touch it. I swear, or we will come and get you! Right now, you're dead. NOW!</p>
+        </div>
+    </div>
+{% endblock footer %}

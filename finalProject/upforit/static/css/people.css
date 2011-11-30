@@ -1,0 +1,75 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+.memberContainer
+{
+    border: solid black 1px;
+    padding: 5px;
+    height: 103px;
+    width: 500px;
+    display: inline-block;
+}
+
+.memberImage
+{
+    border: solid black 1px;
+    float: left;
+}
+
+.memberInfo
+{
+    float: left;
+    margin-left: 10px;
+    width: 387px;
+}
+
+.memberName
+{
+    margin-top: -5px;
+    color: #385E0F;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.networks
+{
+    font-size: 14px;
+}
+
+.mutualFriends
+{
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.followRequestButton
+{
+    padding: 2px 5px 2px 5px;
+    color: white;
+    background-color: #385E0F;
+    font-weight: bold;
+    float: right;
+}
+
+.requestPending
+{
+    background-color: #009ACD;
+}
+
+.stopFollowing
+{
+    background-color: #FF4040;
+}
+
+
+
+
+
+.rickrolled
+{
+    display:none;
+}
