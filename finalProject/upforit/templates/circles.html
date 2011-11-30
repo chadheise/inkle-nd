@@ -14,19 +14,20 @@
 {% block mainContent %}
     <div id="mainContent">
         <div id="leftContainer">
-            <p id="yourCirclesText">Your circles:</p>
-            {% for circle in circles %}
-                <input class="circleButton" type="button" value="{{ circle.name }}" />
-                <br />
-            {% endfor %}
+            <p>Hi</p>
         </div>
         
         <div id="rightContainer">
+            <input id="selectedCircle" class="circle" type="button" value="Accepted" />
             {% for circle in circles %}
-                {% for m in circle.ms %}
+                <input class="circle" type="button" value="{{ circle.name }}" circleID="{{ circle.id }}" />
+            {% endfor %}
+                
+            <div id="circleMembers">
+                {% for m in accepted %}
                     <p>{{ m.first_name }} {{ m.last_name }}</p>
                 {% endfor %}
-            {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock mainContent%}

@@ -10,8 +10,11 @@ $(document).ready(function() {
             error: function (a, b, c) { alert(c); }
         });
         
-        //$(this).val("Revoke request");
-        //$(this).addClass("requestPending");
+        var memberContainer = $(this).parent().parent();
+        memberContainer.fadeOut(function(){
+            memberContainer.html("Follow request accepted");
+            memberContainer.fadeIn();
+        });
     });
     
     $(".rejectRequestButton").click(function() {
@@ -25,7 +28,10 @@ $(document).ready(function() {
             error: function (a, b, c) { alert(c); }
         });
         
-        //$(this).val("Revoke request");
-        //$(this).addClass("requestPending");
+        var memberContainer = $(this).parent().parent();
+        memberContainer.fadeOut(function(){
+            memberContainer.html("Follow request rejected");
+            memberContainer.fadeIn();
+        });
     });
 });
