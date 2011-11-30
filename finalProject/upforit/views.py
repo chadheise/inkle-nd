@@ -87,7 +87,7 @@ def people_view(request):
     for m in members:
         if m in member.pending.all():
             m.relationship = "pending"
-        elif member in m.followers.all():
+        elif member in [f.follower for f in m.followers.all()]:
             m.relationship = "friend"
         else:
             m.relationship = "other"
@@ -96,6 +96,28 @@ def people_view(request):
 
     return render_to_response(
                                  "people.html",
+                                 {
+                                     "member" : member,
+                                     "members" : members
+                                 },
+                                 context_instance = RequestContext(request)
+                             )
+
+def requested_view(request):
+    # If a user is not logged in, redirect them to the login page
+    if ("member_id" not in request.session):
+           return HttpResponseRedirect("/upforit/login")
+    
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+
+    members = member.requested.all()
+
+    for m in members:
+        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+
+    return render_to_response(
+                                 "requested.html",
                                  {
                                      "member" : member,
                                      "members" : members
@@ -128,6 +150,49 @@ def revoke_request_view(request):
     # Get the member to whom the request is being sent
     to_member_id = request.POST["toMemberID"]
     to_member = Member.objects.get(pk = to_member_id)
+
+    # Update the database to signify the request
+    from_member.pending.remove(to_member)
+    to_member.requested.remove(from_member)
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
+def accept_request_view(request):
+    # Get the member who is logged in
+    to_member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the member to whom the request is being sent
+    from_member_id = request.POST["fromMemberID"]
+    from_member = Member.objects.get(pk = from_member_id)
+
+    # Update the database to signify the accepted request
+    from_member.pending.remove(to_member)
+    from_member.accepted.add(to_member)
+    to_member.requested.remove(from_member)
+    from_follower = Follower(
+                               follower = from_member,
+                               count = 1
+                           )
+    from_follower.save()
+    to_member.followers.add(from_follower)
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
+def reject_request_view(request):
+    # Get the member who is logged in
+    to_member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the member to whom the request is being sent
+    from_member_id = request.POST["fromMemberID"]
+    from_member = Member.objects.get(pk = from_member_id)
 
     # Update the database to signify the request
     from_member.pending.remove(to_member)
