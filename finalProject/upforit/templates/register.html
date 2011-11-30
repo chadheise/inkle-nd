@@ -4,9 +4,11 @@
 	<link rel="stylesheet" type="text/css" href="/static/css/login.css" />
 {% endblock title %}
 
-{% block maincontent %}
-    {% include 'header.html' %}
-    
+{% block header %}
+    {% include "header.html" %}
+{% endblock header %}
+
+{% block mainContent %}
     <div class="login">
     
         <h1>Register</h1>
@@ -24,4 +26,4 @@
         
     </div>
     
-{% endblock maincontent %}
+{% endblock mainContent %}

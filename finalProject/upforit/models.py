@@ -102,7 +102,7 @@ class Sphere(models.Model):
 
 class Circle(models.Model):
     name = models.CharField(max_length = 50)
-    member = models.ManyToManyField("Member")
+    member = models.ManyToManyField("Member", symmetrical = False)
     
     def __unicode__(self):
         return "%s" % (self.name)
@@ -112,7 +112,7 @@ class Follower(models.Model):
     count = models.IntegerField()
     
     def __unicode__(self):
-        return "%s (%d)" % (self.follower.username, count)
+        return "%s (%d)" % (self.follower.username, self.count)
 
 class Event(models.Model):
     location = models.ForeignKey(Location)
@@ -124,13 +124,13 @@ class Event(models.Model):
 
 class Member(User):
     # User contains id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
-    spheres = models.ManyToManyField(Sphere)
-    circles = models.ManyToManyField(Circle, related_name = "+")
+    spheres = models.ManyToManyField(Sphere, symmetrical = False)
+    circles = models.ManyToManyField(Circle, symmetrical = False, related_name = "+")
 
-    pending = models.ManyToManyField("self")
-    accepted = models.ManyToManyField("self")
-    requested = models.ManyToManyField("self")
-    followers = models.ManyToManyField(Follower)
+    pending = models.ManyToManyField("self", symmetrical = False, related_name = "++")
+    accepted = models.ManyToManyField("self", symmetrical = False, related_name = "+++")
+    requested = models.ManyToManyField("self", symmetrical = False, related_name = "++++")
+    followers = models.ManyToManyField(Follower, symmetrical = False)
     
     events = models.ManyToManyField(Event)
 

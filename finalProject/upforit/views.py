@@ -69,7 +69,7 @@ def edit_location_view(request, location_id = None):
     location.save()
     
     return render_to_response(
-                                 "",
+                                 "login.html",
                                  {},
                                  context_instance = RequestContext(request)
                              )
@@ -83,12 +83,59 @@ def people_view(request):
     member = Member.objects.get(pk = request.session["member_id"])
 
     members = Member.objects.all()
+
+    for m in members:
+        if m in member.pending.all():
+            m.relationship = "pending"
+        elif member in m.followers.all():
+            m.relationship = "friend"
+        else:
+            m.relationship = "other"
+
+        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+
     return render_to_response(
                                  "people.html",
                                  {
                                      "member" : member,
                                      "members" : members
                                  },
+                                 context_instance = RequestContext(request)
+                             )
+
+def friend_request_view(request):
+    # Get the member who is logged in
+    from_member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the member to whom the request is being sent
+    to_member_id = request.POST["toMemberID"]
+    to_member = Member.objects.get(pk = to_member_id)
+
+    # Update the database to signify the request
+    from_member.pending.add(to_member)
+    to_member.requested.add(from_member)
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
+def revoke_request_view(request):
+    # Get the member who is logged in
+    from_member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the member to whom the request is being sent
+    to_member_id = request.POST["toMemberID"]
+    to_member = Member.objects.get(pk = to_member_id)
+
+    # Update the database to signify the request
+    from_member.pending.remove(to_member)
+    to_member.requested.remove(from_member)
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
                                  context_instance = RequestContext(request)
                              )
 
