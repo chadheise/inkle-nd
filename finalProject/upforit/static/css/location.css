@@ -4,6 +4,11 @@
     padding: 0px;
 }
 
+.hidden
+{
+    display: none;
+}
+
 #locationImage
 {
     border: 1px solid #000;
@@ -15,6 +20,7 @@
     font-size: 36px;
     font-weight: bold;
     color: #385E0F;
+    float: left;
 }
 
 #locationLeftContainer
@@ -31,6 +37,24 @@
     width: 610px;
 }
 
+#locationSubmitButton, #locationCancelButton
+{
+    padding: 2px 5px 2px 5px;
+    background-color: #385E0F;
+    color: #FFF;
+    font-weight: bold;
+}
+
+#locationEditButton
+{
+    padding: 2px 5px 2px 5px;
+    background-color: #385E0F;
+    color: #FFF;
+    margin: 5px 0px 0px 0px;
+    font-weight: bold;
+    float: right;
+}
+
 .infoSection
 {
     margin-bottom: 15px;
@@ -40,4 +64,23 @@
 {
     font-weight: bold;
     margin-bottom: 3px;
+}
+
+.formLabel
+{
+    font-weight: bold;
+}
+
+#locationMembers
+{
+    clear: both;
+}
+
+.formInput
+{
+    width: 300px;
+    background-color: #EEE;
+    border: 2px solid #DDD;
+    border-style: inset;
+    margin-bottom: 10px;
 }

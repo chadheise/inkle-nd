@@ -56,6 +56,7 @@ STATES = (
 
 LOCATION_CATEGORIES = (
     ("Bar", "Bar"),
+    ("Club", "Club"),
     ("Movie theater", "Movie theater"),
     ("Dorm", "Dorm"),
     ("Restaurant", "Restaurant"),
