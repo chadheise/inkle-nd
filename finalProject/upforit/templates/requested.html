@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/requested.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/requested.js"></script>
+{% endblock title%}
+
+{% block header %}
+    {% include "header.html" %}
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent">
+        {% for m in members %}
+            <div class="memberContainer">
+                <img class="memberImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
+                <div class="memberInfo">
+                    <p class="memberName">{{ m.first_name }} {{ m.last_name }}</p>
+                    <p class="networks">University of Notre Dame &middot; South Bend</p>
+                    <p class="mutualFriends">{{ m.num_mutual_friends }} mutual friends</p>
+                    <input class="rejectRequestButton" type="button" value="Reject request" memberID="{{ m.id }}" />
+                    <input class="acceptRequestButton" type="button" value="Accept request" memberID="{{ m.id }}" />
+                    <!--<p>{{ m.username }}</p>
+                    <p>{{ m.gender }}, {{ m.phone }}</p>-->
+                </div>
+            </div>
+            <br />
+        {% endfor %}
+    </div>
+{% endblock mainContent%}
