@@ -30,16 +30,17 @@ $(document).ready(function() {
                 },
                 error: function(a, b, error) { alert(error); }
             });
+        }
         else if ($(this).val() == "Stop following")
             {
                 // Send friend request to database
                 $.ajax({
                     type: "POST",
-                    url: "/upforit/revokeRequest/",
+                    url: "/upforit/stopFollowing/",
                     data: { "toMemberID" : toMemberID },
                     success: function(html) {
                         thisElement.val("Request to follow");
-                        thisElement.removeClass("requestPending");
+                        thisElement.removeClass("stopFollowing");
                     },
                     error: function(a, b, error) { alert(error); }
                 });
