@@ -2,6 +2,7 @@
 
 {% block title %}
     <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/location.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/location.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
@@ -12,11 +13,10 @@
 {% endblock header %}
 
 {% block mainContent %}
-    <div id="mainContent">
+    <div id="mainContent" class="container_24">
         <input id="locationID" type="hidden" value="{{ location.id }}" />
 
-        <div id="locationContainer">
-            <div id="locationLeftContainer">
+            <div class="grid_8">
                 <!-- Location image -->
                 <img id="locationImage" src="http://dummyimage.com/300x300/AAA/fff.jpg&text=+" />
                 
@@ -59,78 +59,57 @@
 
             </div>
 
-            <div id="locationRightContainer">
-                <div>
-                    <p id="locationName">{{ location.name }}</p>
+            <div class="grid_16">
+                <div class="grid_16">
+                    <div class="grid_12">
+                        <p id="locationName">{{ location.name }}</p>
+                    </div>
                     {% if member.is_staff %}
-                        <button id="locationEditButton" type="button">Edit location</button>
+                        <div class="push_1 grid_3">
+                            <button id="locationEditButton" type="button">Edit location</button>
+                        </div>
                     {% endif %}
                 </div>
-                <div id="locationMembers">
+                <div class="clear"></div>
+                
+                <div class="grid_16">
                     {% if member.is_staff %}
-                        <div id="locationEditContent" class="hidden">
+                        <div id="locationEditContent" class="grid_12 hidden">
                             <label for="nameInput" class="formLabel">Name:</label>
-                            <br />
-                            <input id="nameInput" class="formInput" value="{{ location.name }}" />
-                            <br />
+                            </br>
+                            <input id="nameInput" class="formInput grid_10" value="{{ location.name }}" />
+                            <div class="clear"></div>
                             <label for="streetInput" class="formLabel">Street:</label>
                             <br />
-                            <input id="streetInput" class="formInput" value="{{ location.street }}" />
-                            <br />
+                            <input id="streetInput" class="formInput grid_10" value="{{ location.street }}" />
+                            <div class="clear"></div>
                             <label for="cityInput" class="formLabel">City:</label>
                             <br />
-                            <input id="cityInput" class="formInput" value="{{ location.city }}" />
-                            <br />
+                            <input id="cityInput" class="formInput grid_10" value="{{ location.city }}" />
+                            <div class="clear"></div>
                             <label for="stateInput" class="formLabel">State:</label>
                             <br />
-                            <input id="stateInput" class="formInput" value="{{ location.state }}" />
-                            <!--<select id="stateSelect" class="formInput" value="{{ location.state }}" />
-                                <option>Alabama</option>
-                                <option>Alaska</option>
-                                <option>Arizona</option>
-                                <option>Arkansas</option>
-                                <option>California</option>
-                                <option>Colorado</option>
-                                <option>Connecticut</option>
-                                <option>Delaware</option>
-                                <option>Florida</option>
-                                <option>Georgia</option>
-                                <option>Hawaii</option>
-                                <option>Idaho</option>
-                                <option>Illinois</option>
-                                <option>Indiana</option>
-                                <option>Iowa</option>
-                                <option>Kansas</option>
-                                <option>Kentucky</option>
-                                <option>Louisiana</option>
-                                <option>Maine</option>
-                                <option>Maryland</option>
-                                <option>Massachusetts</option>
-                                <option>Michigan</option>
-                                <option>Minnesota</option>
-                                <option>Mississippi</option>
-                                <option>Missouri</option>
-                                <option>Montana</option>
-                                <option>Nebraska</option>
-                            </select>-->
-                            <br />
+                            <input id="stateInput" class="formInput grid_10" value="{{ location.state }}" />
+                            <div class="clear"></div>
                             <label for="zipCodeInput" class="formLabel">Zip code:</label>
                             <br />
-                            <input id="zipCodeInput" class="formInput" value="{{ location.zip_code }}" />
-                            <br />
+                            <input id="zipCodeInput" class="formInput grid_10" value="{{ location.zip_code }}" />
+                            <div class="clear"></div>
                             <label for="categoryInput" class="formLabel">Category:</label>
                             <br />
-                            <input id="categoryInput" class="formInput" value="{{ location.category }}" />
-                            <br />
+                            <input id="categoryInput" class="formInput grid_10" value="{{ location.category }}" />
+                            <div class="clear"></div>
             
-                            <div class="actionButtonContainer">
+                            <div class="actionButtonContainer grid_10">
                                 <input id="locationSubmitButton" class="actionButton" type="submit" value="Submit" />
                                 <button id="locationCancelButton" type="button">Cancel</button>
                             </div>
+                            <div class="clear"></div>
                         </div>
+                        <div class="clear"></div>
                 {% endif %}
                 </div>
+                <div class="clear"></div>
             </div>
         </div>
-    </div>
 {% endblock mainContent%}

@@ -23,20 +23,6 @@
     float: left;
 }
 
-#locationLeftContainer
-{
-    float: left;
-    width: 300px;
-    margin-right: 50px;
-}
-
-#locationRightContainer
-{
-    margin-top: -7px;
-    float: left;
-    width: 610px;
-}
-
 #locationSubmitButton, #locationCancelButton
 {
     padding: 2px 5px 2px 5px;
@@ -52,7 +38,11 @@
     color: #FFF;
     margin: 5px 0px 0px 0px;
     font-weight: bold;
-    float: right;
+}
+
+.border
+{
+    border: 1px solid #000000;
 }
 
 .infoSection
@@ -71,14 +61,8 @@
     font-weight: bold;
 }
 
-#locationMembers
-{
-    clear: both;
-}
-
 .formInput
 {
-    width: 300px;
     background-color: #EEE;
     border: 2px solid #DDD;
     border-style: inset;
