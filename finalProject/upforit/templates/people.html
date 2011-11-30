@@ -2,8 +2,10 @@
 
 {% block title %}
     <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/people.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/memberCard.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/people.js"></script>
@@ -14,29 +16,12 @@
 {% endblock header %}
 
 {% block mainContent %}
-    <div id="mainContent">
+    <div id="mainContent" class="container_24" style="border: 2px solid black">
         {% for m in members %}
-            <div class="memberContainer">
-                <img class="memberImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
-                <div class="memberInfo">
-                    <p class="memberName">{{ m.first_name }} {{ m.last_name }}</p>
-                    <p class="networks">University of Notre Dame &middot; South Bend</p>
-                    <p class="mutualFriends">{{ m.num_mutual_friends }} mutual friends</p>
-                    {% if m.relationship == "other" and m != member %}
-                        <input class="followRequestButton" type="button" value="Request to follow" memberID="{{ m.id }}" />
-                    {% endif %}
-                    {% if m.relationship == "pending" and m != member %}
-                        <input class="followRequestButton requestPending" type="button" value="Revoke request" memberID="{{ m.id }}" />
-                    {% endif %}
-                    {% if m.relationship == "friend" and m != member %}
-                        <input class="followRequestButton stopFollowing" type="button" value="Stop following" memberID="{{ m.id }}" />
-                    {% endif %}
-                    <!--<p>{{ m.username }}</p>
-                    <p>{{ m.gender }}, {{ m.phone }}</p>-->
-                </div>
-            </div>
-            <br />
+            {% include "memberCard.html" %}
         {% endfor %}
+       
+       
         
         <div class="rickrolled">
                     <p>Never gonna give you up

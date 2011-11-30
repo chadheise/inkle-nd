@@ -1,0 +1,50 @@
+{% block card %}
+      
+    <div class="grid_16">
+ 
+        <div class="memberCard push_1 grid_14">
+            <div class="grid_3">
+                <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
+            </div>
+            <!-- <div class="grid_10"> -->
+                <div class="grid_7">
+                    <p class="memberName">{{ m.first_name }} {{ m.last_name }}</p>
+                    <p class="spheres">University of Notre Dame &middot; South Bend</p>
+                    <p class="mutualFriends">{{ m.num_mutual_friends }} mutual friends</p>
+                </div>
+                {% if m.relationship == "friend" or m == member %}
+                    <div class="contactInfo grid 4">
+                        <ul>
+                            <li><span class="contactLabel">Email: </span>{{ m.email }}</li>
+                            <li><span class="contactLabel">Phone: </span>{{ m.phone }}</li>
+                            <li><span class="contactLabel">Birthday: </span>{{ m.birthday }}</li>
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="clear"></div>
+ 
+                <div class="grid_11 buttons">
+                    {% if m != member %}
+                    
+                    {% endif %}
+                    
+                    
+                    
+                    {% if m.relationship == "other" and m != member %}
+                        <input class="followRequestButton" type="button" value="Request to follow" memberID="{{ m.id }}" />
+                    {% endif %}
+                    {% if m.relationship == "pending" and m != member %}
+                        <input class="followRequestButton requestPending" type="button" value="Revoke request" memberID="{{ m.id }}" />
+                    {% endif %}
+                    {% if m.relationship == "friend" and m != member %}
+                        <input class="followRequestButton stopFollowing" type="button" value="Stop following" memberID="{{ m.id }}" />
+                    {% endif %}
+                </div>
+            <!-- </div> -->
+        </div>
+        <div class="clear"></div>
+        
+    </div>
+    <div class="clear"></div>
+      
+{% endblock card %}
