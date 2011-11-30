@@ -18,7 +18,7 @@
         </div>
         
         <div id="rightContainer">
-            <input id="selectedCircle" class="circle" type="button" value="Accepted" />
+            <input id="selectedCircle" class="circle" type="button" value="Accepted" circleID="-1" />
             {% for circle in circles %}
                 <input class="circle" type="button" value="{{ circle.name }}" circleID="{{ circle.id }}" />
             {% endfor %}
@@ -26,6 +26,7 @@
             <div id="circleMembers">
                 {% for m in accepted %}
                     <p>{{ m.first_name }} {{ m.last_name }}</p>
+                    <input class="removeMemberButton" type="button" value="Remove" memberID="{{ m.id }}" />
                 {% endfor %}
             </div>
         </div>

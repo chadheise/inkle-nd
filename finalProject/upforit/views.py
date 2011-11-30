@@ -233,6 +233,39 @@ def stop_following_view(request):
         context_instance = RequestContext(request)
     )
 
+def remove_member_view(request):
+    # Get the member who is logged in
+    from_member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the member to whom the request is being sent
+    to_member_id = request.POST["toMemberID"]
+    to_member = Member.objects.get(pk = to_member_id)
+
+    # Get the circle which the member is being removed from
+    circle_id = request.POST["circleID"]
+    circle = Circle.objects.get(pk = circle_id)
+
+    # Remove them from the circle
+    circle.members.remove(to_member)
+    
+    for follower in to_member.followers.all():
+        if (from_member == follower.follower):
+            from_follower = follower
+            break
+
+    if (from_follower.count == 1):
+        to_member.followers.remove(from_follower)
+        from_follower.delete()
+    else:
+        from_follower.count -= 1
+        from_follower.save()
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
 def circles_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -257,9 +290,13 @@ def circles_view(request):
 def circle_members_view(request):
     # Get the circle which was clicked
     circle_id = request.POST["circleID"]
-    circle = Circle.objects.get(pk = circle_id)
-  
-    members = circle.members.all()
+    
+    if (int(circle_id) == -1):
+        member = Member.objects.get(pk = request.session["member_id"])
+        members = member.accepted.all()
+    else:
+        circle = Circle.objects.get(pk = circle_id)
+        members = circle.members.all()
 
     return render_to_response(
         "circleMembers.html",

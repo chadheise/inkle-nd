@@ -1,12 +1,11 @@
 $(document).ready(function() {
-    // Toggle location edit content
+    // Change circle color and members when clicked
     $(".circle").click(function() {
         $("#selectedCircle").attr("id", "");
         $(this).attr("id", "selectedCircle");
     
         var circleID = parseInt($(this).attr("circleID"));
 
-        // Send friend request to database
         $.ajax({
             type: "POST",
             url: "/upforit/circleMembers/",
@@ -16,6 +15,22 @@ $(document).ready(function() {
             },
             error: function(a, b, error) { alert(error); }
         });
+    });
+    
+    // Remove member from circle
+    $(".removeMemberButton").live("click", function() {
+        var toMemberID = parseInt($(this).attr("memberID"));
+        var circleID = parseInt($("#selectedCircle").attr("circleID"));
         
+        $.ajax({
+            type: "POST",
+            url: "/upforit/removeMember/",
+            data: { "toMemberID" : toMemberID, "circleID" : circleID },
+            success: function(html) {
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+
+        $(this).hide();
     });
 });

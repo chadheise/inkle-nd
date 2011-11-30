@@ -1,3 +1,4 @@
 {% for m in members %}
     <p>{{ m.first_name }} {{ m.last_name }}</p>
+    <input class="removeMemberButton" type="button" value="Remove" memberID="{{ m.id }}" />
 {% endfor %}
