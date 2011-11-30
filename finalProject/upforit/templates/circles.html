@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/circle.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}/circle.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
+{% endblock title%}
+
+{% block header %}
+    {% include "header.html" %}
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent">
+        <div id="leftContainer">
+            <p id="yourCirclesText">Your circles:</p>
+            {% for circle in circles %}
+                <input class="circleButton" type="button" value="{{ circle.name }}" />
+                <br />
+            {% endfor %}
+        </div>
+        
+        <div id="rightContainer">
+            {% for circle in circles %}
+                {% for m in circle.ms %}
+                    <p>{{ m.first_name }} {{ m.last_name }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock mainContent%}

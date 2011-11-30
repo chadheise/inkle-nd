@@ -219,7 +219,7 @@ def stop_following_view(request):
     #Remove from all of from_member's circles
     memberCircles = from_member.circles.all()
     for circle in memberCircles:
-        circle.member.remove(to_member)
+        circle.members.remove(to_member)
 
     #Remove from_member as a follower of to_member
     for f in to_member.followers.all():
@@ -230,6 +230,24 @@ def stop_following_view(request):
     return render_to_response(
         "login.html",
         {},
+        context_instance = RequestContext(request)
+    )
+
+def circles_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+   
+    circles = member.circles.all()
+
+    for c in circles:
+        c.ms = c.members.all()
+
+    return render_to_response(
+        "circles.html",
+        {
+            "member" : member,
+            "circles" : circles
+        },
         context_instance = RequestContext(request)
     )
 
