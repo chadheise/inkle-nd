@@ -24,7 +24,7 @@ $(document).ready(function() {
         
         $.ajax({
             type: "POST",
-            url: "/upforit/removeMember/",
+            url: "/upforit/removeFromCircle/",
             data: { "toMemberID" : toMemberID, "circleID" : circleID },
             success: function(html) {
             },
