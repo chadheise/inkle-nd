@@ -1,0 +1,83 @@
+ul {
+ list-style: none;  
+}
+
+.memberCard
+{
+    border: 2px solid darkgray ;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.cardImage
+{
+    border: solid black 1px;
+    margin-top: 5px;
+}
+
+.memberName
+{
+    font-family: helvetica;
+    color: #385E0F;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.spheres
+{
+    font-size: 14px;
+}
+
+.mutualFriends
+{
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.contactInfo
+{
+    font-family: helvetica;
+    font-size: 10px;
+    color: navy;
+    text-align: right;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.contactLabel
+{
+    color: gray;
+}
+
+.buttons
+{
+    float: right;
+    margin-bottom: 5px;
+}
+
+
+.followRequestButton
+{
+    padding: 2px 5px 2px 5px;
+    color: white;
+    background-color: #385E0F;
+    font-weight: bold;
+    float: right;
+}
+
+.requestPending
+{
+    background-color: #009ACD;
+}
+
+.stopFollowing
+{
+    background-color: #FF4040;
+}
+
+.border {
+    border: 1px solid black;
+    margin-left: 9px;
+    margin-right: 9px;
+}
