@@ -1,6 +1,5 @@
 <div class="grid_16">
     <input id="selectedCircle" class="circle" type="button" value="Accepted" circleID="-1" />
-    <p>{{ circles }}</p>
     {% for circle in circles %}
         <input class="circle" type="button" value="{{ circle.name }}" circleID="{{ circle.id }}" />
     {% endfor %}
