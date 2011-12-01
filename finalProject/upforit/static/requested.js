@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $(".acceptRequest").click(function() {
+    $(".acceptRequest").live("click", function() {
         var fromMemberID = parseInt($(this).attr("memberID"));
 
         // Send friend request to database
@@ -17,7 +17,7 @@ $(document).ready(function() {
         });
     });
     
-    $(".rejectRequest").click(function() {
+    $(".rejectRequest").live("click", function() {
         var fromMemberID = parseInt($(this).attr("memberID"));
 
         // Send friend request to database

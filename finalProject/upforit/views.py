@@ -30,6 +30,21 @@ def home_view(request):
                                  context_instance = RequestContext(request)
                              )
 
+def manage_view(request):
+    # If a user is not logged in, redirect them to the login page
+    if ("member_id" not in request.session):
+           return HttpResponseRedirect("/upforit/login")
+    
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+    
+    return render_to_response(
+                                 "manage.html",
+                                 {"member" : member,},
+                                 context_instance = RequestContext(request)
+                             )
+    
+
 def location_view(request, location_id = None):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
