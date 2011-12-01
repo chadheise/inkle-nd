@@ -57,24 +57,29 @@ ul {
 }
 
 
-.followRequestButton
+.cardButton
 {
     padding: 2px 5px 2px 5px;
     color: white;
-    background-color: #385E0F;
     font-weight: bold;
     float: right;
 }
 
-.requestPending
-{
-    background-color: #009ACD;
+.requestToFollow {
+    background-color: #385E0F;
 }
 
 .stopFollowing
 {
     background-color: #FF4040;
 }
+
+.revokeRequest
+{
+    background-color: #009ACD;
+}
+
+
 
 .border {
     border: 1px solid black;

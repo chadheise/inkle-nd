@@ -25,22 +25,11 @@
  
                 <div class="grid_11 buttons">
                     {% if m != member %}
-                        {% for buttonClass, buttonText in m.button_list.items %}
-                        
+                        {% for buttonClass, buttonText in m.button_dict.items %}
+                            <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" />
                         {% endfor %}
                     {% endif %}
                     
-                    
-                    
-                    {% if m.relationship == "other" and m != member %}
-                        <input class="followRequestButton" type="button" value="Request to follow" memberID="{{ m.id }}" />
-                    {% endif %}
-                    {% if m.relationship == "pending" and m != member %}
-                        <input class="followRequestButton requestPending" type="button" value="Revoke request" memberID="{{ m.id }}" />
-                    {% endif %}
-                    {% if m.relationship == "friend" and m != member %}
-                        <input class="followRequestButton stopFollowing" type="button" value="Stop following" memberID="{{ m.id }}" />
-                    {% endif %}
                 </div>
             <!-- </div> -->
         </div>

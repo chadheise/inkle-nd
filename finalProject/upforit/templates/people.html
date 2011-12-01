@@ -16,12 +16,15 @@
 {% endblock header %}
 
 {% block mainContent %}
-    <div id="mainContent" class="container_24" style="border: 2px solid black">
-        {% for m in members %}
-            {% include "memberCard.html" %}
-        {% endfor %}
-       
-       
+    <div id="mainContent" class="container_24">
+        <div class="grid_8">
+            <p>Options to Sort Search</p>
+        </div>
+        <div class="grid_16">
+            {% for m in members %}
+                {% include "memberCard.html" %}
+            {% endfor %}
+       </div>
         
         <div class="rickrolled">
                     <p>Never gonna give you up

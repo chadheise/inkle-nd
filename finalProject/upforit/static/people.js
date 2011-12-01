@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $(".followRequestButton").click(function() {
+    $(".cardButton").click(function() {
         var thisElement = $(this);
         var toMemberID = parseInt($(this).attr("memberID"));
         
@@ -12,7 +12,8 @@ $(document).ready(function() {
                 data: { "toMemberID" : toMemberID },
                 success: function(html) {
                     thisElement.val("Revoke request");
-                    thisElement.addClass("requestPending");
+                    thisElement.addClass("revokeRequest");
+                    thisElement.removeClass("requestToFollow");
                 },
                 error: function(a, b, error) { alert(error); }
             });
@@ -26,7 +27,8 @@ $(document).ready(function() {
                 data: { "toMemberID" : toMemberID },
                 success: function(html) {
                     thisElement.val("Request to follow");
-                    thisElement.removeClass("requestPending");
+                    thisElement.addClass("requestToFollow");
+                    thisElement.removeClass("revokeRequest");
                 },
                 error: function(a, b, error) { alert(error); }
             });
@@ -40,6 +42,7 @@ $(document).ready(function() {
                     data: { "toMemberID" : toMemberID },
                     success: function(html) {
                         thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
                         thisElement.removeClass("stopFollowing");
                     },
                     error: function(a, b, error) { alert(error); }

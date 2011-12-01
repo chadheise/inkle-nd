@@ -91,6 +91,15 @@ def people_view(request):
             m.relationship = "friend"
         else:
             m.relationship = "other"
+        
+        #Create necessary buttons for member cards
+        m.button_dict = {}
+        if m.relationship == "other" and m != member:
+            m.button_dict["requestToFollow"] = "Request to follow"
+        if m.relationship == "pending" and m != member:
+            m.button_dict["revokeRequest"] = "Revoke Request"
+        if m.relationship == "friend" and m != member:
+            m.button_dict["stopFollowing"] = "Stop following"
 
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
 
