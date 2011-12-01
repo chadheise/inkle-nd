@@ -74,7 +74,7 @@ def edit_location_view(request, location_id = None):
                                  context_instance = RequestContext(request)
                              )
 
-def people_view(request):
+def search_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
            return HttpResponseRedirect("/upforit/login")
@@ -105,7 +105,7 @@ def people_view(request):
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
 
     return render_to_response(
-                                 "people.html",
+                                 "search.html",
                                  {
                                      "member" : member,
                                      "members" : members
@@ -125,6 +125,10 @@ def requested_view(request):
 
     for m in members:
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        m.relationship = "pending"
+        m.button_list = []
+        m.button_list.append(("rejectRequest", "Reject request"))
+        m.button_list.append(("acceptRequest", "Accept request"))
 
     return render_to_response(
                                  "requested.html",
