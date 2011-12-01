@@ -372,19 +372,29 @@ def remove_from_circle_view(request):
 def circles_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
-   
+    
     circles = member.circles.all()
+    circles = Circle.objects.all()
+    print "Circles"
+    print circles
+    print "------"
+    print member
 
     for c in circles:
         c.ms = c.members.all()
 
-    accepted = member.accepted.all()
+    members = member.accepted.all()
+    for m in members:
+        m.relationship = "friend"
+        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        m.button_list = []
+        m.button_list.append(("remove", "Remove"))
 
     return render_to_response(
         "circles.html",
         {
             "member" : member,
-            "accepted" : accepted,
+            "members" : members,
             "circles" : circles
         },
         context_instance = RequestContext(request)
@@ -400,6 +410,12 @@ def circle_members_view(request):
     else:
         circle = Circle.objects.get(pk = circle_id)
         members = circle.members.all()
+
+    for m in members:
+        m.relationship = "friend"
+        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        m.button_list = []
+        m.button_list.append(("remove", "Remove"))
 
     return render_to_response(
         "circleMembers.html",
