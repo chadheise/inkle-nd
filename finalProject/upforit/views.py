@@ -399,8 +399,9 @@ def circle_members_view(request):
     # Get the circle which was clicked
     circle_id = request.POST["circleID"]
     
+    member = Member.objects.get(pk = request.session["member_id"])
+    
     if (int(circle_id) == -1):
-        member = Member.objects.get(pk = request.session["member_id"])
         members = member.accepted.all()
     else:
         circle = Circle.objects.get(pk = circle_id)
