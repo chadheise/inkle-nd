@@ -9,6 +9,8 @@ from django.contrib import auth
 from finalProject.upforit.models import *
 from finalProject.upforit.forms import *
 
+from django.db.models import Q
+
 import datetime
 
 def home_view(request):
@@ -89,7 +91,7 @@ def edit_location_view(request, location_id = None):
                                  context_instance = RequestContext(request)
                              )
 
-def search_view(request):
+def search_view(request, query = ""):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
            return HttpResponseRedirect("/upforit/login")
@@ -97,7 +99,14 @@ def search_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
 
-    members = Member.objects.all()
+    members = Member.objects.filter(Q(username__contains = query) | Q(first_name__contains = query) | Q(last_name__contains = query))
+    members.length = len(members)
+
+    locations = Location.objects.filter(Q(name__contains = query) | Q(city__contains = query))
+    locations.length = len(locations)
+    
+    spheres = Sphere.objects.filter(Q(name__contains = query))
+    spheres.length = len(spheres)
 
     for m in members:
         if m in member.pending.all():
@@ -123,7 +132,10 @@ def search_view(request):
                                  "search.html",
                                  {
                                      "member" : member,
-                                     "members" : members
+                                     "query" : query,
+                                     "members" : members,
+                                     "locations" : locations,
+                                     "spheres" : spheres
                                  },
                                  context_instance = RequestContext(request)
                              )
