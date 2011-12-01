@@ -43,20 +43,6 @@
     background-color: #009ACD;
 }
 
-#leftContainer
-{
-    float: left;
-    width: 300px;
-    margin-right: 50px;
-}
-
-#rightContainer
-{
-    margin-top: -7px;
-    float: left;
-    width: 610px;
-}
-
 #locationSubmitButton, #locationCancelButton
 {
     padding: 2px 5px 2px 5px;

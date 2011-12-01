@@ -154,6 +154,32 @@ def requested_view(request):
                                  context_instance = RequestContext(request)
                              )
 
+def followers_view(request):
+     # If a user is not logged in, redirect them to the login page
+     if ("member_id" not in request.session):
+            return HttpResponseRedirect("/upforit/login")
+
+     # Get the member who is logged in
+     member = Member.objects.get(pk = request.session["member_id"])
+
+     members = [f.follower for f in member.followers.all()]
+
+     for m in members:
+         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+         m.relationship = "friend"
+         
+         m.button_list = []
+         m.button_list.append(("preventFollowing", "Prevent following"))
+
+     return render_to_response(
+                                  "followers.html",
+                                  {
+                                      "member" : member,
+                                      "members" : members
+                                  },
+                                  context_instance = RequestContext(request)
+                              )
+
 def follow_request_view(request):
     # Get the member who is logged in
     from_member = Member.objects.get(pk = request.session["member_id"])
