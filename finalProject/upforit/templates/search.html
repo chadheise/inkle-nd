@@ -26,12 +26,42 @@
                <li><input class="filterButton selected push_1 grid_6 " type="button" value="Spheres"></li>
             </ul>
         </div>
-        <div class="grid_16">
-            {% for m in members %}
-                {% if m != member %}
-                    {% include "memberCard.html" %}
+        <div id="searchContent" class="grid_16">
+            <p>Your query: {{ query }}</p>
+            <div id="people">
+                <h3>People</h3>
+                {% if members.length == 0 %}
+                    <p>No people match your query.</p>
+                {% else %}
+                    {% for m in members %}
+                        {% if m != member %}
+                            {% include "memberCard.html" %}
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-            {% endfor %}
+            </div>
+
+            <div id="locations">
+                <h3>Locations</h3>
+                {% if locations.length == 0 %}
+                    <p>No locations match your query.</p>
+                {% else %}
+                    {% for l in locations %}
+                        <p>{{ l.name }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
+            <div id="spheres">
+                <h3>Spheres</h3>
+                {% if spheres.length == 0 %}
+                    <p>No spheres match your query.</p>
+                {% else %}
+                    {% for s in spheres %}
+                        <p>{{ s.name }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
        </div>
         
     </div>
