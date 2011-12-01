@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$(document).pageLoad(function() {
+
     // Change circle color and members when clicked
     $(".circle").click(function() {
         $("#selectedCircle").attr("id", "");
