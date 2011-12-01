@@ -4,7 +4,7 @@ $(document).pageLoad(function() {
     $(".circle").click(function() {
         $("#selectedCircle").attr("id", "");
         $(this).attr("id", "selectedCircle");
-    
+        alert("Hi");
         var circleID = parseInt($(this).attr("circleID"));
 
         $.ajax({

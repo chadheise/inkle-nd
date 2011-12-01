@@ -374,12 +374,7 @@ def circles_view(request):
     member = Member.objects.get(pk = request.session["member_id"])
     
     circles = member.circles.all()
-    circles = Circle.objects.all()
-    print "Circles"
-    print circles
-    print "------"
-    print member
-
+    
     for c in circles:
         c.ms = c.members.all()
 
