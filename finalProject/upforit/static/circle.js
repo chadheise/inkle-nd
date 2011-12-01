@@ -1,10 +1,10 @@
-$(document).pageLoad(function() {
+$(document).ready(function() {
 
     // Change circle color and members when clicked
-    $(".circle").click(function() {
+    $(".circle").live("click", function() {
         $("#selectedCircle").attr("id", "");
         $(this).attr("id", "selectedCircle");
-        alert("Hi");
+        
         var circleID = parseInt($(this).attr("circleID"));
 
         $.ajax({
