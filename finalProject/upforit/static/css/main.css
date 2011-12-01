@@ -54,6 +54,8 @@
 #username
 {
     font-size: 20px;
+    color: white;
+    float: right;
 }
 
 #logout

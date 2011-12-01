@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/manage.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/memberCard.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/manage.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/requested.js"></script>
+{% endblock title%}
+
+{% block header %}
+    {% include "header.html" %}
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <div id="profileInfo" class="grid_8">
+            <h3>Profile Info</h3>
+        </div>
+        <div class="grid_16">
+            <div class="nav grid_16">
+                <input class="navButton selected push_1 grid_4" type="button" value="Requests">
+                <input class="navButton push_1 grid_4" type="button" value="Circles">
+                <input class="navButton push_1 grid_4" type="button" value="Followers">
+            </div>
+            <div id="primaryContent" class="grid_16">
+                <p>No Requests</p>
+            </div>
+       </div>
+        
+    </div>
+{% endblock mainContent%}

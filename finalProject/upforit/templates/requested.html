@@ -1,29 +1,5 @@
-{% extends "base.html" %}
-
-{% block title %}
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/requested.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/memberCard.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/requested.js"></script>
-{% endblock title%}
-
-{% block header %}
-    {% include "header.html" %}
-{% endblock header %}
-
-{% block mainContent %}
-    <div id="mainContent" class="container_24">
-        <div class="grid_8">
-            <h3>Requested</h3>
-        </div>
-        <div class="grid_16">
-            {% for m in members %}
-                {% include "memberCard.html" %}
-            {% endfor %}
-       </div>
-    </div>
-{% endblock mainContent%}
+<div class="grid_16">
+    {% for m in members %}
+        {% include "memberCard.html" %}
+    {% endfor %}
+</div>
