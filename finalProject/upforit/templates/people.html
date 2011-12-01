@@ -22,7 +22,9 @@
         </div>
         <div class="grid_16">
             {% for m in members %}
-                {% include "memberCard.html" %}
+                {% if m != member %}
+                    {% include "memberCard.html" %}
+                {% endif %}
             {% endfor %}
        </div>
         
