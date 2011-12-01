@@ -4,11 +4,11 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/upforit.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/people.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/search.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/memberCard.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/upforit.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/people.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/search.js"></script>
 {% endblock title%}
 
 {% block header %}
@@ -18,7 +18,13 @@
 {% block mainContent %}
     <div id="mainContent" class="container_24">
         <div class="grid_8">
-            <p>Options to Sort Search</p>
+            <h3>Filters</h3>
+            <ul>
+               <li><input class="filterButton selected push_1 grid_6" type="button" value="All"></li>
+               <li><input class="filterButton selected push_1 grid_6" type="button" value="People"></li> 
+               <li><input class="filterButton selected push_1 grid_6" type="button" value="Locations"></li>
+               <li><input class="filterButton selected push_1 grid_6 " type="button" value="Spheres"></li>
+            </ul>
         </div>
         <div class="grid_16">
             {% for m in members %}
@@ -27,15 +33,6 @@
                 {% endif %}
             {% endfor %}
        </div>
-        
-        <div class="rickrolled">
-                    <p>Never gonna give you up
-                    Never gonna let you down
-                    Never gonna run around and desert you
-                    Never gonna make you cry
-                    Never gonna say goodbye
-                    Never gonna tell a lie and hurt you</p>
-        </div>
         
     </div>
 {% endblock mainContent%}

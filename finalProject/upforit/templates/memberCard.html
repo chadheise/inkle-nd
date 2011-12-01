@@ -12,7 +12,7 @@
                     <p class="spheres">University of Notre Dame &middot; South Bend</p>
                     <p class="mutualFriends">{{ m.num_mutual_friends }} mutual friends</p>
                 </div>
-                {% if m.relationship == "friend" or m == member %}
+                {% if m.relationship == "friend" or m.relationship == "pending" or m == member %}
                     <div class="contactInfo grid 4">
                         <ul>
                             <li><span class="contactLabel">Email: </span>{{ m.email }}</li>

@@ -50,4 +50,20 @@ $(document).ready(function() {
             
         }
     });
+    
+    $(".filterButton").click(function() {
+        var thisElement = $(this);
+        
+        if (thisElement.val() == "All")
+        {
+             $(".filterButton").addClass("selected");          
+        }
+        else
+        {
+             $(".filterButton").removeClass("selected"); 
+             thisElement.addClass("selected");         
+        }
+        
+    });
+    
 });

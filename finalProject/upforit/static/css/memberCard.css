@@ -22,6 +22,7 @@ ul {
     font-size: 32px;
     font-weight: bold;
     text-decoration: none;
+    margin-top: 5px;
 }
 
 .spheres
@@ -80,7 +81,15 @@ ul {
     background-color: #009ACD;
 }
 
+.acceptRequest
+{
+    background-color: #009ACD;
+}
 
+.rejectRequest
+{
+    background-color: #FF4040;
+}
 
 .border {
     border: 1px solid black;

@@ -1,0 +1,28 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+h3 {
+    font-size: 30px;
+    color: #385E0F;
+}
+
+ul {
+    margin-top: 30px;
+}
+
+.filterButton {
+    height: 50px;
+    font-size: 24px;
+    color: #009ACD;
+    background-color: lightgray;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.selected {
+    background-color: darkgray;
+    color: #385E0F;
+}
