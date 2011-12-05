@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $(".circlesCardButton").live("click", function() {
+    $(".circlesCardButton").live("hover", function() {
         var buttonPosition = $(this).position();
         var buttonHeight = $(this).height();
         var followerID = $(this).attr("memberID");
