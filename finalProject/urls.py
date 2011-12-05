@@ -8,5 +8,5 @@ from django.conf.urls.defaults import *
 #admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^upforit/',  include('upforit.urls')),
+    (r'^inkle/',  include('inkle.urls')),
 )
