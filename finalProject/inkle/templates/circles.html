@@ -1,0 +1,14 @@
+<div class="grid_16">
+    <input class="circle selectedCircle" type="button" value="Accepted" circleID="-1" />
+    {% for circle in circles %}
+        <input class="circle" type="button" value="{{ circle.name }}" circleID="{{ circle.id }}" />
+    {% endfor %}
+    
+    <input id="addCircleButton" type="button" value="+" />
+                
+    <div id="circleMembers">
+        {% for m in members %}
+            {% include "memberCard.html" %}
+        {% endfor %}
+    </div>
+</div>
