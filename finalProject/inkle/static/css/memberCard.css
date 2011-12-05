@@ -108,9 +108,33 @@ ul {
 
 }
 
+.circlesCardButton
+{
+    background-color: #009ACD;
+}
+
+.circlesMenu {
+    display: none;
+    z-index: 1;
+    border: 3px solid darkgray;
+    border-radius: 5px;
+    background-color: lightgray;
+    position: absolute;
+    width: 200px;
+    color: #385E0F;
+}
+
+.circlesMenu ul {
+    padding: 5px;   
+    font-size: 12px;
+}
+
+
 .border
 {
     border: 1px solid black;
     margin-left: 9px;
     margin-right: 9px;
 }
+
+
