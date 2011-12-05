@@ -186,8 +186,6 @@ def followers_view(request):
          #Add circles
          m.button_list.append(("circlesCardButton", "Circles"))
          m.circles2 = [c for c in member.circles.all()]
-         print "all"
-         print member.circles.all()
 
      return render_to_response(
                                   "followers.html",
