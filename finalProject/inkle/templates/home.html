@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/inkle.css" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/inkle.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
+{% endblock title%}
+
+{% block header %}
+    {% include "header.html" %}
+{% endblock header %}
+
+{% block mainContent %}
+    <div id="mainContent">
+        {% for location in locations %}
+            <div class="locationContainer">
+                <div class="locationImage">&nbsp;</div>
+                <div class="locationInfo">
+                    <a class="locationName" href="/inkle/location/{{ location.id }}/">{{ location.name }}</a>
+                    <p>{{ location.city }}, {{ location.state }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock mainContent%}
