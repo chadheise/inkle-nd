@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/inkle.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/search.css" />
     <link rel="stylesheet" type="text/css" href="/static/css/memberCard.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/sphereCard.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/inkle.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/header.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/search.js"></script>
@@ -58,7 +59,7 @@
                     <p>No spheres match your query.</p>
                 {% else %}
                     {% for s in spheres %}
-                        <p>{{ s.name }}</p>
+                        {% include "sphereCard.html" %}
                     {% endfor %}
                 {% endif %}
             </div>

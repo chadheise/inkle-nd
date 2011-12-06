@@ -1,0 +1,22 @@
+{% block sphereCard %}
+      
+    <div class="grid_16">
+ 
+        <div class="memberCard push_1 grid_14">
+                <div class="grid_14">
+                    <p class="memberName">{{ s.name }}</p>
+                </div>
+                <div class="clear"></div>
+ 
+                <div class="grid_14 buttons">
+                    {% for buttonClass, buttonText in s.button_list %}
+                        <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" />
+                    {% endfor %}
+                </div>
+        </div>
+        <div class="clear"></div>
+        
+    </div>
+    <div class="clear"></div>
+      
+{% endblock sphereCard %}
