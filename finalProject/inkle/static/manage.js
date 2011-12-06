@@ -12,7 +12,6 @@ $(document).ready(function() {
         error: function(a, b, error) { alert(error); }
     });
     
-    
     $(".navButton").click(function() {
         var thisElement = $(this);
         $(".navButton").removeClass("selected")
