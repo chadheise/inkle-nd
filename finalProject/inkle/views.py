@@ -122,11 +122,19 @@ def search_view(request, query = ""):
         if m.relationship == "other" and m != member:
             m.button_list.append(("requestToFollow", "Request to follow"))
         if m.relationship == "pending" and m != member:
-            m.button_list.append(("revokeRequest", "Revoke Request"))
+            m.button_list.append(("revokeRequest", "Revoke request"))
         if m.relationship == "friend" and m != member:
             m.button_list.append(("stopFollowing", "Stop following"))
 
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+
+    for s in spheres:
+        s.button_list = []
+        if s in member.spheres.all():
+            s.button_list.append(("leaveSphere", "Leave sphere"))
+        else:
+            s.button_list.append(("joinSphere", "Join sphere"))
+
 
     return render_to_response(
                                  "search.html",
