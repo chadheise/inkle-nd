@@ -10,7 +10,7 @@
  
                 <div class="grid_14 buttons">
                     {% for buttonClass, buttonText in s.button_list %}
-                        <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" />
+                        <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" sphereID="{{ s.id }}" />
                     {% endfor %}
                 </div>
         </div>

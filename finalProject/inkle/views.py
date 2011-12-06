@@ -458,6 +458,40 @@ def add_circle_view(request):
 
     return HttpResponse(circle.id)
 
+def join_sphere_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the sphere which is being joing
+    sphere_id = request.POST["sphereID"]
+    sphere = Sphere.objects.get(pk = sphere_id)
+
+    # Add the sphere to the current member's spheres
+    member.spheres.add(sphere)
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
+def leave_sphere_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the sphere which is being joing
+    sphere_id = request.POST["sphereID"]
+    sphere = Sphere.objects.get(pk = sphere_id)
+
+    # Add the sphere to the current member's spheres
+    member.spheres.remove(sphere)
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
+
 def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
