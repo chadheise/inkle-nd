@@ -126,6 +126,10 @@ def search_view(request, query = ""):
         if m.relationship == "friend" and m != member:
             m.button_list.append(("stopFollowing", "Stop following"))
 
+        # Prevent following
+        if m in [f.follower for f in member.followers.all()]:
+            m.button_list.append(("preventFollowing", "Prevent following"))
+
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
 
     for s in spheres:
@@ -311,6 +315,37 @@ def stop_following_view(request):
         {},
         context_instance = RequestContext(request)
     )
+
+def prevent_following_view(request):
+    # Get the member who is logged in
+    to_member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the member to whom the request is being sent
+    from_member_id = request.POST["fromMemberID"]
+    from_member = Member.objects.get(pk = from_member_id)
+   
+    if to_member in from_member.accepted.all():
+        from_member.accepted.remove(to_member)
+
+
+    # Remove to member from all of from members circles
+    for c in from_member.circles.all():
+        if to_member in c.members.all():
+            c.members.remove(to_member)
+
+    # Delete the from member follower
+    # TODO: Get the follower corresponding to the from_member more efficiently
+    for follower in to_member.followers.all():
+        if (from_member == follower.follower):
+            to_member.followers.remove(follower)
+            follower.delete()
+            break
+
+    return render_to_response(
+                                 "login.html",
+                                 {},
+                                 context_instance = RequestContext(request)
+                             )
 
 def add_to_circle_view(request):
     # Get the member who is logged in
