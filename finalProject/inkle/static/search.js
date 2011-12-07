@@ -103,6 +103,21 @@ $(document).ready(function() {
         }
         
     });
+    
+    $(".preventFollowing").live("click", function() {
+        var thisElement = $(this);
+        var fromMemberID = parseInt($(this).attr("memberID"));
+        
+        $.ajax({
+            type: "POST",
+            url: "/inkle/preventFollowing/",
+            data: { "fromMemberID" : fromMemberID },
+            success: function(html) {
+                thisElement.remove();
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+    });
    
     $(".joinSphere").live("click", function() {
         var thisElement = $(this);
