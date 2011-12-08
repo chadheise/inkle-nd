@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/location.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/location.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/js/location.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/header.js"></script>
 {% endblock title%}
 
 {% block header %}

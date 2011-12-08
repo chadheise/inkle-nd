@@ -5,8 +5,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Inkle</title>
 	<meta name="author" content="Chad Heise and Jacob Wenger">
-	<link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/960_24_col.css" />
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/header.js"></script>
 
     <script type="text/javascript">
         $('html').ajaxSend(function(event, xhr, settings) {

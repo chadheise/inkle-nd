@@ -53,27 +53,5 @@ $(document).ready(function() {
         }
         $("#addCircleButton").show();
     });
-    
-    // Remove member from circle
-    $(".remove").live("click", function() {
-        var toMemberID = parseInt($(this).attr("memberID"));
-        var circleID = parseInt($(".selectedCircle").attr("circleID"));
-        
-        $.ajax({
-            type: "POST",
-            url: "/inkle/removeFromCircle/",
-            data: { "toMemberID" : toMemberID, "circleID" : circleID },
-            success: function(html) {
-            },
-            error: function(a, b, error) { alert(error); }
-        });
-
-        $(this).hide();
-    });
-
-    // Add member to circle
-    $(".add").live("click", function() {
-        $(this).next("hi");
-    });
 
 });

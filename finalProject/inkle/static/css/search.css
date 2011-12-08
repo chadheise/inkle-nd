@@ -9,7 +9,7 @@ h3 {
     color: #385E0F;
 }
 
-ul {
+.searchResults ul {
     margin-top: 30px;
 }
 
@@ -23,6 +23,6 @@ ul {
 }
 
 .selected {
-    background-color: darkgray;
-    color: #385E0F;
+    background-color: #385E0F;
+    color: #FFFFFF;
 }
