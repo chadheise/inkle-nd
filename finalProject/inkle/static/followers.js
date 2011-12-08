@@ -32,22 +32,24 @@ $(document).ready(function() {
     });
     
     $(".circlesMenuItem").live("change", function() {
-        if ($(this).attr("checked") == "checked") { //If the box is checked
-            //alert("my checked");
-            var circleID = parseInt($(this).attr("circleID"));
-            var toMemberID = parseInt($(this).attr("toMemberID"));
-            $.ajax({
-                type: "POST",
-                url: "/inkle/addToCircle/",
-                data: { "circleID" : circleID,
-                        "toMemberID" : toMemberID},
-                success: function(html) { alert("done"); },
-                error: function(a, b, error) { alert(error); }
-            });
+        var circleID = parseInt($(this).attr("circleID"));
+        var toMemberID = parseInt($(this).attr("toMemberID"));
+        //if ($(this).attr("checked") == "checked") { //If the box is checked
+        //alert($(this).is(':checked'));
+        if ($(this).is(':checked')) {
+            var URL = "/inkle/addToCircle/"
         }
         else { //If it is un-checked
-            alert("my unchecked");
+            var URL = "/inkle/removeFromCircle/"
         }
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: { "circleID" : circleID,
+                    "toMemberID" : toMemberID},
+            success: function(html) {},
+            error: function(a, b, error) { alert(error); }
+        });
         
     });
     
