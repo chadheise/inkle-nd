@@ -13,6 +13,16 @@ from django.db.models import Q
 
 import datetime
 
+buttonDictionary = {
+    "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
+    "prevent" : ("preventFollowing", "Prevent following", "No longer allow this person to follow me"),
+    "revoke" : ("revokeRequest", "Revoke request", "Revoke my request to follow this person"),
+    "stop" : ("stopFollowing", "Stop following", "Stop following this person"),
+    "circles" : ("circlesCardButton", "Circles"),
+    "reject" : ("rejectRequest", "Reject request", "Do not allow this person to follow me"),
+    "accept" : ("acceptRequest", "Accept request", "Allow this person to follow me"),
+}
+
 def home_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
@@ -110,25 +120,26 @@ def search_view(request, query = ""):
 
     for m in members:
         m.button_list = []
+        
+        # Prevent following
+        if member.followers.filter(follower=m):
+            m.button_list.append(buttonDictionary["prevent"])
+        
         if m in member.pending.all() and m != member:
             m.relationship = "pending"
-            m.button_list.append(("revokeRequest", "Revoke request"))
+            m.button_list.append(buttonDictionary["revoke"])
         elif member in [f.follower for f in m.followers.all()] and m != member:
             m.relationship = "friend"
             #Add circles
-            m.button_list.append(("stopFollowing", "Stop following"))
-            m.button_list.append(("circlesCardButton", "Circles"))
+            m.button_list.append(buttonDictionary["stop"])
+            m.button_list.append(buttonDictionary["circles"])
             m.circles2 = [c for c in member.circles.all()]
         elif m != member:
             m.relationship = "other"
-            m.button_list.append(("requestToFollow", "Request to follow"))
+            m.button_list.append(buttonDictionary["request"])
         else:
             m.relationship = "self"
             
-        # Prevent following
-        if m in [f.follower for f in member.followers.all()]:
-            m.button_list.append(("preventFollowing", "Prevent following"))
-
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
 
     for s in spheres:
@@ -165,8 +176,8 @@ def requested_view(request):
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.relationship = "pending"
         m.button_list = []
-        m.button_list.append(("rejectRequest", "Reject request"))
-        m.button_list.append(("acceptRequest", "Accept request"))
+        m.button_list.append(buttonDictionary["reject"])
+        m.button_list.append(buttonDictionary["accept"])
 
     return render_to_response(
                                  "requested.html",
@@ -192,7 +203,9 @@ def followers_view(request):
          m.relationship = "friend"
          
          m.button_list = []
-         m.button_list.append(("preventFollowing", "Prevent following"))
+         m.button_list.append(buttonDictionary["prevent"])
+         if not m.followers.filter(follower=member):
+            m.button_list.append(buttonDictionary["request"])
 
      return render_to_response(
                                   "followers.html",
@@ -215,11 +228,7 @@ def follow_request_view(request):
     from_member.pending.add(to_member)
     to_member.requested.add(from_member)
 
-    return render_to_response(
-                                 "login.html",
-                                 {},
-                                 context_instance = RequestContext(request)
-                             )
+    return HttpResponse(buttonDictionary["revoke"][2]) #Send updated toolTip information
 
 def revoke_request_view(request):
     # Get the member who is logged in
@@ -233,11 +242,7 @@ def revoke_request_view(request):
     from_member.pending.remove(to_member)
     to_member.requested.remove(from_member)
 
-    return render_to_response(
-                                 "login.html",
-                                 {},
-                                 context_instance = RequestContext(request)
-                             )
+    return HttpResponse(buttonDictionary["request"][2]) #Send updated toolTip information
 
 def accept_request_view(request):
     # Get the member who is logged in
@@ -408,9 +413,9 @@ def circles_view(request):
         m.relationship = "friend"
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.button_list = []
-        m.button_list.append(("stopFollowing", "Stop following"))
+        m.button_list.append(buttonDictionary["stop"])
         #Add circles
-        m.button_list.append(("circlesCardButton", "Circles"))
+        m.button_list.append(buttonDictionary["circles"])
         m.circles2 = [c for c in member.circles.all()]
         for c in m.circles2:
                 c.members2 = c.members.all()
@@ -441,9 +446,9 @@ def circle_members_view(request):
         m.relationship = "friend"
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.button_list = []
-        m.button_list.append(("stopFollowing", "Stop following"))
+        m.button_list.append(buttonDictionary["stop"])
         #Add circles
-        m.button_list.append(("circlesCardButton", "Circles"))
+        m.button_list.append(buttonDictionary["circles"])
         m.circles2 = [c for c in member.circles.all()]
         for c in m.circles2:
                 c.members2 = c.members.all()
