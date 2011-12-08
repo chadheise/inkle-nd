@@ -25,14 +25,9 @@ def home_view(request):
 
     locations = Location.objects.all()
     
-    return render_to_response(
-                                 "home.html",
-                                 {
-                                    "member" : member,
-                                    "locations" : locations
-                                 },
-                                 context_instance = RequestContext(request)
-                             )
+    return render_to_response( "home.html",
+        {"member" : member, "locations" : locations },
+        context_instance = RequestContext(request) )
 
 def manage_view(request):
     # If a user is not logged in, redirect them to the login page
@@ -42,13 +37,10 @@ def manage_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
     
-    return render_to_response(
-                                 "manage.html",
-                                 {"member" : member,},
-                                 context_instance = RequestContext(request)
-                             )
+    return render_to_response( "manage.html",
+        {"member" : member,},
+        context_instance = RequestContext(request) )
     
-
 def location_view(request, location_id = None):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -59,14 +51,9 @@ def location_view(request, location_id = None):
     except:
         raise Http404()
 
-    return render_to_response(
-                                 "location.html",
-                                 {
-                                     "member" : member,
-                                     "location" : location
-                                 },
-                                 context_instance = RequestContext(request)
-                             )
+    return render_to_response( "location.html",
+        {"member" : member, "location" : location},
+        context_instance = RequestContext(request) )
 
 def search_view(request, query = ""):
     # If a user is not logged in, redirect them to the login page
@@ -117,17 +104,9 @@ def search_view(request, query = ""):
             s.button_list.append(("joinSphere", "Join sphere"))
 
 
-    return render_to_response(
-                                 "search.html",
-                                 {
-                                     "member" : member,
-                                     "query" : query,
-                                     "members" : members,
-                                     "locations" : locations,
-                                     "spheres" : spheres
-                                 },
-                                 context_instance = RequestContext(request)
-                             )
+    return render_to_response( "search.html",
+        {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
+        context_instance = RequestContext(request) )
 
 def requested_view(request):
     # If a user is not logged in, redirect them to the login page
@@ -146,14 +125,9 @@ def requested_view(request):
         m.button_list.append(buttonDictionary["reject"])
         m.button_list.append(buttonDictionary["accept"])
 
-    return render_to_response(
-                                 "requested.html",
-                                 {
-                                     "member" : member,
-                                     "members" : members
-                                 },
-                                 context_instance = RequestContext(request)
-                             )
+    return render_to_response( "requested.html",
+        {"member" : member, "members" : members},
+        context_instance = RequestContext(request) )
 
 def followers_view(request):
      # If a user is not logged in, redirect them to the login page
@@ -174,14 +148,9 @@ def followers_view(request):
          if not m.followers.filter(follower=member):
             m.button_list.append(buttonDictionary["request"])
 
-     return render_to_response(
-                                  "followers.html",
-                                  {
-                                      "member" : member,
-                                      "members" : members
-                                  },
-                                  context_instance = RequestContext(request)
-                              )
+     return render_to_response( "followers.html",
+        {"member" : member, "members" : members},
+        context_instance = RequestContext(request) )
     
 def circles_view(request):
     # Get the member who is logged in
@@ -204,15 +173,9 @@ def circles_view(request):
         for c in m.circles2:
                 c.members2 = c.members.all()
 
-    return render_to_response(
-        "circles.html",
-        {
-            "member" : member,
-            "members" : members,
-            "circles" : circles
-        },
-        context_instance = RequestContext(request)
-    )
+    return render_to_response( "circles.html",
+        {"member" : member,"members" : members,"circles" : circles},
+        context_instance = RequestContext(request) )
 
 def circle_members_view(request):
     # Get the circle which was clicked
@@ -237,13 +200,9 @@ def circle_members_view(request):
         for c in m.circles2:
                 c.members2 = c.members.all()
 
-    return render_to_response(
-        "circleMembers.html",
-        {
-            "members" : members
-        },
-        context_instance = RequestContext(request)
-    )
+    return render_to_response( "circleMembers.html", 
+        {"members" : members},
+        context_instance = RequestContext(request) )
 
 def login_view(request):
     """User login."""
@@ -296,14 +255,9 @@ def login_view(request):
                 request.session["member_id"] = member.id
                 return HttpResponseRedirect("/inkle/")
 
-    return render_to_response(
-                                 "login.html",
-                                 {
-                                     "login_form" : log_form,
-                                     "registration_form" : reg_form
-                                 },
-                                 context_instance=RequestContext(request)
-                             )
+    return render_to_response( "login.html",
+        {"login_form" : log_form, "registration_form" : reg_form},
+        context_instance=RequestContext(request) )
 
 def logout_view(request):
     """Logs out the current user."""
