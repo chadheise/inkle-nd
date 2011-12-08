@@ -113,6 +113,9 @@ def search_view(request, query = ""):
             m.relationship = "pending"
         elif member in [f.follower for f in m.followers.all()]:
             m.relationship = "friend"
+            #Add circles
+            m.button_list.append(("circlesCardButton", "Circles"))
+            m.circles2 = [c for c in member.circles.all()]
         else:
             m.relationship = "other"
         
@@ -190,10 +193,6 @@ def followers_view(request):
          
          m.button_list = []
          m.button_list.append(("preventFollowing", "Prevent following"))
-         
-         #Add circles
-         m.button_list.append(("circlesCardButton", "Circles"))
-         m.circles2 = [c for c in member.circles.all()]
 
      return render_to_response(
                                   "followers.html",
@@ -322,11 +321,15 @@ def add_to_circle_view(request):
 
     # Get the circle which the member is being removed from
     circle_id = request.POST["circleID"]
+    newCircle = Circle.objects.get(pk=circle_id)
 
-    # Add them from the circle
-    circle.members.add(to_member)
+    print "circle = " + str(circle_id)
+    print "toMember = " + str(to_member)
+
+    # Add them to the circle
+    newCircle.members.add(to_member)
  
-    # If accepted circle
+    # If accepted circle        ---NEEDS TO BE FIXED!!!----
     if (int(circle_id) == -1):
         from_member.accepted.remove(to_member)
 
@@ -408,6 +411,11 @@ def circles_view(request):
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.button_list = []
         m.button_list.append(("remove", "Remove"))
+        #Add circles
+        m.button_list.append(("circlesCardButton", "Circles"))
+        m.circles2 = [c for c in member.circles.all()]
+        for c in m.circles2:
+                c.members2 = c.members.all()
 
     return render_to_response(
         "circles.html",
@@ -436,7 +444,9 @@ def circle_members_view(request):
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.button_list = []
         m.button_list.append(("remove", "Remove"))
-        m.button_list.append(("add", "Add to circles"))
+        #Add circles
+        m.button_list.append(("circlesCardButton", "Circles"))
+        m.circles2 = [c for c in member.circles.all()]
 
     return render_to_response(
         "circleMembers.html",
