@@ -28,10 +28,14 @@
                         {% for buttonClass, buttonText in m.button_list %}
                             <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" />
                             {% if buttonClass == "circlesCardButton" %}
-                                <div id="circlesMenu_{{m.id}}" class="circlesMenu">
+                                <div id="circlesMenu_{{m.id}}" class="circlesMenu" showing="false">
                                     <ul>
                                         {% for c in m.circles2 %}
-                                            <li><input type="checkbox" name="{{c.name}}" value="{{c.name}}" />{{c.name}}</li>
+                                            {% if m in c.members2 %}
+                                                <li><input type="checkbox" name="{{c.name}}" class="circlesMenuItem" checked="checked" circleID="{{c.id}}" toMemberID="{{m.id}}"/>{{c.name}}</li>
+                                            {% else %}
+                                                <li><input type="checkbox" name="{{c.name}}" class="circlesMenuItem" circleID="{{c.id}}" toMemberID="{{m.id}}"/>{{c.name}}</li>
+                                            {% endif %}
                                         {% endfor %}
                                     </ul>
                                 </div>
