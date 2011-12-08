@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/960_24_col.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/inkle.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/search.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/memberCard.css" />
-    <link rel="stylesheet" type="text/css" href="/static/css/sphereCard.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/inkle.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/header.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/search.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/js/search.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
 {% endblock title%}
 
 {% block header %}
@@ -20,7 +17,7 @@
     <div id="mainContent" class="container_24">
         <div class="grid_8">
             <h3>Filters</h3>
-            <ul>
+            <ul class="searchResults">
                <li><input class="filterButton selected push_1 grid_6" type="button" value="All"></li>
                <li><input class="filterButton selected push_1 grid_6" type="button" value="People"></li> 
                <li><input class="filterButton selected push_1 grid_6" type="button" value="Locations"></li>

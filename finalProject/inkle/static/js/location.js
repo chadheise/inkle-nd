@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Hide the locationl edit content
+    // Hide the location edit content
     $("#locationEditContent").hide();
 
     // Toggle location edit content
