@@ -35,9 +35,7 @@
                     <p>No people match your query.</p>
                 {% else %}
                     {% for m in members %}
-                        {% if m != member %}
-                            {% include "memberCard.html" %}
-                        {% endif %}
+                        {% include "memberCard.html" %}
                     {% endfor %}
                 {% endif %}
             </div>

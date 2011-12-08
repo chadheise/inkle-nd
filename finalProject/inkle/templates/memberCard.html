@@ -25,8 +25,8 @@
  
                 <div class="grid_11 buttons">
                     {% if m != member %}
-                        {% for buttonClass, buttonText in m.button_list %}
-                            <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" />
+                        {% for buttonClass, buttonText, toolTip in m.button_list %}
+                            <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" title="{{toolTip}}"/>
                             {% if buttonClass == "circlesCardButton" %}
                                 <div id="circlesMenu_{{m.id}}" class="circlesMenu" showing="false">
                                     <ul>

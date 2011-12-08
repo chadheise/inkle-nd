@@ -10,10 +10,11 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/inkle/followRequest/",
                 data: { "toMemberID" : toMemberID },
-                success: function(html) {
+                success: function(title) {
                     thisElement.val("Revoke request");
                     thisElement.addClass("revokeRequest");
                     thisElement.removeClass("requestToFollow");
+                    thisElement.attr("title", title);
                 },
                 error: function(a, b, error) { alert(error); }
             });
@@ -25,10 +26,11 @@ $(document).ready(function() {
                 type: "POST",
                 url: "/inkle/revokeRequest/",
                 data: { "toMemberID" : toMemberID },
-                success: function(html) {
+                success: function(title) {
                     thisElement.val("Request to follow");
                     thisElement.addClass("requestToFollow");
                     thisElement.removeClass("revokeRequest");
+                    thisElement.attr("title", title);
                 },
                 error: function(a, b, error) { alert(error); }
             });
@@ -40,7 +42,7 @@ $(document).ready(function() {
                     type: "POST",
                     url: "/inkle/stopFollowing/",
                     data: { "toMemberID" : toMemberID },
-                    success: function(html) {
+                    success: function() {
                         thisElement.val("Request to follow");
                         thisElement.addClass("requestToFollow");
                         thisElement.removeClass("stopFollowing");
