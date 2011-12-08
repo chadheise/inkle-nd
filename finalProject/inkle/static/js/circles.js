@@ -1,29 +1,30 @@
 $(document).ready(function() {
     // Change circle color and members when clicked
-    $(".circle").live("click", function() {
-        $(".selectedCircle").removeClass("selectedCircle");
-        $(this).addClass("selectedCircle");
-        
+    $(".circle").live("click", function(event) {
         if ($(this).attr("id") != "newCircle")
         {
-            var circleID = parseInt($(this).attr("circleID"));
+            $(".selectedCircle").removeClass("selectedCircle");
+            $(this).addClass("selectedCircle");
+        
+            if ($(this).attr("id") != "newCircle")
+            {
+                var circleID = parseInt($(this).attr("circleID"));
 
-            $.ajax({
-                type: "POST",
-                url: "/inkle/circleMembers/",
-                data: { "circleID" : circleID },
-                success: function(html) {
-                    $("#circleMembers").html(html);
-                },
-                error: function(a, b, error) { alert(error); }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "/inkle/circleMembers/",
+                    data: { "circleID" : circleID },
+                    success: function(html) {
+                        $("#circleMembers").html(html);
+                    },
+                    error: function(a, b, error) { alert(error); }
+                });
+            }
         }
     });
 
     $("#addCircleButton").live("click", function() {
         $(this).before("<button id='newCircle' class='circle'><input id='newCircleInput' type='text' /></button>");
-        $(".selectedCircle").removeClass("selectedCircle");
-        $("#newCircle").addClass("selectedCircle");
         $("#newCircleInput").focus();
         $(this).hide();
     });
