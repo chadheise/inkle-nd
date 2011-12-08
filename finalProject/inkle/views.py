@@ -109,26 +109,22 @@ def search_view(request, query = ""):
     spheres.length = len(spheres)
 
     for m in members:
-        if m in member.pending.all():
+        m.button_list = []
+        if m in member.pending.all() and m != member:
             m.relationship = "pending"
-        elif member in [f.follower for f in m.followers.all()]:
+            m.button_list.append(("revokeRequest", "Revoke request"))
+        elif member in [f.follower for f in m.followers.all()] and m != member:
             m.relationship = "friend"
             #Add circles
+            m.button_list.append(("stopFollowing", "Stop following"))
             m.button_list.append(("circlesCardButton", "Circles"))
             m.circles2 = [c for c in member.circles.all()]
-        else:
+        elif m != member:
             m.relationship = "other"
-        
-        #Create necessary buttons for member cards
-        #Items in list are tuples (class name, value)
-        m.button_list = []
-        if m.relationship == "other" and m != member:
             m.button_list.append(("requestToFollow", "Request to follow"))
-        if m.relationship == "pending" and m != member:
-            m.button_list.append(("revokeRequest", "Revoke request"))
-        if m.relationship == "friend" and m != member:
-            m.button_list.append(("stopFollowing", "Stop following"))
-
+        else:
+            m.relationship = "self"
+            
         # Prevent following
         if m in [f.follower for f in member.followers.all()]:
             m.button_list.append(("preventFollowing", "Prevent following"))
@@ -356,44 +352,21 @@ def add_to_circle_view(request):
 
     # Get the circle which the member is being added to
     circle_id = request.POST["circleID"]
-    newCircle = Circle.objects.get(pk=circle_id)
+    circle = Circle.objects.get(pk=circle_id)
 
     # Add them to the circle
-    newCircle.members.add(to_member)
+    circle.members.add(to_member)
  
-    # If accepted circle
-    #if (int(circle_id) == -1):
-    #   from_member.accepted.remove(to_member)
-    
     if to_member in from_member.accepted.all(): #If the new member was only in "accepted"
         from_member.accepted.remove(to_member)
     else: #The member was already in one or more other circles
         #Get the list of all the to_member's followers, then choose the one corresponding to the current member
-        follower = [F for F in to_member.followers.all() if F.follower == from_member][0]
-        print "follower = " + str(follower)
+        #follower = [F for F in to_member.followers.all() if F.follower == from_member][0]
+        follower = to_member.followers.filter(follower=from_member)[0]
         follower.count += 1
         follower.save()
-        print "follower = " + str(follower)
 
-    # If other circle
-    #else:
-    #    circle = Circle.objects.get(pk = circle_id)
-    #    
-    #    # TODO: clean this up; possibly use to_member.followers.filter()?
-    #    for follower in to_member.followers.all():
-    #        if (from_member == follower.follower):
-    #            from_follower = follower
-    #            break
-    #
-    #    # Increment the count for the correct follower
-    #   from_follower.count += 1
-    #   from_follower.save()
-
-    return render_to_response(
-                                 "login.html",
-                                 {},
-                                 context_instance = RequestContext(request)
-                             )
+    return HttpResponse("")
 
 def remove_from_circle_view(request):
     # Get the member who is logged in
@@ -405,67 +378,22 @@ def remove_from_circle_view(request):
 
     # Get the circle which the member is being added to
     circle_id = request.POST["circleID"]
+    circle = Circle.objects.get(pk=circle_id) #Retrieve the actual circle object
     
-    if (int(circle_id) == -1): #If the circle is "accepted"
-        pass
-    else: #If the circle is any other circle
-        newCircle = Circle.objects.get(pk=circle_id) #Retrieve the actual circle object
-        newCircle.members.remove(to_member) # Remove them from the circle
-        
-        #Get the list of all the to_member's followers, then choose the one corresponding to the current member
-        follower = [F for F in to_member.followers.all() if F.follower == from_member][0]
-        print "follower = " + str(follower)
-        
-        if (follower.count == 1): #If this is the last remaining circle the to_member belongs to
-            to_member.followers.remove(follower) 
-            follower.delete()
-        else:   #If the to_member belongs to one or more other circles
-            follower.count -= 1
-            follower.save()
-            print "follower = " + str(follower)
+    circle.members.remove(to_member) # Remove them from the circle
+    
+    #Get the list of all the to_member's followers, then choose the one corresponding to the current member
+    #follower = [F for F in to_member.followers.all() if F.follower == from_member][0]
+    follower = to_member.followers.filter(follower=from_member)[0]
+    
+    if (follower.count == 1): #If this is the last remaining circle the to_member belongs to
+        from_member.accepted.add(to_member)
+    else:   #If the to_member belongs to one or more other circles
+        follower.count -= 1
+        follower.save()
 
-    return render_to_response( "login.html", {}, context_instance = RequestContext(request) )
-
-
-#def remove_from_circle_view(request):
-#    # Get the member who is logged in
-#    from_member = Member.objects.get(pk = request.session["member_id"])
-#    
-#    # Get the member to whom the request is being sent
-#    to_member_id = request.POST["toMemberID"]
-#    to_member = Member.objects.get(pk = to_member_id)
-#    
-#    # TODO: Get the follower corresponding to the from_member
-#    for follower in to_member.followers.all():
-#        if (from_member == follower.follower):
-#            from_follower = follower
-#            break
-#
-#    # Get the circle which the member is being removed from
-#    circle_id = request.POST["circleID"]
-#    
-#    # If accepted circle
-#    if (int(circle_id) == -1):
-#        from_member.accepted.remove(to_member)
-#        to_member.followers.remove(from_follower)
-#        from_follower.delete()
-#
-#    # If other circle
-#    else:
-#        circle = Circle.objects.get(pk = circle_id)
-#
-#        # Remove them from the circle
-#        circle.members.remove(to_member)
-#
-#        if (from_follower.count == 1):
-#            to_member.followers.remove(from_follower)
-#            from_follower.delete()
-#        else:
-#            from_follower.count -= 1
-#            from_follower.save()
-#
-#    return render_to_response( "login.html", {}, context_instance = RequestContext(request) )
-
+    return HttpResponse("")
+    
 def circles_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -480,7 +408,7 @@ def circles_view(request):
         m.relationship = "friend"
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.button_list = []
-        m.button_list.append(("remove", "Remove"))
+        m.button_list.append(("stopFollowing", "Stop following"))
         #Add circles
         m.button_list.append(("circlesCardButton", "Circles"))
         m.circles2 = [c for c in member.circles.all()]
@@ -513,7 +441,7 @@ def circle_members_view(request):
         m.relationship = "friend"
         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
         m.button_list = []
-        m.button_list.append(("remove", "Remove"))
+        m.button_list.append(("stopFollowing", "Stop following"))
         #Add circles
         m.button_list.append(("circlesCardButton", "Circles"))
         m.circles2 = [c for c in member.circles.all()]
