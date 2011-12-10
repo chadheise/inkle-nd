@@ -9,7 +9,16 @@ $(document).ready(function() {
             if ($(this).attr("id") != "newCircle")
             {
                 var circleID = parseInt($(this).attr("circleID"));
-
+                var circleName = $(this).val()
+                $("#deleteCircleButton").attr("CircleID", circleID);
+                $("#deleteCircleButton").attr("value", "Delete \"" + circleName +"\" circle");
+                if (circleID == -1) {
+                    $("#circleManagementButtons").fadeOut('medium');
+                }
+                else {
+                    $("#circleManagementButtons").fadeIn('medium');
+                }
+                
                 $.ajax({
                     type: "POST",
                     url: "/inkle/circleMembers/",
@@ -21,6 +30,19 @@ $(document).ready(function() {
                 });
             }
         }
+    });
+
+    $(".circle").live("mouseenter", function() {
+        $(this).css("border", "solid 5px #009ACD");
+    });
+    $(".circle").live("mouseleave", function() {
+        $(this).css("border", "solid 5px #CCC");
+    });
+    $("#addCircleButton").live("mouseenter", function() {
+        $(this).css("border", "solid 5px #009ACD");
+    });
+    $("#addCircleButton").live("mouseleave", function() {
+        $(this).css("border", "solid 5px #CCC");
     });
 
     $("#addCircleButton").live("click", function() {
@@ -54,5 +76,27 @@ $(document).ready(function() {
         }
         $("#addCircleButton").show();
     });
+
+    $("#deleteCircleButton").live("click", function() {
+
+        $.ajax({
+            type: "POST",
+            url: "/inkle/deleteCircle/",
+            data: { "circleID" : parseInt($(this).attr("circleID")) },
+            success: function(circleID) {
+                $.ajax({
+                    type: "POST",
+                    url: "/inkle/circles/",
+                    data: {},
+                    success: function(html) {
+                        $("#primaryContent").html(html);
+                    },
+                    error: function(a, b, error) { alert(error); }
+                });
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+    });
+
 
 });

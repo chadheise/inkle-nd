@@ -1,5 +1,9 @@
 $(document).ready(function() {
     
+    function hideMemberCard(memberID) {
+        $("#memberCard_"+memberID).fadeOut('medium');
+    }
+    
     /*----------------------Circle Button Functions--------------------------*/
     $(".circlesCardButton").live("mouseenter", function() {
         var memberID = $(this).attr("memberID");
@@ -36,6 +40,7 @@ $(document).ready(function() {
     $(".circlesMenuItem").live("change", function() {
         var circleID = parseInt($(this).attr("circleID"));
         var toMemberID = parseInt($(this).attr("toMemberID"));
+        var currentCircle = parseInt($(".selectedCircle").attr("circleID"));
         
         if ($(this).is(':checked')) { var URL = "/inkle/addToCircle/" } //If it is checked
         else { var URL = "/inkle/removeFromCircle/" } //If it is un-checked
@@ -48,6 +53,10 @@ $(document).ready(function() {
             success: function(html) {},
             error: function(a, b, error) { alert(error); }
         });
+        
+        if (circleID == currentCircle || currentCircle == -1) {
+           hideMemberCard(toMemberID);
+        }
     });
     
     /*----------------------Accept Request Button --------------------------*/
@@ -104,6 +113,35 @@ $(document).ready(function() {
         });
     });
     
+    /*----------------------Stop Following Button --------------------------*/
+    $(".stopFollowing").live("click", function() {
+            var thisElement = $(this);
+            var toMemberID = parseInt($(this).attr("memberID"));
+            
+            $.ajax({
+                type: "POST",
+                url: "/inkle/stopFollowing/",
+                data: { "toMemberID" : toMemberID },
+                success: function() {
+                    thisElement.val("Request to follow");
+                    thisElement.addClass("requestToFollow");
+                    thisElement.removeClass("stopFollowing");
+                },
+                error: function(a, b, error) { alert(error); }
+            });
+            
+            if ($(".selectedCircle").attr("circleID")) {
+               hideMemberCard(toMemberID);
+            }
+            else {
+                $(".circlesCardButton").each(function() {
+                    if ($(this).attr("memberID") == toMemberID) {
+                        $(this).fadeOut('medium');
+                    }
+                });
+            }
+        });
+        
     
     /*--*/
     $(".cardButton").click(function() {
@@ -142,22 +180,7 @@ $(document).ready(function() {
                 error: function(a, b, error) { alert(error); }
             });
         }
-        else if ($(this).val() == "Stop following")
-            {
-                // Send friend request to database
-                $.ajax({
-                    type: "POST",
-                    url: "/inkle/stopFollowing/",
-                    data: { "toMemberID" : toMemberID },
-                    success: function() {
-                        thisElement.val("Request to follow");
-                        thisElement.addClass("requestToFollow");
-                        thisElement.removeClass("stopFollowing");
-                    },
-                    error: function(a, b, error) { alert(error); }
-                });
-            
-        }
+        
     });
     /*--*/
     

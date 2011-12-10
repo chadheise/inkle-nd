@@ -5,6 +5,10 @@
     {% endfor %}
     
     <input id="addCircleButton" type="button" value="+" />
+    
+    <div id="circleManagementButtons">
+        <input id="deleteCircleButton" type="button" value="Delete this Circle" circleID="-1"/>
+    </div>
                 
     <div id="circleMembers">
         {% for m in members %}
