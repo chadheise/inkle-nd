@@ -10,21 +10,22 @@ $(document).ready(function() {
             {
                 var circleID = parseInt($(this).attr("circleID"));
                 var circleName = $(this).val()
-                $("#deleteCircleButton").attr("CircleID", circleID);
-                $("#deleteCircleButton").attr("value", "Delete \"" + circleName +"\" circle");
-                if (circleID == -1) {
-                    $("#circleManagementButtons").fadeOut('medium');
-                }
-                else {
-                    $("#circleManagementButtons").fadeIn('medium');
-                }
                 
                 $.ajax({
                     type: "POST",
                     url: "/inkle/circleMembers/",
                     data: { "circleID" : circleID },
                     success: function(html) {
+                        $("#circleContent").fadeOut("medium", function() {
+                        $("#circleManagementButtons").html(""); //Clear content
+                        if (circleID != -1) { //If not in the accepted circle
+                            $("#circleManagementButtons").append('<input id="deleteCircleButton" type="button" value="Delete this circle" circleID="' + circleID +'"/>')
+                            $("#circleManagementButtons").append('<input id="addToCircleButton" type="button" value="Add to this circle" circleID="' + circleID +'"/>')
+                        }
                         $("#circleMembers").html(html);
+                        $("#circleContent").fadeIn("medium");
+                        });
+                        
                     },
                     error: function(a, b, error) { alert(error); }
                 });
@@ -67,9 +68,6 @@ $(document).ready(function() {
                 success: function(circleID) {
                     $("#newCircle").attr("circleID", circleID);
                     $("#newCircle").removeAttr("id");
-                    /*$(".circleMenuList").each(function() {
-                        $(this).append('<li><input type="checkbox" name="' + newCircleName + '" class="circlesMenuItem" circleID="' +  circleID +'" toMemberID="' + $(this).attr("memberID") +'"/>' + newCircleName + '</li>');
-                    });*/
                     $(".circle").each(function() {
                         if ($(this).hasClass("selectedCircle")) {
                             $(this).trigger("click");
