@@ -6,13 +6,15 @@
     
     <input id="addCircleButton" type="button" value="+" />
     
-    <div id="circleManagementButtons">
-        <input id="deleteCircleButton" type="button" value="Delete this Circle" circleID="-1"/>
-    </div>
+    <div id="circleContent">
+        <div id="circleManagementButtons">
+            
+        </div>
                 
-    <div id="circleMembers">
-        {% for m in members %}
-            {% include "memberCard.html" %}
-        {% endfor %}
+        <div id="circleMembers">
+            {% for m in members %}
+                {% include "memberCard.html" %}
+            {% endfor %}
+        </div>
     </div>
 </div>
