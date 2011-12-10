@@ -4,7 +4,7 @@ $(document).ready(function() {
     // Get Requests HTML
     $.ajax({
         type: "POST",
-        url: "/inkle/requested/",
+        url: "/inkle/circles/",
         data: {},
         success: function(html) {
             $("#primaryContent").html(html);

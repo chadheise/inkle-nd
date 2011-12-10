@@ -19,6 +19,21 @@ buttonDictionary = {
     "accept" : ("acceptRequest", "Accept request", "Allow this person to follow me"),
 }
 
+def edit_profile_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+
+    member.first_name = request.POST["first_name"]
+    member.last_name = request.POST["last_name"]
+    #member.set_password(request.POST["password"])
+    member.email = request.POST["email"]
+    member.phone = request.POST["phone"]
+    ##member.birthday = request.POST["birthday"]
+    member.gender = request.POST["gender"]
+    member.save()
+    
+    return HttpResponse()
+
 def edit_location_view(request, location_id = None):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
