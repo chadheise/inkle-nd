@@ -15,3 +15,32 @@
     background-color: #385E0F;
     color: #FFFFFF;
 }
+
+#profileInfo ul {
+    font-family: helvetica;
+    font-size: 18px;
+}
+
+#profileInfo .edit {
+    display: none;
+}
+
+.profileButton {
+    padding: 2px 5px 2px 5px;
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 15px;
+}
+
+#editProfileButton {
+    background-color: #009ACD;
+}
+
+#submitChangesButton {
+    background-color: #385E0F;
+}
+
+#discardChangesButton {
+    background-color: #FF4040;
+}

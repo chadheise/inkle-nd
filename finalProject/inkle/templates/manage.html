@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/manage.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/circles.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/manage.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/circles.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/manage.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/memberCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/circles.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/manage.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/memberCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/circles.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/profile.js"></script>
 {% endblock title%}
 
 {% block header %}
@@ -17,13 +18,52 @@
     <div id="mainContent" class="container_24">
         <div id="profileInfo" class="grid_8">
             <h3>Profile Info</h3>
+            <img class="cardImage" src="http://dummyimage.com/200x200/AAA/fff.jpg&text=+" />
+            <div class="display">
+                <ul>
+                    <li id="displayName">{{ member.first_name }} {{ member.last_name }}</li>
+                    <li id="displayPassword">Password: -------------</li>
+                    <li id="displayEmail">Email: {{ member.email }}</li>
+                    <li id="displayPhone">Phone: {{ member.phone }}</li>
+                    <li id="displayBirthday">Birthday: {{ member.birthday }}</li>
+                    <li id="displayGender">Gender: {{ member.gender }}</li>
+                    <li>Spheres: 
+                        <ul>
+                            {% for s in member.spheres2 %}
+                                <li> {{ s.name }} </li>
+                            {% endfor %}
+                        </ul>
+                </ul>
+                <input type="button" value="Edit Profile" id="editProfileButton" class="profileButton"/>
+            </div>
+            <div class="edit">
+                <ul>
+                    <li><input id="inputFirstName" value="{{ member.first_name }}" /> <input id="inputLastName" value="{{ member.last_name }}" /></li>
+                    <li>Password: <input id="inputPassword" value="{{ member.password }}"/></li>
+                    <li>Email: <input id="inputEmail" value="{{ member.email }}"/></li>
+                    <li>Phone: <input id="inputPhone" value="{{ member.phone }}"/></li>
+                    <li>Birthday: <input id="inputBirthday" value="{{ member.birthday }}"/></li>
+                    <li>Gender: <select id="inputGender">
+                                {% if member.gender == "M" %}
+                                    <option selected="selected">M</option>
+                                    <option>F</Option>
+                                {% else %}
+                                    <option>M</option>
+                                    <option selected="selected">F</Option>
+                                {% endif %}
+                                </select> </li>
+                </ul>
+                <input type="button" value="Submit Changes" id="submitChangesButton" class="profileButton"/>
+                <input type="button" value="Discard Changes" id="discardChangesButton" class="profileButton"/>
+            </div>
+            
         </div>
         
         <div class="grid_16">
             <div class="nav push_2 alpha">
-                <input class="navButton selected grid_4" type="button" value="Requests">
-                <input class="navButton grid_4" type="button" value="Circles">
-                <input class="navButton grid_4" type="button" value="Followers">
+                <input class="navButton grid_4" type="button" value="Requests"/>
+                <input class="navButton selected grid_4" type="button" value="Circles"/>
+                <input class="navButton grid_4" type="button" value="Followers"/>
             </div>
             <div class="clear"></div>
             <div id="primaryContent" >

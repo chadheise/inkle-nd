@@ -111,6 +111,6 @@
     margin-bottom: 10px;
 }
 
-#circleManagementButtons {
-    display: none;
+#addToCircleButton {
+    margin-left: 10px;
 }

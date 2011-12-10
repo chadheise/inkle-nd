@@ -36,9 +36,11 @@ def manage_view(request):
     
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
+    member.spheres2 = member.spheres.all()
+    #member.hidden_password = '*' * len(member.password)
     
     return render_to_response( "manage.html",
-        {"member" : member,},
+        {"member" : member},
         context_instance = RequestContext(request) )
     
 def location_view(request, location_id = None):
