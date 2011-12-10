@@ -28,6 +28,7 @@ urlpatterns = patterns(
     (r"^circles/$", "circles_view"),
     (r"^circleMembers/$", "circle_members_view"),
     (r"^addCircle/$", "add_circle_view"),
+    (r"^deleteCircle/$", "delete_circle_view"),
     (r"^joinSphere/$", "join_sphere_view"),
     (r"^leaveSphere/$", "leave_sphere_view"),
 )

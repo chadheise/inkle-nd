@@ -181,15 +181,17 @@ def add_to_circle_view(request):
     return HttpResponse()
 
 def remove_from_circle_view(request):
+    remove_from_circle(request.session["member_id"], request.POST["toMemberID"], request.POST["circleID"])
+    return HttpResponse()
+
+def remove_from_circle(from_member_id, to_member_id, circle_id):
     # Get the member who is logged in
-    from_member = Member.objects.get(pk = request.session["member_id"])
+    from_member = Member.objects.get(pk = from_member_id)
 
     # Get the member to whom the request is being sent
-    to_member_id = request.POST["toMemberID"]
     to_member = Member.objects.get(pk = to_member_id)
 
     # Get the circle which the member is being added to
-    circle_id = request.POST["circleID"]
     circle = Circle.objects.get(pk=circle_id) #Retrieve the actual circle object
 
     circle.members.remove(to_member) # Remove them from the circle
@@ -204,7 +206,7 @@ def remove_from_circle_view(request):
         follower.count -= 1
         follower.save()
 
-    return HttpResponse()
+    return ()
 
 def add_circle_view(request):
     # Get the member who is logged in
@@ -219,11 +221,27 @@ def add_circle_view(request):
 
     return HttpResponse(circle.id)
 
+def delete_circle_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+
+    circle = Circle.objects.get(pk = request.POST["circleID"])
+    circleMembers = circle.members.all()
+    for m in circleMembers:
+        remove_from_circle(member, m.id, request.POST["circleID"])
+
+    # Remove the circle from the logged in member's set of circles
+    member.circles.remove(circle)
+    
+    circle.delete()
+
+    return HttpResponse(circle.id)
+
 def leave_sphere_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
 
-    # Get the sphere which is being joing
+    # Get the sphere which is being joined
     sphere_id = request.POST["sphereID"]
     sphere = Sphere.objects.get(pk = sphere_id)
 

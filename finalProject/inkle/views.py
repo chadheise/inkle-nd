@@ -88,6 +88,8 @@ def search_view(request, query = ""):
             m.button_list.append(buttonDictionary["stop"])
             m.button_list.append(buttonDictionary["circles"])
             m.circles2 = [c for c in member.circles.all()]
+            for c in m.circles2:
+                    c.members2 = c.members.all()
         elif m != member:
             m.relationship = "other"
             m.button_list.append(buttonDictionary["request"])
@@ -147,6 +149,7 @@ def followers_view(request):
          m.button_list.append(buttonDictionary["prevent"])
          if not m.followers.filter(follower=member):
             m.button_list.append(buttonDictionary["request"])
+            m.relationship = "other"
 
      return render_to_response( "followers.html",
         {"member" : member, "members" : members},

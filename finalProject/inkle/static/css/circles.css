@@ -110,3 +110,7 @@
     border-style: inset;
     margin-bottom: 10px;
 }
+
+#circleManagementButtons {
+    display: none;
+}
