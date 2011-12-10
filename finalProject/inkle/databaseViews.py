@@ -206,8 +206,6 @@ def remove_from_circle(from_member_id, to_member_id, circle_id):
         follower.count -= 1
         follower.save()
 
-    return ()
-
 def add_circle_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
