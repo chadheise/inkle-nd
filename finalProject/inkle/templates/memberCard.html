@@ -29,7 +29,7 @@
                             <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" memberID="{{ m.id }}" title="{{toolTip}}"/>
                             {% if buttonClass == "circlesCardButton" %}
                                 <div id="circlesMenu_{{m.id}}" class="circlesMenu" showing="false">
-                                    <ul>
+                                    <ul class="circlesMenuList" memberID="{{ m.id }}">
                                         {% for c in m.circles2 %}
                                             {% if m in c.members2 %}
                                                 <li><input type="checkbox" name="{{c.name}}" class="circlesMenuItem" checked="checked" circleID="{{c.id}}" toMemberID="{{m.id}}"/>{{c.name}}</li>
