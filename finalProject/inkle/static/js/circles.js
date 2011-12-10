@@ -68,9 +68,6 @@ $(document).ready(function() {
                 success: function(circleID) {
                     $("#newCircle").attr("circleID", circleID);
                     $("#newCircle").removeAttr("id");
-                    /*$(".circleMenuList").each(function() {
-                        $(this).append('<li><input type="checkbox" name="' + newCircleName + '" class="circlesMenuItem" circleID="' +  circleID +'" toMemberID="' + $(this).attr("memberID") +'"/>' + newCircleName + '</li>');
-                    });*/
                     $(".circle").each(function() {
                         if ($(this).hasClass("selectedCircle")) {
                             $(this).trigger("click");
