@@ -1,0 +1,17 @@
+{% for category, categoryTitle in categories %}
+    {% if categoryTitle %}
+        <span class="suggestionCategory">{{ categoryTitle }}</span>
+    {% endif %}
+      
+    {% for suggestion in category %}
+        <a class="suggestion" href="#" suggestionID="{{ suggestion.id }}">
+            <!--<img src="{{ suggestion.image }}" />-->
+            <img src="http://dummyimage.com/40x40/AAA/fff.jpg&text=+" />
+            <span class="suggestionText">{{ suggestion.name }}</span>
+        </a>
+    {% endfor %}
+{% endfor %}
+ 
+{% if footerSubject %}
+    <span class="suggestionFooter">{{ footerSubject }} you want not here? Suggest a new one.</span>
+{% endif %}

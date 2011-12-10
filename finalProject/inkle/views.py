@@ -212,6 +212,44 @@ def circle_members_view(request):
         {"members" : members},
         context_instance = RequestContext(request) )
 
+def suggestions_view(request, query = ""):
+    # If a user is not logged in, redirect them to the login page
+    if ("member_id" not in request.session):
+           return HttpResponseRedirect("/inkle/login")
+
+    query = request.POST["query"]
+    query_type = request.POST["type"]
+
+    if (query_type == "inkling"):
+        locations = Location.objects.filter(Q(name__contains = query))
+        categories = [(locations,)]
+        footerSubject = "Location"
+        
+    elif (query_type == "search"):
+        categories = []
+
+        people = Member.objects.filter(Q(username__contains = query) | Q(first_name__contains = query) | Q(last_name__contains = query))
+        if (people):
+            for p in people:
+                p.name = p.first_name + " " + p.last_name
+            categories.append((people, "People"))
+        
+        locations = Location.objects.filter(Q(name__contains = query) | Q(city__contains = query))
+        if (locations):
+            categories.append((locations, "Locations"))
+
+        spheres = Sphere.objects.filter(Q(name__contains = query))
+        if (spheres):
+            categories.append((spheres, "Spheres"))
+        
+        footerSubject = ""
+
+    return render_to_response("suggestions.html",
+        {"categories" : categories, "footerSubject" : footerSubject},
+        context_instance = RequestContext(request) )
+    
+    return HttpResponse()
+
 def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page

@@ -6,14 +6,14 @@
 
 {% block mainContent %}
     <div id="mainContent">
-        {% for location in locations %}
-            <div class="locationContainer">
-                <div class="locationImage">&nbsp;</div>
-                <div class="locationInfo">
-                    <a class="locationName" href="/inkle/location/{{ location.id }}/">{{ location.name }}</a>
-                    <p>{{ location.city }}, {{ location.state }}</p>
-                </div>
+        <div id="dinnerInkling" class="inkling">
+            <div>
+                <p class="suggestionTitle">Dinner</p>
+                <input id="dinnerInklingInput" class="suggestionInput" type="text" />
             </div>
-        {% endfor %}
+
+            <p id="dinnerInklingSuggestions" class="suggestions">
+            </p> 
+        </div>
     </div>
 {% endblock mainContent%}

@@ -31,4 +31,5 @@ urlpatterns = patterns(
     (r"^deleteCircle/$", "delete_circle_view"),
     (r"^joinSphere/$", "join_sphere_view"),
     (r"^leaveSphere/$", "leave_sphere_view"),
+    (r"^suggestions/$", "suggestions_view"),
 )
