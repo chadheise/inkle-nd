@@ -142,46 +142,42 @@ $(document).ready(function() {
             }
         });
         
-    
-    /*--*/
-    $(".cardButton").click(function() {
+    /*----------------------Request to Following Button --------------------------*/
+    $(".requestToFollow").live("click", function() {
         var thisElement = $(this);
         var toMemberID = parseInt($(this).attr("memberID"));
-        
-        if ($(this).val() == "Request to follow")
-        {
-            // Send friend request to database
-            $.ajax({
-                type: "POST",
-                url: "/inkle/followRequest/",
-                data: { "toMemberID" : toMemberID },
-                success: function(title) {
-                    thisElement.val("Revoke request");
-                    thisElement.addClass("revokeRequest");
-                    thisElement.removeClass("requestToFollow");
-                    thisElement.attr("title", title);
-                },
-                error: function(a, b, error) { alert(error); }
-            });
-        }
-        else if ($(this).val() == "Revoke request")
-        {
-            // Send friend request to database
-            $.ajax({
-                type: "POST",
-                url: "/inkle/revokeRequest/",
-                data: { "toMemberID" : toMemberID },
-                success: function(title) {
-                    thisElement.val("Request to follow");
-                    thisElement.addClass("requestToFollow");
-                    thisElement.removeClass("revokeRequest");
-                    thisElement.attr("title", title);
-                },
-                error: function(a, b, error) { alert(error); }
-            });
-        }
-        
+        // Send friend request to database
+        $.ajax({
+            type: "POST",
+            url: "/inkle/followRequest/",
+            data: { "toMemberID" : toMemberID },
+            success: function(title) {
+                thisElement.val("Revoke request");
+                thisElement.addClass("revokeRequest");
+                thisElement.removeClass("requestToFollow");
+                thisElement.attr("title", title);
+            },
+            error: function(a, b, error) { alert(error); }
+        });
     });
-    /*--*/
+    
+    /*----------------------Revoke Request Button --------------------------*/
+    $(".revokeRequest").live("click", function() {
+        var thisElement = $(this);
+        var toMemberID = parseInt($(this).attr("memberID"));
+        // Send friend request to database
+        $.ajax({
+            type: "POST",
+            url: "/inkle/revokeRequest/",
+            data: { "toMemberID" : toMemberID },
+            success: function(title) {
+                thisElement.val("Request to follow");
+                thisElement.addClass("requestToFollow");
+                thisElement.removeClass("revokeRequest");
+                thisElement.attr("title", title);
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+    });
     
 });
