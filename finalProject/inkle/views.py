@@ -96,7 +96,8 @@ def search_view(request, query = ""):
         else:
             m.relationship = "self"
             
-        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
 
     for s in spheres:
         s.button_list = []
@@ -121,7 +122,8 @@ def requested_view(request):
     members = member.requested.all()
 
     for m in members:
-        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
         m.relationship = "pending"
         m.button_list = []
         m.button_list.append(buttonDictionary["reject"])
@@ -142,7 +144,8 @@ def followers_view(request):
      members = [f.follower for f in member.followers.all()]
 
      for m in members:
-         m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+         temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+         m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
          m.relationship = "friend"
          
          m.button_list = []
@@ -167,7 +170,8 @@ def circles_view(request):
     members = member.accepted.all()
     for m in members:
         m.relationship = "friend"
-        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
         m.button_list = []
         m.button_list.append(buttonDictionary["stop"])
         #Add circles
@@ -194,7 +198,8 @@ def circle_members_view(request):
 
     for m in members:
         m.relationship = "friend"
-        m.num_mutual_friends = len([x for x in m.followers.all() if (x in member.followers.all())])
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
         m.button_list = []
         m.button_list.append(buttonDictionary["stop"])
         #Add circles
