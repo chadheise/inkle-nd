@@ -1,4 +1,20 @@
 $(document).ready(function() {
+    $("#addToCircleInput").live("focus", function() {
+        if ($(this).val() == "Add people to this circle")
+        {
+            $(this).val("");
+            $(this).css("color", "#000");
+        }
+    });
+    
+    $("#addToCircleInput").live("blur", function() {
+        if ($(this).val() == "")
+        {
+            $(this).val("Add people to this circle");
+            $(this).css("color", "#888");
+        }
+    });
+    
     // Change circle color and members when clicked
     $(".circle").live("click", function(event) {
         if ($(this).attr("id") != "newCircle")
@@ -13,17 +29,13 @@ $(document).ready(function() {
                 
                 $.ajax({
                     type: "POST",
-                    url: "/inkle/circleMembers/",
+                    url: "/inkle/circleContent/",
                     data: { "circleID" : circleID },
                     success: function(html) {
                         $("#circleContent").fadeOut("medium", function() {
-                        $("#circleManagementButtons").html(""); //Clear content
-                        if (circleID != -1) { //If not in the accepted circle
-                            $("#circleManagementButtons").append('<input id="deleteCircleButton" type="button" value="Delete this circle" circleID="' + circleID +'"/>')
-                            $("#circleManagementButtons").append('<input id="addToCircleButton" type="button" value="Add to this circle" circleID="' + circleID +'"/>')
-                        }
-                        $("#circleMembers").html(html);
-                        $("#circleContent").fadeIn("medium");
+                            $("#circleContent").html(html);
+                            $("#addToCircleInput").val("Add people to this circle");
+                            $("#circleContent").fadeIn("medium");
                         });
                         
                     },
@@ -102,5 +114,47 @@ $(document).ready(function() {
         });
     });
 
+    $("#addToCircleInput").live("keyup", function(e) {
+        var query = $("#addToCircleInput").val();
+        var circleID = parseInt($(this).attr("circleID"));
 
+        if (query != "")
+        {
+            $.ajax({
+                type: "POST",
+                url: "/inkle/suggestions/",
+                data: {"type" : "addToCircle", "circleID" : circleID, "query" : query},
+                success: function(html) {
+                    $("#addToCircleSuggestions").html(html);
+                    $("#addToCircleSuggestions").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert(error); }
+            });
+        }
+        else
+        {
+            $("#addToCircleSuggestions").fadeOut("medium");
+        }
+    });
+    
+    $(".suggestion").live("click", function() {
+        var toMemberID = $(this).attr("suggestionID");
+        var circleID = parseInt($("#addToCircleInput").attr("circleID"));
+
+        $.ajax({
+            type: "POST",
+            url: "/inkle/addToCircle/",
+            data: {"circleID" : circleID, "toMemberID" : toMemberID},
+            success: function(html) {
+                $("#circleMembers").prepend(html);
+                $("#addToCircleInput").val("");
+                $("#addToCircleSuggestions").fadeOut("medium");
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+    });
+    
+    $("#addToCircleInput").live("blur", function() {
+        $("#addToCircleSuggestions").fadeOut("medium");
+    });
 });

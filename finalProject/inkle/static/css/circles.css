@@ -115,6 +115,29 @@
     margin-bottom: 10px;
 }
 
-#addToCircleButton {
+#circleButtonsContainer
+{
+    margin-bottom: 10px;
+}
+
+#deleteCircleButton
+{
+    background-color: #FF4040;
+    padding: 2px 5px 2px 5px;
+    color: white;
+    font-weight: bold;
     margin-left: 10px;
+    float: right;
+}
+
+#addToCircleInput
+{
+    padding: 2px 5px 2px 5px;
+    width: 250px;
+    color: #888;
+}
+
+#addToCircleSuggestions
+{
+    width: 260px;
 }

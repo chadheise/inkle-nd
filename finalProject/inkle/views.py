@@ -184,12 +184,13 @@ def circles_view(request):
         {"member" : member,"members" : members,"circles" : circles},
         context_instance = RequestContext(request) )
 
-def circle_members_view(request):
+def circle_content_view(request):
     # Get the circle which was clicked
     circle_id = request.POST["circleID"]
     
     member = Member.objects.get(pk = request.session["member_id"])
     
+    circle = None
     if (int(circle_id) == -1):
         members = member.accepted.all()
     else:
@@ -208,8 +209,8 @@ def circle_members_view(request):
         for c in m.circles2:
                 c.members2 = c.members.all()
 
-    return render_to_response( "circleMembers.html", 
-        {"members" : members},
+    return render_to_response("circleContent.html", 
+        {"circle" : circle, "members" : members},
         context_instance = RequestContext(request) )
 
 def spheres_view(request):
@@ -222,7 +223,7 @@ def spheres_view(request):
         s.button_list = []
         #s.button_list.append()
 
-    return render_to_response( "spheress.html",
+    return render_to_response( "spheres.html",
         {"member" : member,"spheres" : spheres},
         context_instance = RequestContext(request) )
 
@@ -256,6 +257,23 @@ def suggestions_view(request, query = ""):
         if (spheres):
             categories.append((spheres, "Spheres"))
         
+        footerSubject = ""
+
+    elif (query_type == "addToCircle"):
+        circle_id = request.POST["circleID"]
+        circle = Circle.objects.get(pk = circle_id)
+
+        member = Member.objects.get(pk = request.session["member_id"])
+        following = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        circle_members = circle.members.all()
+        people = list(set(following).difference(set(circle_members)))
+       
+        categories = []
+        if (people):
+            for p in people:
+                p.name = p.first_name + " " + p.last_name
+            categories = [(people,)]
+
         footerSubject = ""
 
     return render_to_response("suggestions.html",
