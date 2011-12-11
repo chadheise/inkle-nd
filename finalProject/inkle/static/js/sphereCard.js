@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    function hideSphereCard(sphereID) {
+        $("#sphereCard_"+sphereID).fadeOut('medium');
+    }
+
     $(".joinSphere").live("click", function() {
         var thisElement = $(this);
         var sphereID = parseInt($(this).attr("sphereID"));
@@ -17,6 +21,7 @@ $(document).ready(function() {
         });
     });
 
+    /*----------------------Leave Sphere Button --------------------------*/
     $(".leaveSphere").live("click", function() {
         var thisElement = $(this);
         var sphereID = parseInt($(this).attr("sphereID"));
@@ -32,6 +37,13 @@ $(document).ready(function() {
             },
             error: function(a, b, error) { alert(error); }
         });
+        
+        $("div").each( function() {
+            if ($(this).is("#memberSpheres")) {
+                hideSphereCard(sphereID);
+            }
+        });
+            
     });
     
 });
