@@ -21,6 +21,7 @@
     line-height: 14px;
     display: none;
     z-index: 2;
+    position: absolute;
 }
 
 .suggestion
