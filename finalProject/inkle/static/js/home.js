@@ -140,7 +140,7 @@ $(document).ready(function() {
     });
 
     $(".suggestion").live("click", function() {
-        var locationID = $(this).attr("locationID");
+        var locationID = $(this).attr("suggestionID");
         if ($(this).parent().attr("id") == "dinnerInklingSuggestions")
         {
             var inklingType = "dinner"

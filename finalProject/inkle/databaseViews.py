@@ -194,6 +194,21 @@ def add_to_circle_view(request):
         follower = to_member.followers.filter(follower=from_member)[0]
         follower.count += 1
         follower.save()
+    
+    to_member.relationship = "friend"
+    temp = [x for x in Member.objects.all() if (from_member in [y.follower for y in x.followers.all()] )]
+    to_member.num_mutual_followings = len( [x for x in temp if to_member in [y.follower for y in x.followers.all()] ] )
+    to_member.button_list = []
+    to_member.button_list.append(buttonDictionary["stop"])
+    #Add circles
+    to_member.button_list.append(buttonDictionary["circles"])
+    to_member.circles2 = [c for c in from_member.circles.all()]
+    for c in to_member.circles2:
+        c.members2 = c.members.all()
+   
+    return render_to_response("memberCard.html",
+        { "m" : to_member },
+        context_instance = RequestContext(request) )
 
     return HttpResponse()
 

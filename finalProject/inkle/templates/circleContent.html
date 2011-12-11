@@ -1,0 +1,13 @@
+{% if circle %}
+    <div id="circleButtonsContainer">
+        <input id="addToCircleInput" type="text" circleID="{{ circle.id }}" />
+        <p id="addToCircleSuggestions" class="suggestions"></p> 
+        <input id="deleteCircleButton" type="button" value="Delete this circle" circleID="{{ circle.id }}" />
+    </div>
+{% endif %}
+
+<div id="circleMembers">
+    {% for m in members %}
+        {% include "memberCard.html" %}
+    {% endfor %}
+</div>
