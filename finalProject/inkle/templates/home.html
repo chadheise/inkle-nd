@@ -1,18 +1,61 @@
 {% extends "base.html" %}
 
+{% block title %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/home.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
+{% endblock title%}
+
 {% block header %}
     {% include "header.html" %}
 {% endblock header %}
 
 {% block mainContent %}
-    <div id="mainContent">
-        <div id="dinnerInkling" class="inkling">
+    <div id="mainContent" class="container_24">
+        <div class="grid_3 alpha omega">
+            <div class="selectedDate date grid_3" day="11" month="12">
+                <p class="month">December</p>
+                <p class="day">11</p>
+            </div>
+            <div class="date grid_3" day="12" month="12">
+                <p class="month">December</p>
+                <p class="day">12</p>
+            </div>
+            <div class="date grid_3" day="13" month="12">
+                <p class="month">December</p>
+                <p class="day">13</p>
+            </div>
+        </div>
+
+        <div id="dinnerInkling" class="inkling grid_6 push_1 alpha omega">
             <div>
                 <p class="suggestionTitle">Dinner</p>
-                <input id="dinnerInklingInput" class="suggestionInput" type="text" />
+                <img src="http://dummyimage.com/230x230/aaa/fff.jpg&text=+" />
+                <input id="dinnerInklingInput" class="inklingInput" type="text" />
             </div>
 
             <p id="dinnerInklingSuggestions" class="suggestions">
+            </p> 
+        </div>
+
+        <div id="pregameInkling" class="inkling grid_6 push_2 alpha omega">
+            <div>
+                <p class="suggestionTitle">Pregame</p>
+                <img src="http://dummyimage.com/230x230/aaa/fff.jpg&text=+" />
+                <input id="pregameInklingInput" class="inklingInput" type="text" />
+            </div>
+
+            <p id="pregameInklingSuggestions" class="suggestions">
+            </p> 
+        </div>
+
+        <div id="mainEventInkling" class="inkling grid_6 push_3 alpha omega">
+            <div>
+                <p class="suggestionTitle">Main Event</p>
+                <img src="http://dummyimage.com/230x230/aaa/fff.jpg&text=+" />
+                <input id="mainEventInklingInput" class="inklingInput" type="text" />
+            </div>
+
+            <p id="mainEventInklingSuggestions" class="suggestions">
             </p> 
         </div>
     </div>

@@ -33,4 +33,6 @@ urlpatterns = patterns(
     (r"^joinSphere/$", "join_sphere_view"),
     (r"^leaveSphere/$", "leave_sphere_view"),
     (r"^suggestions/$", "suggestions_view"),
+    (r"^setInkling/$", "set_inkling_view"),
+    (r"^getInklings/$", "get_inklings_view"),
 )

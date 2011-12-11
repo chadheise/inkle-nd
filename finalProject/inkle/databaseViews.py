@@ -277,3 +277,61 @@ def join_sphere_view(request):
     member.spheres.add(sphere)
 
     return HttpResponse()
+
+def set_inkling_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the type of inkling
+    inkling_type = request.POST["inklingType"]
+
+    # Get the location where the user is going
+    location_id = request.POST["locationID"]
+    location = Location.objects.get(pk = location_id)
+    
+    # Get the date
+    date = request.POST["date"]
+
+    # Get the event for the location/type/date combination
+    event = Event.objects.filter(location = location, category = inkling_type, date = date)
+    if (event):
+        event = event[0]
+
+    # If no event exists, create it
+    else:
+        print date
+        event = Event(location = location, category = inkling_type, date = date)
+        event.save()
+    
+    # See if the logged in member already has an event for the location/date combination
+    conflictingEvent = member.events.filter(category = inkling_type, date = date)
+    if (conflictingEvent):
+        member.events.remove(conflictingEvent[0])
+
+    # Add the event to the logged in member's events
+    else:
+        member.events.add(event)
+
+    return HttpResponse(location.name)
+
+def get_inklings_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the date
+    date = request.POST["date"]
+    
+    # Get the inklings
+    dinnerLocation = ""
+    pregameLocation = ""
+    mainEventLocation = ""
+
+    for event in member.events.filter(date = date):
+        if (event.category == "dinner"):
+            dinnerLocation = event.location.name
+        elif (event.category == "pregame"):
+            pregameLocation = event.location.name
+        elif (event.category == "mainEvent"):
+            mainEventLocation = event.location.name
+   
+    return HttpResponse(dinnerLocation + "&&&" +  pregameLocation + "&&&" + mainEventLocation)
