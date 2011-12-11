@@ -63,10 +63,14 @@ def search_view(request, query = ""):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
 
-    members = Member.objects.filter(Q(username__contains = query) | Q(first_name__contains = query) | Q(last_name__contains = query))
+    split_query = query.split()
+    if (len(split_query) == 1):
+        members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query))
+    else:
+        members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = split_query[0]) | Q(last_name__contains = split_query[1]))
     members.length = len(members)
 
-    locations = Location.objects.filter(Q(name__contains = query) | Q(city__contains = query))
+    locations = Location.objects.filter(Q(name__contains = query))
     locations.length = len(locations)
     
     spheres = Sphere.objects.filter(Q(name__contains = query))
