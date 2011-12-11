@@ -212,6 +212,20 @@ def circle_members_view(request):
         {"members" : members},
         context_instance = RequestContext(request) )
 
+def spheres_view(request):
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+
+    spheres = member.spheres.all()
+
+    for s in spheres:
+        s.button_list = []
+        #s.button_list.append()
+
+    return render_to_response( "spheress.html",
+        {"member" : member,"spheres" : spheres},
+        context_instance = RequestContext(request) )
+
 def suggestions_view(request, query = ""):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):

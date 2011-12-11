@@ -26,12 +26,6 @@
                     <li id="displayPhone">Phone: {{ member.phone }}</li>
                     <li id="displayBirthday">Birthday: {{ member.birthday }}</li>
                     <li id="displayGender">Gender: {{ member.gender }}</li>
-                    <li>Spheres: 
-                        <ul>
-                            {% for s in member.spheres2 %}
-                                <li> {{ s.name }} </li>
-                            {% endfor %}
-                        </ul>
                 </ul>
                 <input type="button" value="Edit Profile" id="editProfileButton" class="profileButton"/>
             </div>
@@ -58,11 +52,12 @@
             
         </div>
         
-        <div class="grid_16">
+        <div class="grid_16" >
             <div class="nav push_2 alpha">
-                <input class="navButton grid_4" type="button" value="Requests"/>
-                <input class="navButton selected grid_4" type="button" value="Circles"/>
-                <input class="navButton grid_4" type="button" value="Followers"/>
+                <input class="navButton grid_3" type="button" value="Requests"/>
+                <input class="navButton selected grid_3" type="button" value="Circles"/>
+                <input class="navButton grid_3" type="button" value="Spheres"/>
+                <input class="navButton grid_3" type="button" value="Followers"/>
             </div>
             <div class="clear"></div>
             <div id="primaryContent" >

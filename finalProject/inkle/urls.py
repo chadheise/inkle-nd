@@ -17,6 +17,7 @@ urlpatterns = patterns(
     (r"^manage/$", "manage_view"),
     (r"^search/(?P<query>.+)/$", "search_view"),
     (r"^requested/$", "requested_view"),
+    (r"^spheres/$", "spheres_view"),
     (r"^followers/$", "followers_view"),
     (r"^followRequest/$", "follow_request_view"),
     (r"^revokeRequest/$", "revoke_request_view"),
