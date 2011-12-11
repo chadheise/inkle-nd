@@ -1,28 +1,49 @@
 $(document).ready(function() {
+            var month = $(".selectedDate").attr("month");
+            var day = $(".selectedDate").attr("day");
+            var date = "2011-" + month + "-" + day;
+        
+            $.ajax({
+                type: "POST",
+                url: "/inkle/getInklings/",
+                data: {"date" : date},
+                success: function(locations) {
+                    locations = locations.split("&&&");
+                    $("#dinnerInklingInput").val(locations[0]);
+                    $("#pregameInklingInput").val(locations[1]);
+                    $("#mainEventInklingInput").val(locations[2]);
+                },
+                error: function(a, b, error) { alert(error); }
+            });
+
     $(".date").click(function() {
-        $(".selectedDate").removeClass("selectedDate");
-        $(this).addClass("selectedDate");
+        if (!$(this).hasClass("selectedDate"))
+        {
+            $(".selectedDate").removeClass("selectedDate");
+            $(this).addClass("selectedDate");
         
-        var month = $(this).attr("month");
-        var day = $(this).attr("day");
-        var date = "2011-" + month + "-" + day;
+            var month = $(this).attr("month");
+            var day = $(this).attr("day");
+            var date = "2011-" + month + "-" + day;
         
-        $.ajax({
-            type: "POST",
-            url: "/inkle/getInklings/",
-            data: {"date" : date},
-            success: function(locations) {
-                locations = locations.split("&&&");
-                $("#dinnerInklingInput").val(locations[0]);
-                $("#pregameInklingInput").val(locations[1]);
-                $("#mainEventInklingInput").val(locations[2]);
-            },
-            error: function(a, b, error) { alert(error); }
-        });
+            $.ajax({
+                type: "POST",
+                url: "/inkle/getInklings/",
+                data: {"date" : date},
+                success: function(locations) {
+                    $("#inklings").fadeOut("medium", function() {
+                        locations = locations.split("&&&");
+                        $("#dinnerInklingInput").val(locations[0]);
+                        $("#pregameInklingInput").val(locations[1]);
+                        $("#mainEventInklingInput").val(locations[2]);
+                
+                        $("#inklings").fadeIn("medium");
+                    });
+                },
+                error: function(a, b, error) { alert(error); }
+            });
+        }
     });
-    
-    // Set initial inkling input values
-    $(".selectedDate").trigger("click");
     
     $(".inklingInput").keyup(function(e) {
         var thisElement = $(this);
