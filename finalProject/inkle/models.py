@@ -137,8 +137,8 @@ class Member(User):
     events = models.ManyToManyField(Event)
 
     gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
-    birthday = models.DateField(auto_now_add = True)
-    phone = models.IntegerField(max_length = 10, default = "0000000000")
+    birthday = models.CharField(max_length = 10, default = "-1")
+    phone = models.IntegerField(max_length = 10, default = "-1")
     # image ???
     
     def __unicode__(self):
