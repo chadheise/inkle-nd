@@ -17,6 +17,8 @@ buttonDictionary = {
     "circles" : ("circlesCardButton", "Circles"),
     "reject" : ("rejectRequest", "Reject request", "Do not allow this person to follow me"),
     "accept" : ("acceptRequest", "Accept request", "Allow this person to follow me"),
+    "join" : ("joinSphere", "Join sphere", "Beome a member of this sphere"),
+    "leave" : ("leaveSphere", "Leave sphere", "I no longer wish to be a part of this sphere"),
 }
 
 def edit_profile_view(request):
