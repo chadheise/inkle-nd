@@ -102,9 +102,9 @@ def search_view(request, query = ""):
     for s in spheres:
         s.button_list = []
         if s in member.spheres.all():
-            s.button_list.append(("leaveSphere", "Leave sphere"))
+            s.button_list.append(buttonDictionary["leave"])
         else:
-            s.button_list.append(("joinSphere", "Join sphere"))
+            s.button_list.append(buttonDictionary["join"])
 
 
     return render_to_response( "search.html",
@@ -220,9 +220,9 @@ def spheres_view(request):
 
     for s in spheres:
         s.button_list = []
-        #s.button_list.append()
+        s.button_list.append(buttonDictionary["leave"])
 
-    return render_to_response( "spheress.html",
+    return render_to_response( "spheres.html",
         {"member" : member,"spheres" : spheres},
         context_instance = RequestContext(request) )
 
