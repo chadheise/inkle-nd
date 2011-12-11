@@ -23,12 +23,14 @@ def edit_profile_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
 
+    #print = request.POST["password"]
+
     member.first_name = request.POST["first_name"]
     member.last_name = request.POST["last_name"]
     #member.set_password(request.POST["password"])
     member.email = request.POST["email"]
     member.phone = request.POST["phone"]
-    ##member.birthday = request.POST["birthday"]
+    #member.birthday = request.POST["birthday"]
     member.gender = request.POST["gender"]
     member.save()
     
