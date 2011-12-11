@@ -22,11 +22,9 @@ def home_view(request):
     
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
-
-    locations = Location.objects.all()
     
     return render_to_response( "home.html",
-        {"member" : member, "locations" : locations },
+        { "member" : member },
         context_instance = RequestContext(request) )
 
 def manage_view(request):

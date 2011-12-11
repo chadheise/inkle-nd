@@ -1,21 +1,21 @@
 .suggestionTitle
 {
+    text-align: center;
     color: #385E0F;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
 }
 
-.suggestionInput
+.inklingInput
 {
     font-size: 18px;
     padding: 5px;
-    width: 275px;
+    width: 215px;
 }
 
 .suggestions
 {
     border: solid 1px #919191;
-    width: 285px;
     background-color: #A0A0A0;
     font-size: 10px;
     line-height: 14px;

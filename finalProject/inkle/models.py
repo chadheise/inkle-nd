@@ -119,10 +119,10 @@ class Follower(models.Model):
 class Event(models.Model):
     location = models.ForeignKey(Location)
     category = models.CharField(max_length = 1, choices = EVENT_CATEGORIES, default = "D")
-    date = models.DateField(auto_now_add = True)
+    date = models.CharField(max_length = 10)
     
     def __unicode__(self):
-        return "%s, %s (%s)" % (self.member.username, self.location.name, self.date)
+        return "%s (%s, %s)" % (self.location.name, self.date, category)
 
 class Member(User):
     # User contains id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined

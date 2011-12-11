@@ -1,0 +1,46 @@
+.date
+{
+    text-align: center;
+    border: solid 2px #385E0F;
+    height: 95px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.month
+{
+    font-size: 18px;
+    padding: 5px 0px 5px 0px;
+    background-color: #DDD;
+}
+
+.day
+{
+    padding-top: 5px;
+    font-size: 40px;
+}
+
+.selectedDate
+{
+    background-color: #DDD;
+}
+
+.selectedDate .month
+{
+    background-color: #009ACD;
+    background-color: #FF4040;
+    color: #FFF;
+}
+
+.selectedDate .day
+{
+    color: #009ACD;
+    color: #FF4040;
+}
+
+.inkling
+{
+    padding: 3px 10px 10px 10px;
+    border: solid 2px #385E0F;
+    background-color: #DDD;
+}
