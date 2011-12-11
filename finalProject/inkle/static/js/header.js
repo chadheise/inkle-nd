@@ -15,6 +15,8 @@ $(document).ready(function() {
             $(this).val("Search");
             $(this).css("color", "#888");
         }
+        
+        $("#searchSuggestions").fadeOut("medium");
     });
 
     $("#searchInput").keydown(function(e) {
@@ -49,5 +51,10 @@ $(document).ready(function() {
         {
             $("#searchSuggestions").fadeOut("medium");
         }
+    });
+    
+    $(".suggestion").live("click", function() {
+        var query = $(this).children(".suggestionText").text();
+        window.location.href = "/inkle/search/" + query;
     });
 });
