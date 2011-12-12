@@ -1,0 +1,28 @@
+{% block locationCard %}
+      
+    <div id="locationCard_{{l.id}}"class="grid_16">
+ 
+        <div class="memberCard push_1 grid_14">
+            <div class="grid_3">
+                <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
+            </div>
+                <div class="grid_9">
+                    <p class="locationName">{{ l.name }}</p>
+                    <p class="locationCategory">{{l.category}}</p>
+                    <div class="locationInfo grid_4">
+                        <p><span class="locationInfoLabel">Phone: </span>{{l.phone}}</p>
+                        <p><span class="locationInfoLabel">Website: </span>{{l.website}}</p>
+                    </div>
+                    <div class="locationInfo push_1 grid_4">
+                        <p>{{l.street}}</p>
+                        <p>{{l.city}}, {{l.state}} {{l.zip_code}}</p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        
+    </div>
+    <div class="clear"></div>
+      
+{% endblock locationCard %}
