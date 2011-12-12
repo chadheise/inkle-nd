@@ -67,8 +67,35 @@ def location_view(request, location_id = None):
     except:
         raise Http404()
 
+    now = datetime.datetime.now()
+    date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
+    
+    people = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+    dinnerPeople = [p for p in people if (p.events.filter(date = date, category = "dinner", location = location))]
+    for m in dinnerPeople:
+        m.spheres2 = m.spheres.all()
+        m.relationship = "friend"
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.button_list = []
+    pregamePeople = [p for p in people if (p.events.filter(date = date, category = "pregame", location = location))]
+    for m in pregamePeople:
+        m.spheres2 = m.spheres.all()
+        m.relationship = "friend"
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.button_list = []
+    maineventPeople = [p for p in people if (p.events.filter(date = date, category = "mainEvent", location = location))]
+    for m in maineventPeople:
+        m.spheres2 = m.spheres.all()
+        m.relationship = "friend"
+        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.button_list = []
+
+    
     return render_to_response( "location.html",
-        {"member" : member, "location" : location},
+        {"member" : member, "location" : location, "dinnerPeople" : dinnerPeople, "pregamePeople" : pregamePeople, "maineventPeople" : maineventPeople},
         context_instance = RequestContext(request) )
 
 def search_view(request, query = ""):
@@ -339,8 +366,6 @@ def populate_location_board_view(request):
     elif (people_type == "circle"):
         circle = Circle.objects.get(pk = people_id)
         people = circle.members.all()
-
-    print "People: " + str(people)
 
     locations = []
     for p in people:
