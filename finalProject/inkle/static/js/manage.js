@@ -3,7 +3,6 @@ $(document).ready(function() {
     //Set default primaryContent
         // Get Requests HTML
         var contentType = $("#defaultContent").attr("data");
-        //alert(contentType);
 
         $.ajax({
             type: "POST",

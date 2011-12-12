@@ -67,14 +67,8 @@ $(document).ready(function() {
            type: "POST",
            url: "/inkle/addLocation/",
            data: { "locationName" : locationName },
-           success: function(html) {
-               $("#newLocationText").fadeOut('medium', function() {
-                   $("#newLocationButton").fadeIn('medium');
-                   $("#newLocationText").attr("value", "");
-                });
-               $("#newLocationSubmit").fadeOut('medium');
-               $("#newLocationCancel").fadeOut('medium');
-               
+           success: function(locationID) {
+               window.location.href = "/inkle/location/" + locationID;
            },
            error: function(a, b, error) { alert(error); }
        }); 
