@@ -4,9 +4,12 @@ $(document).ready(function() {
 
     // Toggle location edit content
     $("#locationEditButton").live("click", function() {
-        $("#locationEditButton").hide();
-        $("#locationContent").hide();
-        $("#locationEditContent").show();
+        $("#inklingsTonight").fadeOut('medium', function() {
+            $("#locationEditContent").fadeIn('medium');
+        });
+        $("#locationEditButton").fadeOut('medium');
+        $("#locationContent").fadeOut('medium');
+        
     
         $(".hidden").removeClass("hidden");
     });
@@ -14,9 +17,11 @@ $(document).ready(function() {
     // Toggle location edit content
     $("#locationSubmitButton").live("click", function() {
         // Show edit content
-        $("#locationEditButton").show();
-        $("#locationContent").show();
-        $("#locationEditContent").hide();
+        $("#locationEditContent").fadeOut('medium', function() {
+            $("#locationEditButton").fadeIn('medium');
+            $("#locationContent").fadeIn('medium');
+            $("#inklingsTonight").fadeIn('medium');
+        });
 
         // Get location ID
         var locationID = parseInt($("#locationID").val());
@@ -55,8 +60,10 @@ $(document).ready(function() {
     
     // Toggle location edit content
     $("#locationCancelButton").click(function() {
-        $("#locationEditButton").show();
-        $("#locationContent").show();
-        $("#locationEditContent").hide();
+            $("#locationEditContent").fadeOut('medium', function() {
+                $("#locationEditButton").fadeIn('medium');
+                $("#locationContent").fadeIn('medium');
+                $("#inklingsTonight").fadeIn('medium');
+            });
     });
 });
