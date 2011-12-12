@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/location.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/location.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/location.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/memberCard.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/location.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/memberCard.js"></script>
 {% endblock title%}
 
 {% block header %}
@@ -115,6 +117,23 @@
                 {% endif %}
                 </div>
                 <div class="clear"></div>
+                
+                <div id="InklingsTonight" class="grid_16">
+                    <h4>The following people are going here tonight:<h4>
+                    <h3>Dinner</h3>
+                    {% for m in dinnerPeople %}
+                        {% include "memberCard.html" %}
+                    {% endfor %}
+                    <h3>Pregame</h3>
+                    {% for m in pregamePeople %}
+                        {% include "memberCard.html" %}
+                    {% endfor %} 
+                    <h3>Main Event</h3>
+                    {% for m in maineventPeople %}
+                        {% include "memberCard.html" %}
+                    {% endfor %}
+                </div>
+                
             </div>
         </div>
 {% endblock mainContent%}
