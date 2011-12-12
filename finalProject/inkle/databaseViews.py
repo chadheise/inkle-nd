@@ -53,6 +53,8 @@ def edit_location_view(request, location_id = None):
     location.city = request.POST["city"]
     location.state = request.POST["state"]
     location.zip_code = int(request.POST["zipCode"])
+    #location.phone = int(request.POST["phone"])
+    #location.website = request.POST["website"]
     location.category = request.POST["category"]
     
     location.save()
