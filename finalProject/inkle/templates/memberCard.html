@@ -4,7 +4,11 @@
  
         <div class="memberCard push_1 grid_14">
             <div class="grid_3">
-                <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
+                {% if m.image %}
+                    <img class="cardImage" src="{{ STATIC_URL }}{{ m.image }}" />
+                {% else %}
+                    <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
+                {% endif %}
             </div>
             <!-- <div class="grid_10"> -->
                 <div class="grid_7">

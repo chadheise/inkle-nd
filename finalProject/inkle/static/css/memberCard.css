@@ -13,6 +13,8 @@ ul {
 {
     border: solid black 1px;
     margin-top: 5px;
+    height: 100px;
+    width: 100px;
 }
 
 .memberName

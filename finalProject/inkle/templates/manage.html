@@ -29,8 +29,8 @@
                 <ul>
                     <li id="displayName">{{ member.first_name }} {{ member.last_name }}</li>
                     <li id="displayEmail">Email: {{ member.email }}</li>
-                    <li id="displayPhone">Phone: {{ member.phone }}</li>
-                    <li id="displayBirthday">Birthday: {{ member.birthday }}</li>
+                    <li id="displayPhone" value="{{member.phone}}">Phone: {{ member.phone }}</li>
+                    <li id="displayBirthday" value="{{member.birthday}}">Birthday: {{ member.birthday }}</li>
                     <li id="displayGender">Gender: {{ member.gender }}</li>
                 </ul>
                 <input type="button" value="Edit Profile" id="editProfileButton" class="profileButton"/>
@@ -38,7 +38,7 @@
             <div class="edit">
                 <ul>
                     <li><input id="inputFirstName" value="{{ member.first_name }}" /> <input id="inputLastName" value="{{ member.last_name }}" /></li>
-                    <li>Password: <input id="inputPassword" value="{{ member.password }}"/></li>
+                    <!--<li>Password: <input id="inputPassword" value="{{ member.password }}"/></li>-->
                     <li>Email: <input id="inputEmail" value="{{ member.email }}"/></li>
                     <li>Phone: <input id="inputPhone" value="{{ member.phone }}"/></li>
                     <li>Birthday: <input id="inputBirthday" value="{{ member.birthday }}"/></li>

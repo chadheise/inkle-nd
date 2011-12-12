@@ -31,9 +31,13 @@ def edit_profile_view(request):
     member.last_name = request.POST["last_name"]
     #member.set_password(request.POST["password"])
     member.email = request.POST["email"]
-    member.phone = request.POST["phone"]
-    #member.birthday = request.POST["birthday"]
+    if request.POST["phone"] == "":
+        member.phone = 0
+    else:
+        member.phone = request.POST["phone"]
+    member.birthday = request.POST["birthday"]
     member.gender = request.POST["gender"]
+    print member
     member.save()
     
     return HttpResponse()
