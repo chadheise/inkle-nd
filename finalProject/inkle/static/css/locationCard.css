@@ -1,0 +1,48 @@
+.locationCard
+{
+    border: 2px solid darkgray ;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.cardImage
+{
+    border: solid black 1px;
+    margin-top: 5px;
+}
+
+.locationName
+{
+    font-family: helvetica;
+    /*color: #385E0F;*/
+    color: #009ACD;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.locationCategory
+{
+    font-size: 14px;
+}
+
+.locationAddress
+{
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.locationInfo
+{
+    font-family: helvetica;
+    font-size: 10px;
+    color: navy;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.locationInfoLabel
+{
+    color: gray;
+}

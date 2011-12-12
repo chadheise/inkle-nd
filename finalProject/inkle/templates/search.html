@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/search.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/locationCard.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}/js/search.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
@@ -43,7 +44,7 @@
                     <p>No locations match your query.</p>
                 {% else %}
                     {% for l in locations %}
-                        <p>{{ l.name }}</p>
+                        {% include "locationCard.html" %}
                     {% endfor %}
                 {% endif %}
             </div>
