@@ -23,19 +23,23 @@ def home_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
     
+    member.num_requests = 0
+    for r in member.requested.all():
+        member.num_requests += 1
+    
     return render_to_response( "home.html",
         { "member" : member },
         context_instance = RequestContext(request) )
 
-def manage_view(request):
+def manage_view(request, defaultContent = "circles"):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
           return HttpResponseRedirect("/inkle/login")
 
     #Get default data to load
-    defaultContent = "circles"
-    if "defaultContent" in request.POST:
-        defaultContent = request.POST["defaultContent"]
+    #defaultContent = "circles"
+    #if ("defaultContent" in request.POST):
+    #    defaultContent = str(request.POST["defaultContent"])
 
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -44,6 +48,8 @@ def manage_view(request):
     member.num_requests = 0
     for r in member.requested.all():
         member.num_requests += 1
+
+    print {"member" : member, "defaultContent" : defaultContent}
 
     return render_to_response( "manage.html",
         {"member" : member, "defaultContent" : defaultContent},
@@ -70,6 +76,10 @@ def search_view(request, query = ""):
     
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
+
+    member.num_requests = 0
+    for r in member.requested.all():
+        member.num_requests += 1
 
     split_query = query.split()
     if (len(split_query) == 1):
@@ -123,7 +133,7 @@ def search_view(request, query = ""):
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
         context_instance = RequestContext(request) )
 
-def requests_view(request):
+def requested_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
            return HttpResponseRedirect("/inkle/login")
