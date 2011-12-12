@@ -53,13 +53,19 @@ def edit_location_view(request, location_id = None):
     location.city = request.POST["city"]
     location.state = request.POST["state"]
     location.zip_code = int(request.POST["zipCode"])
-    #location.phone = int(request.POST["phone"])
-    #location.website = request.POST["website"]
+    location.phone = int(request.POST["phone"])
     location.category = request.POST["category"]
+    
+    newWebsite = request.POST["website"]
+    if "www" not in newWebsite:
+        newWebsite = "www." + newWebsite
+    if "http://" not in newWebsite:
+        newWebsite = "http://" + newWebsite
+    location.website= newWebsite
     
     location.save()
     
-    return HttpResponse()
+    return HttpResponse(newWebsite)
 
 def follow_request_view(request):
     # Get the member who is logged in
