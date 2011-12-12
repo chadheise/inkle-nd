@@ -60,5 +60,25 @@
                 </p> 
             </div>
         </div>
+    
+        <div class="clear"></div>
+
+        <div class="grid_24">
+            <select id="locationBoardSelect" class="grid_4 alpha omega">
+                <option>Everyone</option>i
+                {% for sphere in member.spheres2 %}
+                    <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
+                {% endfor %}
+                {% for circle in member.circles2 %}
+                    <option circleID="{{ circle.id }}">{{ circle.name }}</option>
+                {% endfor %}
+            </select>
+            
+            <div class="clear"></div>
+
+            <div id="locationBoard" class="grid_16 push_4">
+                {% include "locationBoard.html" %}
+            </div>
+        </div>
     </div>
 {% endblock mainContent%}

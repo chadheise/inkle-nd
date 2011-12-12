@@ -27,14 +27,12 @@
 
 .selectedDate .month
 {
-    background-color: #009ACD;
     background-color: #FF4040;
     color: #FFF;
 }
 
 .selectedDate .day
 {
-    color: #009ACD;
     color: #FF4040;
 }
 
@@ -43,4 +41,33 @@
     padding: 3px 10px 10px 10px;
     border: solid 2px #385E0F;
     background-color: #DDD;
+}
+
+.locationBoardCard
+{
+    border: solid 2px #385E0F;
+    background-color: #DDD;
+    padding: 10px;
+    height: 75px;
+    margin-bottom: 10px;
+}
+
+.locationBoardCardCount
+{
+    border: solid 1px black;
+    text-align: center;
+    height: 57px;
+    font-size: 32px;
+    padding-top: 15px;
+    font-weight: bold;
+    color: #FFF;
+    background-color: #009ACD;
+    margin-right: 15px;
+}
+
+.locationBoardCardName
+{
+    margin-top: 3px;
+    font-size: 36px;
+    color: #385E0F;
 }
