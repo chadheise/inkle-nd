@@ -334,7 +334,7 @@ def populate_location_board_view(request):
 
     elif (people_type == "sphere"):
         sphere = Sphere.objects.get(pk = people_id)
-        people = sphere.members.all()
+        people = sphere.member_set.all()
     
     elif (people_type == "circle"):
         circle = Circle.objects.get(pk = people_id)
