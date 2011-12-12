@@ -71,6 +71,21 @@ $(document).ready(function() {
         },
         error: function(a, b, error) { alert(error); }
     });
+    
+    // Initialize the locations board
+    $("#locationBoardPeopleSelect option:nth(1)").attr("selected", "selected");
+    $("#locationBoardInklingSelect option:first").attr("selected", "selected");
+    $.ajax({
+        type: "POST",
+        url: "/inkle/populateLocationBoard/",
+        data: {"peopleType" : "other", "peopleID" : "allCircles", "inklingType" : "dinner", "date" : date},
+        success: function(html) {
+           $("#locationBoard").html(html);
+        },
+        error: function(a, b, error) { alert(error); }
+    });
+
+
 
     $(".date").click(function() {
         if (!$(this).hasClass("selectedDate"))
@@ -96,6 +111,9 @@ $(document).ready(function() {
                 },
                 error: function(a, b, error) { alert(error); }
             });
+   
+            // Update the location board
+            $(".locationBoardSelect").trigger("change");
         }
     });
     
