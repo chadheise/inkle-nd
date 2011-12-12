@@ -139,7 +139,7 @@ class Member(User):
     gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
     birthday = models.CharField(max_length = 10, default = "-1")
     phone = models.IntegerField(max_length = 10, default = "-1")
-    # image ???
+    image = models.CharField(max_length = 100, default = "")
     
     def __unicode__(self):
         return "%s" % (self.username)

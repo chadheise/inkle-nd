@@ -20,7 +20,11 @@
     <div id="mainContent" class="container_24">
         <div id="profileInfo" class="grid_8">
             <h3>Profile Info</h3>
-            <img class="cardImage" src="http://dummyimage.com/200x200/AAA/fff.jpg&text=+" />
+            {% if member.image %}
+                <img id="profileImage" src="{{ STATIC_URL }}{{ member.image }}" />
+            {% else %}
+                <img id="profileImage" src="http://dummyimage.com/200x200/AAA/fff.jpg&text=+" />
+            {% endif %}
             <div class="display">
                 <ul>
                     <li id="displayName">{{ member.first_name }} {{ member.last_name }}</li>
