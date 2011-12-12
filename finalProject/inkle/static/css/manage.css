@@ -25,6 +25,14 @@
     display: none;
 }
 
+#profileImage
+{
+    height: 200px;
+    width: 200px;
+    border: solid 1px #777;
+    margin-top: 5px;
+}
+
 .profileButton {
     padding: 2px 5px 2px 5px;
     color: white;
