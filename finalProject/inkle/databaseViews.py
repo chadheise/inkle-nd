@@ -369,4 +369,4 @@ def add_location_view(request):
         phone = 0,
         website = "None")
     newLocation.save()
-    return HttpResponse(str(newLocation.name) + " location created")
+    return HttpResponse(newLocation.id)
