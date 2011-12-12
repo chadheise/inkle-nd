@@ -39,4 +39,5 @@ urlpatterns = patterns(
     (r"^getInklings/$", "get_inklings_view"),
     (r"^addSphere/$", "add_sphere_view"),
     (r"^addLocation/$", "add_location_view"),
+    (r"^populateLocationBoard/$", "populate_location_board_view"),
 )
