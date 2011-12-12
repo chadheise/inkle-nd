@@ -59,17 +59,17 @@ $(document).ready(function() {
     });
     
     $("#requestNotification").live("click", function() {
-            //window.location.href = "/inkle/manage/";
-
+            window.location.href = "/inkle/manage/requests";
+            
+            //$(this).post("inkle/manage/", {defaultContent : "requests"});
+/*
             $.ajax({
                 type: "POST",
                 url: "/inkle/manage/",
                 data: {defaultContent : "requests"},
-                success: function(html) {
-                    $("#primaryContent").html(html);
-                },
+                success: function() { alert("sucessful call");},
                 error: function(a, b, error) { alert(error); }
-            });
+            });*/
 
         });
 
