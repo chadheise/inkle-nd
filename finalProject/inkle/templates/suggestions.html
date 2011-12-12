@@ -5,8 +5,11 @@
       
     {% for suggestion in category %}
         <a class="suggestion" href="#" suggestionID="{{ suggestion.id }}">
-            <!--<img src="{{ suggestion.image }}" />-->
-            <img src="http://dummyimage.com/40x40/AAA/fff.jpg&text=+" />
+            {% if suggestion.image %}
+                <img class="suggestionImage" src="{{ STATIC_URL }}{{ suggestion.image }}" />
+            {% else %}
+                <img class="suggestionImage" src="http://dummyimage.com/40x40/AAA/fff.jpg&text=+" />
+            {% endif %}
             <span class="suggestionText">{{ suggestion.name }}</span>
         </a>
     {% endfor %}

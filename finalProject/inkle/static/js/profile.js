@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    if ($("#displayPhone").val() == 0) {
+        $("#displayPhone").hide();
+    }
+    if ($("#displayBirthday").val() == "") {
+        $("#displayBirthday").hide();
+    }
+    
     $("#editProfileButton").live("click", function() {
        $(".display").fadeOut('medium', function() {
            $(".edit").fadeIn('medum');
@@ -16,7 +23,7 @@ $(document).ready(function() {
         // Get input values
         var first_name = $("#inputFirstName").val();
         var last_name = $("#inputLastName").val();
-        var password = $("#inputPassword").val();
+        //var password = $("#inputPassword").val();
         var email =  $("#inputEmail").val();
         var phone = $("#inputPhone").val();
         var birthday = $("#inputBirthday").val();
@@ -27,7 +34,6 @@ $(document).ready(function() {
             url: "/inkle/editProfile/",
             data: { "first_name" : first_name,
                     "last_name" : last_name,
-                    "password" : password,
                     "email" : email,
                     "phone" : phone,
                     "birthday" : birthday,
@@ -43,6 +49,19 @@ $(document).ready(function() {
                 $("#displayBirthday").text("Birthday: " + birthday);
                 $("#displayGender").text("Gender: " + gender);
               
+                if (phone == 0) {
+                    $("#displayPhone").hide();
+                }
+                else {
+                    $("#displayPhone").show();
+                }
+                if (birthday == "") {
+                    $("#displayBirthday").hide();
+                }
+                else {
+                    $("#displayBirthday").show();
+                }
+                
                 
                 $(".edit").fadeOut('medium', function() {
                        $(".display").fadeIn('medum');

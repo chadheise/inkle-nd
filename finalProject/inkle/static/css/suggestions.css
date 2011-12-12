@@ -44,6 +44,8 @@
 {
     float: left;
     padding: 5px 10px 0px 5px;
+    height: 40px;
+    width: 40px;
 }
 
 .suggestionText
