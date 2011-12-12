@@ -1,16 +1,26 @@
 $(document).ready(function() {
     
     //Set default primaryContent
-    // Get Requests HTML
-    $.ajax({
-        type: "POST",
-        url: "/inkle/circles/",
-        data: {},
-        success: function(html) {
-            $("#primaryContent").html(html);
-        },
-        error: function(a, b, error) { alert(error); }
-    });
+        // Get Requests HTML
+        var contentType = $("#defaultContent").attr("data");
+        //alert(contentType);
+
+        $.ajax({
+            type: "POST",
+            url: "/inkle/" + contentType + "/",
+            data: {},
+            success: function(html) {
+                $("#primaryContent").html(html);
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+
+        $(".navButton").each( function() {
+           $(this).removeClass("selected");
+           if ($(this).val().toLowerCase() == contentType) {
+               $(this).addClass("selected");
+           }
+        });
     
     function loadContent(URL) {
         // Get Requests HTML
@@ -35,7 +45,7 @@ $(document).ready(function() {
         thisElement.addClass("selected")
 
         if ($(this).val() == "Requests")
-            { loadContent("/inkle/requested/") }
+            { loadContent("/inkle/requests/") }
         else if ($(this).val() == "Circles")
             { loadContent("/inkle/circles/") }
         else if ($(this).val() == "Spheres")
