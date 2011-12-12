@@ -60,18 +60,7 @@ $(document).ready(function() {
     
     $("#requestNotification").live("click", function() {
             window.location.href = "/inkle/manage/requests";
-            
-            //$(this).post("inkle/manage/", {defaultContent : "requests"});
-/*
-            $.ajax({
-                type: "POST",
-                url: "/inkle/manage/",
-                data: {defaultContent : "requests"},
-                success: function() { alert("sucessful call");},
-                error: function(a, b, error) { alert(error); }
-            });*/
-
-        });
+    });
 
     $("#requestNotification").live("mouseenter", function() {
         $(this).css("border", "solid 1px darkred");
