@@ -352,3 +352,10 @@ def get_inklings_view(request):
             mainEventLocation = event.location.name
    
     return HttpResponse(dinnerLocation + "&&&" +  pregameLocation + "&&&" + mainEventLocation)
+
+def add_sphere_view(request):
+    newSphere = Sphere(name=request.POST["sphereName"])
+    newSphere.save()
+    return HttpResponse(str(newSphere.name) + " sphere created")
+    
+    

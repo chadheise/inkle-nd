@@ -7,6 +7,7 @@
 h3 {
     font-size: 30px;
     color: #385E0F;
+
 }
 
 .searchResults ul {
@@ -25,4 +26,32 @@ h3 {
 .selected {
     background-color: #385E0F;
     color: #FFFFFF;
+}
+
+.newItemInput
+{
+    margin-top: 10px;
+}
+
+.newItemButton
+{
+    padding: 2px 5px 2px 5px;
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#newLocationButton, #newLocationSubmit, #newLocationCancel
+{
+   background-color: #009ACD;
+}
+
+#newSphereButton, #newSphereSubmit, #newSphereCancel
+{
+   background-color: #660066;
+}
+
+.newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
+{
+    display: none;
 }
