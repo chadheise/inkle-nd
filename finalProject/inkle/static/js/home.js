@@ -177,6 +177,8 @@ $(document).ready(function() {
                 data: {"type" : "inkling", "query" : query},
                 success: function(html) {
                     thisElement.parent().next().html(html);
+                    $(".suggestionImage").css("width", "40px");
+                    $(".suggestionImage").css("height", "40px");
                     thisElement.parent().next().fadeIn("medium");
                 },
                 error: function(a, b, error) { alert(error); }
