@@ -49,8 +49,17 @@
                 {% endif %}
             </div>
             
-            <div id="spheres">
-                <h3>Spheres</h3>
+            <div id="spheres" class="grid_16">
+                <div class="grid_5">
+                    <h3>Spheres</h3>
+                </div>
+                <div class="push_1 grid_10">
+                    <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
+                    <input id="newSphereText" class="newItemInput newItemText" type="text"/>
+                    <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
+                    <input id="newSphereCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+                </div>
+                <div class="clear"></div>
                 {% if spheres.length == 0 %}
                     <p>No spheres match your query.</p>
                 {% else %}

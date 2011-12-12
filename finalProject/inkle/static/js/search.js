@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    $(".filterButton").click(function() {
+    $(".filterButton").live("click", function() {
         
         if ($(this).val() == "All")
         {
@@ -52,5 +52,39 @@ $(document).ready(function() {
         }
         
     });
+   
+   $("#newSphereButton").live("click", function() {
+       $(this).fadeOut('medium', function() {
+            $("#newSphereText").fadeIn('medium');
+            $("#newSphereSubmit").fadeIn('medium');
+            $("#newSphereCancel").fadeIn('medium');
+       });
+   });
+   $("#newSphereSubmit").live("click", function() {
+       var sphereName = $("#newSphereText").val()
+       $.ajax({
+           type: "POST",
+           url: "/inkle/addSphere/",
+           data: { "sphereName" : sphereName },
+           success: function(html) {
+               $("#newSphereText").fadeOut('medium', function() {
+                   $("#newSphereButton").fadeIn('medium');
+                   $("#newSphereText").attr("value", "");
+                });
+               $("#newSphereSubmit").fadeOut('medium');
+               $("#newSphereCancel").fadeOut('medium');
+               
+           },
+           error: function(a, b, error) { alert(error); }
+       }); 
+   });
+   $("#newSphereCancel").live("click", function() {
+       $("#newSphereText").fadeOut('medium', function() {
+              $("#newSphereButton").fadeIn('medium');
+              $("#newSphereText").attr("value", "");
+           });
+          $("#newSphereSubmit").fadeOut('medium');
+          $("#newSphereCancel").fadeOut('medium');
+   });
    
 });
