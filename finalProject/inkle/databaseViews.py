@@ -358,4 +358,15 @@ def add_sphere_view(request):
     newSphere.save()
     return HttpResponse(str(newSphere.name) + " sphere created")
     
-    
+def add_location_view(request):
+    newLocation = Location(
+        name=request.POST["locationName"],
+        category = "Other",
+        street = "No Street Submited",
+        city = "City",
+        state = "AL",
+        zip_code = "00000",
+        phone = 0,
+        website = "None")
+    newLocation.save()
+    return HttpResponse(str(newLocation.name) + " location created")

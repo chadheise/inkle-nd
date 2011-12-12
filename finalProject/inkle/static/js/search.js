@@ -53,38 +53,74 @@ $(document).ready(function() {
         
     });
    
-   $("#newSphereButton").live("click", function() {
+   /*-----------------------Create New Location-------------------------*/
+   $("#newLocationButton").live("click", function() {
        $(this).fadeOut('medium', function() {
-            $("#newSphereText").fadeIn('medium');
-            $("#newSphereSubmit").fadeIn('medium');
-            $("#newSphereCancel").fadeIn('medium');
+            $("#newLocationText").fadeIn('medium');
+            $("#newLocationSubmit").fadeIn('medium');
+            $("#newLocationCancel").fadeIn('medium');
        });
    });
-   $("#newSphereSubmit").live("click", function() {
-       var sphereName = $("#newSphereText").val()
+   $("#newLocationSubmit").live("click", function() {
+       var locationName = $("#newLocationText").val()
        $.ajax({
            type: "POST",
-           url: "/inkle/addSphere/",
-           data: { "sphereName" : sphereName },
+           url: "/inkle/addLocation/",
+           data: { "locationName" : locationName },
            success: function(html) {
-               $("#newSphereText").fadeOut('medium', function() {
-                   $("#newSphereButton").fadeIn('medium');
-                   $("#newSphereText").attr("value", "");
+               $("#newLocationText").fadeOut('medium', function() {
+                   $("#newLocationButton").fadeIn('medium');
+                   $("#newLocationText").attr("value", "");
                 });
-               $("#newSphereSubmit").fadeOut('medium');
-               $("#newSphereCancel").fadeOut('medium');
+               $("#newLocationSubmit").fadeOut('medium');
+               $("#newLocationCancel").fadeOut('medium');
                
            },
            error: function(a, b, error) { alert(error); }
        }); 
    });
-   $("#newSphereCancel").live("click", function() {
-       $("#newSphereText").fadeOut('medium', function() {
-              $("#newSphereButton").fadeIn('medium');
-              $("#newSphereText").attr("value", "");
+   $("#newLocationCancel").live("click", function() {
+       $("#newLocationText").fadeOut('medium', function() {
+              $("#newLocationButton").fadeIn('medium');
+              $("#newLocationText").attr("value", "");
            });
-          $("#newSphereSubmit").fadeOut('medium');
-          $("#newSphereCancel").fadeOut('medium');
+          $("#newLocationSubmit").fadeOut('medium');
+          $("#newLocationCancel").fadeOut('medium');
    });
+   
+   /*-----------------------Create New Sphere-------------------------*/
+      $("#newSphereButton").live("click", function() {
+          $(this).fadeOut('medium', function() {
+               $("#newSphereText").fadeIn('medium');
+               $("#newSphereSubmit").fadeIn('medium');
+               $("#newSphereCancel").fadeIn('medium');
+          });
+      });
+      $("#newSphereSubmit").live("click", function() {
+          var sphereName = $("#newSphereText").val()
+          $.ajax({
+              type: "POST",
+              url: "/inkle/addSphere/",
+              data: { "sphereName" : sphereName },
+              success: function(html) {
+                  $("#newSphereText").fadeOut('medium', function() {
+                      $("#newSphereButton").fadeIn('medium');
+                      $("#newSphereText").attr("value", "");
+                   });
+                  $("#newSphereSubmit").fadeOut('medium');
+                  $("#newSphereCancel").fadeOut('medium');
+
+              },
+              error: function(a, b, error) { alert(error); }
+          }); 
+      });
+      $("#newSphereCancel").live("click", function() {
+          $("#newSphereText").fadeOut('medium', function() {
+                 $("#newSphereButton").fadeIn('medium');
+                 $("#newSphereText").attr("value", "");
+              });
+             $("#newSphereSubmit").fadeOut('medium');
+             $("#newSphereCancel").fadeOut('medium');
+      });
    
 });
