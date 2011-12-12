@@ -142,7 +142,7 @@ $(document).ready(function() {
             var inklingType = "mainEvent"; 
         }
 
-        // Get the current date
+        // Get the selected date
         var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
 
         $.ajax({
@@ -162,6 +162,43 @@ $(document).ready(function() {
                 {
                     $("#mainEventInklingInput").val(locationName);
                 }
+            },
+            error: function(a, b, error) { alert(error); }
+        });
+    });
+
+    $(".locationBoardSelect").change(function () {
+        var selectedPeopleOption = $("#locationBoardPeopleSelect option:selected");
+        if (selectedPeopleOption.attr("people"))
+        {
+            var peopleType = "other";
+            var peopleID = selectedPeopleOption.attr("people");
+        }
+        else if (selectedPeopleOption.attr("sphereID"))
+        {
+            var peopleType = "sphere";
+            var peopleID = selectedPeopleOption.attr("sphereID");
+        }
+        else if (selectedPeopleOption.attr("circleID"))
+        {
+            var peopleType = "circle";
+            var peopleID = selectedPeopleOption.attr("circleID");
+        }
+
+        var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
+        
+        // Get the selected date
+        var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
+        
+        $.ajax({
+            type: "POST",
+            url: "/inkle/populateLocationBoard/",
+            data: {"peopleType" : peopleType, "peopleID" : peopleID, "inklingType" : inklingType, "date" : date},
+            success: function(html) {
+                $("#locationBoard").fadeOut("medium", function() {
+                    $("#locationBoard").html(html);
+                    $("#locationBoard").fadeIn("medium");
+                });
             },
             error: function(a, b, error) { alert(error); }
         });
