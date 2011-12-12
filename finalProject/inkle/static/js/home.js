@@ -66,8 +66,32 @@ $(document).ready(function() {
         success: function(locations) {
             locations = locations.split("&&&");
             $("#dinnerInklingInput").val(locations[0]);
-            $("#pregameInklingInput").val(locations[1]);
-            $("#mainEventInklingInput").val(locations[2]);
+            if (locations[1])
+            {
+                $("#dinnerInkling img").attr("src", "/static/" + locations[1]);
+            }
+            else
+            {
+                $("#dinnerInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+            }
+            $("#pregameInklingInput").val(locations[2]);
+            if (locations[3])
+            {
+                $("#pregameInkling img").attr("src", "/static/" + locations[3]);
+            }
+            else
+            {
+                $("#pregameInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+            }
+            $("#mainEventInklingInput").val(locations[4]);
+            if (locations[5])
+            {
+                $("#mainEventInkling img").attr("src", "/static/" + locations[5]);
+            }
+            else
+            {
+                $("#mainEventInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+            }
         },
         error: function(a, b, error) { alert(error); }
     });
@@ -103,8 +127,32 @@ $(document).ready(function() {
                     $("#inklings").fadeOut("medium", function() {
                         locations = locations.split("&&&");
                         $("#dinnerInklingInput").val(locations[0]);
-                        $("#pregameInklingInput").val(locations[1]);
-                        $("#mainEventInklingInput").val(locations[2]);
+                        if (locations[1])
+                        {
+                            $("#dinnerInkling img").attr("src", "/static/" + locations[1]);
+                        }
+                        else
+                        {
+                            $("#dinnerInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                        }
+                        $("#pregameInklingInput").val(locations[2]);
+                        if (locations[3])
+                        {
+                            $("#pregameInkling img").attr("src", "/static/" + locations[3]);
+                        }
+                        else
+                        {
+                            $("#pregameInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                        }
+                        $("#mainEventInklingInput").val(locations[4]);
+                        if (locations[5])
+                        {
+                            $("#mainEventInkling img").attr("src", "/static/" + locations[5]);
+                        }
+                        else
+                        {
+                            $("#mainEventInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                        }
                 
                         $("#inklings").fadeIn("medium");
                     });

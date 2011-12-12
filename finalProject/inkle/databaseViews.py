@@ -348,18 +348,24 @@ def get_inklings_view(request):
     
     # Get the inklings
     dinnerLocation = ""
+    dinnerImage = ""
     pregameLocation = ""
+    pregameImage = ""
     mainEventLocation = ""
+    mainEventImage = ""
 
     for event in member.events.filter(date = date):
         if (event.category == "dinner"):
             dinnerLocation = event.location.name
+            dinnerImage = event.location.image
         elif (event.category == "pregame"):
             pregameLocation = event.location.name
+            pregameImage = event.location.image
         elif (event.category == "mainEvent"):
             mainEventLocation = event.location.name
+            mainEventImage = event.location.image
    
-    return HttpResponse(dinnerLocation + "&&&" +  pregameLocation + "&&&" + mainEventLocation)
+    return HttpResponse(dinnerLocation + "&&&" +  dinnerImage + "&&&" + pregameLocation + "&&&" + pregameImage + "&&&" + mainEventLocation + "&&&" + mainEventImage)
 
 def add_sphere_view(request):
     newSphere = Sphere(name=request.POST["sphereName"])

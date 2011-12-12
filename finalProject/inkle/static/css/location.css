@@ -11,8 +11,10 @@
 
 #locationImage
 {
-    border: 1px solid #000;
+    border: 1px solid #777;
     margin-bottom: 15px;
+    height: 300px;
+    width: 300px;
 }
 
 #locationName

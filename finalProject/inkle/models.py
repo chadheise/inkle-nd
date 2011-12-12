@@ -86,12 +86,11 @@ class Location(models.Model):
     
     phone = models.IntegerField(max_length = 10, default = "0000000000")
     website = models.CharField(max_length = 100)
+    image = models.CharField(max_length = 200, default = "")
 
     # age restrictions
-    # image ???
-    
-    # hours ???
-    # specials ???
+    # hours 
+    # specials 
 
     def __unicode__(self):
         return "%s (%s, %s)" % (self.name, self.city, self.state)
@@ -139,7 +138,7 @@ class Member(User):
     gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
     birthday = models.CharField(max_length = 10, default = "-1")
     phone = models.IntegerField(max_length = 10, default = "-1")
-    image = models.CharField(max_length = 100, default = "")
+    image = models.CharField(max_length = 200, default = "")
     
     def __unicode__(self):
         return "%s" % (self.username)
