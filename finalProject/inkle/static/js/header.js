@@ -53,7 +53,7 @@ $(document).ready(function() {
         }
     });
     
-    $(".suggestion").live("click", function() {
+    $("#searchSuggestions .suggestion").live("click", function() {
         var query = $(this).children(".suggestionText").text();
         window.location.href = "/inkle/search/" + query;
     });

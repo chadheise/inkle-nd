@@ -137,7 +137,7 @@ $(document).ready(function() {
         }
     });
     
-    $(".suggestion").live("click", function() {
+    $("#addToCircleSuggestions .suggestion").live("click", function() {
         var toMemberID = $(this).attr("suggestionID");
         var circleID = parseInt($("#addToCircleInput").attr("circleID"));
 

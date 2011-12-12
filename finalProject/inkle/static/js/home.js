@@ -125,21 +125,9 @@ $(document).ready(function() {
     $(".inklingInput").blur(function() {
         var thisElement = $(this);
         thisElement.parent().next().fadeOut("medium");
-
-        /*    $.ajax({
-                type: "POST",
-                url: "/inkle/suggestions/",
-                data: {"type" : "inkling", "query" : query},
-                success: function(html) {
-                    thisElement.parent().next().html(html);
-                    thisElement.parent().next().fadeIn("medium");
-                },
-                error: function(a, b, error) { alert(error); }
-            });
-       */
     });
 
-    $(".suggestion").live("click", function() {
+    $("#inklings .suggestion").live("click", function() {
         var locationID = $(this).attr("suggestionID");
         if ($(this).parent().attr("id") == "dinnerInklingSuggestions")
         {
