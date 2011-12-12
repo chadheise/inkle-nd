@@ -43,11 +43,6 @@ def manage_view(request, defaultContent = "circles"):
     if ("member_id" not in request.session):
           return HttpResponseRedirect("/inkle/login")
 
-    #Get default data to load
-    #defaultContent = "circles"
-    #if ("defaultContent" in request.POST):
-    #    defaultContent = str(request.POST["defaultContent"])
-
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
     member.spheres2 = member.spheres.all()
@@ -104,6 +99,8 @@ def search_view(request, query = ""):
     for m in members:
         m.button_list = []
         
+        m.spheres2 = m.spheres.all()
+        
         # Prevent following
         if member.followers.filter(follower=m):
             m.button_list.append(buttonDictionary["prevent"])
@@ -151,6 +148,7 @@ def requested_view(request):
     members = member.requested.all()
 
     for m in members:
+        m.spheres2 = m.spheres.all()
         temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
         m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
         m.relationship = "pending"
@@ -173,6 +171,8 @@ def followers_view(request):
      members = [f.follower for f in member.followers.all()]
 
      for m in members:
+         m.spheres2 = m.spheres.all()
+         
          temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
          m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
          m.relationship = "friend"
@@ -198,6 +198,7 @@ def circles_view(request):
 
     members = member.accepted.all()
     for m in members:
+        m.spheres2 = m.spheres.all()
         m.relationship = "friend"
         temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
         m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
@@ -227,6 +228,7 @@ def circle_content_view(request):
         members = circle.members.all()
 
     for m in members:
+        m.spheres2 = m.spheres.all()
         m.relationship = "friend"
         temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
         m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )

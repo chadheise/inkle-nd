@@ -9,7 +9,11 @@
             <!-- <div class="grid_10"> -->
                 <div class="grid_7">
                     <p class="memberName">{{ m.first_name }} {{ m.last_name }}</p>
-                    <p class="spheres">University of Notre Dame &middot; South Bend</p>
+                    <div class="spheres">
+                        {% for s in m.spheres2 %}
+                            <p>{{s.name}}</p>
+                        {% endfor %}
+                    </div>
                     {% if m != member %}
                         <p class="mutualFriends">{{ m.num_mutual_followings }} mutual followings</p>
                     {% endif %}
