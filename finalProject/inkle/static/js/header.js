@@ -57,4 +57,30 @@ $(document).ready(function() {
         var query = $(this).children(".suggestionText").text();
         window.location.href = "/inkle/search/" + query;
     });
+    
+    $("#requestNotification").live("click", function() {
+            //window.location.href = "/inkle/manage/";
+
+            $.ajax({
+                type: "POST",
+                url: "/inkle/manage/",
+                data: {defaultContent : "requests"},
+                success: function(html) {
+                    $("#primaryContent").html(html);
+                },
+                error: function(a, b, error) { alert(error); }
+            });
+
+        });
+
+    $("#requestNotification").live("mouseenter", function() {
+        $(this).css("border", "solid 1px darkred");
+        $(this).css("cursor", "pointer");
+    });
+    
+    $("#requestNotification").live("mouseleave", function() {
+        $(this).css("border", "none");
+    });
+    
+    
 });

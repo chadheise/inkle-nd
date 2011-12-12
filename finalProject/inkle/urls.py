@@ -16,7 +16,7 @@ urlpatterns = patterns(
     (r"^location/(?P<location_id>\d+)/edit/(?P<name>\w+)/(?P<street>\w+)/(?P<city>\w+)/(?P<state>\w+)/(?P<zip_code>\d+)/(?P<category>\w+)/$", "edit_location_view2"),
     (r"^manage/$", "manage_view"),
     (r"^search/(?P<query>.+)/$", "search_view"),
-    (r"^requested/$", "requested_view"),
+    (r"^requests/$", "requests_view"),
     (r"^spheres/$", "spheres_view"),
     (r"^followers/$", "followers_view"),
     (r"^followRequest/$", "follow_request_view"),

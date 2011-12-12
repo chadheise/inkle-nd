@@ -30,15 +30,23 @@ def home_view(request):
 def manage_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
-           return HttpResponseRedirect("/inkle/login")
-    
+          return HttpResponseRedirect("/inkle/login")
+
+    #Get default data to load
+    defaultContent = "circles"
+    if "defaultContent" in request.POST:
+        defaultContent = request.POST["defaultContent"]
+
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
     member.spheres2 = member.spheres.all()
-    #member.hidden_password = '*' * len(member.password)
-    
+
+    member.num_requests = 0
+    for r in member.requested.all():
+        member.num_requests += 1
+
     return render_to_response( "manage.html",
-        {"member" : member},
+        {"member" : member, "defaultContent" : defaultContent},
         context_instance = RequestContext(request) )
     
 def location_view(request, location_id = None):
@@ -115,7 +123,7 @@ def search_view(request, query = ""):
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
         context_instance = RequestContext(request) )
 
-def requested_view(request):
+def requests_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
            return HttpResponseRedirect("/inkle/login")

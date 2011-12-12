@@ -7,6 +7,11 @@
         </div>
         <div id="headerRightContainer">
             <a id="username" href="/inkle/manage/">{{ member.first_name }} {{ member.last_name }}</a>
+            {% if member.num_requests %}
+                <div id="requestNotification" class="test">
+                    <p>{{member.num_requests}}</p>
+                </div>
+            {% endif %}
             </br>
             <a id="logout" href="/inkle/logout/">Logout</a>
         </div>

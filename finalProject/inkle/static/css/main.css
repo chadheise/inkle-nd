@@ -51,6 +51,25 @@
     font-weight: bold;
 }
 
+#requestNotification
+{
+    background-color: #FF4040;
+    border-radius: 5px;
+    color: #FFF;
+    font-family: arial;
+    font-size: 14px;
+    text-align: center;
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+#requestNotification p
+{
+    margin-top: 3px;
+}
+
 #username
 {
     font-size: 20px;
