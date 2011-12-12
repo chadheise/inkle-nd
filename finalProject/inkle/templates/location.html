@@ -27,17 +27,17 @@
                 <!-- Location phone -->
                 <div class="infoSection">
                     <p class="infoLabel">Phone:</p>
-                    <p>(717) 234-6138
+                    <p id="locationPhone">{{ location.phone }}</p>
                 </div>
                 
                 <!-- Location website -->
                 <div class="infoSection">
                     <p class="infoLabel">Website:</p>
-                    <a href="#">http://www.jacobstavern.com</a>
+                    <a id="locationWebsite" href="{{ location.website }}">{{ location.website }}</a>
                 </div>
                 
                 <!-- Location hours -->
-                <div class="infoSection">
+                <!--<div class="infoSection">
                     <p class="infoLabel">Hours:</p>
                     <p>M: 10 AM - 2 AM</p>
                     <p>T: 10 AM - 2 AM</p>
@@ -46,7 +46,7 @@
                     <p>F: 10 AM - 4 AM</p>
                     <p>S: 10 AM - 4 AM</p>
                     <p>U: 10 AM - 2 AM</p>
-                </div>
+                </div> -->
 
                 <!-- Location category -->
                 <div class="infoSection">
@@ -91,6 +91,14 @@
                             <label for="zipCodeInput" class="formLabel">Zip code:</label>
                             <br />
                             <input id="zipCodeInput" class="formInput grid_10" value="{{ location.zip_code }}" />
+                            <div class="clear"></div>
+                            <label for="phoneInput" class="formLabel">Phone:</label>
+                            <br />
+                            <input id="phoneInput" class="formInput grid_10" value="{{ location.phone }}" />
+                            <div class="clear"></div>
+                            <label for="websiteInput" class="formLabel">Website:</label>
+                            <br />
+                            <input id="websiteInput" class="formInput grid_10" value="{{ location.website }}" />
                             <div class="clear"></div>
                             <label for="categoryInput" class="formLabel">Category:</label>
                             <br />
