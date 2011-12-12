@@ -63,15 +63,22 @@
     
         <div class="clear"></div>
 
-        <div class="grid_24">
-            <select id="locationBoardSelect" class="grid_4 alpha omega">
-                <option>Everyone</option>i
+        <div id="locationBoardContainer" class="grid_24">
+            <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_6">
+                <option people="everyone">Everyone</option>
+                <option people="allCircles">All circles</option>
                 {% for sphere in member.spheres2 %}
                     <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
                 {% endfor %}
                 {% for circle in member.circles2 %}
                     <option circleID="{{ circle.id }}">{{ circle.name }}</option>
                 {% endfor %}
+            </select>
+            
+            <select id="locationBoardInklingSelect" class="locationBoardSelect grid_6 push_7">
+                <option inklingType="dinner">Dinner</option>
+                <option inklingType="pregame">Pregame</option>
+                <option inklingType="mainEven">Main event</option>
             </select>
             
             <div class="clear"></div>

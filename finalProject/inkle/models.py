@@ -122,7 +122,7 @@ class Event(models.Model):
     date = models.CharField(max_length = 10)
     
     def __unicode__(self):
-        return "%s (%s, %s)" % (self.location.name, self.date, category)
+        return "%s (%s, %s)" % (self.location.name, self.date, self.category)
 
 class Member(User):
     # User contains id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined

@@ -310,8 +310,58 @@ def suggestions_view(request, query = ""):
     return render_to_response("suggestions.html",
         {"categories" : categories, "footerSubject" : footerSubject},
         context_instance = RequestContext(request) )
+
+def populate_location_board_view(request):
+    # If a user is not logged in, redirect them to the login page
+    if ("member_id" not in request.session):
+           return HttpResponseRedirect("/inkle/login")
+     
+    # Get the logged in member
+    member = Member.objects.get(pk = request.session["member_id"])
+
+    # Get the POST data
+    date = request.POST["date"]
+    people_type = request.POST["peopleType"]
+    people_id = request.POST["peopleID"]
+    inkling_type = request.POST["inklingType"]
+
+    if (people_type == "other"):
+        if (people_id == "everyone"):
+            people = Member.objects.all()
+
+        elif (people_id == "allCircles"):
+            people = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+
+    elif (people_type == "sphere"):
+        sphere = Sphere.objects.get(pk = people_id)
+        people = sphere.members.all()
     
-    return HttpResponse()
+    elif (people_type == "circle"):
+        circle = Circle.objects.get(pk = people_id)
+        people = circle.members.all()
+
+    print "People: " + str(people)
+
+    locations = []
+    for p in people:
+        event = p.events.filter(date = date, category = inkling_type)
+        if (event):
+            location = event[0].location
+            print location
+            if (location in locations):
+                for l in locations:
+                    if (l == location):
+                        l.count += 1
+            else:
+                location.count = 1
+                locations.append(location)
+    
+    locations.sort(key = lambda l:-l.count)
+
+    return render_to_response("locationBoard.html",
+        {"locations" : locations},
+        context_instance = RequestContext(request) )
+
 
 def login_view(request):
     """User login."""

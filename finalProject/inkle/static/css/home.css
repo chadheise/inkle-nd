@@ -43,6 +43,23 @@
     background-color: #DDD;
 }
 
+#locationBoardContainer
+{
+    margin-top: 10px;
+    padding: 20px 35px 0px 0px;
+    border-top: solid 3px #385E0F;
+}
+
+.locationBoardSelect
+{
+    padding: 3px 10px 3px 10px;
+}
+
+#locationBoard
+{
+    margin-top: 20px;
+}
+
 .locationBoardCard
 {
     border: solid 2px #385E0F;
