@@ -392,7 +392,7 @@ def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
     if "member_id" in request.session:
-        return HttpResponseRedirect("/inkle")
+        return HttpResponseRedirect("/inkle/")
     
     # If the POST data is empty, return an empty form
     if (not request.POST):
@@ -441,6 +441,36 @@ def login_view(request):
 
     return render_to_response( "login.html",
         {"login_form" : log_form, "registration_form" : reg_form},
+        context_instance=RequestContext(request) )
+
+def login2_view(request):
+    """User login."""
+    # If a user is already logged in, go to the main page
+    if ("member_id" in request.session):
+        return HttpResponseRedirect("/inkle/")
+    
+    # Log the user in if they provided a valid username and password
+    if (request.POST):
+        # Get the POST data
+        email = request.POST["loginEmail"]
+        password = request.POST["loginPassword"]
+        
+        # Get the member with the provided username (or set the appropriate flag if it does not exist)
+        try:
+            member = Member.objects.get(username = email)
+        except:
+            member = None
+            invalidLogin = True
+        
+        # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
+        if ((member) and (member.password == password)):
+            request.session["member_id"] = member.id
+            return HttpResponseRedirect("/inkle/")
+        else:
+            invalidLogin = True
+
+    return render_to_response( "login.html",
+        {"invalidLogin" : invalidLogin, "loginEmail" : email, "loginPassword" : password},
         context_instance=RequestContext(request) )
 
 def logout_view(request):

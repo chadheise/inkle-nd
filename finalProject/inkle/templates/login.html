@@ -2,44 +2,94 @@
 
 {% block title %}
 	<title>Inkle | Login</title>
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/login.css" />
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css" />
 {% endblock title %}
 
+<!-- Header -->
 {% block header %}
     <div id="header">
-        <div id="headerContent">
-            <a id="headerTitle" href="/inkle/">Inkle</a>
-            <div id="loginContainer">
-                <!--{% if form.errors %}
-                    <p class="error">Sorry, that's not a valid username or password</p>
-                {% endif %}-->
-    
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <table id="loginTable">
-                        {{ login_form.as_table }}
-                    </table>
-                    <input id="loginButton" type="submit" name="submit" value="Login" \>
-                </form>
+        <div class="container_24">
+            <!-- Logo -->
+            <div class="grid_5 suffix_8">
+                <a href="/inkle/"><img id="logo" src="{{ STATIC_URL }}media/images/main/inkleLogo.png" /></a>
             </div>
+
+            <!-- Login form -->
+            <form id="loginContainer" action="/inkle/login2/" method="POST">
+                {% csrf_token %}
+                <div class="grid_3">
+                    <label for="loginEmail" class="loginText grid_3">Email:</label>
+                    <label for="loginPassword" class="loginText grid_3">Password:</label>
+                </div>
+                <div class="grid_5 suffix_1">
+                    <input id="loginEmail" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="loginEmail" maxlength="20" value="{{ loginEmail }}" />
+                    <input id="loginPassword" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="loginPassword" maxlength="20" value="{{loginPassword}}"/>
+                </div>
+                
+                <!-- Login button -->
+                <div class="grid_2 alpha omega">
+                    <input id="loginButton" class="button grid_2" type="submit" name="submit" value="Login" />
+                </div>
+            </form>
         </div>
     </div>
 {% endblock header %}
 
 {% block mainContent %}
-    <div id="mainContent">
-        <div id="welcomeContainer">
-            <p id="welcomeText">Up For It helps you meet up with your friends and see where the big event is happening tonight.</p>
-            <img src="http://dummyimage.com/450x250/AAA/fff.jpg&text=+" />
+    <div id="mainContent" class="container_24">
+        <!-- Welcome (home left) -->
+        <div class="grid_12 suffix_2">
+            <p id="welcomeText">Inkle makes it easy to find out where the big event is happening tonight.</p>
+            <img id="welcomeImage" src="http://dummyimage.com/450x250/BBB/fff.jpg&text=+" />
         </div>
-        <div id="registrationContainer">
-            <p id="signUpText">Sign up for free</p>
+
+        <!-- Registration (home left) -->
+        <div class="grid_10">
+            <p id="registrationText">Sign up for free</p>
+            
+            <!-- Registration form -->
             <form action="" method="POST">
                 {% csrf_token %}
-                <table id="registrationTable">
-                    {{ registration_form.as_table }}
-                </table>
-                <input id="registerButton" type="submit" name="submit" value="Register" \>
+                <table id="registrationForm">
+                    <tr>
+                        <th><label for="id_first_name">First name:</label></th>
+                        <td><input id="id_first_name" type="text" name="first_name" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_last_name">Last name:</label></th>
+                        <td><input id="id_last_name" type="text" name="last_name" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_email">Email:</label></th>
+                        <td><input id="id_email" type="text" name="email" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_email_confirm">Confirm email:</label></th>
+                        <td><input id="id_email_confirm" type="text" name="email_verify" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_password">Password:</label></th>
+                        <td><input id="id_password" type="password" name="password" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_password_confirm">Confirm password:</label></th>
+                        <td><input id="id_password_confirm" type="password" name="password" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <th><label for="id_gender">Gender:</label></th>
+                        <td>
+                            <select name="gender" id="id_gender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table> 
+
+                <!-- Registration button -->
+                <div id="registrationButtonContainer">
+                    <input id="registrationButton" class="button" type="submit" name="submit" value="Register" />
+                </div>
             </form>
         </div>
         <p>&nbsp;</p>
