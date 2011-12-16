@@ -1,44 +1,4 @@
-#loginContainer
-{
-    margin-top: 25px;
-}
-
-#loginEmailContainer
-{
-    margin-bottom: 10px;
-}
-
-.loginText
-{
-    color: white;
-    text-align: right;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#loginEmail
-{
-    margin-bottom: 10px;
-}
-
-.invalidInput
-{
-    border: solid 2px #FF0000;
-}
-
-.button
-{
-    padding: 5px 10px 5px 10px;
-    font-weight: bold;
-    color: white;
-}
-
-#loginButton
-{
-    margin-top: 10px;
-    background-color: #009ACD;
-}
-
+/* Welcome */
 #welcomeText
 {
     color: #385E0F;
@@ -54,12 +14,74 @@
     width: 470px;
 }
 
-#registrationText
+/* Login */
+.contentLink
 {
-    color: #385E0F;
+    color: #BBB;
     font-size: 28px;
     font-weight: bold;
     margin: -3px 0px 15px 0px;
+    cursor: pointer;
+}
+
+.selectedContentLink
+{
+    color: #385E0F;
+}
+
+.loginLabel, .registrationLabel
+{
+    text-align: right;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#loginEmail
+{
+    margin-bottom: 10px;
+}
+
+#keepLoggedIn
+{
+    float: right;
+    margin-top: 15px;
+}
+
+#forgottenPassword
+{
+    margin: 0px 0px 1px 8px;
+    text-align: right;
+}
+
+#forgottenPassword a
+{
+    font-size: 12px;
+    color: #385E0F;
+}
+
+.buttonContainer
+{
+    text-align: center;
+}
+
+#loginButton, #registrationButton
+{
+    padding: 5px 0px 5px 0px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    background-color: #385E0F;
+}
+
+.invalidInput
+{
+    border: solid 2px #FF0000;
+}
+
+/* Registration */
+.unselectedContent
+{
+    display: none;
 }
 
 #registrationForm th
@@ -76,15 +98,4 @@
 #registrationForm td input
 {
     width: 200px;
-}
-
-#registrationButtonContainer
-{
-    text-align: center;
-    margin-top: 5px;
-}
-
-#registrationButton
-{
-    background-color: #385E0F;
 }

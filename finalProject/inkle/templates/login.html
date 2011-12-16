@@ -3,6 +3,7 @@
 {% block title %}
 	<title>Inkle | Login</title>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/login.js"></script>
 {% endblock title %}
 
 <!-- Header -->
@@ -13,24 +14,6 @@
             <div class="grid_5 suffix_8">
                 <a href="/inkle/"><img id="logo" src="{{ STATIC_URL }}media/images/main/inkleLogo.png" /></a>
             </div>
-
-            <!-- Login form -->
-            <form id="loginContainer" action="/inkle/login/" method="POST">
-                {% csrf_token %}
-                <div class="grid_3">
-                    <label for="loginEmail" class="loginText grid_3">Email:</label>
-                    <label for="loginPassword" class="loginText grid_3">Password:</label>
-                </div>
-                <div class="grid_5 suffix_1">
-                    <input id="loginEmail" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="email" maxlength="20" value="{{ loginEmail }}" />
-                    <input id="loginPassword" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="password" maxlength="20" value="{{loginPassword}}"/>
-                </div>
-                
-                <!-- Login button -->
-                <div class="grid_2 alpha omega">
-                    <input id="loginButton" class="button grid_2" type="submit" name="submit" value="Login" />
-                </div>
-            </form>
         </div>
     </div>
 {% endblock header %}
@@ -43,54 +26,85 @@
             <img id="welcomeImage" src="http://dummyimage.com/450x250/BBB/fff.jpg&text=+" />
         </div>
 
-        <!-- Registration (home left) -->
+        <!-- Login/registration (home right) -->
         <div class="grid_10">
-            <p id="registrationText">Sign up for free</p>
-            
-            <!-- Registration form -->
-            <form action="/inkle/register/" method="POST">
-                {% csrf_token %}
-                <table id="registrationForm">
-                    <tr>
-                        <th><label for="registrationFirstName">First name:</label></th>
-                        <td><input id="registrationFirstName" class="{% if invalidFirstName %}invalidInput{% endif %}" type="text" name="firstName" maxlength="30" value="{{ firstName }}" /></td>
-                    </tr>
-                    <tr>
-                        <th><label for="registrationLastName">Last name:</label></th>
-                        <td><input id="registrationLastName" class="{% if invalidLastName %}invalidInput{% endif %}" type="text" name="lastName" maxlength="30" value="{{ lastName }}" /></td>
-                    </tr>
-                    <tr>
-                        <th><label for="registrationEmail">Email:</label></th>
-                        <td><input id="registrationEmail" class="{% if invalidEmail %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ email }}" /></td>
-                    </tr>
-                    <tr>
-                        <th><label for="registrationConfirmEmail">Confirm email:</label></th>
-                        <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" /></td>
-                    </tr>
-                    <tr>
-                        <th><label for="registrationPassword">Password:</label></th>
-                        <td><input id="registrationPassword" class="{% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="20" value="{{ password }}" /></td>
-                    </tr>
-                    <tr>
-                        <th><label for="registrationConfirmPassword">Confirm password:</label></th>
-                        <td><input id="registrationConfirmPassword" class="{% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="20"value="{{ confirmPassword }}" /></td>
-                    </tr>
-                    <tr>
-                        <th><label for="registrationGender">Gender:</label></th>
-                        <td>
-                            <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %}" name="gender">
-                                <option value="male" {% if gender == "male" %}selected{% endif %}>Male</option>
-                                <option value="female" {% if gender == "female" %}selected{% endif %}>Female</option>
-                            </select>
-                        </td>
-                    </tr>
-                </table> 
+            <!-- Content links -->
+            <div>
+                <p id="loginContentLink" class="contentLink {% if selectedContentLink == "login" %}selectedContentLink{% endif %} grid_3">Login</p>
+                <p id="registrationContentLink" class="contentLink {% if selectedContentLink == "registration" %}selectedContentLink{% endif %} grid_4">Register</p>
+                <div class="clear"></div>
+            </div> 
 
-                <!-- Registration button -->
-                <div id="registrationButtonContainer">
-                    <input id="registrationButton" class="button" type="submit" name="submit" value="Register" />
-                </div>
+            <!-- Login form -->
+            <form id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %} action="/inkle/login/" method="POST">
+                {% csrf_token %}
+                <div class="grid_10 alpha">
+                    <!-- Labels -->
+                    <div class="grid_4 alpha omega">
+                        <label for="loginEmail" class="loginLabel grid_4">Email:</label>
+                        <label for="loginPassword" class="loginLabel grid_4">Password:</label>
+                        <input id="keepLoggedIn" class="grid_4 omega" type="checkbox" name="keepLoggedIn" />
+                    </div>
+
+                    <!-- Inputs -->
+                    <div class="grid_6">
+                        <input id="loginEmail" class="grid_6 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="email" maxlength="20" value="{{ loginEmail }}" />
+                        <input id="loginPassword" class="grid_6 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="password" maxlength="20" value="{{loginPassword}}"/>
+                        <div id="forgottenPassword" class="grid_6">
+                            <a href="/inkle/forgottenPassword/">I forgot my password</a>
+                        </div>
+                        <label for="keepLoggedIn" class="grid_6">Keep me logged in</label>
+                    </div>
+                </div>    
+
+                <!-- Login button -->
+                <input id="loginButton" class="button grid_4 push_3 alpha" type="submit" name="submit" value="Login" />
             </form>
+
+            <!-- Registration content -->
+                <form id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %} action="/inkle/register/" method="POST">
+                    {% csrf_token %}
+                    <table id="registrationForm">
+                        <tr>
+                            <th><label for="registrationFirstName">First name:</label></th>
+                            <td><input id="registrationFirstName" class="{% if invalidFirstName %}invalidInput{% endif %}" type="text" name="firstName" maxlength="30" value="{{ firstName }}" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="registrationLastName">Last name:</label></th>
+                            <td><input id="registrationLastName" class="{% if invalidLastName %}invalidInput{% endif %}" type="text" name="lastName" maxlength="30" value="{{ lastName }}" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="registrationEmail">Email:</label></th>
+                            <td><input id="registrationEmail" class="{% if invalidEmail %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ email }}" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="registrationConfirmEmail">Confirm email:</label></th>
+                            <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="registrationPassword">Password:</label></th>
+                            <td><input id="registrationPassword" class="{% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="20" value="{{ password }}" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="registrationConfirmPassword">Confirm password:</label></th>
+                            <td><input id="registrationConfirmPassword" class="{% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="20"value="{{ confirmPassword }}" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="registrationGender">Gender:</label></th>
+                            <td>
+                                <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %}" name="gender">
+                                    <option value="male" {% if gender == "male" %}selected{% endif %}>Male</option>
+                                    <option value="female" {% if gender == "female" %}selected{% endif %}>Female</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table> 
+                
+                    <!-- Registration button -->
+                    <div id="registrationButtonContainer">
+                        <input id="registrationButton" class="button" type="submit" name="submit" value="Register" />
+                    </div>
+                </form>
         </div>
         <p>&nbsp;</p>
     </div>
