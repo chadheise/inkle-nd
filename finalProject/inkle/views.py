@@ -426,7 +426,7 @@ def login_view(request):
             invalid_login = True
 
     return render_to_response( "login.html",
-        {"invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password},
+        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password},
         context_instance=RequestContext(request) )
 
 def register_view(request):
@@ -561,7 +561,7 @@ def register_view(request):
             return HttpResponseRedirect("/inkle/")
 
     return render_to_response( "login.html",
-        {"invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "gender" : gender},
+        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "gender" : gender},
         context_instance=RequestContext(request) )
 
 def logout_view(request):
