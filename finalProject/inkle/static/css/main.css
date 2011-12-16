@@ -28,6 +28,14 @@
     text-decoration: none;
 }
 
+#logo
+{
+    float: left;
+    height: 62px;
+    width: 163px;
+    margin-top: 20px;
+}
+
 #headerSearchContainer
 {
     float: left;

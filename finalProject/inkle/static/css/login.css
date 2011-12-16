@@ -1,79 +1,90 @@
 #loginContainer
 {
-    float: left;
-    margin: 25px 0px 0px 350px;
+    margin-top: 25px;
 }
 
-#loginTable
+#loginEmailContainer
 {
-    float: left;
+    margin-bottom: 10px;
+}
+
+.loginText
+{
     color: white;
     text-align: right;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-#loginTable th
+#loginEmail
 {
-    padding: 0px 0px 5px 0px;
+    margin-bottom: 10px;
 }
 
-#loginTable td
+.invalidInput
 {
-    padding: 0px 0px 5px 0px;
+    border: solid 2px #FF0000;
+}
+
+.button
+{
+    padding: 5px 10px 5px 10px;
+    font-weight: bold;
+    color: white;
 }
 
 #loginButton
 {
-    padding: 5px 10px 5px 10px;
-    margin: 11px 0px 0px 10px;
-    float: left;
-}
-
-#welcomeContainer
-{
-    float: left;
-    width: 450px;
-    margin: 0px 90px 0px 0px;
+    margin-top: 10px;
+    background-color: #009ACD;
 }
 
 #welcomeText
 {
     color: #385E0F;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     text-align: justify;
     margin-bottom: 20px;
 }
 
-#registrationContainer
+#welcomeImage
 {
-    float: left;
-    width: 420px;
+    height: 275px;
+    width: 470px;
 }
 
-#signUpText
+#registrationText
 {
     color: #385E0F;
     font-size: 28px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin: -3px 0px 15px 0px;
 }
 
-#registrationTable th
+#registrationForm th
 {
     text-align: right;
     padding: 0px 10px 15px 0px;
 }
 
-#registrationTable td
+#registrationForm td
 {
-    padding: 0px 0px 15px 0px;
+    padding: 0px 0px 12px 0px;
 }
 
-#registerButton
+#registrationForm td input
 {
-    padding: 5px 10px 5px 10px;
-    margin: 10px 0px 0px 125px;
+    width: 200px;
+}
+
+#registrationButtonContainer
+{
+    text-align: center;
+    margin-top: 5px;
+}
+
+#registrationButton
+{
     background-color: #385E0F;
-    color: white;
-    font-weight: bold;
 }
