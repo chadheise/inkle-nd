@@ -1,4 +1,3 @@
-/* Welcome */
 #welcomeText
 {
     color: #385E0F;
@@ -14,13 +13,12 @@
     width: 470px;
 }
 
-/* Login */
 .contentLink
 {
     color: #BBB;
     font-size: 28px;
     font-weight: bold;
-    margin: -3px 0px 15px 0px;
+    margin: -3px 0px 20px 0px;
     cursor: pointer;
 }
 
@@ -33,12 +31,17 @@
 {
     text-align: right;
     font-weight: bold;
+    margin-bottom: 11px;
+}
+
+#loginEmail, #registrationFirstName, #registrationLastName, #registrationEmail, #registrationConfirmEmail, #registrationPassword, #registrationConfirmPassword
+{
     margin-bottom: 10px;
 }
 
-#loginEmail
+#registrationConfirmPasswordLabel
 {
-    margin-bottom: 10px;
+    margin-left: -35px;
 }
 
 #keepLoggedIn
@@ -59,11 +62,6 @@
     color: #385E0F;
 }
 
-.buttonContainer
-{
-    text-align: center;
-}
-
 #loginButton, #registrationButton
 {
     padding: 5px 0px 5px 0px;
@@ -78,24 +76,7 @@
     border: solid 2px #FF0000;
 }
 
-/* Registration */
 .unselectedContent
 {
     display: none;
-}
-
-#registrationForm th
-{
-    text-align: right;
-    padding: 0px 10px 15px 0px;
-}
-
-#registrationForm td
-{
-    padding: 0px 0px 12px 0px;
-}
-
-#registrationForm td input
-{
-    width: 200px;
 }
