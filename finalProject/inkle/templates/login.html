@@ -15,15 +15,15 @@
             </div>
 
             <!-- Login form -->
-            <form id="loginContainer" action="/inkle/login2/" method="POST">
+            <form id="loginContainer" action="/inkle/login/" method="POST">
                 {% csrf_token %}
                 <div class="grid_3">
                     <label for="loginEmail" class="loginText grid_3">Email:</label>
                     <label for="loginPassword" class="loginText grid_3">Password:</label>
                 </div>
                 <div class="grid_5 suffix_1">
-                    <input id="loginEmail" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="loginEmail" maxlength="20" value="{{ loginEmail }}" />
-                    <input id="loginPassword" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="loginPassword" maxlength="20" value="{{loginPassword}}"/>
+                    <input id="loginEmail" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="email" maxlength="20" value="{{ loginEmail }}" />
+                    <input id="loginPassword" class="grid_5 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="password" maxlength="20" value="{{loginPassword}}"/>
                 </div>
                 
                 <!-- Login button -->
@@ -48,39 +48,39 @@
             <p id="registrationText">Sign up for free</p>
             
             <!-- Registration form -->
-            <form action="" method="POST">
+            <form action="/inkle/register/" method="POST">
                 {% csrf_token %}
                 <table id="registrationForm">
                     <tr>
-                        <th><label for="id_first_name">First name:</label></th>
-                        <td><input id="id_first_name" type="text" name="first_name" maxlength="20" /></td>
+                        <th><label for="registrationFirstName">First name:</label></th>
+                        <td><input id="registrationFirstName" class="{% if invalidFirstName %}invalidInput{% endif %}" type="text" name="firstName" maxlength="30" value="{{ firstName }}" /></td>
                     </tr>
                     <tr>
-                        <th><label for="id_last_name">Last name:</label></th>
-                        <td><input id="id_last_name" type="text" name="last_name" maxlength="20" /></td>
+                        <th><label for="registrationLastName">Last name:</label></th>
+                        <td><input id="registrationLastName" class="{% if invalidLastName %}invalidInput{% endif %}" type="text" name="lastName" maxlength="30" value="{{ lastName }}" /></td>
                     </tr>
                     <tr>
-                        <th><label for="id_email">Email:</label></th>
-                        <td><input id="id_email" type="text" name="email" maxlength="20" /></td>
+                        <th><label for="registrationEmail">Email:</label></th>
+                        <td><input id="registrationEmail" class="{% if invalidEmail %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ email }}" /></td>
                     </tr>
                     <tr>
-                        <th><label for="id_email_confirm">Confirm email:</label></th>
-                        <td><input id="id_email_confirm" type="text" name="email_verify" maxlength="20" /></td>
+                        <th><label for="registrationConfirmEmail">Confirm email:</label></th>
+                        <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" /></td>
                     </tr>
                     <tr>
-                        <th><label for="id_password">Password:</label></th>
-                        <td><input id="id_password" type="password" name="password" maxlength="20" /></td>
+                        <th><label for="registrationPassword">Password:</label></th>
+                        <td><input id="registrationPassword" class="{% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="20" value="{{ password }}" /></td>
                     </tr>
                     <tr>
-                        <th><label for="id_password_confirm">Confirm password:</label></th>
-                        <td><input id="id_password_confirm" type="password" name="password" maxlength="20" /></td>
+                        <th><label for="registrationConfirmPassword">Confirm password:</label></th>
+                        <td><input id="registrationConfirmPassword" class="{% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="20"value="{{ confirmPassword }}" /></td>
                     </tr>
                     <tr>
-                        <th><label for="id_gender">Gender:</label></th>
+                        <th><label for="registrationGender">Gender:</label></th>
                         <td>
-                            <select name="gender" id="id_gender">
-                                <option value="M">Male</option>
-                                <option value="F">Female</option>
+                            <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %}" name="gender">
+                                <option value="male" {% if gender == "male" %}selected{% endif %}>Male</option>
+                                <option value="female" {% if gender == "female" %}selected{% endif %}>Female</option>
                             </select>
                         </td>
                     </tr>
