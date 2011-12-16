@@ -387,90 +387,181 @@ def populate_location_board_view(request):
         {"locations" : locations},
         context_instance = RequestContext(request) )
 
-
 def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
-    if "member_id" in request.session:
+    if ("member_id" in request.session):
         return HttpResponseRedirect("/inkle/")
-    
-    # If the POST data is empty, return an empty form
-    if (not request.POST):
-        log_form = login_form()
-        reg_form = registration_form()
-    
-    # If the user has submitted POST data, see if the information is valid
-    else:
-        log_form = login_form(request.POST)
-        if log_form.is_valid():
-            # Check if a member with the given username already exists
-            try:
-                member = Member.objects.get(username = log_form.cleaned_data["email"])
-            
-                # If the member's credentials are correct, log them in and return them to the home page
-                if (member.password == log_form.cleaned_data["password"]):
-                    request.session["member_id"] = member.id
-                    return HttpResponseRedirect("/inkle/")
-            except:
-                pass
         
-        reg_form = registration_form(request.POST)
-        if reg_form.is_valid():
-            first_name = reg_form.cleaned_data["first_name"]
-            last_name = reg_form.cleaned_data["last_name"]
-            email = reg_form.cleaned_data["email"]
-            email_verify = reg_form.cleaned_data["email_verify"]
-            password = reg_form.cleaned_data["password"]
-            gender = reg_form.cleaned_data["gender"]
+    # Initially say the login is valid
+    invalid_login = False
+    email = ""
+    password = ""
 
-            if (email == email_verify):
-                member = Member(
-                    first_name = first_name,
-                    last_name = last_name,
-                    username = email,
-                    password = password,
-                    email = email,
-                    gender = gender
-                )
-                member.is_staff = True
-                member.save()
-                
-                # Log the user in
-                request.session["member_id"] = member.id
-                return HttpResponseRedirect("/inkle/")
+    # Log the user in if they provided a valid username and password
+    if (request.POST):
+        # Get the POST data (and set the appropriate flag if the necessary POST data is not there)
+        try:
+            email = request.POST["email"]
+        except:
+            invalid_login = True
+
+        try:
+            password = request.POST["password"]
+        except:
+            invalid_login = True
+
+        # Get the member with the provided username (or set the appropriate flag if it does not exist)
+        if (not invalid_login):
+            try:
+                member = Member.objects.get(username = email)
+            except:
+                invalid_login = True
+        
+        # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
+        if ((not invalid_login) and (member.password == password)):
+            request.session["member_id"] = member.id
+            return HttpResponseRedirect("/inkle/")
+        else:
+            invalid_login = True
 
     return render_to_response( "login.html",
-        {"login_form" : log_form, "registration_form" : reg_form},
+        {"invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password},
         context_instance=RequestContext(request) )
 
-def login2_view(request):
+def register_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
     if ("member_id" in request.session):
         return HttpResponseRedirect("/inkle/")
     
-    # Log the user in if they provided a valid username and password
-    if (request.POST):
-        # Get the POST data
-        email = request.POST["loginEmail"]
-        password = request.POST["loginPassword"]
-        
-        # Get the member with the provided username (or set the appropriate flag if it does not exist)
+    # If there is no POST data, redirect the user to the login page
+    if (not request.POST):
+        return HttpResponseRedirect("/inkle/login/")
+    
+    # Create a new user and log them in if they provided valid form data
+    else:
+        # Initially say the form data is valid
+        invalid_first_name = False
+        invalid_last_name = False
+        invalid_email = False
+        invalid_confirm_email = False
+        invalid_password = False
+        invalid_confirm_password = False
+        invalid_registration = False
+
+        # Get the POST data (and set the appropriate flags if the necessary POST data is not there)
+        try:
+            first_name = request.POST["firstName"]
+        except:
+            first_name = ""
+            invalid_first_name = True
+            invalid_registration = True
+
+        try:
+            last_name = request.POST["lastName"]
+        except:
+            last_name = ""
+            invalid_last_name = True
+            invalid_registration = True
+
+        try:
+            email = request.POST["email"]
+        except:
+            email = ""
+            invalid_email = True
+            invalid_registration = True
+            
+        try:
+            confirm_email = request.POST["confirmEmail"]
+        except:
+            confirm_email = ""
+            invalid_confirm_email = True
+            invalid_registration = True
+            
+        try:
+            password = request.POST["password"]
+        except:
+            password = ""
+            invalid_password = True
+            invalid_registration = True
+            
+        try:
+            confirm_password = request.POST["confirmPassword"]
+        except:
+            confirm_password = ""
+            invalid_confirm_password = True
+            invalid_registration = True
+            
+        try:
+            gender = request.POST["gender"]
+        except:
+            gender = "male"
+            invalid_registration = True
+
+        # If any of the POST data is empty, set the appropriate flags
+        if (first_name == ""):
+            invalid_first_name = True
+            invalid_registration = True
+        if (last_name == ""):
+            invalid_last_name = True
+            invalid_registration = True
+        if (email == ""):
+            invalid_email = True
+            invalid_registration = True
+        if (confirm_email == ""):
+            invalid_confirm_email = True
+            invalid_registration = True
+        if (password == ""):
+            invalid_password = True
+            invalid_registration = True
+        if (confirm_password == ""):
+            invalid_confirm_password = True
+            invalid_registration = True
+        if ((gender != "male") and (gender != "female")):
+            invalid_gender = True
+            invalid_registration = True
+
+        # Check if the provided email already exists
         try:
             member = Member.objects.get(username = email)
         except:
             member = None
-            invalidLogin = True
+        if (member):
+            invalid_email = True
+            invalid_registration = True
+
+        # Check if the provided email matches the provided confirm email
+        if (email != confirm_email):
+            invalid_confirm_email = True
+            invalid_registration = True
         
-        # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
-        if ((member) and (member.password == password)):
+        # Check if the provided password matches the provided confirm password
+        if (password != confirm_password):
+            invalid_confirm_password = True
+            invalid_registration = True
+
+        # If the registration form is valid, create a new member with the provided POST data
+        if (not invalid_registration):
+            member = Member(
+                first_name = first_name,
+                last_name = last_name,
+                username = email,
+                password = password,
+                email = email,
+                gender = gender
+            )
+            
+            # TODO: dont' make everyone staff by default!
+            member.is_staff = True
+            member.save()
+                
+            # Login the new member
             request.session["member_id"] = member.id
             return HttpResponseRedirect("/inkle/")
-        else:
-            invalidLogin = True
 
     return render_to_response( "login.html",
-        {"invalidLogin" : invalidLogin, "loginEmail" : email, "loginPassword" : password},
+        {"invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "gender" : gender},
         context_instance=RequestContext(request) )
 
 def logout_view(request):

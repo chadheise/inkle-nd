@@ -9,7 +9,7 @@ urlpatterns = patterns(
     "inkle.views",
     (r"^$", "home_view"),
     (r"^login/$", "login_view"),
-    (r"^login2/$", "login2_view"),
+    (r"^register/$", "register_view"),
     (r"^logout/$", "logout_view"),
     (r"^editProfile/$", "edit_profile_view"),
     (r"^location/(?P<location_id>\d+)/$", "location_view"),
