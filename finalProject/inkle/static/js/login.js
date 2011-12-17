@@ -25,6 +25,9 @@ $(document).ready(function() {
         }
     }
 
+    /* Set the focus to the login email input */
+    $("#loginEmail").focus();
+
     /* Update the day select when the month select changes */
     $("#registrationMonth").change(function() {
         // Get the selected month
