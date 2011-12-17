@@ -30,12 +30,8 @@ def home_view(request):
     member.spheres2 = member.spheres.all()
     member.circles2 = member.circles.all()
 
-    locations = Location.objects.all()
-    for l in locations:
-        l.count = "87"
-
     return render_to_response( "home.html",
-        { "member" : member, "locations" : locations },
+        { "member" : member },
         context_instance = RequestContext(request) )
 
 def manage_view(request, defaultContent = "circles"):
