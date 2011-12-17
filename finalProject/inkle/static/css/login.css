@@ -39,6 +39,11 @@
     margin-bottom: 10px;
 }
 
+#registrationBirthdayMonth, #registrationBirthdayDay, #registrationBirthdayYear
+{
+    margin-bottom: 7px;
+}
+
 #registrationConfirmPasswordLabel
 {
     margin-left: -35px;
