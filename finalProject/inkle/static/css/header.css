@@ -18,6 +18,10 @@
     margin-top: 36px;
     padding: 0px 5px 0px 5px;
     font-size: 16px;
+}
+
+.emptySearchInput
+{
     color: #888;
 }
 
