@@ -1,18 +1,40 @@
 $(document).ready(function() {
-    /* Update the birthday day select when the birthday month select changes */
-    $("#registrationBirthdayMonth").change(function() {
-        // Get the selected month
-        var month = $("#registrationBirthdayMonth option:selected").val();
+    /* Populate the day and year selects */
+    var selectedDay = parseInt($("#registrationDay").attr("day"));
+    for (var i = 1; i <= 31; i++)
+    {
+        if (i == selectedDay)
+        {
+            $("#registrationDay").append("<option value='" + i + "' selected>" + i + "</option>");
+        }
+        else
+        {
+            $("#registrationDay").append("<option value='" + i + "'>" + i + "</option>");
+        }
+    }
+    var selectedYear = parseInt($("#registrationYear").attr("year"));
+    for (var i = 2012; i >= 1900; i--)
+    {
+        if (i == selectedYear)
+        {
+            $("#registrationYear").append("<option value='" + i + "' selected>" + i + "</option>");
+        }
+        else
+        {
+            $("#registrationYear").append("<option value='" + i + "'>" + i + "</option>");
+        }
+    }
 
-        // Clear the current days in the birthday day select and append the empty option
-        $("#registrationBirthdayDay").empty();
-        $("#registrationBirthdayDay").append("<option value=''>Day</option>");
+    /* Update the day select when the month select changes */
+    $("#registrationMonth").change(function() {
+        // Get the selected month
+        var month = $("#registrationMonth option:selected").val();
 
         // February has 28 or 29 days
         if (month == "2")
         {
-            // Check if the selected birthday year is a leap year
-            var year = $("#registrationBirthdayYear option:selected").val();
+            // Check if the selected year is a leap year
+            var year = $("#registrationYear option:selected").val();
             if (year == "")
             {
                 var days = 29;
@@ -41,27 +63,30 @@ $(document).ready(function() {
             var days = 31;
         }
 
-        // Add an option to the birthday day select for each day in the current month
-        for (var i = 1; i <= days; i++)
+        // Delete any unnecessary day options
+        while ($("#registrationDay option:last").val() > days)
         {
-            $("#registrationBirthdayDay").append("<option value='" + i + "'>" + i + "</option>");
+            $("#registrationDay option:last").remove();
+        }
+        
+        // Add any necessary day options
+        while ($("#registrationDay option:last").val() < days)
+        {
+            var newDay = parseInt($("#registrationDay option:last").val()) + 1;
+            $("#registrationDay").append("<option value='" + newDay + "'>" + newDay + "</option>");
         }
     });
     
-    /* Update the birthday day select when the birthday year select changes */
-    $("#registrationBirthdayYear").change(function() {
+    /* Update the day select when the year select changes */
+    $("#registrationYear").change(function() {
         // Get the selected year
-        var year = parseInt($("#registrationBirthdayYear option:selected").val());
-        var month = $("#registrationBirthdayMonth option:selected").val();
+        var year = parseInt($("#registrationYear option:selected").val());
+        var month = $("#registrationMonth option:selected").val();
 
         // If February is selcted, update the number of days according to whether or not the selected year is a leap year
         if (month == 2)
         {
-            // Clear the current days in the birthday day select and append the empty option
-            $("#registrationBirthdayDay").empty();
-            $("#registrationBirthdayDay").append("<option value=''>Day</option>");
-            
-            var year = $("#registrationBirthdayYear option:selected").val();
+            var year = $("#registrationYear option:selected").val();
             if (year == "")
             {
                 var days = 29;
@@ -78,21 +103,21 @@ $(document).ready(function() {
                     var days = 29;
                 }
             }
-        
-            // Add an option to the birthday day select for each day in the current month
-            for (var i = 1; i <= days; i++)
+
+            // Delete any unnecessary day options
+            while ($("#registrationDay option:last").val() > days)
             {
-                $("#registrationBirthdayDay").append("<option value='" + i + "'>" + i + "</option>");
+                $("#registrationDay option:last").remove();
+            }
+        
+            // Add any necessary day options
+            while ($("#registrationDay option:last").val() < days)
+            {
+                var newDay = parseInt($("#registrationDay option:last").val()) + 1;
+                $("#registrationDay").append("<option value='" + newDay + "'>" + newDay + "</option>");
             }
         }
     });
-
-    /* Populate the birthday day and year selects */
-    for (var i = 2012; i >= 1900; i--)
-    {
-        $("#registrationBirthdayYear").append("<option value='" + i + "'>" + i + "</option>");
-    }
-    $("#registrationBirthdayMonth").trigger("change");
 
     /* Update the login/registration content when one of their links is clicked */
     $(".contentLink").click(function() {

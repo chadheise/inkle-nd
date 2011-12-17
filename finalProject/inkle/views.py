@@ -448,6 +448,9 @@ def register_view(request):
         invalid_confirm_email = False
         invalid_password = False
         invalid_confirm_password = False
+        invalid_month = False
+        invalid_day = False
+        invalid_year = False
         invalid_gender = False
         invalid_registration = False
 
@@ -493,6 +496,27 @@ def register_view(request):
             confirm_password = ""
             invalid_confirm_password = True
             invalid_registration = True
+        
+        try:
+            month = request.POST["month"]
+        except:
+            month = ""
+            invalid_month = True
+            invalid_registration = True
+        
+        try:
+            day = request.POST["day"]
+        except:
+            day = ""
+            invalid_day = True
+            invalid_registration = True
+        
+        try:
+            year = request.POST["year"]
+        except:
+            year = ""
+            invalid_year = True
+            invalid_registration = True
             
         try:
             gender = request.POST["gender"]
@@ -518,6 +542,15 @@ def register_view(request):
             invalid_registration = True
         if (confirm_password == ""):
             invalid_confirm_password = True
+            invalid_registration = True
+        if (month == ""):
+            invalid_month = True
+            invalid_registration = True
+        if (day == ""):
+            invalid_day = True
+            invalid_registration = True
+        if (year == ""):
+            invalid_year = True
             invalid_registration = True
         if ((gender != "male") and (gender != "female")):
             invalid_gender = True
@@ -550,6 +583,7 @@ def register_view(request):
                 username = email,
                 password = password,
                 email = email,
+                birthday = month + "/" + day + "/" + year,
                 gender = gender
             )
             
@@ -562,7 +596,7 @@ def register_view(request):
             return HttpResponseRedirect("/inkle/")
 
     return render_to_response( "login.html",
-        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidGender" : invalid_gender, "gender" : gender},
+        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "invalidDay" : invalid_day, "day" : day, "invalidYear" : invalid_year, "year" : year, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance=RequestContext(request) )
 
 def logout_view(request):

@@ -85,7 +85,7 @@
                         <input id="registrationConfirmEmail" class="grid_6 {% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" />
                         <input id="registrationPassword" class="grid_6 {% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{ email }}" />
                         <input id="registrationConfirmPassword" class="grid_6 {% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="30" value="{{ confirmEmail }}" />
-                        <select id="registrationBirthdayMonth" class="{% if invalidBirthdayMonth %}invalidInput{% endif %} grid_2 omega" name="month">
+                        <select id="registrationMonth" class="{% if invalidMonth %}invalidInput{% endif %} grid_2 omega" name="month">
                             <option value="" {% if month == "" %}selected{% endif %}>Month</option>
                             <option value="1" {% if month == "1" %}selected{% endif %}>Jan</option>
                             <option value="2" {% if month == "2" %}selected{% endif %}>Feb</option>
@@ -100,10 +100,10 @@
                             <option value="11" {% if month == "11" %}selected{% endif %}>Nov</option>
                             <option value="12" {% if month == "12" %}selected{% endif %}>Dec</option>
                         </select>
-                        <select id="registrationBirthdayDay" class="{% if invalidBirthdayDay %}invalidInput{% endif %} grid_2 omega" name="day">
+                        <select id="registrationDay" class="{% if invalidDay %}invalidInput{% endif %} grid_2 omega" name="day" day="{{ day }}">
                             <option value="" {% if day == "" %}selected{% endif %}>Day</option>
                         </select>
-                        <select id="registrationBirthdayYear" class="{% if invalidBirthdayYear %}invalidInput{% endif %} grid_2 omega" name="year">
+                        <select id="registrationYear" class="{% if invalidYear %}invalidInput{% endif %} grid_2 omega" name="year" year="{{ year }}">
                             <option value="" {% if year == "" %}selected{% endif %}>Year</option>
                         </select>
                         <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %} grid_3" name="gender">
