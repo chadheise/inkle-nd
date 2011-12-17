@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-	<title>Inkle | Login</title>
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}js/login.js"></script>
+	<title>Inkle | Login or register</title>
 {% endblock title %}
+	
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/login.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/login.js"></script>
+{% endblock js %}
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">

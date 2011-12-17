@@ -1,23 +1,30 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/manage.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/memberCard.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/circles.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/sphereCard.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}js/manage.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/profile.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/memberCard.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/circles.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/sphereCard.js"></script>
-{% endblock title%}
+	<title>Inkle | Profile</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/manage.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/circles.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/manage.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/profile.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/circles.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
+{% endblock js %}
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
         <div id="profileInfo" class="grid_8">
             <h3>Profile Info</h3>
             {% if member.image %}
-                <img id="profileImage" src="{{ STATIC_URL }}{{ member.image }}" />
+                <img id="profileImage" src="{{ STATIC_URL }}/{{ member.image }}" />
             {% else %}
                 <img id="profileImage" src="http://dummyimage.com/200x200/AAA/fff.jpg&text=+" />
             {% endif %}

@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 
 {% block title %}
+	<title>Inkle | Search</title>
+{% endblock title %}
+
+{% block css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/search.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/locationCard.css" />
+{% endblock css %}
+
+{% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}/js/search.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
-{% endblock title%}
+{% endblock js %}
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">

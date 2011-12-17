@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/location.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/memberCard.css" />
-    <script type="text/javascript" src="{{ STATIC_URL }}js/location.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/memberCard.js"></script>
-{% endblock title%}
+	<title>Inkle | Location</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/location.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/location.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
+{% endblock js %}
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
@@ -14,7 +21,7 @@
             <div class="grid_8">
                 <!-- Location image -->
                 {% if location.image %}
-                    <img id="locationImage" src="{{ STATIC_URL }}{{ location.image }}" />
+                    <img id="locationImage" src="{{ STATIC_URL }}/{{ location.image }}" />
                 {% else %}
                     <img id="locationImage" src="http://dummyimage.com/300x300/AAA/fff.jpg&text=+" />
                 {% endif %}
