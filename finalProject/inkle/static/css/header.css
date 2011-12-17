@@ -1,4 +1,67 @@
-#searchSuggestions
+#header
 {
-    width: 458px; 
+    background-color: #385E0F;
+    height: 100px;
+    width: 100%;
+}
+
+#logo
+{
+    height: 70px;
+    width: 213px;
+    margin-top: 15px;
+}
+
+#searchInput
+{
+    height: 25px;
+    margin-top: 36px;
+    padding: 0px 5px 0px 5px;
+    font-size: 16px;
+    color: #888;
+}
+
+#requestNotification
+{
+    color: #FFF;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #FF4040;
+    border: solid 1px #FF4040;
+    border-radius: 5px;
+    width: 30px;
+    height: 24px;
+    padding-top: 6px;
+    margin-top: 35px;
+}
+
+#requestNotification:hover
+{
+    border-color: #FFF;
+}
+
+#username
+{
+    text-align: right;
+    margin-top: 28px;
+}
+
+#username a
+{
+    font-size: 20px;
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#logout
+{
+    text-align: right;
+}
+
+#logout a
+{
+    font-size: 14px;
+    color: #FFF;
 }

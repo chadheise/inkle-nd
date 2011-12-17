@@ -4,93 +4,9 @@
     padding: 0px;
 }
 
-#header
+a
 {
-    background-color: #385E0F;
-    height: 100px;
-    width: 100%;
-}
-
-#headerContent
-{
-    width: 960px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#headerTitle
-{
-    color: #FFF;
-    font-size: 42px;
-    font-weight: bold;
-    margin: 25px 50px 0px 0px;
-    float: left;
-    text-decoration: none;
-}
-
-#logo
-{
-    float: left;
-    height: 70px;
-    width: 213px;
-    margin-top: 15px;
-}
-
-#headerSearchContainer
-{
-    float: left;
-}
-
-#searchInput
-{
-    margin: 35px 0px 0px 0px;
-    padding: 0px 3px 0px 3px;
-    font-size: 16px;
-    height: 25px;
-    width: 450px;
-    color: #888;
-}
-
-#headerRightContainer
-{
-    float: right;
-    margin: 28px 0px 0px 0px;
-    color: #FFF;
-    font-weight: bold;
-}
-
-#requestNotification
-{
-    background-color: #FF4040;
-    border-radius: 5px;
-    color: #FFF;
-    font-family: arial;
-    font-size: 14px;
-    text-align: center;
-    float: right;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-#requestNotification p
-{
-    margin-top: 3px;
-}
-
-#username
-{
-    font-size: 20px;
-    color: white;
-    float: right;
-    text-decoration: none;
-}
-
-#logout
-{
-    font-size: 14px;
-    color: #FFF;
-    float: right;
+    outline: none;
 }
 
 #mainContent
