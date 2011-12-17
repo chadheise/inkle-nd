@@ -64,7 +64,7 @@
             <!-- Registration form -->
             <form id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %} action="/inkle/register/" method="POST">
                 {% csrf_token %}
-                <div class="grid_10 alpha">
+                <div class="grid_10 alpha omega">
                     <!-- Registration labels -->
                     <div class="grid_4 alpha omega">
                         <label for="registrationFirstName" class="registrationLabel grid_4">First name:</label>
@@ -73,18 +73,41 @@
                         <label for="registrationConfirmEmail" class="registrationLabel grid_4">Confirm email:</label>
                         <label for="registrationPassword" class="registrationLabel grid_4">Password:</label>
                         <label id="registrationConfirmPasswordLabel" for="registrationConfirmPassword" class="registrationLabel grid_5">Confirm password:</label>
-                        <label for="registrationGender" class="loginLabel grid_4">Gender:</label>
+                        <label for="registrationBirthday" class="registrationLabel grid_4">Birthday:</label>
+                        <label for="registrationGender" class="registrationLabel grid_4">Gender:</label>
                     </div>
 
                     <!-- Registration inputs -->
-                    <div class="grid_6">
+                    <div class="grid_6 omega">
                         <input id="registrationFirstName" class="grid_6 {% if invalidFirstName %}invalidInput{% endif %}" type="text" name="firstName" maxlength="30" value="{{ firstName }}" />
                         <input id="registrationLastName" class="grid_6 {% if invalidLastName %}invalidInput{% endif %}" type="text" name="lastName" maxlength="30" value="{{ lastName }}" />
                         <input id="registrationEmail" class="grid_6 {% if invalidEmail %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ email }}" />
                         <input id="registrationConfirmEmail" class="grid_6 {% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" />
                         <input id="registrationPassword" class="grid_6 {% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{ email }}" />
                         <input id="registrationConfirmPassword" class="grid_6 {% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="30" value="{{ confirmEmail }}" />
+                        <select id="registrationBirthdayMonth" class="{% if invalidBirthdayMonth %}invalidInput{% endif %} grid_2 omega" name="month">
+                            <option value="" {% if month == "" %}selected{% endif %}>Month</option>
+                            <option value="1" {% if month == "1" %}selected{% endif %}>Jan</option>
+                            <option value="2" {% if month == "2" %}selected{% endif %}>Feb</option>
+                            <option value="3" {% if month == "3" %}selected{% endif %}>Mar</option>
+                            <option value="4" {% if month == "4" %}selected{% endif %}>Apr</option>
+                            <option value="5" {% if month == "5" %}selected{% endif %}>May</option>
+                            <option value="6" {% if month == "6" %}selected{% endif %}>Jun</option>
+                            <option value="7" {% if month == "7" %}selected{% endif %}>Jul</option>
+                            <option value="8" {% if month == "8" %}selected{% endif %}>Aug</option>
+                            <option value="9" {% if month == "9" %}selected{% endif %}>Sep</option>
+                            <option value="10" {% if month == "10" %}selected{% endif %}>Oct</option>
+                            <option value="11" {% if month == "11" %}selected{% endif %}>Nov</option>
+                            <option value="12" {% if month == "12" %}selected{% endif %}>Dec</option>
+                        </select>
+                        <select id="registrationBirthdayDay" class="{% if invalidBirthdayDay %}invalidInput{% endif %} grid_2 omega" name="day">
+                            <option value="" {% if day == "" %}selected{% endif %}>Day</option>
+                        </select>
+                        <select id="registrationBirthdayYear" class="{% if invalidBirthdayYear %}invalidInput{% endif %} grid_2 omega" name="year">
+                            <option value="" {% if year == "" %}selected{% endif %}>Year</option>
+                        </select>
                         <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %} grid_3" name="gender">
+                            <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
                             <option value="male" {% if gender == "male" %}selected{% endif %}>Male</option>
                             <option value="female" {% if gender == "female" %}selected{% endif %}>Female</option>
                         </select>

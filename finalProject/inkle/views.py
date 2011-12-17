@@ -448,6 +448,7 @@ def register_view(request):
         invalid_confirm_email = False
         invalid_password = False
         invalid_confirm_password = False
+        invalid_gender = False
         invalid_registration = False
 
         # Get the POST data (and set the appropriate flags if the necessary POST data is not there)
@@ -496,7 +497,7 @@ def register_view(request):
         try:
             gender = request.POST["gender"]
         except:
-            gender = "male"
+            gender = ""
             invalid_registration = True
 
         # If any of the POST data is empty, set the appropriate flags
@@ -561,7 +562,7 @@ def register_view(request):
             return HttpResponseRedirect("/inkle/")
 
     return render_to_response( "login.html",
-        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "gender" : gender},
+        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance=RequestContext(request) )
 
 def logout_view(request):
