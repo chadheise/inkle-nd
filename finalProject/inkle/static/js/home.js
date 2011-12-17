@@ -72,7 +72,7 @@ $(document).ready(function() {
             }
             else
             {
-                $("#dinnerInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                $("#dinnerInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
             }
             $("#pregameInklingInput").val(locations[2]);
             if (locations[3])
@@ -81,7 +81,7 @@ $(document).ready(function() {
             }
             else
             {
-                $("#pregameInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                $("#pregameInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
             }
             $("#mainEventInklingInput").val(locations[4]);
             if (locations[5])
@@ -90,7 +90,7 @@ $(document).ready(function() {
             }
             else
             {
-                $("#mainEventInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                $("#mainEventInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
             }
         },
         error: function(a, b, error) { alert(error); }
@@ -109,8 +109,6 @@ $(document).ready(function() {
         error: function(a, b, error) { alert(error); }
     });
 
-
-
     $(".date").click(function() {
         if (!$(this).hasClass("selectedDate"))
         {
@@ -124,7 +122,7 @@ $(document).ready(function() {
                 url: "/inkle/getInklings/",
                 data: {"date" : date},
                 success: function(locations) {
-                    $("#inklings").fadeOut("medium", function() {
+                    $("#myInklingsContent").fadeOut("medium", function() {
                         locations = locations.split("&&&");
                         $("#dinnerInklingInput").val(locations[0]);
                         if (locations[1])
@@ -133,7 +131,7 @@ $(document).ready(function() {
                         }
                         else
                         {
-                            $("#dinnerInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                            $("#dinnerInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                         }
                         $("#pregameInklingInput").val(locations[2]);
                         if (locations[3])
@@ -142,7 +140,7 @@ $(document).ready(function() {
                         }
                         else
                         {
-                            $("#pregameInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                            $("#pregameInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                         }
                         $("#mainEventInklingInput").val(locations[4]);
                         if (locations[5])
@@ -151,10 +149,10 @@ $(document).ready(function() {
                         }
                         else
                         {
-                            $("#mainEventInkling img").attr("src", "http://dummyimage.com/230x230/aaa/fff.jpg&text=+");
+                            $("#mainEventInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                         }
                 
-                        $("#inklings").fadeIn("medium");
+                        $("#myInklingsContent").fadeIn("medium");
                     });
                 },
                 error: function(a, b, error) { alert(error); }
@@ -195,7 +193,7 @@ $(document).ready(function() {
         thisElement.parent().next().fadeOut("medium");
     });
 
-    $("#inklings .suggestion").live("click", function() {
+    $("#myInklingsContent .suggestion").live("click", function() {
         var locationID = $(this).attr("suggestionID");
         if ($(this).parent().attr("id") == "dinnerInklingSuggestions")
         {
@@ -270,5 +268,29 @@ $(document).ready(function() {
             },
             error: function(a, b, error) { alert(error); }
         });
+    });
+    
+    /* Update the my inklings/others' inklings content when one of their links is clicked */
+    $(".contentLink").click(function() {
+        if (!$(this).hasClass("selectedContentLink"))
+        {
+            // Make the clicked link the selected one
+            $(".selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
+
+            // Update the login/registration content
+            if ($(this).attr("id") == "myInklingsContentLink")
+            {
+                $("#othersInklingsContent").fadeOut("medium", function() {
+                    $("#myInklingsContent").fadeIn("medium");
+                });
+            }
+            else if ($(this).attr("id") == "othersInklingsContentLink")
+            {
+                $("#myInklingsContent").fadeOut("medium", function() {
+                    $("#othersInklingsContent").fadeIn("medium");
+                });
+            }
+        }
     });
 });

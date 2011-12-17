@@ -14,60 +14,79 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div class="grid_3 alpha omega">
-            <div id="today" class="selectedDate date grid_3">
-                <p class="month"></p>
-                <p class="day"></p>
+        <!-- Content links -->
+        <div class="grid_24">
+            <p id="myInklingsContentLink" class="contentLink selectedContentLink grid_5 suffix_1">My Inklings</p>
+            <p id="othersInklingsContentLink" class="contentLink grid_7">Others' Inklings</p>
+            <div class="clear"></div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="grid_3">
+            <div class="grid_3">
+                <div id="today" class="selectedDate date">
+                    <p class="month"></p>
+                    <p class="day"></p>
+                </div>
             </div>
-            <div id="tomorrow" class="date grid_3">
-                <p class="month"></p>
-                <p class="day"></p>
+            <div class="grid_3">
+                <div id="tomorrow" class="date">
+                    <p class="month"></p>
+                    <p class="day"></p>
+                </div>
             </div>
-            <div id="dayAfterTomorrow" class="date grid_3">
-                <p class="month"></p>
-                <p class="day"></p>
+            <div class="grid_3">
+                <div id="dayAfterTomorrow" class="date">
+                    <p class="month"></p>
+                    <p class="day"></p>
+                </div>
             </div>
         </div>
 
-        <div id="inklings">
-            <div id="dinnerInkling" class="inkling grid_6 push_1 alpha omega">
-                <div>
-                    <p class="suggestionTitle">Dinner</p>
-                    <img src="http://dummyimage.com/230x230/aaa/fff.jpg&text=+" />
-                    <input id="dinnerInklingInput" class="inklingInput" type="text" />
-                </div>
+        <!-- My inklings -->
+        <div id="myInklingsContent" class="grid_20 push_1">
+            <div class="grid_6">
+                <div id="dinnerInkling" class="inkling">
+                    <div>
+                        <p class="suggestionTitle">Dinner</p>
+                        <img />
+                        <input id="dinnerInklingInput" class="inklingInput" type="text" />
+                    </div>
     
-                <p id="dinnerInklingSuggestions" class="suggestions">
-                </p> 
+                    <p id="dinnerInklingSuggestions" class="suggestions">
+                    </p> 
+                </div>
             </div>
 
-            <div id="pregameInkling" class="inkling grid_6 push_2 alpha omega">
-                <div>
-                    <p class="suggestionTitle">Pregame</p>
-                    <img src="http://dummyimage.com/230x230/aaa/fff.jpg&text=+" />
-                    <input id="pregameInklingInput" class="inklingInput" type="text" />
-                </div>
+            <div class="grid_6 push_1">
+                <div id="pregameInkling" class="inkling">
+                    <div>
+                        <p class="suggestionTitle">Pregame</p>
+                        <img />
+                        <input id="pregameInklingInput" class="inklingInput" type="text" />
+                    </div>
 
-                <p id="pregameInklingSuggestions" class="suggestions">
-                </p> 
+                    <p id="pregameInklingSuggestions" class="suggestions">
+                    </p> 
+                </div>
             </div>
 
-            <div id="mainEventInkling" class="inkling grid_6 push_3 alpha omega">
-                <div>
-                    <p class="suggestionTitle">Main Event</p>
-                    <img src="http://dummyimage.com/230x230/aaa/fff.jpg&text=+" />
-                    <input id="mainEventInklingInput" class="inklingInput" type="text" />
-                </div>
+            <div class="grid_6 push_2">
+                <div id="mainEventInkling" class="inkling">
+                    <div>
+                        <p class="suggestionTitle">Main Event</p>
+                        <img />
+                        <input id="mainEventInklingInput" class="inklingInput" type="text" />
+                    </div>
 
-                <p id="mainEventInklingSuggestions" class="suggestions">
-                </p> 
+                    <p id="mainEventInklingSuggestions" class="suggestions">
+                    </p> 
+                </div>
             </div>
         </div>
     
-        <div class="clear"></div>
-
-        <div id="locationBoardContainer" class="grid_24">
-            <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_6">
+        <div id="othersInklingsContent" class="grid_21" style="border: solid 1px;">
+            <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_4">
                 <option people="everyone">Everyone</option>
                 <option people="allCircles">All circles</option>
                 {% for sphere in member.spheres2 %}
@@ -78,7 +97,7 @@
                 {% endfor %}
             </select>
             
-            <select id="locationBoardInklingSelect" class="locationBoardSelect grid_6 push_7">
+            <select id="locationBoardInklingSelect" class="locationBoardSelect grid_6 push_5">
                 <option inklingType="dinner">Dinner</option>
                 <option inklingType="pregame">Pregame</option>
                 <option inklingType="mainEvent">Main event</option>

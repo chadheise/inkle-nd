@@ -15,6 +15,20 @@ a
     margin-bottom: 20px;
 }
 
+.contentLink
+{
+    color: #BBB;
+    font-size: 28px;
+    font-weight: bold;
+    margin: -3px 0px 20px 0px;
+    cursor: pointer;
+}
+
+.selectedContentLink
+{
+    color: #385E0F;
+}
+
 #footer
 {
     background-color: #385E0F;

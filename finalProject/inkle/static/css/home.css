@@ -45,15 +45,13 @@
 
 .inkling img
 {
-    height: 230px;
-    width: 230px;
+    height: 206px;
+    width: 206px;
 }
 
-#locationBoardContainer
+#othersInklingsContent
 {
-    margin-top: 10px;
-    padding: 20px 35px 0px 0px;
-    border-top: solid 3px #385E0F;
+    display: none;
 }
 
 .locationBoardSelect

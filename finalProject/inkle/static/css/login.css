@@ -13,20 +13,6 @@
     width: 470px;
 }
 
-.contentLink
-{
-    color: #BBB;
-    font-size: 28px;
-    font-weight: bold;
-    margin: -3px 0px 20px 0px;
-    cursor: pointer;
-}
-
-.selectedContentLink
-{
-    color: #385E0F;
-}
-
 .loginLabel, .registrationLabel
 {
     text-align: right;
