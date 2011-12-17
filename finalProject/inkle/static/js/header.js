@@ -57,19 +57,4 @@ $(document).ready(function() {
         var query = $(this).children(".suggestionText").text();
         window.location.href = "/inkle/search/" + query;
     });
-    
-    $("#requestNotification").live("click", function() {
-            window.location.href = "/inkle/manage/requests";
-    });
-
-    $("#requestNotification").live("mouseenter", function() {
-        $(this).css("border", "solid 1px darkred");
-        $(this).css("cursor", "pointer");
-    });
-    
-    $("#requestNotification").live("mouseleave", function() {
-        $(this).css("border", "none");
-    });
-    
-    
 });

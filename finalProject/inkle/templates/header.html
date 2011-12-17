@@ -1,19 +1,35 @@
 <div id="header">
-    <div id="headerContent">
-        <a id="headerTitle" href="/inkle/">Inkle</a>
-        <div id="headerSearchContainer">
-            <input id="searchInput" type="text" />
-            <p id="searchSuggestions" class="suggestions">
+    <div class="container_24">
+        <!-- Logo -->
+        <div class="grid_5 suffix_1">
+            <a id="logoLink" href="/inkle/"><img id="logo" src="{{ STATIC_URL }}media/images/main/inkleLogo.png" /></a>
         </div>
-        <div id="headerRightContainer">
-            <a id="username" href="/inkle/manage/">{{ member.first_name }} {{ member.last_name }}</a>
-            {% if member.num_requests %}
-                <div id="requestNotification" class="test">
-                    <p>{{member.num_requests}}</p>
+        
+        {% if member %}
+            <!-- Search bar -->
+            <div id="headerSearchContainer" class="grid_11 suffix_1">
+                <input id="searchInput" class="grid_11" type="text" />
+                <p id="searchSuggestions" class="grid_11 suggestions">
+            </div>
+
+            <!-- Notifications -->
+            <div class="grid_1">
+                {% if member.num_requests %}
+                    <a href="/inkle/manage/requests/"><div id="requestNotification">{{ member.num_requests }}</div></a>
+                {% else %}
+                    <p class="grid_1">&nbsp;</p>
+                {% endif %}
+            </div>
+
+            <!-- Member name / logout -->
+            <div class="grid_5">
+                <div id="username" class="grid_5">
+                    <a href="/inkle/manage/">{{ member.first_name }} {{ member.last_name }}</a>
                 </div>
-            {% endif %}
-            </br>
-            <a id="logout" href="/inkle/logout/">Logout</a>
-        </div>
+                <div id="logout" class="grid_5">
+                    <a href="/inkle/logout/">Logout</a>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
