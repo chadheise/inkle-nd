@@ -1,7 +1,11 @@
 <div class="grid_16 center">
-    <div id ="memberSpheres">
-        {% for s in spheres %}
-            {% include "sphereCard.html" %}
-        {% endfor %}
-    </div>
+    {% if spheres %}
+        <div id ="memberSpheres">
+            {% for s in spheres %}
+                {% include "sphereCard.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center;">You are not in any spheres.</p>
+    {% endif %}
 </div>
