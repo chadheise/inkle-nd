@@ -29,10 +29,8 @@ $(document).ready(function() {
 
     // Create Date objects for today, tomorrow, and the day after tomorrow
     var today = new Date();
-
     var tomorrow = new Date();
     tomorrow.setTime(tomorrow.getTime() + (1000 * 3600 * 24));
-    
     var dayAfterTomorrow = new Date();
     dayAfterTomorrow.setTime(tomorrow.getTime() + (1000 * 3600 * 24));
 
@@ -54,31 +52,21 @@ $(document).ready(function() {
     $("#dayAfterTomorrow").attr("day", dayAfterTomorrow.getDate());
     $("#dayAfterTomorrow").attr("month", dayAfterTomorrow.getMonth() + 1);
     $("#dayAfterTomorrow").attr("year", dayAfterTomorrow.getFullYear());
-    
-    // Get the current date
-    var date = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
-
-    // Initialize the locations board
-    $("#locationBoardPeopleSelect option:nth(1)").attr("selected", "selected");
-    $("#locationBoardInklingSelect option:first").attr("selected", "selected");
-    $.ajax({
-        type: "POST",
-        url: "/inkle/populateLocationBoard/",
-        data: {"peopleType" : "other", "peopleID" : "allCircles", "inklingType" : "dinner", "date" : date},
-        success: function(html) {
-           $("#locationBoard").html(html);
-        },
-        error: function(a, b, error) { alert(error); }
-    });
+  
+    // Set the "All circles" optino as the selected option
+    $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
 
     $(".date").click(function() {
         if (!$(this).hasClass("selectedDate"))
         {
+            // Change the selected date
             $(".selectedDate").removeClass("selectedDate");
             $(this).addClass("selectedDate");
         
+            // Get the selected date
             var date = $(this).attr("month") + "/" + $(this).attr("day") + "/" + $(this).attr("year");
         
+            // Get the logged in member's inkling for the selected date
             $.ajax({
                 type: "POST",
                 url: "/inkle/getInklings/",
@@ -86,6 +74,8 @@ $(document).ready(function() {
                 success: function(locations) {
                     $("#myInklingsContent").fadeOut("medium", function() {
                         locations = locations.split("&&&");
+
+                        // Update the images for the logged in user's inklings
                         $("#dinnerInklingInput").val(locations[0]);
                         if (locations[1])
                         {
@@ -113,8 +103,12 @@ $(document).ready(function() {
                         {
                             $("#mainEventInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                         }
-                
-                        $("#myInklingsContent").fadeIn("medium");
+              
+                        // Fade in the my inklings content if it is currently being displayed
+                        if ($("#myInklingsContentLink").hasClass("selectedContentLink"))
+                        {
+                            $("#myInklingsContent").fadeIn("medium");
+                        }
                     });
                 },
                 error: function(a, b, error) { alert(error); }
@@ -200,7 +194,7 @@ $(document).ready(function() {
         if (selectedPeopleOption.attr("people"))
         {
             var peopleType = "other";
-            var peopleID = selectedPeopleOption.attr("people");
+            var peopleID = "circles";
         }
         else if (selectedPeopleOption.attr("sphereID"))
         {
@@ -220,7 +214,7 @@ $(document).ready(function() {
         
         $.ajax({
             type: "POST",
-            url: "/inkle/populateLocationBoard/",
+            url: "/inkle/getOthersInklings/",
             data: {"peopleType" : peopleType, "peopleID" : peopleID, "inklingType" : inklingType, "date" : date},
             success: function(html) {
                 $("#locationBoard").fadeOut("medium", function() {

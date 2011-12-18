@@ -30,13 +30,16 @@ def home_view(request):
     member.spheres2 = member.spheres.all()
     member.circles2 = member.circles.all()
     
-    # Get the logged in member's inklings
+    # Get the logged in member's inklings for today
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
+    
+    # Get others' dinner inklings for today
+    locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
     return render_to_response( "home.html",
-        { "member" : member },
+        { "member" : member, "locations" : locations },
         context_instance = RequestContext(request) )
 
 def manage_view(request, defaultContent = "circles"):
@@ -339,7 +342,7 @@ def suggestions_view(request, query = ""):
         {"categories" : categories, "footerSubject" : footerSubject},
         context_instance = RequestContext(request) )
 
-def populate_location_board_view(request):
+def get_others_inklings_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
            return HttpResponseRedirect("/inkle/login")
@@ -353,12 +356,16 @@ def populate_location_board_view(request):
     people_id = request.POST["peopleID"]
     inkling_type = request.POST["inklingType"]
 
-    if (people_type == "other"):
-        if (people_id == "everyone"):
-            people = Member.objects.all()
+    # Get others' inklings
+    locations = get_others_inklings(member, date, people_type, people_id, inkling_type)
 
-        elif (people_id == "allCircles"):
-            people = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+    return render_to_response( "locationBoard.html",
+        {"locations" : locations},
+        context_instance = RequestContext(request) )
+
+def get_others_inklings(member, date, people_type, people_id, inkling_type):
+    if (people_type == "other"):
+        people = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
 
     elif (people_type == "sphere"):
         sphere = Sphere.objects.get(pk = people_id)
@@ -373,7 +380,6 @@ def populate_location_board_view(request):
         event = p.events.filter(date = date, category = inkling_type)
         if (event):
             location = event[0].location
-            print location
             if (location in locations):
                 for l in locations:
                     if (l == location):
@@ -384,9 +390,7 @@ def populate_location_board_view(request):
     
     locations.sort(key = lambda l:-l.count)
 
-    return render_to_response("locationBoard.html",
-        {"locations" : locations},
-        context_instance = RequestContext(request) )
+    return locations
 
 def login_view(request):
     """User login."""

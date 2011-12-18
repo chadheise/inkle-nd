@@ -105,8 +105,7 @@
             </div>
             
             <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_1">
-                <option people="everyone">Everyone</option>
-                <option people="allCircles">All circles</option>
+                <option people="circles">All circles</option>
                 {% for sphere in member.spheres2 %}
                     <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
                 {% endfor %}
