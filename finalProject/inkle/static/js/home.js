@@ -53,8 +53,9 @@ $(document).ready(function() {
     $("#dayAfterTomorrow").attr("month", dayAfterTomorrow.getMonth() + 1);
     $("#dayAfterTomorrow").attr("year", dayAfterTomorrow.getFullYear());
   
-    // Set the "All circles" optino as the selected option
+    // Set the "All circles" and "Dinner" options as the selected options
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
+    $("#locationBoardInklingSelect option:first").attr("selected", "selected");
 
     $(".date").click(function() {
         if (!$(this).hasClass("selectedDate"))
