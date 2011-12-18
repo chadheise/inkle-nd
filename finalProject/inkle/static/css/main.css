@@ -18,10 +18,12 @@ a
 .contentLink
 {
     color: #BBB;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     margin: -3px 0px 20px 0px;
     cursor: pointer;
+    float: left;
+    margin-right: 30px;
 }
 
 .selectedContentLink
