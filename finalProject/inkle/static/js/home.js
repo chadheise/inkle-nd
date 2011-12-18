@@ -76,7 +76,7 @@ $(document).ready(function() {
                         locations = locations.split("&&&");
 
                         // Update the images for the logged in user's inklings
-                        $("#dinnerInklingInput").val(locations[0]);
+                        $("#dinnerInkling input").val(locations[0]);
                         if (locations[1])
                         {
                             $("#dinnerInkling img").attr("src", "/static/" + locations[1]);
@@ -85,7 +85,7 @@ $(document).ready(function() {
                         {
                             $("#dinnerInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                         }
-                        $("#pregameInklingInput").val(locations[2]);
+                        $("#pregameInkling input").val(locations[2]);
                         if (locations[3])
                         {
                             $("#pregameInkling img").attr("src", "/static/" + locations[3]);
@@ -94,7 +94,7 @@ $(document).ready(function() {
                         {
                             $("#pregameInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                         }
-                        $("#mainEventInklingInput").val(locations[4]);
+                        $("#mainEventInkling input").val(locations[4]);
                         if (locations[5])
                         {
                             $("#mainEventInkling img").attr("src", "/static/" + locations[5]);
@@ -140,26 +140,74 @@ $(document).ready(function() {
         }
         else
         {
-            $("#dinnerInklingSuggestions").fadeOut("medium");
+            $(".inkling .suggestions").fadeOut("medium");
         }
     });
-    
+   
+    // Fade out the suggestions or remove the inkling when an inkling input loses focus
     $(".inkling input").blur(function() {
-        var thisElement = $(this);
-        thisElement.parent().next().fadeOut("medium");
+        // Get the input's value
+        var query = $(this).val();
+
+        // If the input's value is empty, remove the selected inkling
+        if (query == "")
+        {
+            // Get the inkling element
+            var inklingElement = $(this).parents(".inkling");
+            
+            // Get the type of the selected inkling
+            if (inklingElement.attr("id") == "dinnerInkling")
+            {
+                var inklingType = "dinner"
+            }
+            else if (inklingElement.attr("id") == "pregameInkling")
+            {
+                var inklingType = "pregame";
+            }
+            if (inklingElement.attr("id") == "mainEventInkling")
+            {
+                var inklingType = "mainEvent"; 
+            }
+
+            // Get the selected date
+            var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
+
+            // Remove the selected inkling
+            $.ajax({
+                type: "POST",
+                url: "/inkle/removeInkling/",
+                data: {"inklingType" : inklingType, "date" : date},
+                success: function() {
+                    // Remove the location picture for the update inkling
+                    inklingElement.find("img:first").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
+                },
+                error: function(a, b, error) { alert(error); }
+            });
+        }
+
+        // If the input is not empty, fade out the suggestions
+        else
+        {
+            $(this).parent().next().fadeOut("medium");
+        }
     });
 
+    // Update the inkling content when a suggestion is clicked
     $("#myInklingsContent .suggestion").live("click", function() {
+        // Get the ID of the selected location
         var locationID = $(this).attr("suggestionID");
-        if ($(this).parent().attr("id") == "dinnerInklingSuggestions")
+
+        // Get the type of the selected inkling
+        var inklingElement = $(this).parents(".inkling");
+        if (inklingElement.attr("id") == "dinnerInkling")
         {
             var inklingType = "dinner"
         }
-        else if ($(this).parent().attr("id") == "pregameInklingSuggestions")
+        else if (inklingElement.attr("id") == "pregameInkling")
         {
             var inklingType = "pregame";
         }
-        if ($(this).parent().attr("id") == "mainEventInklingSuggestions")
+        else if (inklingElement.attr("id") == "mainEventInkling")
         {
             var inklingType = "mainEvent"; 
         }
@@ -167,22 +215,43 @@ $(document).ready(function() {
         // Get the selected date
         var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
 
+        // Create the selected inkling
         $.ajax({
             type: "POST",
-            url: "/inkle/setInkling/",
+            url: "/inkle/createInkling/",
             data: {"inklingType" : inklingType, "locationID" : locationID, "date" : date},
-            success: function(locationName) {
+            success: function(locationInfo) {
+                // Get the location name and image
+                locationInfo = locationInfo.split("&&&");
+                var locationName = locationInfo[0];
+                var locationImage = locationInfo[1];
+
+                // Get the appropriate inkling elements
                 if (inklingType == "dinner")
                 {
-                    $("#dinnerInklingInput").val(locationName);
+                    var inklingInput = $("#dinnerInkling input");
+                    var inklingImage = $("#dinnerInkling img");
                 }
                 else if (inklingType == "pregame")
                 {
-                    $("#pregameInklingInput").val(locationName);
+                    var inklingInput = $("#pregameInkling input");
+                    var inklingImage = $("#pregameInkling img");
                 }
                 else if (inklingType == "mainEvent")
                 {
-                    $("#mainEventInklingInput").val(locationName);
+                    var inklingInput = $("#mainEventInkling input");
+                    var inklingImage = $("#mainEventInkling img");
+                }
+
+                // Update the appropriate inkling's name and image
+                inklingInput.val(locationName);
+                if (locationImage != "")
+                {
+                    inklingImage.attr("src", "/static/" + locationImage);
+                }
+                else
+                {
+                    inklingImage.attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
                 }
             },
             error: function(a, b, error) { alert(error); }
