@@ -25,19 +25,13 @@ def edit_profile_view(request):
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
 
-    #print = request.POST["password"]
-
     member.first_name = request.POST["first_name"]
     member.last_name = request.POST["last_name"]
     #member.set_password(request.POST["password"])
     member.email = request.POST["email"]
-    if request.POST["phone"] == "":
-        member.phone = 0
-    else:
-        member.phone = request.POST["phone"]
+    member.phone = request.POST["phone"]
     member.birthday = request.POST["birthday"]
     member.gender = request.POST["gender"]
-    print member
     member.save()
     
     return HttpResponse()
@@ -118,6 +112,9 @@ def accept_request_view(request):
     from_follower.save()
     to_member.followers.add(from_follower)
 
+    # Add the to member to the from member's following list
+    from_member.following.add(to_member)
+
     return HttpResponse()
 
 def reject_request_view(request):
@@ -155,6 +152,9 @@ def stop_following_view(request):
         if from_member == f.follower:
             to_member.followers.remove(f)
             f.delete()
+    
+    # Remove the to member from the from member's following list
+    from_member.following.remove(to_member)
 
     return HttpResponse()
 
@@ -169,7 +169,6 @@ def prevent_following_view(request):
     if to_member in from_member.accepted.all():
         from_member.accepted.remove(to_member)
 
-
     # Remove to member from all of from members circles
     for c in from_member.circles.all():
         if to_member in c.members.all():
@@ -182,6 +181,9 @@ def prevent_following_view(request):
             to_member.followers.remove(follower)
             follower.delete()
             break
+    
+    # Remove the from member from the to member's following list
+    from_member.following.remove(to_member)
 
     return HttpResponse()
 

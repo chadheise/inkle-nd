@@ -71,11 +71,6 @@ EVENT_CATEGORIES = (
     ("M", "Main event"),
 )
 
-GENDERS = (
-    ("M", "Male"),
-    ("F", "Female"),
-)
-
 class Location(models.Model):
     name = models.CharField(max_length = 100)
     category = models.CharField(max_length = 20, choices = LOCATION_CATEGORIES, default = "Other")
@@ -84,9 +79,9 @@ class Location(models.Model):
     state = models.CharField(max_length = 2, choices = STATES, default = "AL")
     zip_code = models.IntegerField(max_length = 5)
     
-    phone = models.IntegerField(max_length = 10, default = "0000000000")
-    website = models.CharField(max_length = 100)
-    image = models.CharField(max_length = 200, default = "")
+    phone = models.CharField(max_length = 10, default = "")
+    website = models.CharField(max_length = 100, default = "")
+    image = models.CharField(max_length = 200, default = "media/images/main/defaultImage.jpg")
 
     # age restrictions
     # hours 
@@ -125,6 +120,7 @@ class Event(models.Model):
 
 class Member(User):
     # User contains id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
+
     spheres = models.ManyToManyField(Sphere, symmetrical = False)
     circles = models.ManyToManyField(Circle, symmetrical = False, related_name = "+")
 
@@ -132,13 +128,14 @@ class Member(User):
     accepted = models.ManyToManyField("self", symmetrical = False, related_name = "+++")
     requested = models.ManyToManyField("self", symmetrical = False, related_name = "++++")
     followers = models.ManyToManyField(Follower, symmetrical = False)
+    following = models.ManyToManyField("self", symmetrical = False)
     
     events = models.ManyToManyField(Event)
 
-    gender = models.CharField(max_length = 1, choices = GENDERS, default = "M")
-    birthday = models.CharField(max_length = 10, default = "-1")
-    phone = models.IntegerField(max_length = 10, default = "-1")
-    image = models.CharField(max_length = 200, default = "")
+    gender = models.CharField(max_length = 6)
+    birthday = models.CharField(max_length = 14)
+    phone = models.CharField(max_length = 10, default = "")
+    image = models.CharField(max_length = 200, default = "media/images/main/defaultImage.jpg")
     
     def __unicode__(self):
         return "%s" % (self.username)

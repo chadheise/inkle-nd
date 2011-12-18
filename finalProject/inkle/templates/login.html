@@ -77,8 +77,8 @@
                         <input id="registrationLastName" class="grid_6 {% if invalidLastName %}invalidInput{% endif %}" type="text" name="lastName" maxlength="30" value="{{ lastName }}" />
                         <input id="registrationEmail" class="grid_6 {% if invalidEmail %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ email }}" />
                         <input id="registrationConfirmEmail" class="grid_6 {% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" />
-                        <input id="registrationPassword" class="grid_6 {% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{ email }}" />
-                        <input id="registrationConfirmPassword" class="grid_6 {% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="30" value="{{ confirmEmail }}" />
+                        <input id="registrationPassword" class="grid_6 {% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{ password }}" />
+                        <input id="registrationConfirmPassword" class="grid_6 {% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="30" value="{{ confirmPassword }}" />
                         <select id="registrationMonth" class="{% if invalidMonth %}invalidInput{% endif %} grid_2 omega" name="month">
                             <option value="" {% if month == "" %}selected{% endif %}>Month</option>
                             <option value="1" {% if month == "1" %}selected{% endif %}>Jan</option>
@@ -102,8 +102,8 @@
                         </select>
                         <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %} grid_3" name="gender">
                             <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
-                            <option value="male" {% if gender == "male" %}selected{% endif %}>Male</option>
-                            <option value="female" {% if gender == "female" %}selected{% endif %}>Female</option>
+                            <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
+                            <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
                         </select>
                     </div>
                 </div>    
