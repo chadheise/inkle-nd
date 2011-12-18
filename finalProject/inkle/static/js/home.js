@@ -58,44 +58,6 @@ $(document).ready(function() {
     // Get the current date
     var date = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
 
-    // Initialize the logged in member's inklings
-    $.ajax({
-        type: "POST",
-        url: "/inkle/getInklings/",
-        data: {"date" : date},
-        success: function(locations) {
-            locations = locations.split("&&&");
-            $("#dinnerInklingInput").val(locations[0]);
-            if (locations[1])
-            {
-                $("#dinnerInkling img").attr("src", "/static/" + locations[1]);
-            }
-            else
-            {
-                $("#dinnerInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-            }
-            $("#pregameInklingInput").val(locations[2]);
-            if (locations[3])
-            {
-                $("#pregameInkling img").attr("src", "/static/" + locations[3]);
-            }
-            else
-            {
-                $("#pregameInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-            }
-            $("#mainEventInklingInput").val(locations[4]);
-            if (locations[5])
-            {
-                $("#mainEventInkling img").attr("src", "/static/" + locations[5]);
-            }
-            else
-            {
-                $("#mainEventInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-            }
-        },
-        error: function(a, b, error) { alert(error); }
-    });
-    
     // Initialize the locations board
     $("#locationBoardPeopleSelect option:nth(1)").attr("selected", "selected");
     $("#locationBoardInklingSelect option:first").attr("selected", "selected");
@@ -163,7 +125,7 @@ $(document).ready(function() {
         }
     });
     
-    $(".inklingInput").keyup(function(e) {
+    $(".inkling input").keyup(function(e) {
         var thisElement = $(this);
         var query = thisElement.val();
 
@@ -188,7 +150,7 @@ $(document).ready(function() {
         }
     });
     
-    $(".inklingInput").blur(function() {
+    $(".inkling input").blur(function() {
         var thisElement = $(this);
         thisElement.parent().next().fadeOut("medium");
     });

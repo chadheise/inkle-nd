@@ -29,6 +29,11 @@ def home_view(request):
 
     member.spheres2 = member.spheres.all()
     member.circles2 = member.circles.all()
+    
+    # Get the logged in member's inklings
+    now = datetime.datetime.now()
+    date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
+    member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
 
     return render_to_response( "home.html",
         { "member" : member },

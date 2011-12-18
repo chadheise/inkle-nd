@@ -43,10 +43,29 @@
     background-color: #DDD;
 }
 
+.inkling p
+{
+    margin-top: 2px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #385E0F;
+}
+
 .inkling img
 {
-    height: 206px;
-    width: 206px;
+    margin-top: 5px;
+    border: solid 1px #000;
+    height: 204px;
+    width: 204px;
+}
+
+.inkling input
+{
+    margin-top: 5px;
+    font-size: 18px;
+    padding: 5px;
+    width: 192px;
 }
 
 #othersInklingsContent
@@ -83,7 +102,6 @@
     font-weight: bold;
     color: #FFF;
     background-color: #009ACD;
-    margin-right: 15px;
 }
 
 .locationBoardCardName

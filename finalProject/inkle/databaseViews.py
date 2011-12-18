@@ -350,26 +350,40 @@ def get_inklings_view(request):
     # Get the date
     date = request.POST["date"]
     
-    # Get the inklings
-    dinnerLocation = ""
-    dinnerImage = ""
-    pregameLocation = ""
-    pregameImage = ""
-    mainEventLocation = ""
-    mainEventImage = ""
+    # Get the logged in member's inklings
+    dinnerName, dinnerImage, pregameName, pregameImage, mainEventName, mainEventImage = get_inklings(member, date)
+        
+    return HttpResponse(dinnerName + "&&&" +  dinnerImage + "&&&" + pregameName + "&&&" + pregameImage + "&&&" + mainEventName + "&&&" + mainEventImage)
 
-    for event in member.events.filter(date = date):
-        if (event.category == "dinner"):
-            dinnerLocation = event.location.name
-            dinnerImage = event.location.image
-        elif (event.category == "pregame"):
-            pregameLocation = event.location.name
-            pregameImage = event.location.image
-        elif (event.category == "mainEvent"):
-            mainEventLocation = event.location.name
-            mainEventImage = event.location.image
-   
-    return HttpResponse(dinnerLocation + "&&&" +  dinnerImage + "&&&" + pregameLocation + "&&&" + pregameImage + "&&&" + mainEventLocation + "&&&" + mainEventImage)
+def get_inklings(member, date):
+    # Get the logged in member's dinner inkling
+    try:
+        event = member.events.filter(date = date, category = "dinner")[0]
+        dinnerName = event.location.name
+        dinnerImage = event.location.image
+    except:
+        dinnerName = ""
+        dinnerImage = ""
+    
+    # Get the logged in member's pregame inkling
+    try:
+        event = member.events.filter(date = date, category = "pregame")[0]
+        pregameName = event.location.name
+        pregameImage = event.location.image
+    except:
+        pregameName = ""
+        pregameImage = ""
+
+    # Get the logged in member's main event inkling
+    try:
+        event = member.events.filter(date = date, category = "mainEvent")[0]
+        mainEventName = event.location.name
+        mainEventImage = event.location.image
+    except:
+        mainEventName = ""
+        mainEventImage = ""
+
+    return (dinnerName, dinnerImage, pregameName, pregameImage, mainEventName, mainEventImage)
 
 def add_sphere_view(request):
     newSphere = Sphere(name=request.POST["sphereName"])
