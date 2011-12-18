@@ -4,53 +4,62 @@ ul {
 
 .memberCard
 {
-    border: 2px solid darkgray;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    border: 2px solid #444;
+    background-color: #BBB;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .cardImage
 {
-    border: solid black 1px;
-    margin-top: 5px;
+    border: 1px solid #444;
     height: 100px;
     width: 100px;
+    float: left;
+    margin: 5px 10px 5px 5px;
 }
 
-.memberName
+.memberCardInfo
+{
+    width: 400px;
+    float: left;
+    margin: 0px 10px 5px 0px;
+}
+
+.memberCardName
 {
     font-family: helvetica;
     color: #385E0F;
     font-size: 32px;
     font-weight: bold;
     text-decoration: none;
-    margin-top: 5px;
 }
 
-.spheres
+.memberCardSpheres
 {
     font-size: 14px;
+    width: 100%;
+}
+
+.memberCardSphere
+{
+    float: left;
 }
 
 .mutualFriends
 {
+    clear: both;
     font-size: 12px;
     margin-bottom: 5px;
 }
 
-.contactInfo
+.memberCardContactInfo
 {
-    font-family: helvetica;
-    font-size: 10px;
-    color: navy;
+    float: left;
+    font-size: 12px;
     text-align: right;
-    margin-right: 15px;
-    margin-top: 15px;
-}
-
-.contactLabel
-{
-    color: gray;
+    width: 130px;
+    margin-top: 5px;
 }
 
 .buttons

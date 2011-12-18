@@ -46,12 +46,12 @@
                     <li>Phone: <input id="inputPhone" value="{{ member.phone }}"/></li>
                     <li>Birthday: <input id="inputBirthday" value="{{ member.birthday }}"/></li>
                     <li>Gender: <select id="inputGender">
-                                {% if member.gender == "M" %}
-                                    <option selected="selected">M</option>
-                                    <option>F</Option>
+                                {% if member.gender == "Male" %}
+                                    <option value="Male" selected="selected">M</option>
+                                    <option value="Female">F</Option>
                                 {% else %}
-                                    <option>M</option>
-                                    <option selected="selected">F</Option>
+                                    <option value="Male">M</option>
+                                    <option value="Female" selected="selected">F</Option>
                                 {% endif %}
                                 </select> </li>
                 </ul>
@@ -60,7 +60,7 @@
             </div>
         </div>
         
-        <div class="grid_17">
+        <div class="grid_17 alpha omega">
             <!-- Content links -->
             <div class="grid_17">
                 <p id="requestsContentLink" class="contentLink">Requests</p>
@@ -70,7 +70,7 @@
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
-            <div id="primaryContent" >
+            <div id="primaryContent" class="grid_17 alpha omega">
                 <div id="defaultContent" data="{{defaultContent}}"></div>
             </div>
        </div>

@@ -55,8 +55,6 @@ def manage_view(request, defaultContent = "circles"):
     for r in member.requested.all():
         member.num_requests += 1
 
-    print {"member" : member, "defaultContent" : defaultContent}
-
     return render_to_response( "manage.html",
         {"member" : member, "defaultContent" : defaultContent},
         context_instance = RequestContext(request) )
@@ -169,26 +167,24 @@ def search_view(request, query = ""):
         context_instance = RequestContext(request) )
 
 def requested_view(request):
-    # If a user is not logged in, redirect them to the login page
-    if ("member_id" not in request.session):
-           return HttpResponseRedirect("/inkle/login")
-    
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    members = member.requested.all()
+    # Get the members who have requested to follow the logged in member
+    requested_members = member.requested.all()
 
-    for m in members:
-        m.spheres2 = m.spheres.all()
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
-        m.relationship = "pending"
-        m.button_list = []
-        m.button_list.append(buttonDictionary["reject"])
-        m.button_list.append(buttonDictionary["accept"])
+    # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
+    for m in requested_members:
+        m.sphereNames = [sphere.name for sphere in m.spheres.all()]
+        m.mutual_followings = member.following.all() & m.following.all()
+        m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
+        m.show_contact_info = True
 
     return render_to_response( "requested.html",
-        {"member" : member, "members" : members},
+        {"members" : requested_members},
         context_instance = RequestContext(request) )
 
 def followers_view(request):
@@ -557,7 +553,7 @@ def register_view(request):
         if (year == ""):
             invalid_year = True
             invalid_registration = True
-        if ((gender != "male") and (gender != "female")):
+        if ((gender != "Male") and (gender != "Female")):
             invalid_gender = True
             invalid_registration = True
 

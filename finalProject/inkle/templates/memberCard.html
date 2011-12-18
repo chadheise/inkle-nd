@@ -1,38 +1,46 @@
-{% block memberCard %}
-      
-    <div id="memberCard_{{m.id}}"class="grid_16">
- 
-        <div class="memberCard push_1 grid_14">
-            <div class="grid_3">
-                {% if m.image %}
-                    <img class="cardImage" src="{{ STATIC_URL }}{{ m.image }}" />
-                {% else %}
-                    <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
-                {% endif %}
-            </div>
-            <!-- <div class="grid_10"> -->
-                <div class="grid_7">
-                    <p class="memberName">{{ m.first_name }} {{ m.last_name }}</p>
-                    <div class="spheres">
-                        {% for s in m.spheres2 %}
-                            <p>{{s.name}}</p>
-                        {% endfor %}
-                    </div>
-                    {% if m != member %}
-                        <p class="mutualFriends">{{ m.num_mutual_followings }} mutual followings</p>
-                    {% endif %}
+<!-- Member card -->
+<div class="grid_17 alpha omega">
+    <div id="memberCard_{{m.id}}" class="memberCard">
+        <!-- Member card image -->
+        <div>
+            {% if m.image %}
+                <img class="cardImage" src="{{ STATIC_URL }}/{{ m.image }}" />
+            {% else %}
+                <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
+            {% endif %}
+        </div>
+
+        <!-- Member card member info -->
+        <div class="memberCardInfo">
+            <a class="memberCardName" href="/inkle/member/{{ m.id }}">{{ m.first_name }} {{ m.last_name }}</a>
+            {% if m.sphereNames %}
+                <div class="memberCardSpheres">
+                    {% for sphereName in m.sphereNames %}
+                        {% if forloop.counter == m.sphereNames|length %}
+                            <p class="memberCardSphere">{{ sphereName }}</p>
+                        {% else %}
+                            <p class="memberCardSphere">{{ sphereName }}&nbsp;&middot;&nbsp;</p>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                {% if m.relationship == "friend" or m == member %}
-                    <div class="contactInfo grid 4">
-                        <ul>
-                            <li><span class="contactLabel">Email: </span>{{ m.email }}</li>
-                            <li><span class="contactLabel">Phone: </span>{{ m.phone }}</li>
-                            <li><span class="contactLabel">Birthday: </span>{{ m.birthday }}</li>
-                        </ul>
-                    </div>
-                {% endif %}
-                <div class="clear"></div>
- 
+            {% endif %}
+            <p class="mutualFriends">{{ m.mutual_followings|length }} mutual followings</p>
+        </div>
+
+        <!-- Member card contact info -->
+        {% if m.show_contact_info %}
+            <div class="memberCardContactInfo">
+                <ul>
+                    {% if m.email %}
+                        <li>{{ m.email }}</li>
+                    {% endif %}
+                    {% if m.phone %}
+                        <li>{{ m.phone }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+                
                 <div class="grid_11 buttons">
                     {% if m != member %}
                         {% for buttonClass, buttonText, toolTip in m.button_list %}
@@ -53,10 +61,6 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-        </div>
         <div class="clear"></div>
-        
-    </div>
-    <div class="clear"></div>
-      
-{% endblock memberCard %}
+        </div>
+</div>

@@ -1,7 +1,6 @@
 $(document).ready(function() {
-    
     function hideMemberCard(memberID) {
-        $("#memberCard_"+memberID).fadeOut('medium');
+        $("#memberCard_" + memberID).fadeOut('medium');
     }
     
     /*----------------------Circle Button Functions--------------------------*/
