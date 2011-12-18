@@ -29,6 +29,14 @@ a
     color: #385E0F;
 }
 
+.subheader
+{
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 3px;
+    color: #385E0F;
+}
+
 #footer
 {
     background-color: #385E0F;
