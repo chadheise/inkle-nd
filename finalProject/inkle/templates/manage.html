@@ -21,7 +21,7 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div id="profileInfo" class="grid_8">
+        <div id="profileInfo" class="grid_6 suffix_1">
             <h3>Profile Info</h3>
             {% if member.image %}
                 <img id="profileImage" src="{{ STATIC_URL }}/{{ member.image }}" />
@@ -58,15 +58,16 @@
                 <input type="button" value="Submit Changes" id="submitChangesButton" class="profileButton"/>
                 <input type="button" value="Discard Changes" id="discardChangesButton" class="profileButton"/>
             </div>
-            
         </div>
         
-        <div class="grid_16" >
-            <div class="nav push_2 alpha">
-                <input class="navButton grid_3" type="button" value="Requests"/>
-                <input class="navButton selected grid_3" type="button" value="Circles"/>
-                <input class="navButton grid_3" type="button" value="Spheres"/>
-                <input class="navButton grid_3" type="button" value="Followers"/>
+        <div class="grid_17">
+            <!-- Content links -->
+            <div class="grid_17">
+                <p id="requestsContentLink" class="contentLink">Requests</p>
+                <p id="circlesContentLink" class="contentLink">Circles</p>
+                <p id="spheresContentLink" class="contentLink">Spheres</p>
+                <p id="followersContentLink" class="contentLink">Followers</p>
+                <div class="clear"></div>
             </div>
             <div class="clear"></div>
             <div id="primaryContent" >

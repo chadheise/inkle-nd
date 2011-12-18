@@ -1,25 +1,18 @@
 $(document).ready(function() {
-    
     //Set default primaryContent
-        // Get Requests HTML
-        var contentType = $("#defaultContent").attr("data");
+    var contentType = $("#defaultContent").attr("data");
 
-        $.ajax({
-            type: "POST",
-            url: "/inkle/" + contentType + "/",
-            data: {},
-            success: function(html) {
-                $("#primaryContent").html(html);
-            },
-            error: function(a, b, error) { alert(error); }
-        });
+    $.ajax({
+        type: "POST",
+        url: "/inkle/" + contentType + "/",
+        data: {},
+        success: function(html) {
+            $("#primaryContent").html(html);
+        },
+        error: function(a, b, error) { alert(error); }
+    });
 
-        $(".navButton").each( function() {
-           $(this).removeClass("selected");
-           if ($(this).val().toLowerCase() == contentType) {
-               $(this).addClass("selected");
-           }
-        });
+    $("#" + contentType + "ContentLink").addClass("selectedContentLink");
     
     function loadContent(URL) {
         // Get Requests HTML
@@ -38,20 +31,18 @@ $(document).ready(function() {
         
     }
     
-    $(".navButton").click(function() {
+    $(".contentLink").click(function() {
         var thisElement = $(this);
-        $(".navButton").removeClass("selected")
-        thisElement.addClass("selected")
+        $(".contentLink").removeClass("selectedContentLink")
+        thisElement.addClass("selectedContentLink")
 
-        if ($(this).val() == "Requests")
+        if ($(this).attr("id") == "requestsContentLink") 
             { loadContent("/inkle/requests/") }
-        else if ($(this).val() == "Circles")
+        else if ($(this).attr("id") == "circlesContentLink") 
             { loadContent("/inkle/circles/") }
-        else if ($(this).val() == "Spheres")
+        else if ($(this).attr("id") == "spheresContentLink") 
             { loadContent("/inkle/spheres/") }
-        else if ($(this).val() == "Followers")
+        else if ($(this).attr("id") == "followersContentLink") 
             { loadContent("/inkle/followers/") }
     });
-
-    
 });
