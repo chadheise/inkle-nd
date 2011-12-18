@@ -307,7 +307,8 @@ def join_sphere_view(request):
 
     return HttpResponse()
 
-def set_inkling_view(request):
+def create_inkling_view(request):
+    """Adds an inkling to the logged in member's events."""
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
     
@@ -321,27 +322,53 @@ def set_inkling_view(request):
     # Get the date
     date = request.POST["date"]
 
-    # Get the event for the location/type/date combination
-    event = Event.objects.filter(location = location, category = inkling_type, date = date)
-    if (event):
-        event = event[0]
-
-    # If no event exists, create it
-    else:
-        print date
+    # Get the event for the location/type/date combination (or create it if no event exists)
+    try:
+        event = Event.objects.filter(location = location, category = inkling_type, date = date)[0]
+    except:
         event = Event(location = location, category = inkling_type, date = date)
         event.save()
     
     # See if the logged in member already has an event for the location/date combination
-    conflictingEvent = member.events.filter(category = inkling_type, date = date)
-    if (conflictingEvent):
-        member.events.remove(conflictingEvent[0])
+    try:
+        conflictingEvent = member.events.filter(category = inkling_type, date = date)[0]
+        remove_inkling(member, conflictingEvent)
+    except:
+        pass
 
-    # Add the event to the logged in member's events
-    else:
-        member.events.add(event)
+    # Add the event to the logged in member's events 
+    member.events.add(event)
 
-    return HttpResponse(location.name)
+    return HttpResponse(location.name + "&&&" + location.image)
+
+def remove_inkling_view(request):
+    """Removes an inkling from the logged in member's events."""
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
+    
+    # Get the type of inkling
+    inkling_type = request.POST["inklingType"]
+
+    # Get the date
+    date = request.POST["date"]
+    
+    # Get the event for the member/type/date combination and remove it if possible
+    try:
+        event = member.events.filter(category = inkling_type, date = date)[0]
+        remove_inkling(member, event)
+    except:
+        pass
+
+    return HttpResponse()
+
+def remove_inkling(member, event):
+    """Removes the member's attendance to the inputted event."""
+    # Remove the event from the member's events
+    member.events.remove(event)
+
+    # If no one is attending the event anymore, delete it
+    if (not event.member_set.all()):
+        event.delete()
 
 def get_inklings_view(request):
     # Get the member who is logged in
