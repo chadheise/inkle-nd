@@ -138,7 +138,7 @@ $(document).ready(function() {
                 data: {"inklingType" : inklingType, "date" : date},
                 success: function() {
                     // Remove the location picture for the update inkling
-                    inklingElement.find("img:first").attr("src", "/media/images/locations/default.jpg");
+                    inklingElement.find("img:first").attr("src", "/static/media/images/locations/default.jpg");
                 },
                 error: function(a, b, error) { alert(error); }
             });
