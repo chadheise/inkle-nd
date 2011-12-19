@@ -39,8 +39,8 @@ $(document).ready(function() {
         // Update database
         $.ajax({
             type: "POST",
-            url: "/inkle/location/" + locationID + "/edit/",
-            data: { "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "phone" : phone, "website" : website, "category" : category },
+            url: "/inkle/editLocation/",
+            data: {"locationID" : locationID, "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "phone" : phone, "website" : website, "category" : category },
             success: function(newWebsite) {
                    // Update view text
                    $("#locationName").text(name);

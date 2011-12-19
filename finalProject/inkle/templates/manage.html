@@ -23,11 +23,7 @@
     <div id="mainContent" class="container_24">
         <div id="profileInfo" class="grid_6 suffix_1">
             <h3>Profile Info</h3>
-            {% if member.image %}
-                <img id="profileImage" src="{{ STATIC_URL }}/{{ member.image }}" />
-            {% else %}
-                <img id="profileImage" src="http://dummyimage.com/200x200/AAA/fff.jpg&text=+" />
-            {% endif %}
+            <img id="profileImage" src="{{ STATIC_URL }}/media/images/members/{{ member.image }}" />
             <div class="display">
                 <ul>
                     <li id="displayName">{{ member.first_name }} {{ member.last_name }}</li>

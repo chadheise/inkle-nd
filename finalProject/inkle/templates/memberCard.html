@@ -3,11 +3,7 @@
     <div id="memberCard_{{m.id}}" class="memberCard">
         <!-- Member card image -->
         <div>
-            {% if m.image %}
-                <img class="cardImage" src="{{ STATIC_URL }}/{{ m.image }}" />
-            {% else %}
-                <img class="cardImage" src="http://dummyimage.com/100x100/AAA/fff.jpg&text=+" />
-            {% endif %}
+            <img class="cardImage" src="{{ STATIC_URL }}/media/images/members/{{ m.image }}" />
         </div>
 
         <!-- Member card member info -->

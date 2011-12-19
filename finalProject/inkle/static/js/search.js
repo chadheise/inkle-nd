@@ -65,7 +65,7 @@ $(document).ready(function() {
        var locationName = $("#newLocationText").val()
        $.ajax({
            type: "POST",
-           url: "/inkle/addLocation/",
+           url: "/inkle/createLocation/",
            data: { "locationName" : locationName },
            success: function(locationID) {
                window.location.href = "/inkle/location/" + locationID;
@@ -94,16 +94,15 @@ $(document).ready(function() {
           var sphereName = $("#newSphereText").val()
           $.ajax({
               type: "POST",
-              url: "/inkle/addSphere/",
+              url: "/inkle/createSphere/",
               data: { "sphereName" : sphereName },
-              success: function(html) {
+              success: function() {
                   $("#newSphereText").fadeOut('medium', function() {
                       $("#newSphereButton").fadeIn('medium');
                       $("#newSphereText").attr("value", "");
                    });
                   $("#newSphereSubmit").fadeOut('medium');
                   $("#newSphereCancel").fadeOut('medium');
-
               },
               error: function(a, b, error) { alert(error); }
           }); 

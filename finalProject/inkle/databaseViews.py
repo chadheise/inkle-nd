@@ -22,9 +22,14 @@ buttonDictionary = {
 }
 
 def edit_profile_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    """Edits the logged in member's Member object."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
+    # Update the logged in member's information using the POST data
     member.first_name = request.POST["first_name"]
     member.last_name = request.POST["last_name"]
     #member.set_password(request.POST["password"])
@@ -32,402 +37,490 @@ def edit_profile_view(request):
     member.phone = request.POST["phone"]
     member.birthday = request.POST["birthday"]
     member.gender = request.POST["gender"]
+    
+    # Save the logged in member's updated information
     member.save()
     
     return HttpResponse()
 
-def edit_location_view(request, location_id = None):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+
+def edit_location_view(request):
+    """Edits a location's Location object."""
+    # TODO: make sure the logged in member can update the location
     
     # If the location ID is invalid, throw a 404 error
+    location_id = request.POST["locationID"]
     try:
         location = Location.objects.get(pk = location_id)
     except:
         raise Http404()
-    
+   
+    # Update the location's information using the POST data
     location.name = request.POST["name"]
     location.street = request.POST["street"]
     location.city = request.POST["city"]
     location.state = request.POST["state"]
     location.zip_code = int(request.POST["zipCode"])
-    location.phone = int(request.POST["phone"])
+    location.phone = request.POST["phone"]
     location.category = request.POST["category"]
+    location.website = request.POST["website"]
+
+    # Make sure the location begins with "http://www."
+    if (location.website):
+        if ((not location.website.startswith("http://")) and (not location.website.startswith("www"))):
+            location.website = "http://www." + location.website
+        elif (not location.website.startswith("http://")):
+            location.website = "http://" + location.website
     
-    newWebsite = request.POST["website"]
-    if "www" not in newWebsite:
-        newWebsite = "www." + newWebsite
-    if "http://" not in newWebsite:
-        newWebsite = "http://" + newWebsite
-    location.website= newWebsite
-    
+    # Save the location's updated information
     location.save()
     
-    return HttpResponse(newWebsite)
+    # Return the updated website
+    return HttpResponse(location.website)
 
-def follow_request_view(request):
-    # Get the member who is logged in
-    from_member = Member.objects.get(pk = request.session["member_id"])
+
+def request_to_follow_view(request):
+    """Sends a request from the from_member to follow the to_member."""
+    # Get the member who sent the request (or redirect them to the login page)
+    try:
+        from_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
     # Get the member to whom the request is being sent
-    to_member_id = request.POST["toMemberID"]
-    to_member = Member.objects.get(pk = to_member_id)
+    to_member = Member.objects.get(pk = request.POST["toMemberID"])
 
     # Update the database to signify the request
     from_member.pending.add(to_member)
     to_member.requested.add(from_member)
 
-    return HttpResponse(buttonDictionary["revoke"][2]) #Send updated toolTip information
+    # Return the updated tooltip
+    return HttpResponse(buttonDictionary["revoke"][2])
+
 
 def revoke_request_view(request):
-    # Get the member who is logged in
-    from_member = Member.objects.get(pk = request.session["member_id"])
+    """Revokes the request from the from_member to follow the to_member."""
+    # Get the member who sent the request (or redirect them to the login page)
+    try:
+        from_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    # Get the member to whom the request is being sent
-    to_member_id = request.POST["toMemberID"]
-    to_member = Member.objects.get(pk = to_member_id)
+    # Get the member to whom the request was sent
+    to_member = Member.objects.get(pk = request.POST["toMemberID"])
 
-    # Update the database to signify the request
+    # Update the database to signify the revoking of the request
     from_member.pending.remove(to_member)
     to_member.requested.remove(from_member)
 
-    return HttpResponse(buttonDictionary["request"][2]) #Send updated toolTip information
+    # Return the updated tooltip
+    return HttpResponse(buttonDictionary["request"][2])
+
 
 def accept_request_view(request):
-    # Get the member who is logged in
-    to_member = Member.objects.get(pk = request.session["member_id"])
+    """Accepts the request from the from_member to follow the to_member."""
+    # Get the member to whom the request was sent (or redirect them to the login page)
+    try:
+        to_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    # Get the member to whom the request is being sent
-    from_member_id = request.POST["fromMemberID"]
-    from_member = Member.objects.get(pk = from_member_id)
+    # Get the member who sent the request
+    from_member = Member.objects.get(pk = request.POST["fromMemberID"])
 
     # Update the database to signify the accepted request
     from_member.pending.remove(to_member)
     from_member.accepted.add(to_member)
     to_member.requested.remove(from_member)
-    from_follower = Follower(
-                               follower = from_member,
-                               count = 1
-                           )
+    from_follower = Follower(follower = from_member, count = 1)
     from_follower.save()
     to_member.followers.add(from_follower)
-
-    # Add the to member to the from member's following list
     from_member.following.add(to_member)
 
     return HttpResponse()
 
-def reject_request_view(request):
-    # Get the member who is logged in
-    to_member = Member.objects.get(pk = request.session["member_id"])
 
-    # Get the member to whom the request is being sent
-    from_member_id = request.POST["fromMemberID"]
-    from_member = Member.objects.get(pk = from_member_id)
+def reject_request_view(request):
+    """Rejects the request from the from_member to follow the to_member."""
+    # Get the member to whom the request was sent (or redirect them to the login page)
+    try:
+        to_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+
+    # Get the member who sent the request
+    from_member = Member.objects.get(pk = request.POST["fromMemberID"])
 
     # Update the database to signify the request
     from_member.pending.remove(to_member)
     to_member.requested.remove(from_member)
 
     return HttpResponse()
-    
+
+
 def stop_following_view(request):
-    # Get the member who is logged in
-    from_member = Member.objects.get(pk = request.session["member_id"])
+    """Makes the from_member stop following the to_member."""
+    # Get the member who sent the request (or redirect them to the login page)
+    try:
+        from_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    # Get the member who is being removed
-    to_member_id = request.POST["toMemberID"]
-    to_member = Member.objects.get(pk = to_member_id)
+    # Get the member to whom the request was sent
+    to_member = Member.objects.get(pk = request.POST["toMemberID"])
 
-    # If the user is still in the accepted circle, remove them
-    from_member.accepted.remove(to_member)
-
-    #Remove from all of from_member's circles
-    memberCircles = from_member.circles.all()
-    for circle in memberCircles:
-        circle.members.remove(to_member)
-
-    #Remove from_member as a follower of to_member
-    for f in to_member.followers.all():
-        if from_member == f.follower:
-            to_member.followers.remove(f)
-            f.delete()
-    
-    # Remove the to member from the from member's following list
-    from_member.following.remove(to_member)
+    # Make the from_member stop following the to_member
+    remove_following(from_member, to_member)
 
     return HttpResponse()
+
 
 def prevent_following_view(request):
-    # Get the member who is logged in
-    to_member = Member.objects.get(pk = request.session["member_id"])
+    """Makes the from_member stop following the to_member."""
+    # Get the member to whom the request was sent (or redirect them to the login page)
+    try:
+        to_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    # Get the member to whom the request is being sent
-    from_member_id = request.POST["fromMemberID"]
-    from_member = Member.objects.get(pk = from_member_id)
+    # Get the member who sent the request
+    from_member = Member.objects.get(pk = request.POST["fromMemberID"])
 
-    if to_member in from_member.accepted.all():
-        from_member.accepted.remove(to_member)
-
-    # Remove to member from all of from members circles
-    for c in from_member.circles.all():
-        if to_member in c.members.all():
-            c.members.remove(to_member)
-
-    # Delete the from member follower
-    # TODO: Get the follower corresponding to the from_member more efficiently
-    for follower in to_member.followers.all():
-        if (from_member == follower.follower):
-            to_member.followers.remove(follower)
-            follower.delete()
-            break
-    
-    # Remove the from member from the to member's following list
-    from_member.following.remove(to_member)
+    # Make the from_member stop following the to_member
+    remove_following(from_member, to_member)
 
     return HttpResponse()
 
+
+def remove_following(from_member, to_member):
+    """Makes the from_member stop following the to_member."""
+    # Remove the to_member from the from_member's accepted list
+    from_member.accepted.remove(to_member)
+
+    # Remove the to_member from all of the from_member's circles
+    for circle in from_member.circles.all():
+        circle.members.remove(to_member)
+
+    # Remove the from_member follower of to_member
+    from_member_follower = to_member.followers.get(follower = from_member)
+    to_member.followers.remove(from_member_follower)
+    from_member_follower.delete()
+    
+    # Remove to_member from from_member's following list
+    from_member.following.remove(to_member)
+
+    return
+
+
 def add_to_circle_view(request):
-    # Get the member who is logged in
-    from_member = Member.objects.get(pk = request.session["member_id"])
+    """Adds the to_member to one of from_member's circles."""
+    # Get the member who sent the request (or redirect them to the login page)
+    try:
+        from_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    # Get the member to whom the request is being sent
-    to_member_id = request.POST["toMemberID"]
-    to_member = Member.objects.get(pk = to_member_id)
+    # Get the member to whom the request was sent
+    to_member = Member.objects.get(pk = request.POST["toMemberID"])
 
-    # Get the circle which the member is being added to
-    circle_id = request.POST["circleID"]
-    circle = Circle.objects.get(pk=circle_id)
+    # Get the circle to which to_member is being added
+    circle = Circle.objects.get(pk = request.POST["circleID"])
 
-    # Add them to the circle
+    # Add the to_member to the circle
     circle.members.add(to_member)
 
-    if to_member in from_member.accepted.all(): #If the new member was only in "accepted"
+    # If the to_member was only in the accepted list, remove them from the accepted list
+    if (to_member in from_member.accepted.all()):
         from_member.accepted.remove(to_member)
-    else: #The member was already in one or more other circles
-        #Get the list of all the to_member's followers, then choose the one corresponding to the current member
-        #follower = [F for F in to_member.followers.all() if F.follower == from_member][0]
-        follower = to_member.followers.filter(follower=from_member)[0]
-        follower.count += 1
-        follower.save()
     
-    to_member.relationship = "friend"
-    temp = [x for x in Member.objects.all() if (from_member in [y.follower for y in x.followers.all()] )]
-    to_member.num_mutual_followings = len( [x for x in temp if to_member in [y.follower for y in x.followers.all()] ] )
-    to_member.button_list = []
-    to_member.button_list.append(buttonDictionary["stop"])
-    #Add circles
-    to_member.button_list.append(buttonDictionary["circles"])
-    to_member.circles2 = [c for c in from_member.circles.all()]
-    for c in to_member.circles2:
-        c.members2 = c.members.all()
+    # Otherwise, increment the from_member's follower count
+    else:
+        from_member_follower = to_member.followers.get(follower = from_member)
+        from_member_follower.count += 1
+        from_member_follower.save()
+    
+    # Get the to_member's info for their member card
+    to_member.sphereNames = [sphere.name for sphere in to_member.spheres.all()]
+    to_member.mutual_followings = from_member.following.all() & to_member.following.all()
+    to_member.button_list = [buttonDicationary["circles"], buttonDictionary["stop"]]
+    to_member.show_contact_info = True
+    to_member.circles2 = [circle for circle in from_member.circles.all()]
+    for circle in to_member.circles2:
+        circle.members2 = circle.members.all()
    
-    return render_to_response("memberCard.html",
+    return render_to_response( "memberCard.html",
         { "m" : to_member },
         context_instance = RequestContext(request) )
 
     return HttpResponse()
 
+
 def remove_from_circle_view(request):
-    remove_from_circle(request.session["member_id"], request.POST["toMemberID"], request.POST["circleID"])
+    """Removes the to_member from one of from_member's circles."""
+    # Get the member who sent the request (or redirect them to the login page)
+    try:
+        from_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+
+    # Get the member to whom the request was sent
+    to_member = Member.objects.get(pk = request.POST["toMemberID"])
+    
+    # Get the circle to which to_member is being removed
+    circle = Circle.objects.get(pk = request.POST["circleID"])
+
+    # Remove the to_member from the from_member's circle
+    remove_from_circle(from_member, to_member, circle)
+
     return HttpResponse()
 
-def remove_from_circle(from_member_id, to_member_id, circle_id):
-    # Get the member who is logged in
-    from_member = Member.objects.get(pk = from_member_id)
 
-    # Get the member to whom the request is being sent
-    to_member = Member.objects.get(pk = to_member_id)
+def remove_from_circle(from_member, to_member, circle):
+    """Removes the to_member from one of from_member's circles."""
+    # Remove the to_member from the from_member's circle
+    circle.members.remove(to_member)
 
-    # Get the circle which the member is being added to
-    circle = Circle.objects.get(pk=circle_id) #Retrieve the actual circle object
+    # Get the from_member's follower of to_member
+    from_member_follower = to_member.followers.get(follower = from_member)
 
-    circle.members.remove(to_member) # Remove them from the circle
-
-    #Get the list of all the to_member's followers, then choose the one corresponding to the current member
-    #follower = [F for F in to_member.followers.all() if F.follower == from_member][0]
-    follower = to_member.followers.filter(follower=from_member)[0]
-
-    if (follower.count == 1): #If this is the last remaining circle the to_member belongs to
+    # Add the to_member to the from_member's accepted list if this is the last circle the to_member belongs to
+    if (from_member_follower.count == 1):
         from_member.accepted.add(to_member)
-    else:   #If the to_member belongs to one or more other circles
-        follower.count -= 1
-        follower.save()
 
-def add_circle_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    # Otherwise, decrement the from_member's follower count
+    else:
+        from_member_follower.count -= 1
+        from_member_follower.save()
+
+    return
+
+
+def create_circle_view(request):
+    """Create a new circle for the logged in member."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
     # Create the new circle
     circle = Circle(name = request.POST["circleName"])
     circle.save()
 
-    # Add the new circle to the logged in member's circle
+    # Add the new circle to the logged in member's circles list
     member.circles.add(circle)
 
+    # Return the new circle's ID
     return HttpResponse(circle.id)
+
 
 def delete_circle_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    """Deletes one of the logged in member's circles."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
+    # Get the circle which is to be deleted
     circle = Circle.objects.get(pk = request.POST["circleID"])
-    circleMembers = circle.members.all()
-    for m in circleMembers:
-        remove_from_circle(member, m.id, request.POST["circleID"])
 
-    # Remove the circle from the logged in member's set of circles
+    # Remove each member from the circle to be deleted 
+    for m in circle.members.all():
+        remove_from_circle(member, m, circle)
+
+    # Remove the circle to be deleted from the logged in member's circles list
     member.circles.remove(circle)
     
+    # Delete the circle
     circle.delete()
-
-    return HttpResponse(circle.id)
-
-def leave_sphere_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-
-    # Get the sphere which is being joined
-    sphere_id = request.POST["sphereID"]
-    sphere = Sphere.objects.get(pk = sphere_id)
-
-    # Add the sphere to the current member's spheres
-    member.spheres.remove(sphere)
 
     return HttpResponse()
 
+
 def join_sphere_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    """Makes the logged in member join a sphere."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
 
-    # Get the sphere which is being joing
-    sphere_id = request.POST["sphereID"]
-    sphere = Sphere.objects.get(pk = sphere_id)
+    # Get the sphere which is being joined
+    sphere = Sphere.objects.get(pk = request.POST["sphereID"])
 
-    # Add the sphere to the current member's spheres
+    # Add the sphere to the logged in member's spheres list
     member.spheres.add(sphere)
 
     return HttpResponse()
 
-def create_inkling_view(request):
-    """Adds an inkling to the logged in member's events."""
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-    
-    # Get the type of inkling
-    inkling_type = request.POST["inklingType"]
 
-    # Get the location where the user is going
-    location_id = request.POST["locationID"]
-    location = Location.objects.get(pk = location_id)
-    
-    # Get the date
+def leave_sphere_view(request):
+    """Makes the logged in member leave a sphere."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+
+    # Get the sphere which is being left
+    sphere = Sphere.objects.get(pk = request.POST["sphereID"])
+
+    # Remove the sphere from the logged in member's spheres list
+    member.spheres.remove(sphere)
+
+    return HttpResponse()
+
+
+def create_inkling_view(request):
+    """Adds an inkling to the logged in member's inklings."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+   
+    # Get the POST data
+    inkling_type = request.POST["inklingType"]
+    location = Location.objects.get(pk = request.POST["locationID"])
     date = request.POST["date"]
 
-    # Get the event for the location/type/date combination (or create it if no event exists)
+    # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
-        event = Event.objects.filter(location = location, category = inkling_type, date = date)[0]
+        # TODO: change filter to get and remove [0]???
+        inkling = Inkling.objects.filter(location = location, category = inkling_type, date = date)[0]
     except:
-        event = Event(location = location, category = inkling_type, date = date)
-        event.save()
+        inkling = Inkling(location = location, category = inkling_type, date = date)
+        inkling.save()
     
-    # See if the logged in member already has an event for the location/date combination
+    # See if the logged in member already has an inkling for the location/date combination
+    # TODO: change to get instead of filter and get rid of try/except
     try:
-        conflictingEvent = member.events.filter(category = inkling_type, date = date)[0]
-        remove_inkling(member, conflictingEvent)
+        conflicting_inkling = member.inklings.filter(category = inkling_type, date = date)[0]
+        if (conflicting_inkling != inkling):
+            remove_inkling(member, conflicting_inkling)
     except:
         pass
 
-    # Add the event to the logged in member's events 
-    member.events.add(event)
+    # Add the inkling to the logged in member's inklings list
+    member.inklings.add(inkling)
 
+    # Return the location's name and image
     return HttpResponse(location.name + "&&&" + location.image)
 
-def remove_inkling_view(request):
-    """Removes an inkling from the logged in member's events."""
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-    
-    # Get the type of inkling
-    inkling_type = request.POST["inklingType"]
 
-    # Get the date
+def remove_inkling_view(request):
+    """Removes an inkling from the logged in member's inklings."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    # Get the POST data
+    inkling_type = request.POST["inklingType"]
     date = request.POST["date"]
     
-    # Get the event for the member/type/date combination and remove it if possible
+    # Get the inkling for the member/type/date combination and remove it if possible
+    # TODO: replace filter with get
     try:
-        event = member.events.filter(category = inkling_type, date = date)[0]
-        remove_inkling(member, event)
+        inkling = member.inklings.filter(category = inkling_type, date = date)[0]
+        remove_inkling(member, inkling)
     except:
         pass
 
     return HttpResponse()
 
-def remove_inkling(member, event):
-    """Removes the member's attendance to the inputted event."""
-    # Remove the event from the member's events
-    member.events.remove(event)
 
-    # If no one is attending the event anymore, delete it
-    if (not event.member_set.all()):
-        event.delete()
+def remove_inkling(member, inkling):
+    """Removes and inkling from the member's inklings."""
+    # Remove the inkling from the member's inkling list
+    member.inklings.remove(inkling)
+
+    # If the inkling no longer has any attendees, delete it
+    if (not inkling.member_set.all()):
+        inkling.delete()
+
+    return
+
 
 def get_inklings_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    """Returns the logged in member's inklings for the inputted date."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
     
-    # Get the date
+    # Get the POST data
     date = request.POST["date"]
     
-    # Get the logged in member's inklings
+    # Get the names and images for the logged in member's inkling locations
     dinnerName, dinnerImage, pregameName, pregameImage, mainEventName, mainEventImage = get_inklings(member, date)
-        
+
+    # Return the names and images for the logged in member's inkling locations
     return HttpResponse(dinnerName + "&&&" +  dinnerImage + "&&&" + pregameName + "&&&" + pregameImage + "&&&" + mainEventName + "&&&" + mainEventImage)
 
+
 def get_inklings(member, date):
-    # Get the logged in member's dinner inkling
+    """Returns the names and images for the logged in member's inkling locations."""
+    # Get the name and image for the logged in member's dinner inkling location
+    # TODO: replace filter with get
     try:
-        event = member.events.filter(date = date, category = "dinner")[0]
-        dinnerName = event.location.name
-        dinnerImage = event.location.image
+        inkling = member.inklings.filter(date = date, category = "dinner")[0]
+        dinnerName = inkling.location.name
+        dinnerImage = inkling.location.image
     except:
         dinnerName = ""
-        dinnerImage = ""
+        dinnerImage = "default.jpg"
     
-    # Get the logged in member's pregame inkling
+    # Get the name and image for the logged in member's pregame inkling location
+    # TODO: replace filter with get
     try:
-        event = member.events.filter(date = date, category = "pregame")[0]
-        pregameName = event.location.name
-        pregameImage = event.location.image
+        inkling = member.inklings.filter(date = date, category = "pregame")[0]
+        pregameName = inkling.location.name
+        pregameImage = inkling.location.image
     except:
         pregameName = ""
-        pregameImage = ""
+        pregameImage = "default.jpg"
 
-    # Get the logged in member's main event inkling
+    # Get the name and image for the logged in member's main event inkling location
+    # TODO: replace filter with get
     try:
-        event = member.events.filter(date = date, category = "mainEvent")[0]
-        mainEventName = event.location.name
-        mainEventImage = event.location.image
+        inkling =  member.inklings.filter(date = date, category = "mainEvent")[0]
+        mainEventName = inkling.location.name
+        mainEventImage = inkling.location.image
     except:
         mainEventName = ""
-        mainEventImage = ""
+        mainEventImage = "default.jpg"
 
+
+    # Return the names and images for the logged in member's inkling locations
     return (dinnerName, dinnerImage, pregameName, pregameImage, mainEventName, mainEventImage)
 
-def add_sphere_view(request):
-    newSphere = Sphere(name=request.POST["sphereName"])
-    newSphere.save()
-    return HttpResponse(str(newSphere.name) + " sphere created")
+
+def create_sphere_view(request):
+    """Creates a new Sphere object."""
+    # Create a new sphere using the POST data and save it
+    sphere = Sphere(name = request.POST["sphereName"])
+    sphere.save()
+
+    return HttpResponse()
     
-def add_location_view(request):
-    newLocation = Location(
-        name=request.POST["locationName"],
+
+def create_location_view(request):
+    """Creates a new Location object."""
+    # Create a new location using the POST data and save it
+    location = Location(
+        name = request.POST["locationName"],
         category = "Other",
         street = "No Street Submited",
         city = "City",
         state = "AL",
         zip_code = "00000",
-        phone = 0,
-        website = "None")
-    newLocation.save()
-    return HttpResponse(newLocation.id)
+        phone = "",
+        website = "")
+    location.save()
+
+    # Return the new location's ID
+    return HttpResponse(location.id)
