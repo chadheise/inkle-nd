@@ -49,7 +49,8 @@ $(document).ready(function() {
                 var memberCardName = memberCard.find(".memberCardName").text();
                 memberCard.fadeOut(function() {
                     memberCard.html("You accepted " + memberCardName + "'s request to follow you.");
-                    memberCard.fadeIn();
+                    memberCard.css("padding", "10px");
+                    memberCard.fadeIn("medium").delay(2000).fadeOut("medium");
                 });
 
                 // Decrement the notification counter and hide it if it reaches zero
@@ -83,7 +84,8 @@ $(document).ready(function() {
                 var memberCardName = memberCard.find(".memberCardName").text();
                 memberCard.fadeOut(function() {
                     memberCard.html("You rejected " + memberCardName + "'s request to follow you.");
-                    memberCard.fadeIn();
+                    memberCard.css("padding", "10px");
+                    memberCard.fadeIn("medium").delay(2000).fadeOut("medium");
                 });
 
                 // Decrement the notification counter and hide it if it reaches zero
