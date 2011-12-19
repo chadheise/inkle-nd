@@ -162,7 +162,7 @@ def search_view(request, query = ""):
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
         context_instance = RequestContext(request) )
 
-def requested_view(request):
+def requests_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -171,6 +171,9 @@ def requested_view(request):
 
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
+    
+    # Get the members whom the the logged in member has requested to follow
+    pending_members = member.pending.all()
 
     # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in requested_members:
@@ -178,9 +181,17 @@ def requested_view(request):
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
         m.show_contact_info = True
+    
+    # For each pending member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
+    for m in pending_members:
+        m.sphereNames = [sphere.name for sphere in m.spheres.all()]
+        m.mutual_followings = member.following.all() & m.following.all()
+        m.button_list = [buttonDictionary["revoke"]]
+        if ((m in member.followers.all()) or (m in requested_members)):
+            m.show_contact_info = True
 
-    return render_to_response( "requested.html",
-        {"members" : requested_members},
+    return render_to_response( "requests.html",
+        {"requested_members" : requested_members, "pending_members" : pending_members},
         context_instance = RequestContext(request) )
 
 def followers_view(request):

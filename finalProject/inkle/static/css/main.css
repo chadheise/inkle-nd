@@ -31,6 +31,22 @@ a
     color: #385E0F;
 }
 
+.subsectionContentLink
+{
+    color: #BBB;
+    font-size: 20px;
+    font-weight: bold;
+    margin: -3px 0px 20px 0px;
+    cursor: pointer;
+    float: left;
+    margin-right: 30px;
+}
+
+.selectedSubsectionContentLink
+{
+    color: #009ACD;
+}
+
 .subheader
 {
     font-weight: bold;

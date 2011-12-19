@@ -17,7 +17,7 @@ urlpatterns = patterns(
     (r"^manage/$", "manage_view"),
     (r"^manage/(?P<defaultContent>requests|circles|spheres|followers)/$", "manage_view"),
     (r"^search/(?P<query>.+)/$", "search_view"),
-    (r"^requests/$", "requested_view"),
+    (r"^requests/$", "requests_view"),
     (r"^spheres/$", "spheres_view"),
     (r"^followers/$", "followers_view"),
     (r"^requestToFollow/$", "request_to_follow_view"),

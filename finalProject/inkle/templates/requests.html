@@ -1,0 +1,27 @@
+<div class="grid_17 alpha omega">
+    <div id="requestsContent" class="grid_17 alpha omega">
+        <!-- Requested requests -->
+        <div id="requestedRequestsContent" class="grid_17">
+            {% if requested_members %}
+                <p class="requestsTitle">These people have requested to follow you:</p>
+                {% for m in requested_members %}
+                    {% include "memberCard.html" %}
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center;">No one has requested to follow you.</p>
+            {% endif %}
+        </div>
+
+        <!-- Pending requests -->
+        <div id="pendingRequestsContent" class="grid_17">
+            {% if pending_members %}
+                <p class="requestsTitle">You have pending requests to follow these people:</p>
+                {% for m in pending_members %}
+                    {% include "memberCard.html" %}
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center;">You have no pending requests to follow anyone.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
