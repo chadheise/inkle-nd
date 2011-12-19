@@ -51,14 +51,14 @@ $(document).ready(function() {
     $(".circle").live("mouseleave", function() {
         $(this).css("border", "solid 5px #CCC");
     });
-    $("#addCircleButton").live("mouseenter", function() {
+    $("#createCircleButton").live("mouseenter", function() {
         $(this).css("border", "solid 5px #009ACD");
     });
-    $("#addCircleButton").live("mouseleave", function() {
+    $("#createCircleButton").live("mouseleave", function() {
         $(this).css("border", "solid 5px #CCC");
     });
 
-    $("#addCircleButton").live("click", function() {
+    $("#createCircleButton").live("click", function() {
         $(this).before("<button id='newCircle' class='circle'><input id='newCircleInput' type='text' /></button>");
         $("#newCircleInput").focus();
         $(this).hide();
@@ -75,7 +75,7 @@ $(document).ready(function() {
         {
             $.ajax({
                 type: "POST",
-                url: "/inkle/addCircle/",
+                url: "/inkle/createCircle/",
                 data: { "circleName" : newCircleName },
                 success: function(circleID) {
                     $("#newCircle").attr("circleID", circleID);
@@ -90,7 +90,7 @@ $(document).ready(function() {
             });
             $("#newCircle").html(newCircleName);
         }
-        $("#addCircleButton").show();
+        $("#createCircleButton").show();
     });
 
     $("#deleteCircleButton").live("click", function() {
@@ -99,7 +99,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/inkle/deleteCircle/",
             data: { "circleID" : parseInt($(this).attr("circleID")) },
-            success: function(circleID) {
+            success: function() {
                 $.ajax({
                     type: "POST",
                     url: "/inkle/circles/",

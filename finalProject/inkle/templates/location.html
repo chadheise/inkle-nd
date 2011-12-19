@@ -20,11 +20,7 @@
 
             <div class="grid_8">
                 <!-- Location image -->
-                {% if location.image %}
-                    <img id="locationImage" src="{{ STATIC_URL }}/{{ location.image }}" />
-                {% else %}
-                    <img id="locationImage" src="http://dummyimage.com/300x300/AAA/fff.jpg&text=+" />
-                {% endif %}
+                <img id="locationImage" src="{{ STATIC_URL }}/media/images/locations/{{ location.image }}" />
                 
                 <!-- Location address -->
                 <div class="infoSection">

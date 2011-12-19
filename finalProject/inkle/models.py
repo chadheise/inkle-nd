@@ -65,7 +65,7 @@ LOCATION_CATEGORIES = (
     ("Other", "Other"),
 )
 
-EVENT_CATEGORIES = (
+INKLING_CATEGORIES = (
     ("D", "Dinner"),
     ("P", "Pregame"),
     ("M", "Main event"),
@@ -81,7 +81,7 @@ class Location(models.Model):
     
     phone = models.CharField(max_length = 10, default = "")
     website = models.CharField(max_length = 100, default = "")
-    image = models.CharField(max_length = 200, default = "media/images/main/defaultImage.jpg")
+    image = models.CharField(max_length = 100, default = "default.jpg")
 
     # age restrictions
     # hours 
@@ -110,9 +110,9 @@ class Follower(models.Model):
     def __unicode__(self):
         return "%s (%d)" % (self.follower.username, self.count)
 
-class Event(models.Model):
+class Inkling(models.Model):
     location = models.ForeignKey(Location)
-    category = models.CharField(max_length = 1, choices = EVENT_CATEGORIES, default = "D")
+    category = models.CharField(max_length = 1, choices = INKLING_CATEGORIES, default = "D")
     date = models.CharField(max_length = 10)
     
     def __unicode__(self):
@@ -130,12 +130,12 @@ class Member(User):
     followers = models.ManyToManyField(Follower, symmetrical = False)
     following = models.ManyToManyField("self", symmetrical = False)
     
-    events = models.ManyToManyField(Event)
+    inklings = models.ManyToManyField(Inkling)
 
     gender = models.CharField(max_length = 6)
     birthday = models.CharField(max_length = 14)
     phone = models.CharField(max_length = 10, default = "")
-    image = models.CharField(max_length = 200, default = "media/images/main/defaultImage.jpg")
+    image = models.CharField(max_length = 100, default = "default.jpg")
     
     def __unicode__(self):
         return "%s" % (self.username)

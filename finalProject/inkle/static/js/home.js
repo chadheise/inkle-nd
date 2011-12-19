@@ -57,32 +57,11 @@ $(document).ready(function() {
 
                         // Update the images for the logged in user's inklings
                         $("#dinnerInkling input").val(locations[0]);
-                        if (locations[1])
-                        {
-                            $("#dinnerInkling img").attr("src", "/static/" + locations[1]);
-                        }
-                        else
-                        {
-                            $("#dinnerInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-                        }
+                        $("#dinnerInkling img").attr("src", "/static/media/images/locations/" + locations[1]);
                         $("#pregameInkling input").val(locations[2]);
-                        if (locations[3])
-                        {
-                            $("#pregameInkling img").attr("src", "/static/" + locations[3]);
-                        }
-                        else
-                        {
-                            $("#pregameInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-                        }
+                        $("#pregameInkling img").attr("src", "/static/media/images/locations/" + locations[3]);
                         $("#mainEventInkling input").val(locations[4]);
-                        if (locations[5])
-                        {
-                            $("#mainEventInkling img").attr("src", "/static/" + locations[5]);
-                        }
-                        else
-                        {
-                            $("#mainEventInkling img").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-                        }
+                        $("#mainEventInkling img").attr("src", "/static/media/images/locations/" + locations[5]);
               
                         // Fade in the my inklings content if it is currently being displayed
                         if ($("#myInklingsContentLink").hasClass("selectedContentLink"))
@@ -159,7 +138,7 @@ $(document).ready(function() {
                 data: {"inklingType" : inklingType, "date" : date},
                 success: function() {
                     // Remove the location picture for the update inkling
-                    inklingElement.find("img:first").attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
+                    inklingElement.find("img:first").attr("src", "/media/images/locations/default.jpg");
                 },
                 error: function(a, b, error) { alert(error); }
             });
@@ -225,14 +204,7 @@ $(document).ready(function() {
 
                 // Update the appropriate inkling's name and image
                 inklingInput.val(locationName);
-                if (locationImage != "")
-                {
-                    inklingImage.attr("src", "/static/" + locationImage);
-                }
-                else
-                {
-                    inklingImage.attr("src", "http://dummyimage.com/206x206/aaa/fff.jpg&text=+");
-                }
+                inklingImage.attr("src", "/static/media/images/locations/" + locationImage);
             },
             error: function(a, b, error) { alert(error); }
         });

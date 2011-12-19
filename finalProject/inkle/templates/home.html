@@ -50,11 +50,7 @@
                 <div id="dinnerInkling" class="inkling">
                     <div>
                         <p>Dinner</p>
-                        {% if member.dinnerImage %}
-                            <img src="{{ STATIC_URL }}/{{ member.dinnerImage }}" />
-                        {% else %}
-                            <img src="http://dummyimage.com/206x206/aaa/fff.jpg&text=+" />
-                        {% endif %}
+                        <img src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
                         <input type="text" value="{{ member.dinnerName }}" />
                     </div>
     
@@ -67,11 +63,7 @@
                 <div id="pregameInkling" class="inkling">
                     <div>
                         <p>Pregame</p>
-                        {% if member.pregameImage %}
-                            <img src="{{ STATIC_URL }}/{{ member.pregameImage }}" />
-                        {% else %}
-                            <img src="http://dummyimage.com/206x206/aaa/fff.jpg&text=+" />
-                        {% endif %}
+                        <img src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
                         <input type="text" value="{{ member.pregameName }}" />
                     </div>
 
@@ -84,11 +76,7 @@
                 <div id="mainEventInkling" class="inkling">
                     <div>
                         <p>Main Event</p>
-                        {% if member.mainEventImage %}
-                            <img src="{{ STATIC_URL }}/{{ member.mainEventImage }}" />
-                        {% else %}
-                            <img src="http://dummyimage.com/206x206/aaa/fff.jpg&text=+" />
-                        {% endif %}
+                        <img src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
                         <input type="text" value="{{ member.mainEventName }}" />
                     </div>
 

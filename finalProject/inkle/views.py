@@ -34,7 +34,7 @@ def home_view(request):
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
-    
+
     # Get others' dinner inklings for today
     locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
@@ -73,19 +73,19 @@ def location_view(request, location_id = None):
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     
     people = member.following.all()
-    dinnerPeople = [p for p in people if (p.events.filter(date = date, category = "dinner", location = location))]
+    dinnerPeople = [p for p in people if (p.inklings.filter(date = date, category = "dinner", location = location))]
     for m in dinnerPeople:
         m.spheres2 = m.spheres.all()
         m.show_contact_info = True
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
-    pregamePeople = [p for p in people if (p.events.filter(date = date, category = "pregame", location = location))]
+    pregamePeople = [p for p in people if (p.inklings.filter(date = date, category = "pregame", location = location))]
     for m in pregamePeople:
         m.spheres2 = m.spheres.all()
         m.show_contact_info = True
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
-    maineventPeople = [p for p in people if (p.events.filter(date = date, category = "mainEvent", location = location))]
+    maineventPeople = [p for p in people if (p.inklings.filter(date = date, category = "mainEvent", location = location))]
     for m in maineventPeople:
         m.spheres2 = m.spheres.all()
         m.show_contact_info = True
@@ -134,7 +134,7 @@ def search_view(request, query = ""):
         if m in member.pending.all() and m != member:
             m.show_contact_info = False
             m.button_list.append(buttonDictionary["revoke"])
-        elif ((m in member.following.all()) and (m != member):
+        elif ((m in member.following.all()) and (m != member)):
             m.relationship = "friend"
             #Add circles
             m.button_list.append(buttonDictionary["stop"])
@@ -223,10 +223,7 @@ def circles_view(request):
         m.spheres2 = m.spheres.all()
         m.relationship = "friend"
         m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = []
-        m.button_list.append(buttonDictionary["stop"])
-        #Add circles
-        m.button_list.append(buttonDictionary["circles"])
+        m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
         m.circles2 = [c for c in member.circles.all()]
         for c in m.circles2:
                 c.members2 = c.members.all()
@@ -366,9 +363,9 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
 
     locations = []
     for p in people:
-        event = p.events.filter(date = date, category = inkling_type)
-        if (event):
-            location = event[0].location
+        inkling = p.inklings.filter(date = date, category = inkling_type)
+        if (inkling):
+            location = inkling[0].location
             if (location in locations):
                 for l in locations:
                     if (l == location):

@@ -148,7 +148,7 @@ $(document).ready(function() {
         // Send friend request to database
         $.ajax({
             type: "POST",
-            url: "/inkle/followRequest/",
+            url: "/inkle/requestToFollow/",
             data: { "toMemberID" : toMemberID },
             success: function(title) {
                 thisElement.val("Revoke request");
