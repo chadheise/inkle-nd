@@ -34,3 +34,19 @@
 #discardChangesButton {
     background-color: #FF4040;
 }
+
+#requestsSubsectionContentLinks
+{
+    display: none;
+}
+
+.requestsTitle
+{
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#requestedRequestsContent
+{
+    margin-bottom: 20px;
+}

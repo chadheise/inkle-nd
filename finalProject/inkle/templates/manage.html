@@ -17,6 +17,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/circles.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/requests.js"></script>
 {% endblock js %}
 
 {% block mainContent %}
@@ -66,8 +67,18 @@
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
-            <div id="primaryContent" class="grid_17 alpha omega">
-                <div id="defaultContent" data="{{defaultContent}}"></div>
+            
+            <div id="manageContent" class="grid_17 alpha omega">
+                <div id="requestsSubsectionContentLinks" class="grid_17">
+                    <p id="allRequestsContentLink" class="selectedSubsectionContentLink subsectionContentLink requestsContentLink">All</p>
+                    <p id="requestedRequestsContentLink" class="subsectionContentLink requestsContentLink">Requested</p>
+                    <p id="pendingRequestsContentLink" class="subsectionContentLink requestsContentLink">Pending</p>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div id="primaryContent" class="grid_17 alpha omega">
+                    <div id="defaultContent" data="{{defaultContent}}"></div>
+                </div>
             </div>
        </div>
         
