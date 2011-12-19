@@ -72,27 +72,24 @@ def location_view(request, location_id = None):
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     
-    people = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+    people = member.following.all()
     dinnerPeople = [p for p in people if (p.events.filter(date = date, category = "dinner", location = location))]
     for m in dinnerPeople:
         m.spheres2 = m.spheres.all()
-        m.relationship = "friend"
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.show_contact_info = True
+        m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
     pregamePeople = [p for p in people if (p.events.filter(date = date, category = "pregame", location = location))]
     for m in pregamePeople:
         m.spheres2 = m.spheres.all()
-        m.relationship = "friend"
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.show_contact_info = True
+        m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
     maineventPeople = [p for p in people if (p.events.filter(date = date, category = "mainEvent", location = location))]
     for m in maineventPeople:
         m.spheres2 = m.spheres.all()
-        m.relationship = "friend"
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.show_contact_info = True
+        m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
 
     
@@ -135,9 +132,9 @@ def search_view(request, query = ""):
             m.button_list.append(buttonDictionary["prevent"])
         
         if m in member.pending.all() and m != member:
-            m.relationship = "pending"
+            m.show_contact_info = False
             m.button_list.append(buttonDictionary["revoke"])
-        elif member in [f.follower for f in m.followers.all()] and m != member:
+        elif ((m in member.following.all()) and (m != member):
             m.relationship = "friend"
             #Add circles
             m.button_list.append(buttonDictionary["stop"])
@@ -151,8 +148,7 @@ def search_view(request, query = ""):
         else:
             m.relationship = "self"
             
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.mutual_followings = member.following.all() & m.following.all()
 
     for s in spheres:
         s.button_list = []
@@ -188,29 +184,28 @@ def requested_view(request):
         context_instance = RequestContext(request) )
 
 def followers_view(request):
-     # If a user is not logged in, redirect them to the login page
-     if ("member_id" not in request.session):
-            return HttpResponseRedirect("/inkle/login")
+    # If a user is not logged in, redirect them to the login page
+    if ("member_id" not in request.session):
+        return HttpResponseRedirect("/inkle/login")
 
-     # Get the member who is logged in
-     member = Member.objects.get(pk = request.session["member_id"])
+    # Get the member who is logged in
+    member = Member.objects.get(pk = request.session["member_id"])
 
-     members = [f.follower for f in member.followers.all()]
+    members = [f.follower for f in member.followers.all()]
 
-     for m in members:
-         m.spheres2 = m.spheres.all()
+    for m in members:
+        m.spheres2 = m.spheres.all()
          
-         temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-         m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
-         m.relationship = "friend"
-         
-         m.button_list = []
-         m.button_list.append(buttonDictionary["prevent"])
-         if not m.followers.filter(follower=member):
+        m.mutual_followings = member.following.all() & m.following.all()
+        m.relationship = "friend"
+        
+        m.button_list = []
+        m.button_list.append(buttonDictionary["prevent"])
+        if not m.followers.filter(follower = member):
             m.button_list.append(buttonDictionary["request"])
             m.relationship = "other"
 
-     return render_to_response( "followers.html",
+    return render_to_response( "followers.html",
         {"member" : member, "members" : members},
         context_instance = RequestContext(request) )
     
@@ -227,8 +222,7 @@ def circles_view(request):
     for m in members:
         m.spheres2 = m.spheres.all()
         m.relationship = "friend"
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
         m.button_list.append(buttonDictionary["stop"])
         #Add circles
@@ -257,8 +251,7 @@ def circle_content_view(request):
     for m in members:
         m.spheres2 = m.spheres.all()
         m.relationship = "friend"
-        temp = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
-        m.num_mutual_followings = len( [x for x in temp if m in [y.follower for y in x.followers.all()] ] )
+        m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
         m.button_list.append(buttonDictionary["stop"])
         #Add circles
@@ -322,7 +315,7 @@ def suggestions_view(request, query = ""):
         circle = Circle.objects.get(pk = circle_id)
 
         member = Member.objects.get(pk = request.session["member_id"])
-        following = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        following = member.following.all()
         circle_members = circle.members.all()
         people = list(set(following).difference(set(circle_members)))
        
@@ -361,7 +354,7 @@ def get_others_inklings_view(request):
 
 def get_others_inklings(member, date, people_type, people_id, inkling_type):
     if (people_type == "other"):
-        people = [x for x in Member.objects.all() if (member in [y.follower for y in x.followers.all()] )]
+        people = member.following.all()
 
     elif (people_type == "sphere"):
         sphere = Sphere.objects.get(pk = people_id)
