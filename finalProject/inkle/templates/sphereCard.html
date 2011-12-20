@@ -1,22 +1,14 @@
-{% block sphereCard %}
-      
-    <div class="grid_16">
+<div class="grid_17 alpha omega">
+    <div id="sphereCard_{{s.id}}" class="sphereCard">
+        <div class="grid_13">
+            <p class="sphereCardName">{{ s.name }}</p>
+        </div>
  
-        <div id="sphereCard_{{s.id}}" class="memberCard push_1 grid_14">
-                <div class="grid_14">
-                    <p class="sphereName">{{ s.name }}</p>
-                </div>
-                <div class="clear"></div>
- 
-                <div class="grid_14 buttons">
-                    {% for buttonClass, buttonText in s.button_list %}
-                        <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" sphereID="{{ s.id }}" />
-                    {% endfor %}
-                </div>
+        <div class="buttons grid_3">
+            {% for buttonClass, buttonText in s.button_list %}
+                <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" sphereID="{{ s.id }}" />
+            {% endfor %}
         </div>
         <div class="clear"></div>
-        
     </div>
-    <div class="clear"></div>
-      
-{% endblock sphereCard %}
+</div>
