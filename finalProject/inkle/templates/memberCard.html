@@ -1,6 +1,6 @@
 <!-- Member card -->
 <div class="grid_17 alpha omega">
-    <div id="memberCard_{{m.id}}" class="memberCard">
+    <div id="memberCard_{{ m.id }}" class="memberCard {{ m.people_type }}">
         <!-- Member card image -->
         <div>
             <img class="cardImage" src="{{ STATIC_URL }}/media/images/members/{{ m.image }}" />

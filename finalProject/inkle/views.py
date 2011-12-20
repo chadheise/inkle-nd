@@ -106,7 +106,7 @@ def search_view(request, query = ""):
         return HttpResponseRedirect("/inkle/login/")
     
     # Determine how many requests the logged in member has
-    member.num_requests = = len(member.requested.all())
+    member.num_requests = len(member.requested.all())
 
     # Get the people who match the search query
     if (len(query.split()) == 1):
@@ -119,59 +119,37 @@ def search_view(request, query = ""):
         # Determine the names of the current member's spheres
         m.sphereNames = [s.name for s in m.spheres.all()]
         
-        # Determine the current member's people type
-        if ((m in member.following.all()) and (m in member.followers.all()):
-            m.peopleType = ["following", "follower"]
+        # Determine the current member's people type and button list
+        if ((m in member.following.all()) and (m in member.followers.all())):
+            m.people_type = "both"
+            m.show_contact_info = True
             m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
         elif (m in member.following.all()):
-            m.peopleType = ["following"]
+            m.people_type = "following"
+            m.show_contact_info = True
             m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
-        elif (m in member.followers.all()):
-            m.peopleType = ["follower"]
+        elif (member in m.following.all()):
+            m.people_type = "follower"
+            m.show_contact_info = True
             if (m in member.pending.all()):
                 m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
             else:
                 m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
         else:
-            m.peopleType = ["other"]
+            m.people_type = "other"
             if (m in member.pending.all()):
-                m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+                m.button_list = [buttonDictionary["revoke"]]
             else:
-                m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+                m.button_list = [buttonDictionary["request"]]
 
-        # Check if the current member is the logged in member
-        if (m == member):
-            m.people_type.append("self")
-            m.show_contact_info = True
-
-        # Check if the current member follows the logged in member
-        if (m in member.followers.all()):
-            m.button_list.append(buttonDictionary["prevent"])
-            m.peopleType.append("follower")
-            m.show_contact_info = True
-       
-        # Check if the logged in member has a pending request to follow the current member
-        if m in member.pending.all():
-            m.show_contact_info = False
-            m.peopleType.append("follower")
-            m.button_list.append(buttonDictionary["revoke"])
-
-        # Check if the logged in member follows the current member
+        #Add circles
         if (m in member.following.all()):
-            m.show_contact_info = True
-            m.relationship = "friend"
-            #Add circles
-            m.button_list.append(buttonDictionary["stop"])
-            m.button_list.append(buttonDictionary["circles"])
             m.circles2 = [c for c in member.circles.all()]
             for c in m.circles2:
                     c.members2 = c.members.all()
-        if m != member:
-            m.relationship = "other"
-            m.button_list.append(buttonDictionary["request"])
-            
-        m.mutual_followings = member.following.all() & m.following.all()
 
+        # Determine the mutual followings
+        m.mutual_followings = member.following.all() & m.following.all()
 
     # Get the locations which match the search query
     locations = Location.objects.filter(Q(name__contains = query))

@@ -22,13 +22,13 @@
         <div id="searchSummary" class="grid_6 suffix_1" style="border: solid 1px;">
             <p>Your query: {{ query }}</p>
                         
-                        <div class="push_1 grid_10">
+                        <div class="">
                             <input id="newLocationButton" class="newItemInput newItemButton" type="button" value="Create a new location"/>
                             <input id="newLocationText" class="newItemInput newItemText" type="text"/>
                             <input id="newLocationSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
                             <input id="newLocationCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
                         </div>
-                        <div class="push_1 grid_10">
+                        <div class="">
                             <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
                             <input id="newSphereText" class="newItemInput newItemText" type="text"/>
                             <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
@@ -47,25 +47,25 @@
             </div>
             <div class="clear"></div>
             
+            <!-- People subfilters -->
+            <div id="peopleSubsectionContentLinks" class="grid_17">
+                <p id="allPeopleContentLink" class="selectedPeopleContentLink subsectionContentLink peopleContentLink">All</p>
+                <p id="followingPeopleContentLink" class="subsectionContentLink peopleContentLink">Following</p>
+                <p id="followersPeopleContentLink" class="subsectionContentLink peopleContentLink">Followers</p>
+                <p id="otherPeopleContentLink" class="subsectionContentLink peopleContentLink">Other</p>
+            </div>
+            <div class="clear"></div>
+                
+            <!-- Sphere subfilters -->
+            <div id="spheresSubsectionContentLinks" class="grid_17">
+                <p id="allSpheresContentLink" class="selectedSpheresContentLink selectedSubsectionContentLink subsectionContentLink spheresContentLink">All</p>
+                <p id="mySpheresContentLink" class="subsectionContentLink spheresContentLink">My spheres</p>
+                <p id="otherSpheresContentLink" class="subsectionContentLink spheresContentLink">Other spheres</p>
+            </div>
+            <div class="clear"></div>
+            
             <!-- Search content -->
             <div id="searchContent" class="grid_17 alpha omega">
-                <!-- People subfilters -->
-                <div id="peopleSubsectionContentLinks" class="grid_17">
-                    <p id="allPeopleContentLink" class="selectedPeopleContentLink selectedSubsectionContentLink subsectionContentLink peopleContentLink">All</p>
-                    <p id="followingPeopleContentLink" class="subsectionContentLink peopleContentLink">Following</p>
-                    <p id="followersPeopleContentLink" class="subsectionContentLink peopleContentLink">Followers</p>
-                    <p id="otherPeopleContentLink" class="subsectionContentLink peopleContentLink">Other</p>
-                </div>
-                <div class="clear"></div>
-                
-                <!-- Sphere subfilters -->
-                <div id="spheresSubsectionContentLinks" class="grid_17">
-                    <p id="allSpheresContentLink" class="selectedSpheresContentLink selectedSubsectionContentLink subsectionContentLink spheresContentLink">All</p>
-                    <p id="mySpheresContentLink" class="subsectionContentLink spheresContentLink">My spheres</p>
-                    <p id="otherSpheresContentLink" class="subsectionContentLink spheresContentLink">Other spheres</p>
-                </div>
-
-                <div class="clear"></div>
                 <div id="searchResults" class="grid_17 alpha omega">
                     <!-- People -->
                     <div id="people">
