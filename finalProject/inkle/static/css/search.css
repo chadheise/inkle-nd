@@ -17,10 +17,13 @@ h3 {
 .filterButton {
     height: 50px;
     font-size: 24px;
-    color: #009ACD;
-    background-color: lightgray;
+    color: white;
+    background-color: #ABD4B0;
+    border-color: #336E34;
     margin-bottom: 10px;
     border-radius: 5px;
+    border-style: solid;
+    border-radius: 7px;
 }
 
 .selected {
@@ -39,16 +42,22 @@ h3 {
     color: white;
     font-weight: bold;
     margin-left: 5px;
+    margin-bottom: 10px;
+    border-style: solid;
+    border-radius: 3px;
+    height: 23px;
 }
 
 #newLocationButton, #newLocationSubmit, #newLocationCancel
 {
    background-color: #1B5898;
+   border-color: #2A4360;
 }
 
 #newSphereButton, #newSphereSubmit, #newSphereCancel
 {
-   background-color: #660066;
+    background-color: #1B5898;
+    border-color: #2A4360;
 }
 
 .newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
