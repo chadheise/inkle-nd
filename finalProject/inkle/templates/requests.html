@@ -8,7 +8,7 @@
                     {% include "memberCard.html" %}
                 {% endfor %}
             {% else %}
-                <p style="text-align: center;">No one has requested to follow you.</p>
+                <p class="requestsTitle">No one has requested to follow you.</p>
             {% endif %}
         </div>
 
@@ -20,7 +20,7 @@
                     {% include "memberCard.html" %}
                 {% endfor %}
             {% else %}
-                <p style="text-align: center;">You have no pending requests to follow anyone.</p>
+                <p class="requestsTitle">You have no pending requests to follow anyone.</p>
             {% endif %}
         </div>
     </div>

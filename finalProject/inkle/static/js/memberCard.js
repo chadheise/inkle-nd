@@ -122,23 +122,4 @@ $(document).ready(function() {
         });
     });
     
-    /*----------------------Revoke Request Button --------------------------*/
-    $(".revokeRequest").live("click", function() {
-        var thisElement = $(this);
-        var toMemberID = parseInt($(this).attr("memberID"));
-        // Send friend request to database
-        $.ajax({
-            type: "POST",
-            url: "/inkle/revokeRequest/",
-            data: { "toMemberID" : toMemberID },
-            success: function(title) {
-                thisElement.val("Request to follow");
-                thisElement.addClass("requestToFollow");
-                thisElement.removeClass("revokeRequest");
-                thisElement.attr("title", title);
-            },
-            error: function(a, b, error) { alert(error); }
-        });
-    });
-    
 });
