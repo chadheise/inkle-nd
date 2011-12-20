@@ -31,12 +31,14 @@
 
 .joinSphere
 {
-    background-color: #288D42;
+    background-color: #E48116;
+    border-color: #946732;
     width: 75px;
 }
 
 .leaveSphere
 {
     background-color: #CD1A26;
+    border-color: #914044;
     width: 83px;
 }

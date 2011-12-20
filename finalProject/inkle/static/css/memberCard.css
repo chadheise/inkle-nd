@@ -66,7 +66,6 @@ ul {
 {
     float: right;
     margin-bottom: 5px;
-    border-style: none;
 }
 
 
@@ -77,7 +76,7 @@ ul {
     font-weight: bold;
     float: right;
     margin-left: 5px;
-    border-style: double;
+    border-style: solid;
     border-radius: 3px;
     height: 23px;
 }
@@ -114,6 +113,7 @@ ul {
 {
     background-color: #CD1A26;
     border-color: #914044;
+    width: 92px;
 }
 
 .preventFollowing
