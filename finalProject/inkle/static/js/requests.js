@@ -119,34 +119,4 @@ $(document).ready(function() {
         });
     });
     
-    // Revoke request button
-    $(".revokeRequest").live("click", function() {
-        var thisElement = $(this);
-        var toMemberID = parseInt($(this).attr("memberID"));
-        // Send friend request to database
-        $.ajax({
-            type: "POST",
-            url: "/inkle/revokeRequest/",
-            data: { "toMemberID" : toMemberID },
-            success: function() {
-                // Alert the user that they revoked the request
-                var memberCard = thisElement.parents(".memberCard");
-                var memberCardName = memberCard.find(".memberCardName").text();
-                memberCard.fadeOut(function() {
-                    memberCard.html("You revoked your request to follow " + memberCardName + ".");
-                    memberCard.css("padding", "10px");
-                    memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                        if ($("#pendingRequestsContent").has(".memberCard:visible").length == 0)
-                        {
-                            $("#pendingRequestsContent").fadeOut("medium", function() {
-                                $("#pendingRequestsContent").html("<p class='requestsTitle'>You have no pending requests to follow anyone.</p>");
-                                $("#pendingRequestsContent").fadeIn("medium");
-                            });
-                        }
-                    });
-                });
-            },
-            error: function(a, b, error) { alert(error); }
-        });
-    });
 });
