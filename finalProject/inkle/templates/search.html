@@ -19,68 +19,93 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div class="grid_8">
-            <h3>Filters</h3>
-            <ul class="searchResults">
-               <li><input class="filterButton selected push_1 grid_6" type="button" value="All"></li>
-               <li><input class="filterButton selected push_1 grid_6" type="button" value="People"></li> 
-               <li><input class="filterButton selected push_1 grid_6" type="button" value="Locations"></li>
-               <li><input class="filterButton selected push_1 grid_6 " type="button" value="Spheres"></li>
-            </ul>
-        </div>
-        <div id="searchContent" class="grid_16">
+        <div id="searchSummary" class="grid_6 suffix_1" style="border: solid 1px;">
             <p>Your query: {{ query }}</p>
-            <div id="people">
-                <h3>People</h3>
-                {% if members.length == 0 %}
-                    <p>No people match your query.</p>
-                {% else %}
-                    {% for m in members %}
-                        {% include "memberCard.html" %}
-                    {% endfor %}
-                {% endif %}
-            </div>
+                        
+                        <div class="push_1 grid_10">
+                            <input id="newLocationButton" class="newItemInput newItemButton" type="button" value="Create a new location"/>
+                            <input id="newLocationText" class="newItemInput newItemText" type="text"/>
+                            <input id="newLocationSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
+                            <input id="newLocationCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+                        </div>
+                        <div class="push_1 grid_10">
+                            <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
+                            <input id="newSphereText" class="newItemInput newItemText" type="text"/>
+                            <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
+                            <input id="newSphereCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+                        </div>
+        </div>
 
-            <div id="locations" class="grid_16">
-                <div class="grid_5">
-                    <h3>Locations</h3>
-                </div>
-                <div class="push_1 grid_10">
-                    <input id="newLocationButton" class="newItemInput newItemButton" type="button" value="Create a new location"/>
-                    <input id="newLocationText" class="newItemInput newItemText" type="text"/>
-                    <input id="newLocationSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
-                    <input id="newLocationCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
-                </div>
+        <div class="grid_17 alpha omega">
+            <!-- Main filters -->
+            <div class="grid_17">
+                <p id="allContentLink" class="selectedContentLink contentLink">All</p>
+                <p id="peopleContentLink" class="contentLink">People</p>
+                <p id="locationsContentLink" class="contentLink">Locations</p>
+                <p id="spheresContentLink" class="contentLink">Spheres</p>
                 <div class="clear"></div>
-                {% if locations.length == 0 %}
-                    <p>No locations match your query.</p>
-                {% else %}
-                    {% for l in locations %}
-                        {% include "locationCard.html" %}
-                    {% endfor %}
-                {% endif %}
             </div>
+            <div class="clear"></div>
             
-            <div id="spheres" class="grid_16">
-                <div class="grid_5">
-                    <h3>Spheres</h3>
-                </div>
-                <div class="push_1 grid_10">
-                    <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
-                    <input id="newSphereText" class="newItemInput newItemText" type="text"/>
-                    <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
-                    <input id="newSphereCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+            <!-- Search content -->
+            <div id="searchContent" class="grid_17 alpha omega">
+                <!-- People subfilters -->
+                <div id="peopleSubsectionContentLinks" class="grid_17">
+                    <p id="allPeopleContentLink" class="selectedPeopleContentLink selectedSubsectionContentLink subsectionContentLink peopleContentLink">All</p>
+                    <p id="followingPeopleContentLink" class="subsectionContentLink peopleContentLink">Following</p>
+                    <p id="followersPeopleContentLink" class="subsectionContentLink peopleContentLink">Followers</p>
+                    <p id="otherPeopleContentLink" class="subsectionContentLink peopleContentLink">Other</p>
                 </div>
                 <div class="clear"></div>
-                {% if spheres.length == 0 %}
-                    <p>No spheres match your query.</p>
-                {% else %}
-                    {% for s in spheres %}
-                        {% include "sphereCard.html" %}
-                    {% endfor %}
-                {% endif %}
+                
+                <!-- Sphere subfilters -->
+                <div id="spheresSubsectionContentLinks" class="grid_17">
+                    <p id="allSpheresContentLink" class="selectedSpheresContentLink selectedSubsectionContentLink subsectionContentLink spheresContentLink">All</p>
+                    <p id="mySpheresContentLink" class="subsectionContentLink spheresContentLink">My spheres</p>
+                    <p id="otherSpheresContentLink" class="subsectionContentLink spheresContentLink">Other spheres</p>
+                </div>
+
+                <div class="clear"></div>
+                <div id="searchResults" class="grid_17 alpha omega">
+                    <!-- People -->
+                    <div id="people">
+                        <p class="searchTitle">People</p>
+                        {% if members.length == 0 %}
+                            <p class="noResultsMessage">No people match your query.</p>
+                        {% else %}
+                            {% for m in members %}
+                                {% include "memberCard.html" %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <!-- Locations -->
+                    <div id="locations">
+                        <p class="searchTitle">Locations</p>
+                        {% if locations.length == 0 %}
+                            <p class="noResultsMessage">No locations match your query.</p>
+                        {% else %}
+                            {% for l in locations %}
+                                {% include "locationCard.html" %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+            
+                    <!-- Spheres -->
+                    <div id="spheres">
+                        <p class="searchTitle">Spheres</p>
+                        {% if spheres.length == 0 %}
+                            <p class="noResultsMessage">No spheres match your query.</p>
+                        {% else %}
+                            {% for s in spheres %}
+                                {% include "sphereCard.html" %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-       </div>
-        
+        </div>
+
+        <div class="clear"></div>
     </div>
 {% endblock mainContent%}

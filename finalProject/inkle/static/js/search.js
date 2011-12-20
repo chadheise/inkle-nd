@@ -1,56 +1,98 @@
 $(document).ready(function() {
-    
-    $(".filterButton").live("click", function() {
-        
-        if ($(this).val() == "All")
+    // Update the search results when one of the main content links is clicked
+    $(".contentLink").click(function() {
+        // Only change the content if we click a content link which is not already selected
+        if (!$(this).hasClass("selectedContentLink"))
         {
-            $(".filterButton").addClass("selected");
-            
+            // Remove the selected content link class from the appropriate element and add it to the clicked content link
+            $(".selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
+
+            // Depending on which content link was clicked, hide and show the appropriate results
+            var thisID = $(this).attr("id");
             $("#searchContent").fadeOut(function() {
-                $("#people").show();
-                $("#locations").show();
-                $("#spheres").show();
+                if (thisID == "allContentLink")
+                {
+                    $("#people").show();
+                    $("#locations").show();
+                    $("#spheres").show();
+                    $(".searchTitle").show();
+                    $("#peopleSubsectionContentLinks").hide();
+                    $("#spheresSubsectionContentLinks").hide();
+                }
+                else if (thisID == "peopleContentLink")
+                {
+                    $("#people").show();
+                    $("#locations").hide();
+                    $("#spheres").hide();
+                    $(".searchTitle").hide();
+                    $("#peopleSubsectionContentLinks").show();
+                    $("#spheresSubsectionContentLinks").hide();
+                }
+                else if (thisID == "locationsContentLink")
+                {
+                    $("#people").hide();
+                    $("#locations").show();
+                    $("#spheres").hide();
+                    $(".searchTitle").hide();
+                    $("#peopleSubsectionContentLinks").hide();
+                    $("#spheresSubsectionContentLinks").hide();
+                }
+                else if (thisID == "spheresContentLink")
+                {
+                    $("#people").hide();
+                    $("#locations").hide();
+                    $("#spheres").show();
+                    $(".searchTitle").hide();
+                    $("#peopleSubsectionContentLinks").hide();
+                    $("#spheresSubsectionContentLinks").show();
+                }
 
                 $("#searchContent").fadeIn();
             });
         }
-        else
+    });
+
+    // Update the people search results when one of the people subsection content links is clicked
+    $(".peopleContentLink").click(function() {
+        // Only change the content if we click a content link which is not already selected
+        if (!$(this).hasClass("selectedPeopleContentLink"))
         {
-            $(".filterButton").removeClass("selected");
-            $(this).addClass("selected");
+            // Remove the selected people content link class from the appropriate element and add it to the clicked people content link
+            $(".selectedPeopleContentLink").removeClass("selectedPeopleContentLink");
+            $(this).addClass("selectedPeopleContentLink");
 
-            if ($(this).val() == "People")
-            {
-                $("#searchContent").fadeOut(function() {
-                    $("#people").show();
-                    $("#locations").hide();
-                    $("#spheres").hide();
+            // Depending on which people content link was clicked, hide and show the appropriate results
+            var thisID = $(this).attr("id");
+            $("#searchContent").fadeOut(function() {
+                if (thisID == "allPeopleContentLink")
+                {
+                    $(".followingPeople").show();
+                    $(".followerPeople").show();
+                    $(".otherPeople").show();
+                }
+                else if (thisID == "followingPeopleContentLink")
+                {
+                    $(".followingPeople").show();
+                    $(".followerPeople").hide();
+                    $(".otherPeople").hide();
+                }
+                else if (thisID == "followersPeopleContentLink")
+                {
+                    $(".followingPeople").hide();
+                    $(".followerPeople").show();
+                    $(".otherPeople").hide();
+                }
+                else if (thisID == "otherPeopleContentLink")
+                {
+                    $(".followingPeople").hide();
+                    $(".followerPeople").hide();
+                    $(".otherPeople").show();
+                }
 
-                    $("#searchContent").fadeIn();
-                });
-            }
-            else if ($(this).val() == "Locations")
-            {
-                $("#searchContent").fadeOut(function() {
-                    $("#people").hide();
-                    $("#locations").show();
-                    $("#spheres").hide();
-
-                    $("#searchContent").fadeIn();
-                });
-            }
-            else if ($(this).val() == "Spheres")
-            {
-                $("#searchContent").fadeOut(function() {
-                    $("#people").hide();
-                    $("#locations").hide();
-                    $("#spheres").show();
-
-                    $("#searchContent").fadeIn();
-                });
-            }
+                $("#searchContent").fadeIn();
+            });
         }
-        
     });
    
    /*-----------------------Create New Location-------------------------*/

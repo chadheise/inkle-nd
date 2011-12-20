@@ -4,10 +4,16 @@
     padding: 0px;
 }
 
-h3 {
-    font-size: 30px;
-    color: #288D42;
+.searchTitle
+{
+    font-size: 26px;
+    font-weight: bold;
+    color: #385E0F;
+}
 
+.noResultsMessage
+{
+    margin-bottom: 15px;
 }
 
 .searchResults ul {
@@ -17,17 +23,14 @@ h3 {
 .filterButton {
     height: 50px;
     font-size: 24px;
-    color: white;
-    background-color: #ABD4B0;
-    border-color: #336E34;
+    color: #009ACD;
+    background-color: lightgray;
     margin-bottom: 10px;
     border-radius: 5px;
-    border-style: solid;
-    border-radius: 7px;
 }
 
 .selected {
-    background-color: #288D42;
+    background-color: #385E0F;
     color: #FFFFFF;
 }
 
@@ -42,38 +45,24 @@ h3 {
     color: white;
     font-weight: bold;
     margin-left: 5px;
-    margin-bottom: 10px;
-    border-style: solid;
-    border-radius: 3px;
-    height: 23px;
 }
 
 #newLocationButton, #newLocationSubmit, #newLocationCancel
 {
-   background-color: #1B5898;
-   border-color: #2A4360;
-}
-
-#newLocationButton:hover, #newLocationSubmit:hover, #newLocationCancel:hover
-{
-    border-color: #002C45;
-    cursor: pointer;
+   background-color: #009ACD;
 }
 
 #newSphereButton, #newSphereSubmit, #newSphereCancel
 {
-    background-color: #1B5898;
-    border-color: #2A4360;
+   background-color: #660066;
 }
-
-#newSphereButton:hover, #newSphereSubmit:hover, #newSphereCancel:hover
-{
-    border-color: #002C45;
-    cursor: pointer;
-}
-
 
 .newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
+{
+    display: none;
+}
+
+#peopleSubsectionContentLinks, #spheresSubsectionContentLinks
 {
     display: none;
 }
