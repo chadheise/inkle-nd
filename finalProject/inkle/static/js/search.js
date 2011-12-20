@@ -1,9 +1,10 @@
 $(document).ready(function() {
+    // Update the search results when one of the main content links is clicked
     $(".contentLink").click(function() {
         // Only change the content if we click a content link which is not already selected
-        if (! $(this).hasClass("selectedContentLink"))
+        if (!$(this).hasClass("selectedContentLink"))
         {
-            // Remove the selected class from each content link and add it to the clicked content link
+            // Remove the selected content link class from the appropriate element and add it to the clicked content link
             $(".selectedContentLink").removeClass("selectedContentLink");
             $(this).addClass("selectedContentLink");
 
@@ -45,6 +46,48 @@ $(document).ready(function() {
                     $(".searchTitle").hide();
                     $("#peopleSubsectionContentLinks").hide();
                     $("#spheresSubsectionContentLinks").show();
+                }
+
+                $("#searchContent").fadeIn();
+            });
+        }
+    });
+
+    // Update the people search results when one of the people subsection content links is clicked
+    $(".peopleContentLink").click(function() {
+        // Only change the content if we click a content link which is not already selected
+        if (!$(this).hasClass("selectedPeopleContentLink"))
+        {
+            // Remove the selected people content link class from the appropriate element and add it to the clicked people content link
+            $(".selectedPeopleContentLink").removeClass("selectedPeopleContentLink");
+            $(this).addClass("selectedPeopleContentLink");
+
+            // Depending on which people content link was clicked, hide and show the appropriate results
+            var thisID = $(this).attr("id");
+            $("#searchContent").fadeOut(function() {
+                if (thisID == "allPeopleContentLink")
+                {
+                    $(".followingPeople").show();
+                    $(".followerPeople").show();
+                    $(".otherPeople").show();
+                }
+                else if (thisID == "followingPeopleContentLink")
+                {
+                    $(".followingPeople").show();
+                    $(".followerPeople").hide();
+                    $(".otherPeople").hide();
+                }
+                else if (thisID == "followersPeopleContentLink")
+                {
+                    $(".followingPeople").hide();
+                    $(".followerPeople").show();
+                    $(".otherPeople").hide();
+                }
+                else if (thisID == "otherPeopleContentLink")
+                {
+                    $(".followingPeople").hide();
+                    $(".followerPeople").hide();
+                    $(".otherPeople").show();
                 }
 
                 $("#searchContent").fadeIn();

@@ -98,43 +98,67 @@ def location_view(request, location_id = None):
         context_instance = RequestContext(request) )
 
 def search_view(request, query = ""):
-    # If a user is not logged in, redirect them to the login page
-    if ("member_id" not in request.session):
-           return HttpResponseRedirect("/inkle/login")
+    """Returns results for the logged in member's search query."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
     
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    # Determine how many requests the logged in member has
+    member.num_requests = = len(member.requested.all())
 
-    member.num_requests = 0
-    for r in member.requested.all():
-        member.num_requests += 1
-
-    split_query = query.split()
-    if (len(split_query) == 1):
+    # Get the people who match the search query
+    if (len(query.split()) == 1):
         members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query))
     else:
-        members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = split_query[0]) | Q(last_name__contains = split_query[1]))
-    members.length = len(members)
+        members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = query.split()[0]) | Q(last_name__contains = query.split()[1]))
 
-    locations = Location.objects.filter(Q(name__contains = query))
-    locations.length = len(locations)
-    
-    spheres = Sphere.objects.filter(Q(name__contains = query))
-    spheres.length = len(spheres)
-
+    # Determine the information to show on each member's card
     for m in members:
-        m.button_list = []
+        # Determine the names of the current member's spheres
+        m.sphereNames = [s.name for s in m.spheres.all()]
         
-        m.spheres2 = m.spheres.all()
-        
-        # Prevent following
-        if member.followers.filter(follower=m):
+        # Determine the current member's people type
+        if ((m in member.following.all()) and (m in member.followers.all()):
+            m.peopleType = ["following", "follower"]
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
+        elif (m in member.following.all()):
+            m.peopleType = ["following"]
+            m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+        elif (m in member.followers.all()):
+            m.peopleType = ["follower"]
+            if (m in member.pending.all()):
+                m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+            else:
+                m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+        else:
+            m.peopleType = ["other"]
+            if (m in member.pending.all()):
+                m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+            else:
+                m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+
+        # Check if the current member is the logged in member
+        if (m == member):
+            m.people_type.append("self")
+            m.show_contact_info = True
+
+        # Check if the current member follows the logged in member
+        if (m in member.followers.all()):
             m.button_list.append(buttonDictionary["prevent"])
-        
-        if m in member.pending.all() and m != member:
+            m.peopleType.append("follower")
+            m.show_contact_info = True
+       
+        # Check if the logged in member has a pending request to follow the current member
+        if m in member.pending.all():
             m.show_contact_info = False
+            m.peopleType.append("follower")
             m.button_list.append(buttonDictionary["revoke"])
-        elif ((m in member.following.all()) and (m != member)):
+
+        # Check if the logged in member follows the current member
+        if (m in member.following.all()):
+            m.show_contact_info = True
             m.relationship = "friend"
             #Add circles
             m.button_list.append(buttonDictionary["stop"])
@@ -142,21 +166,27 @@ def search_view(request, query = ""):
             m.circles2 = [c for c in member.circles.all()]
             for c in m.circles2:
                     c.members2 = c.members.all()
-        elif m != member:
+        if m != member:
             m.relationship = "other"
             m.button_list.append(buttonDictionary["request"])
-        else:
-            m.relationship = "self"
             
         m.mutual_followings = member.following.all() & m.following.all()
 
-    for s in spheres:
-        s.button_list = []
-        if s in member.spheres.all():
-            s.button_list.append(buttonDictionary["leave"])
-        else:
-            s.button_list.append(buttonDictionary["join"])
 
+    # Get the locations which match the search query
+    locations = Location.objects.filter(Q(name__contains = query))
+    
+    # Get the spheres which match the search query
+    spheres = Sphere.objects.filter(Q(name__contains = query))
+
+    # Determine which spheres the logged in member has joined and set the button list accordingly
+    for s in spheres:
+        if (s in member.spheres.all()):
+            s.containsMember = True
+            s.button_list = [buttonDictionary["leave"]]
+        else:
+            s.containsMember = False
+            s.button_list = [buttonDictionary["join"]]
 
     return render_to_response( "search.html",
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
