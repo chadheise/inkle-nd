@@ -81,6 +81,11 @@ ul {
     height: 23px;
 }
 
+.cardButton:hover
+{
+    cursor: pointer;
+}
+
 .requestToFollow
 {
     background-color: #E48116;
@@ -102,6 +107,10 @@ ul {
     width: 97px;
 }
 
+.revokeRequest:hover
+{
+    border-color: #793818;
+}
 .acceptRequest
 {
     background-color: #E48116;
