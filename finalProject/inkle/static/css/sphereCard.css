@@ -36,9 +36,19 @@
     width: 75px;
 }
 
+.joinSphere:hover
+{
+    border-color: #793818;
+}
+
 .leaveSphere
 {
     background-color: #CD1A26;
     border-color: #914044;
     width: 83px;
+}
+
+.leaveSphere:hover
+{
+    border-color: #7E181A;
 }

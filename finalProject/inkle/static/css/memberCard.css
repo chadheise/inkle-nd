@@ -90,7 +90,12 @@ ul {
 {
     background-color: #E48116;
     border-color: #946732;
-    width: 103px;
+    width: 110px;
+}
+
+.requestToFollow:hover
+{
+    border-color: #793818;
 }
 
 .stopFollowing
@@ -98,6 +103,11 @@ ul {
     background-color: #CD1A26;
     border-color: #914044;
     width: 94px;
+}
+
+.stopFollowing:hover
+{
+    border-color: #7E181A;
 }
 
 .revokeRequest
@@ -118,6 +128,11 @@ ul {
     width: 95px;
 }
 
+.acceptRequest:hover
+{
+    border-color: #793818;
+}
+
 .rejectRequest
 {
     background-color: #CD1A26;
@@ -130,6 +145,11 @@ ul {
     background-color: #CD1A26;
     border-color: #914044;
     width: 105px;
+}
+
+.preventFollowing:hover
+{
+    border-color: #7E181A;
 }
 
 .remove
@@ -148,6 +168,11 @@ ul {
     background-color: #E48116;
     border-color: #946732;
     width: 50px;
+}
+
+.circlesCardButton:hover
+{
+    border-color: #793818;
 }
 
 .circlesMenu {

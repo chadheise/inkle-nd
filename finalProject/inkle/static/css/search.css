@@ -54,11 +54,24 @@ h3 {
    border-color: #2A4360;
 }
 
+#newLocationButton:hover, #newLocationSubmit:hover, #newLocationCancel:hover
+{
+    border-color: #002C45;
+    cursor: pointer;
+}
+
 #newSphereButton, #newSphereSubmit, #newSphereCancel
 {
     background-color: #1B5898;
     border-color: #2A4360;
 }
+
+#newSphereButton:hover, #newSphereSubmit:hover, #newSphereCancel:hover
+{
+    border-color: #002C45;
+    cursor: pointer;
+}
+
 
 .newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
 {
