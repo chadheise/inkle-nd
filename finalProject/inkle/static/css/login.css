@@ -1,6 +1,6 @@
 #welcomeText
 {
-    color: #385E0F;
+    color: #288D42;
     font-size: 20px;
     font-weight: bold;
     text-align: justify;
@@ -50,7 +50,7 @@
 #forgottenPassword a
 {
     font-size: 12px;
-    color: #385E0F;
+    color: #288D42;
 }
 
 #loginButton, #registrationButton
@@ -59,7 +59,7 @@
     font-weight: bold;
     color: white;
     margin-top: 10px;
-    background-color: #385E0F;
+    background-color: #288D42;
 }
 
 .invalidInput

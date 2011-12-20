@@ -29,7 +29,7 @@ ul {
 .memberCardName
 {
     font-family: helvetica;
-    color: #385E0F;
+    color: #288D42;
     font-size: 32px;
     font-weight: bold;
     text-decoration: none;
@@ -80,7 +80,7 @@ ul {
 
 .requestToFollow
 {
-    background-color: #385E0F;
+    background-color: #288D42;
 }
 
 .stopFollowing
@@ -132,7 +132,7 @@ ul {
     background-color: lightgray;
     position: absolute;
     width: 200px;
-    color: #385E0F;
+    color: #288D42;
 }
 
 .circlesMenu ul {

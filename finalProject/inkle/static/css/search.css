@@ -6,7 +6,7 @@
 
 h3 {
     font-size: 30px;
-    color: #385E0F;
+    color: #288D42;
 
 }
 
@@ -24,7 +24,7 @@ h3 {
 }
 
 .selected {
-    background-color: #385E0F;
+    background-color: #288D42;
     color: #FFFFFF;
 }
 
