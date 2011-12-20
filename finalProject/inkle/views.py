@@ -212,9 +212,16 @@ def followers_view(request):
         
         m.button_list = []
         m.button_list.append(buttonDictionary["prevent"])
-        if not m.followers.filter(follower = member):
+        if m in member.pending.all():
+            m.button_list.append(buttonDictionary["revoke"])
+            m.relationship = "pending"
+        elif m in member.following.all():
+            m.button_list.append(buttonDictionary["stop"])
+            m.relationship = "friend"
+        else:
             m.button_list.append(buttonDictionary["request"])
             m.relationship = "other"
+            
 
     return render_to_response( "followers.html",
         {"member" : member, "members" : members},
