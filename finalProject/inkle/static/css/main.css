@@ -2,6 +2,7 @@
 {
     margin: 0px;
     padding: 0px;
+    font-family: helvetica;
 }
 
 a
@@ -28,7 +29,7 @@ a
 
 .selectedContentLink
 {
-    color: #385E0F;
+    color: #288D42;
 }
 
 .subsectionContentLink
@@ -52,12 +53,12 @@ a
     font-weight: bold;
     font-size: 18px;
     margin-top: 3px;
-    color: #385E0F;
+    color: #288D42;
 }
 
 #footer
 {
-    background-color: #385E0F;
+    background-color: #288D42;
     height: 30px;
     width: 100%;
     text-align: center;

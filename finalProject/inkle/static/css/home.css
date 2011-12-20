@@ -1,7 +1,7 @@
 .date
 {
     text-align: center;
-    border: solid 2px #385E0F;
+    border: solid 2px #288D42;
     height: 95px;
     margin-bottom: 10px;
     cursor: pointer;
@@ -39,7 +39,7 @@
 .inkling
 {
     padding: 3px 10px 10px 10px;
-    border: solid 2px #385E0F;
+    border: solid 2px #288D42;
     background-color: #DDD;
 }
 
@@ -49,7 +49,7 @@
     text-align: center;
     font-size: 22px;
     font-weight: bold;
-    color: #385E0F;
+    color: #288D42;
 }
 
 .inkling img
@@ -85,7 +85,7 @@
 
 .locationBoardCard
 {
-    border: solid 2px #385E0F;
+    border: solid 2px #288D42;
     background-color: #DDD;
     padding: 10px;
     height: 75px;
@@ -108,6 +108,6 @@
 {
     margin-top: 3px;
     font-size: 36px;
-    color: #385E0F;
+    color: #288D42;
     text-decoration: none;
 }
