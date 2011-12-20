@@ -27,13 +27,13 @@
 
 .selectedDate .month
 {
-    background-color: #FF4040;
+    background-color: #CD1A26;
     color: #FFF;
 }
 
 .selectedDate .day
 {
-    color: #FF4040;
+    color: #CD1A26;
 }
 
 .inkling
@@ -101,7 +101,7 @@
     padding-top: 15px;
     font-weight: bold;
     color: #FFF;
-    background-color: #009ACD;
+    background-color: #1B5898;
 }
 
 .locationBoardCardName

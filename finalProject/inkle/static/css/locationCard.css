@@ -13,9 +13,7 @@
 
 .locationName
 {
-    font-family: helvetica;
-    /*color: #288D42;*/
-    color: #009ACD;
+    color: #1B5898;
     font-size: 32px;
     font-weight: bold;
     text-decoration: none;
@@ -35,7 +33,6 @@
 
 .locationInfo
 {
-    font-family: helvetica;
     font-size: 10px;
     color: navy;
     margin-right: 15px;
