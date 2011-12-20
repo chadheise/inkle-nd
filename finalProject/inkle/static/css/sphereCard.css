@@ -9,7 +9,7 @@
 .sphereCardName
 {
     font-family: helvetica;
-    color: #660066;
+    color: #1B5898;
     font-size: 32px;
     font-weight: bold;
     text-decoration: none;
@@ -32,9 +32,11 @@
 .joinSphere
 {
     background-color: #288D42;
+    width: 75px;
 }
 
 .leaveSphere
 {
     background-color: #CD1A26;
+    width: 83px;
 }
