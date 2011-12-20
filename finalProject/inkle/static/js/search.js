@@ -67,27 +67,31 @@ $(document).ready(function() {
             $("#searchContent").fadeOut(function() {
                 if (thisID == "allPeopleContentLink")
                 {
-                    $(".followingPeople").show();
-                    $(".followerPeople").show();
-                    $(".otherPeople").show();
+                    $(".following").show();
+                    $(".follower").show();
+                    $(".both").show();
+                    $(".other").show();
                 }
                 else if (thisID == "followingPeopleContentLink")
                 {
-                    $(".followingPeople").show();
-                    $(".followerPeople").hide();
-                    $(".otherPeople").hide();
+                    $(".following").show();
+                    $(".follower").hide();
+                    $(".both").show();
+                    $(".other").hide();
                 }
                 else if (thisID == "followersPeopleContentLink")
                 {
-                    $(".followingPeople").hide();
-                    $(".followerPeople").show();
-                    $(".otherPeople").hide();
+                    $(".following").hide();
+                    $(".follower").show();
+                    $(".both").show();
+                    $(".other").hide();
                 }
                 else if (thisID == "otherPeopleContentLink")
                 {
-                    $(".followingPeople").hide();
-                    $(".followerPeople").hide();
-                    $(".otherPeople").show();
+                    $(".following").hide();
+                    $(".follower").hide();
+                    $(".both").hide();
+                    $(".other").show();
                 }
 
                 $("#searchContent").fadeIn();
