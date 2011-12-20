@@ -1,56 +1,55 @@
 $(document).ready(function() {
-    
-    $(".filterButton").live("click", function() {
-        
-        if ($(this).val() == "All")
+    $(".contentLink").click(function() {
+        // Only change the content if we click a content link which is not already selected
+        if (! $(this).hasClass("selectedContentLink"))
         {
-            $(".filterButton").addClass("selected");
-            
+            // Remove the selected class from each content link and add it to the clicked content link
+            $(".selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
+
+            // Depending on which content link was clicked, hide and show the appropriate results
+            var thisID = $(this).attr("id");
             $("#searchContent").fadeOut(function() {
-                $("#people").show();
-                $("#locations").show();
-                $("#spheres").show();
+                if (thisID == "allContentLink")
+                {
+                    $("#people").show();
+                    $("#locations").show();
+                    $("#spheres").show();
+                    $(".searchTitle").show();
+                    $("#peopleSubsectionContentLinks").hide();
+                    $("#spheresSubsectionContentLinks").hide();
+                }
+                else if (thisID == "peopleContentLink")
+                {
+                    $("#people").show();
+                    $("#locations").hide();
+                    $("#spheres").hide();
+                    $(".searchTitle").hide();
+                    $("#peopleSubsectionContentLinks").show();
+                    $("#spheresSubsectionContentLinks").hide();
+                }
+                else if (thisID == "locationsContentLink")
+                {
+                    $("#people").hide();
+                    $("#locations").show();
+                    $("#spheres").hide();
+                    $(".searchTitle").hide();
+                    $("#peopleSubsectionContentLinks").hide();
+                    $("#spheresSubsectionContentLinks").hide();
+                }
+                else if (thisID == "spheresContentLink")
+                {
+                    $("#people").hide();
+                    $("#locations").hide();
+                    $("#spheres").show();
+                    $(".searchTitle").hide();
+                    $("#peopleSubsectionContentLinks").hide();
+                    $("#spheresSubsectionContentLinks").show();
+                }
 
                 $("#searchContent").fadeIn();
             });
         }
-        else
-        {
-            $(".filterButton").removeClass("selected");
-            $(this).addClass("selected");
-
-            if ($(this).val() == "People")
-            {
-                $("#searchContent").fadeOut(function() {
-                    $("#people").show();
-                    $("#locations").hide();
-                    $("#spheres").hide();
-
-                    $("#searchContent").fadeIn();
-                });
-            }
-            else if ($(this).val() == "Locations")
-            {
-                $("#searchContent").fadeOut(function() {
-                    $("#people").hide();
-                    $("#locations").show();
-                    $("#spheres").hide();
-
-                    $("#searchContent").fadeIn();
-                });
-            }
-            else if ($(this).val() == "Spheres")
-            {
-                $("#searchContent").fadeOut(function() {
-                    $("#people").hide();
-                    $("#locations").hide();
-                    $("#spheres").show();
-
-                    $("#searchContent").fadeIn();
-                });
-            }
-        }
-        
     });
    
    /*-----------------------Create New Location-------------------------*/
