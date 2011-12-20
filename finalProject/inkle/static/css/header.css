@@ -45,6 +45,11 @@
     border-color: #FFF;
 }
 
+#requestNotificationLink:link, #requestNotificationLink:visited
+{
+    text-decoration: none;
+}
+
 #username
 {
     text-align: right;
