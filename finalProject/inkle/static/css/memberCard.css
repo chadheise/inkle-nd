@@ -28,7 +28,6 @@ ul {
 
 .memberCardName
 {
-    font-family: helvetica;
     color: #288D42;
     font-size: 32px;
     font-weight: bold;
@@ -178,12 +177,14 @@ ul {
 .circlesMenu {
     display: none;
     z-index: 1;
-    border: 3px solid darkgray;
+    border: 3px solid #946732;
     border-radius: 5px;
-    background-color: lightgray;
+    background-color: #F1D8A2;
     position: absolute;
     width: 200px;
-    color: #288D42;
+    color: #946732;
+    margin-bottom: 20px;
+    margin-right: 20px;
 }
 
 .circlesMenu ul {

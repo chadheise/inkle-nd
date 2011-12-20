@@ -40,7 +40,8 @@
 {
     padding: 3px 10px 10px 10px;
     border: solid 2px #288D42;
-    background-color: #DDD;
+    /*background-color: #DDD;*/
+    background-color: #ABD4B0;
 }
 
 .inkling p

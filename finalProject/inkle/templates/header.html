@@ -15,7 +15,7 @@
             <!-- Notifications -->
             <div class="grid_1">
                 {% if member.num_requests %}
-                    <a href="/inkle/manage/requests/"><div id="requestNotification">{{ member.num_requests }}</div></a>
+                    <a id="requestNotificationLink" href="/inkle/manage/requests/"><div id="requestNotification">{{ member.num_requests }}</div></a>
                 {% else %}
                     <p class="grid_1">&nbsp;</p>
                 {% endif %}

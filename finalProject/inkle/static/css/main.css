@@ -10,6 +10,11 @@ a
     outline: none;
 }
 
+input
+{
+   color: #1B5898;
+}
+
 #mainContent
 {
     margin-top: 20px;
