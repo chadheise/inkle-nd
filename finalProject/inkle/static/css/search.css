@@ -4,10 +4,16 @@
     padding: 0px;
 }
 
-h3 {
-    font-size: 30px;
+.searchTitle
+{
+    font-size: 26px;
+    font-weight: bold;
     color: #385E0F;
+}
 
+.noResultsMessage
+{
+    margin-bottom: 15px;
 }
 
 .searchResults ul {
@@ -52,6 +58,11 @@ h3 {
 }
 
 .newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
+{
+    display: none;
+}
+
+#peopleSubsectionContentLinks, #spheresSubsectionContentLinks
 {
     display: none;
 }
