@@ -44,7 +44,7 @@
 
 .selectedCircle
 {
-    background-color: #009ACD;
+    background-color: #1B5898;
 }
 
 #createCircleButton
@@ -122,7 +122,7 @@
 
 #deleteCircleButton
 {
-    background-color: #FF4040;
+    background-color: #CD1A26;
     padding: 2px 5px 2px 5px;
     color: white;
     font-weight: bold;

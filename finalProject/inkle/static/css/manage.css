@@ -1,5 +1,4 @@
 #profileInfo ul {
-    font-family: helvetica;
     font-size: 18px;
 }
 
@@ -24,7 +23,7 @@
 }
 
 #editProfileButton {
-    background-color: #009ACD;
+    background-color: #1B5898;
 }
 
 #submitChangesButton {
@@ -32,7 +31,7 @@
 }
 
 #discardChangesButton {
-    background-color: #FF4040;
+    background-color: #CD1A26;
 }
 
 #requestsSubsectionContentLinks

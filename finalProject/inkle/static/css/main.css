@@ -18,7 +18,7 @@ a
 
 .contentLink
 {
-    color: #BBB;
+    color: #ABC2E5;
     font-size: 26px;
     font-weight: bold;
     margin: -3px 0px 20px 0px;
@@ -29,12 +29,12 @@ a
 
 .selectedContentLink
 {
-    color: #288D42;
+    color: #1B5898;
 }
 
 .subsectionContentLink
 {
-    color: #BBB;
+    color: #F1D8A2;
     font-size: 20px;
     font-weight: bold;
     margin: -3px 0px 20px 0px;
@@ -45,7 +45,7 @@ a
 
 .selectedSubsectionContentLink
 {
-    color: #009ACD;
+    color: #E48116;
 }
 
 .subheader
