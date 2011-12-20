@@ -123,11 +123,21 @@
 #deleteCircleButton
 {
     background-color: #CD1A26;
+    border-color: #914044;
+    border-style: solid;
+    border-radius: 3px;
+    height: 23px;
     padding: 2px 5px 2px 5px;
     color: white;
     font-weight: bold;
     margin-left: 10px;
     float: right;
+}
+
+#deleteCircleButton:hover
+{
+    border-color: #7E181A;
+    cursor: pointer;
 }
 
 #addToCircleInput
