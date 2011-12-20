@@ -46,13 +46,13 @@ $(document).ready(function() {
     });
 
     $(".circle").live("mouseenter", function() {
-        $(this).css("border", "solid 5px #009ACD");
+        $(this).css("border", "solid 5px #ABC2E5");
     });
     $(".circle").live("mouseleave", function() {
         $(this).css("border", "solid 5px #CCC");
     });
     $("#createCircleButton").live("mouseenter", function() {
-        $(this).css("border", "solid 5px #009ACD");
+        $(this).css("border", "solid 5px #ABC2E5");
     });
     $("#createCircleButton").live("mouseleave", function() {
         $(this).css("border", "solid 5px #CCC");
