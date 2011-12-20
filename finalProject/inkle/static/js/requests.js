@@ -128,7 +128,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/inkle/revokeRequest/",
             data: { "toMemberID" : toMemberID },
-            success: function(title) {
+            success: function() {
                 // Alert the user that they revoked the request
                 var memberCard = thisElement.parents(".memberCard");
                 var memberCardName = memberCard.find(".memberCardName").text();

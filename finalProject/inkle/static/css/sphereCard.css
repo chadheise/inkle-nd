@@ -1,33 +1,32 @@
 .sphereCard
 {
-    border: 2px solid darkgray ;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    border: 2px solid #444;
+    background-color: #BBB;
+    border-radius: 5px;
+    margin-bottom: 15px;
 }
 
-.sphereName
+.sphereCardName
 {
     font-family: helvetica;
     color: #660066;
     font-size: 32px;
     font-weight: bold;
     text-decoration: none;
-    margin-top: 5px;
 }
 
 .buttons
 {
     float: right;
-    margin-bottom: 5px;
+    margin-top: 7px;
 }
 
 .cardButton
 {
     padding: 2px 5px 2px 5px;
-    color: white;
+    color: #FFF;
     font-weight: bold;
     float: right;
-    margin-left: 5px;
 }
 
 .joinSphere
