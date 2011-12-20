@@ -79,6 +79,12 @@
     padding: 3px 10px 3px 10px;
 }
 
+select, select option
+{
+    color: #1B5898;
+    font-size: 14px;
+}
+
 #locationBoard
 {
     margin-top: 20px;

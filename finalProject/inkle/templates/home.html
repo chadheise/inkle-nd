@@ -93,13 +93,19 @@
             </div>
             
             <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_1">
-                <option people="circles">All circles</option>
-                {% for sphere in member.spheres2 %}
-                    <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
-                {% endfor %}
-                {% for circle in member.circles2 %}
-                    <option circleID="{{ circle.id }}">{{ circle.name }}</option>
-                {% endfor %}
+                <optgroup label="Circles">
+                    <option people="circles">All</option>
+                    {% for circle in member.circles2 %}
+                        <option circleID="{{ circle.id }}">{{ circle.name }}</option>
+                    {% endfor %}
+                </optgroup>
+                {% if member.spheres2 %}
+                <optgroup label="Spheres">
+                    {% for sphere in member.spheres2 %}
+                        <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
+                    {% endfor %}
+                </optgroup>
+                {% endif %}
             </select>
             
             <!-- Inkling filter -->
