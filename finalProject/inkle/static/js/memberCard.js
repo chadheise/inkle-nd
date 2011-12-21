@@ -67,8 +67,40 @@ $(document).ready(function() {
             type: "POST",
             url: "/inkle/preventFollowing/",
             data: { "fromMemberID" : fromMemberID },
-            success: function(html) {
-                thisElement.remove();
+            success: function() {
+                if (!$("#peopleSubsectionContentLinks").is(":visible"))
+                {
+                    thisElement.remove();
+                }
+                else if ($("#allPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                {
+                    var memberCard = thisElement.parents(".memberCard");
+                    thisElement.remove();
+                    memberCard.removeClass("follower");
+                    if (!memberCard.hasClass("following"))
+                    {
+                        memberCard.addClass("other");
+                    }
+                }
+                else if ($("#followingPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                {
+                    var memberCard = thisElement.parents(".memberCard");
+                    thisElement.remove();
+                    memberCard.removeClass("follower");
+                }
+                else if ($("#followersPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                {
+                    var memberCard = thisElement.parents(".memberCard");
+                    memberCard.fadeOut("medium", function() {
+                        thisElement.remove();
+                    
+                        memberCard.removeClass("follower");
+                        if (!memberCard.hasClass("following"))
+                        {
+                            memberCard.addClass("other");
+                        }
+                    });
+                }
             },
             error: function(a, b, error) { alert(error); }
         });
@@ -84,9 +116,47 @@ $(document).ready(function() {
                 url: "/inkle/stopFollowing/",
                 data: { "toMemberID" : toMemberID },
                 success: function() {
-                    thisElement.val("Request to follow");
-                    thisElement.addClass("requestToFollow");
-                    thisElement.removeClass("stopFollowing");
+                    if (!$("#peopleSubsectionContentLinks").is(":visible"))
+                    {
+                        thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
+                        thisElement.removeClass("stopFollowing");
+                    }
+                    else if ($("#allPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                    {
+                        thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
+                        thisElement.removeClass("stopFollowing");
+                        var memberCard = thisElement.parents(".memberCard");
+                        memberCard.removeClass("following");
+                        if (!memberCard.hasClass("follower"))
+                        {
+                            memberCard.addClass("other");
+                        }
+                    }
+                    else if ($("#followersPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                    {
+                        thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
+                        thisElement.removeClass("stopFollowing");
+                        var memberCard = thisElement.parents(".memberCard");
+                        memberCard.removeClass("following");
+                    }
+                    else if ($("#followingPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                    {
+                        var memberCard = thisElement.parents(".memberCard");
+                        memberCard.fadeOut("medium", function() {
+                            thisElement.val("Request to follow");
+                            thisElement.addClass("requestToFollow");
+                            thisElement.removeClass("stopFollowing");
+                        
+                            memberCard.removeClass("following");
+                            if (!memberCard.hasClass("follower"))
+                            {
+                                memberCard.addClass("other");
+                            }
+                        });
+                    }
                 },
                 error: function(a, b, error) { alert(error); }
             });
