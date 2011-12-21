@@ -139,6 +139,11 @@ ul {
     width: 92px;
 }
 
+.rejectRequest:hover
+{
+    border-color: #7E181A;
+}
+
 .preventFollowing
 {
     background-color: #CD1A26;
