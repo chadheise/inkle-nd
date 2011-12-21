@@ -52,7 +52,7 @@ $(document).ready(function() {
             });
         }
     });
-
+    
     // Update the people search results when one of the people subsection content links is clicked
     $(".peopleContentLink").click(function() {
         // Only change the content if we click a content link which is not already selected
@@ -69,29 +69,58 @@ $(document).ready(function() {
                 {
                     $(".following").show();
                     $(".follower").show();
-                    $(".both").show();
                     $(".other").show();
                 }
                 else if (thisID == "followingPeopleContentLink")
                 {
-                    $(".following").show();
                     $(".follower").hide();
-                    $(".both").show();
                     $(".other").hide();
+                    $(".following").show();
                 }
                 else if (thisID == "followersPeopleContentLink")
                 {
                     $(".following").hide();
-                    $(".follower").show();
-                    $(".both").show();
                     $(".other").hide();
+                    $(".follower").show();
                 }
                 else if (thisID == "otherPeopleContentLink")
                 {
                     $(".following").hide();
                     $(".follower").hide();
-                    $(".both").hide();
                     $(".other").show();
+                }
+
+                $("#searchContent").fadeIn();
+            });
+        }
+    });
+
+    // Update the spheres search results when one of the sphere subsection content links is clicked
+    $(".spheresContentLink").click(function() {
+        // Only change the content if we click a content link which is not already selected
+        if (!$(this).hasClass("selectedSpheresContentLink"))
+        {
+            // Remove the selected sphere content link class from the appropriate element and add it to the clicked sphere content link
+            $(".selectedSpheresContentLink").removeClass("selectedSpheresContentLink");
+            $(this).addClass("selectedSpheresContentLink");
+
+            // Depending on which people content link was clicked, hide and show the appropriate results
+            var thisID = $(this).attr("id");
+            $("#searchContent").fadeOut(function() {
+                if (thisID == "allSpheresContentLink")
+                {
+                    $(".containsMember").show();
+                    $(".notContainsMember").show();
+                }
+                else if (thisID == "mySpheresContentLink")
+                {
+                    $(".containsMember").show();
+                    $(".notContainsMember").hide();
+                }
+                else if (thisID == "otherSpheresContentLink")
+                {
+                    $(".containsMember").hide();
+                    $(".notContainsMember").show();
                 }
 
                 $("#searchContent").fadeIn();

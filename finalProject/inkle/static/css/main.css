@@ -48,7 +48,7 @@ input
     margin-right: 30px;
 }
 
-.selectedSubsectionContentLink, .selectedPeopleContentLink
+.selectedSubsectionContentLink, .selectedPeopleContentLink, .selectedSpheresContentLink
 {
     color: #E48116;
 }
