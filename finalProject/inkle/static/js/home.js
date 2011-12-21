@@ -70,7 +70,7 @@ $(document).ready(function() {
                         }
                     });
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("home.js (1): " + error); }
             });
    
             // Update the location board
@@ -94,7 +94,7 @@ $(document).ready(function() {
                     $(".suggestionImage").css("height", "40px");
                     thisElement.parent().next().fadeIn("medium");
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("home.js (2): " + error); }
             });
         }
         else
@@ -140,7 +140,7 @@ $(document).ready(function() {
                     // Remove the location picture for the update inkling
                     inklingElement.find("img:first").attr("src", "/static/media/images/locations/default.jpg");
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("home.js (3): " + error); }
             });
         }
 
@@ -206,7 +206,7 @@ $(document).ready(function() {
                 inklingInput.val(locationName);
                 inklingImage.attr("src", "/static/media/images/locations/" + locationImage);
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("home.js (4): " + error); }
         });
     });
 
@@ -243,7 +243,7 @@ $(document).ready(function() {
                     $("#locationBoard").fadeIn("medium");
                 });
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("home.js (5): " + error); }
         });
     });
     

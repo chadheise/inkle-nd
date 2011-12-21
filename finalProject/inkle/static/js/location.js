@@ -53,7 +53,7 @@ $(document).ready(function() {
                    $("#locationWebsite").attr("href", newWebsite);
                    $("#locationCategory").text(category);
                },
-               error: function(a, b, error) { alert(error); }
+               error: function(a, b, error) { alert("location.js (1): " + error); }
         });
 
     });
