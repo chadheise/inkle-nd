@@ -33,24 +33,27 @@ $(document).ready(function() {
     });
     
     $("#searchInput").keyup(function(e) {
-        var query = $("#searchInput").val();
+        if ((e.keyCode != 10) && (e.keyCode != 13))
+        {
+            var query = $("#searchInput").val();
 
-        if (query != "")
-        {
-            $.ajax({
-                type: "POST",
-                url: "/inkle/suggestions/",
-                data: {"type" : "search", "query" : query},
-                success: function(html) {
-                    $("#searchSuggestions").html(html);
-                    $("#searchSuggestions").fadeIn("medium");
-                },
-                error: function(a, b, error) { alert(error); }
-            });
-        }
-        else
-        {
-            $("#searchSuggestions").fadeOut("medium");
+            if (query != "")
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "/inkle/suggestions/",
+                    data: {"type" : "search", "query" : query},
+                    success: function(html) {
+                        $("#searchSuggestions").html(html);
+                        $("#searchSuggestions").fadeIn("medium");
+                    },
+                    error: function(a, b, error) { alert("header.js (1): " + error); }
+                });
+            }
+            else
+            {
+                $("#searchSuggestions").fadeOut("medium");
+            }
         }
     });
     

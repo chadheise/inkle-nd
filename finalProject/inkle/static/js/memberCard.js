@@ -50,7 +50,7 @@ $(document).ready(function() {
             data: { "circleID" : circleID,
                     "toMemberID" : toMemberID},
             success: function(html) {},
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (1): " + error); }
         });
         
         if (circleID == currentCircle || currentCircle == -1) {
@@ -102,7 +102,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (2): " + error); }
         });
     });
     
@@ -158,7 +158,7 @@ $(document).ready(function() {
                         });
                     }
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("memberCard.js (3): " + error); }
             });
             
             if ($(".selectedCircle").attr("circleID")) {
@@ -188,7 +188,7 @@ $(document).ready(function() {
                 thisElement.removeClass("requestToFollow");
                 thisElement.attr("title", title);
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (4): " + error); }
         });
     });
     
@@ -229,7 +229,7 @@ $(document).ready(function() {
                     thisElement.attr("title", title);
                 }
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (5): " + error); }
         });
     });
     

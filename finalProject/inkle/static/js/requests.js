@@ -72,7 +72,7 @@ $(document).ready(function() {
                     });
                 });
             },
-            error: function (a, b, error) { alert(error); }
+            error: function (a, b, error) { alert("requests.js (1): " + error); }
         });
     });
     
@@ -115,8 +115,7 @@ $(document).ready(function() {
                     });
                 });
             },
-            error: function (a, b, error) { alert(error); }
+            error: function (a, b, error) { alert("requests.js (2): " + error); }
         });
     });
-    
 });
