@@ -50,7 +50,7 @@ $(document).ready(function() {
             data: { "circleID" : circleID,
                     "toMemberID" : toMemberID},
             success: function(html) {},
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (1): " + error); }
         });
         
         if (circleID == currentCircle || currentCircle == -1) {
@@ -67,10 +67,42 @@ $(document).ready(function() {
             type: "POST",
             url: "/inkle/preventFollowing/",
             data: { "fromMemberID" : fromMemberID },
-            success: function(html) {
-                thisElement.remove();
+            success: function() {
+                if (!$("#peopleSubsectionContentLinks").is(":visible"))
+                {
+                    thisElement.remove();
+                }
+                else if ($("#allPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                {
+                    var memberCard = thisElement.parents(".memberCard");
+                    thisElement.remove();
+                    memberCard.removeClass("follower");
+                    if (!memberCard.hasClass("following"))
+                    {
+                        memberCard.addClass("other");
+                    }
+                }
+                else if ($("#followingPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                {
+                    var memberCard = thisElement.parents(".memberCard");
+                    thisElement.remove();
+                    memberCard.removeClass("follower");
+                }
+                else if ($("#followersPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                {
+                    var memberCard = thisElement.parents(".memberCard");
+                    memberCard.fadeOut("medium", function() {
+                        thisElement.remove();
+                    
+                        memberCard.removeClass("follower");
+                        if (!memberCard.hasClass("following"))
+                        {
+                            memberCard.addClass("other");
+                        }
+                    });
+                }
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (2): " + error); }
         });
     });
     
@@ -84,11 +116,49 @@ $(document).ready(function() {
                 url: "/inkle/stopFollowing/",
                 data: { "toMemberID" : toMemberID },
                 success: function() {
-                    thisElement.val("Request to follow");
-                    thisElement.addClass("requestToFollow");
-                    thisElement.removeClass("stopFollowing");
+                    if (!$("#peopleSubsectionContentLinks").is(":visible"))
+                    {
+                        thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
+                        thisElement.removeClass("stopFollowing");
+                    }
+                    else if ($("#allPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                    {
+                        thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
+                        thisElement.removeClass("stopFollowing");
+                        var memberCard = thisElement.parents(".memberCard");
+                        memberCard.removeClass("following");
+                        if (!memberCard.hasClass("follower"))
+                        {
+                            memberCard.addClass("other");
+                        }
+                    }
+                    else if ($("#followersPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                    {
+                        thisElement.val("Request to follow");
+                        thisElement.addClass("requestToFollow");
+                        thisElement.removeClass("stopFollowing");
+                        var memberCard = thisElement.parents(".memberCard");
+                        memberCard.removeClass("following");
+                    }
+                    else if ($("#followingPeopleContentLink").hasClass("selectedPeopleContentLink"))
+                    {
+                        var memberCard = thisElement.parents(".memberCard");
+                        memberCard.fadeOut("medium", function() {
+                            thisElement.val("Request to follow");
+                            thisElement.addClass("requestToFollow");
+                            thisElement.removeClass("stopFollowing");
+                        
+                            memberCard.removeClass("following");
+                            if (!memberCard.hasClass("follower"))
+                            {
+                                memberCard.addClass("other");
+                            }
+                        });
+                    }
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("memberCard.js (3): " + error); }
             });
             
             if ($(".selectedCircle").attr("circleID")) {
@@ -118,7 +188,7 @@ $(document).ready(function() {
                 thisElement.removeClass("requestToFollow");
                 thisElement.attr("title", title);
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (4): " + error); }
         });
     });
     
@@ -159,7 +229,7 @@ $(document).ready(function() {
                     thisElement.attr("title", title);
                 }
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("memberCard.js (5): " + error); }
         });
     });
     

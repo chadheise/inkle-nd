@@ -26,7 +26,7 @@ $(document).ready(function() {
                     });
                 });
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("spheres.js (1): " + error); }
         });
     });
 });

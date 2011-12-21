@@ -39,7 +39,7 @@ $(document).ready(function() {
                         });
                         
                     },
-                    error: function(a, b, error) { alert(error); }
+                    error: function(a, b, error) { alert("circles.js (1): " + error); }
                 });
             }
         }
@@ -86,7 +86,7 @@ $(document).ready(function() {
                         }
                     })
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("circles.js (2): " + error); }
             });
             $("#newCircle").html(newCircleName);
         }
@@ -120,10 +120,10 @@ $(document).ready(function() {
                     success: function(html) {
                         $("#primaryContent").html(html);
                     },
-                    error: function(a, b, error) { alert(error); }
+                    error: function(a, b, error) { alert("circles.js (3): " + error); }
                 });
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("circles.js (4): " + error); }
         });
     });
 
@@ -141,7 +141,7 @@ $(document).ready(function() {
                     $("#addToCircleSuggestions").html(html);
                     $("#addToCircleSuggestions").fadeIn("medium");
                 },
-                error: function(a, b, error) { alert(error); }
+                error: function(a, b, error) { alert("circles.js (5): " + error); }
             });
         }
         else
@@ -163,7 +163,7 @@ $(document).ready(function() {
                 $("#addToCircleInput").val("");
                 $("#addToCircleSuggestions").fadeOut("medium");
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("circles.js (6): " + error); }
         });
     });
     
