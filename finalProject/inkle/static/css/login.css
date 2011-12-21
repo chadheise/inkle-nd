@@ -39,6 +39,7 @@
 {
     float: right;
     margin-top: 15px;
+    text-align: right;
 }
 
 #forgottenPassword
@@ -57,10 +58,21 @@
 {
     padding: 5px 0px 5px 0px;
     font-weight: bold;
+    font-size: 12px;
     color: white;
     margin-top: 10px;
+    border-style: solid;
+    border-radius: 5px;
     background-color: #288D42;
+    border-color: #336E34;
 }
+
+#loginButton:hover, #registrationButton:hover
+{
+    border-color: #1A492B;
+    cursor: pointer;
+}
+
 
 .invalidInput
 {
