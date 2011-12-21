@@ -64,8 +64,8 @@ $(document).ready(function() {
         $(this).hide();
     });
 
-    $("#newCircleInput").live("blur", function() {
-        var newCircleName = $("#newCircleInput").val();
+    function createCircle(newCircleName) {
+        
         if (newCircleName == "")
         {
             $("#newCircle").remove();
@@ -91,6 +91,19 @@ $(document).ready(function() {
             $("#newCircle").html(newCircleName);
         }
         $("#createCircleButton").show();
+    }
+
+    $("#newCircleInput").live("blur", function() {
+        var newCircleName = $("#newCircleInput").val();
+        createCircle(newCircleName);
+    });
+
+    $("#newCircleInput").keydown(function(e) {
+        if ((e.keyCode == 10) || (e.keyCode == 13))
+        {
+            var newCircleName = $("#newCircleInput").val();
+            createCircle(newCircleName);
+        }
     });
 
     $("#deleteCircleButton").live("click", function() {
