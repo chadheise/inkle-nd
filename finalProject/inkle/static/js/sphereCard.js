@@ -41,7 +41,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("sphereCard.js (1): " + error); }
         });
     });
 
@@ -83,7 +83,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("sphereCard.js (2): " + error); }
         });
         
         $("div").each( function() {

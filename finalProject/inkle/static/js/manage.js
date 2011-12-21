@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $("#primaryContent").html(html);
             }
         },
-        error: function(a, b, error) { alert(error); }
+        error: function(a, b, error) { alert("manage.js (1): " + error); }
     });
 
     $("#" + contentType + "ContentLink").addClass("selectedContentLink");
@@ -45,7 +45,7 @@ $(document).ready(function() {
                     $("#manageContent").fadeIn("medium");
                 });
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("manage.js (2): " + error); }
         });
         
     }

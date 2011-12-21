@@ -145,7 +145,7 @@ $(document).ready(function() {
            success: function(locationID) {
                window.location.href = "/inkle/location/" + locationID;
            },
-           error: function(a, b, error) { alert(error); }
+           error: function(a, b, error) { alert("search.js (1): " + error); }
        }); 
    });
    $("#newLocationCancel").live("click", function() {
@@ -179,7 +179,7 @@ $(document).ready(function() {
                   $("#newSphereSubmit").fadeOut('medium');
                   $("#newSphereCancel").fadeOut('medium');
               },
-              error: function(a, b, error) { alert(error); }
+              error: function(a, b, error) { alert("search.js (2): " + error); }
           }); 
       });
       $("#newSphereCancel").live("click", function() {

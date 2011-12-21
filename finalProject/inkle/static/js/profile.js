@@ -67,7 +67,7 @@ $(document).ready(function() {
                        $(".display").fadeIn('medum');
                 });
             },
-            error: function(a, b, error) { alert(error); }
+            error: function(a, b, error) { alert("profile.js (1): " + error); }
         }); 
     });
     
