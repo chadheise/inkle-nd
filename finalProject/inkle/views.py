@@ -120,8 +120,8 @@ def search_view(request, query = ""):
         m.sphereNames = [s.name for s in m.spheres.all()]
         
         # Determine the current member's people type and button list
-        if ((m in member.following.all()) and (m in member.followers.all())):
-            m.people_type = "both"
+        if ((m in member.following.all()) and (member in m.following.all())):
+            m.people_type = "following follower"
             m.show_contact_info = True
             m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
         elif (m in member.following.all()):
@@ -160,10 +160,10 @@ def search_view(request, query = ""):
     # Determine which spheres the logged in member has joined and set the button list accordingly
     for s in spheres:
         if (s in member.spheres.all()):
-            s.containsMember = True
+            s.contains_member = "containsMember"
             s.button_list = [buttonDictionary["leave"]]
         else:
-            s.containsMember = False
+            s.contains_member = "notContainsMember"
             s.button_list = [buttonDictionary["join"]]
 
     return render_to_response( "search.html",
