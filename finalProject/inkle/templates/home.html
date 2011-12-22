@@ -44,6 +44,7 @@
         </div>
 
         <!-- My inklings -->
+        <input id="dinnerInklingName" type="hidden" value="{{ member.dinnerName }}" />
         <div id="myInklingsContent" class="grid_20 push_1">
             <!-- Dinner inkling -->
             <div class="grid_6">
@@ -51,7 +52,7 @@
                     <div>
                         <p>Dinner</p>
                         <img src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
-                        <input type="text" value="{{ member.dinnerName }}" />
+                        <input type="text" location="{{ member.dinnerName }}" />
                     </div>
     
                     <div class="suggestions"></div>
@@ -64,7 +65,7 @@
                     <div>
                         <p>Pregame</p>
                         <img src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
-                        <input type="text" value="{{ member.pregameName }}" />
+                        <input type="text" location="{{ member.pregameName }}" />
                     </div>
 
                     <div class="suggestions"></div>
@@ -77,7 +78,7 @@
                     <div>
                         <p>Main Event</p>
                         <img src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
-                        <input type="text" value="{{ member.mainEventName }}" />
+                        <input type="text" location="{{ member.mainEventName }}" />
                     </div>
 
                     <div class="suggestions"></div>

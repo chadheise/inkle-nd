@@ -36,6 +36,11 @@ $(document).ready(function() {
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
     $("#locationBoardInklingSelect option:first").attr("selected", "selected");
 
+    // Set the value of the my inkling inputs
+    $("#dinnerInkling input").val($("#dinnerInkling input").attr("location"));
+    $("#pregameInkling input").val($("#pregameInkling input").attr("location"));
+    $("#mainEventInkling input").val($("#mainEventInkling input").attr("location"));
+
     $(".date").click(function() {
         if (!$(this).hasClass("selectedDate"))
         {
