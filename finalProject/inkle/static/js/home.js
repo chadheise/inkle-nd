@@ -1,4 +1,11 @@
 $(document).ready(function() {
+    // Converts an integer weekday to a lexicographical weekday
+    function convertWeekday(weekday)
+    {
+        var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        return weekdays[weekday];
+    }
+
     // Converts an integer month to a lexicographical month
     function convertMonth(month)
     {
@@ -14,21 +21,24 @@ $(document).ready(function() {
     dayAfterTomorrow.setTime(tomorrow.getTime() + (1000 * 3600 * 24));
 
     // Set the day, month, and year for today, tomorrow, and the day after tomorrow
-    $("#today .day").text(today.getDate());
+    $("#today .weekday").text(convertWeekday(today.getDay()));
+    $("#today .date").text(today.getDate());
     $("#today .month").text(convertMonth(today.getMonth()));
-    $("#today").attr("day", today.getDate());
+    $("#today").attr("date", today.getDate());
     $("#today").attr("month", today.getMonth() + 1);
     $("#today").attr("year", today.getFullYear());
     
-    $("#tomorrow .day").text(tomorrow.getDate());
+    $("#tomorrow .weekday").text(convertWeekday(tomorrow.getDay()));
+    $("#tomorrow .date").text(tomorrow.getDate());
     $("#tomorrow .month").text(convertMonth(tomorrow.getMonth()));
-    $("#tomorrow").attr("day", tomorrow.getDate());
+    $("#tomorrow").attr("date", tomorrow.getDate());
     $("#tomorrow").attr("month", tomorrow.getMonth() + 1);
     $("#tomorrow").attr("year", tomorrow.getFullYear());
     
-    $("#dayAfterTomorrow .day").text(dayAfterTomorrow.getDate());
+    $("#dayAfterTomorrow .weekday").text(convertWeekday(dayAfterTomorrow.getDay()));
+    $("#dayAfterTomorrow .date").text(dayAfterTomorrow.getDate());
     $("#dayAfterTomorrow .month").text(convertMonth(dayAfterTomorrow.getMonth()));
-    $("#dayAfterTomorrow").attr("day", dayAfterTomorrow.getDate());
+    $("#dayAfterTomorrow").attr("date", dayAfterTomorrow.getDate());
     $("#dayAfterTomorrow").attr("month", dayAfterTomorrow.getMonth() + 1);
     $("#dayAfterTomorrow").attr("year", dayAfterTomorrow.getFullYear());
   
@@ -41,15 +51,15 @@ $(document).ready(function() {
     $("#pregameInkling input").val($("#pregameInkling input").attr("location"));
     $("#mainEventInkling input").val($("#mainEventInkling input").attr("location"));
 
-    $(".date").click(function() {
-        if (!$(this).hasClass("selectedDate"))
+    $(".dateContainer").click(function() {
+        if (!$(this).hasClass("selectedDateContainer"))
         {
             // Change the selected date
-            $(".selectedDate").removeClass("selectedDate");
-            $(this).addClass("selectedDate");
+            $(".selectedDateContainer").removeClass("selectedDateContainer");
+            $(this).addClass("selectedDateContainer");
         
             // Get the selected date
-            var date = $(this).attr("month") + "/" + $(this).attr("day") + "/" + $(this).attr("year");
+            var date = $(this).attr("month") + "/" + $(this).attr("date") + "/" + $(this).attr("year");
         
             // Get the logged in member's inkling for the selected date
             $.ajax({
@@ -134,7 +144,7 @@ $(document).ready(function() {
             }
 
             // Get the selected date
-            var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
+            var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
 
             // Remove the selected inkling
             $.ajax({
@@ -177,7 +187,7 @@ $(document).ready(function() {
         }
 
         // Get the selected date
-        var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
+        var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
 
         // Create the selected inkling
         $.ajax({
@@ -236,7 +246,7 @@ $(document).ready(function() {
         var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
         
         // Get the selected date
-        var date = $(".selectedDate").attr("month") + "/" + $(".selectedDate").attr("day") + "/" + $(".selectedDate").attr("year");
+        var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
         
         $.ajax({
             type: "POST",
