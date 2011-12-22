@@ -387,16 +387,14 @@ def create_inkling_view(request):
 
     # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
-        # TODO: change filter to get and remove [0]???
-        inkling = Inkling.objects.filter(location = location, category = inkling_type, date = date)[0]
+        inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
     except:
         inkling = Inkling(location = location, category = inkling_type, date = date)
         inkling.save()
     
     # See if the logged in member already has an inkling for the location/date combination
-    # TODO: change to get instead of filter and get rid of try/except
     try:
-        conflicting_inkling = member.inklings.filter(category = inkling_type, date = date)[0]
+        conflicting_inkling = member.inklings.get(category = inkling_type, date = date)
         if (conflicting_inkling != inkling):
             remove_inkling(member, conflicting_inkling)
     except:
@@ -422,9 +420,8 @@ def remove_inkling_view(request):
     date = request.POST["date"]
     
     # Get the inkling for the member/type/date combination and remove it if possible
-    # TODO: replace filter with get
     try:
-        inkling = member.inklings.filter(category = inkling_type, date = date)[0]
+        inkling = member.inklings.get(category = inkling_type, date = date)
         remove_inkling(member, inkling)
     except:
         pass
@@ -465,9 +462,8 @@ def get_inklings_view(request):
 def get_inklings(member, date):
     """Returns the names and images for the logged in member's inkling locations."""
     # Get the name and image for the logged in member's dinner inkling location
-    # TODO: replace filter with get
     try:
-        inkling = member.inklings.filter(date = date, category = "dinner")[0]
+        inkling = member.inklings.get(date = date, category = "dinner")
         dinnerName = inkling.location.name
         dinnerImage = inkling.location.image
     except:
@@ -475,9 +471,8 @@ def get_inklings(member, date):
         dinnerImage = "default.jpg"
     
     # Get the name and image for the logged in member's pregame inkling location
-    # TODO: replace filter with get
     try:
-        inkling = member.inklings.filter(date = date, category = "pregame")[0]
+        inkling = member.inklings.get(date = date, category = "pregame")
         pregameName = inkling.location.name
         pregameImage = inkling.location.image
     except:
@@ -485,9 +480,8 @@ def get_inklings(member, date):
         pregameImage = "default.jpg"
 
     # Get the name and image for the logged in member's main event inkling location
-    # TODO: replace filter with get
     try:
-        inkling =  member.inklings.filter(date = date, category = "mainEvent")[0]
+        inkling =  member.inklings.get(date = date, category = "mainEvent")
         mainEventName = inkling.location.name
         mainEventImage = inkling.location.image
     except:

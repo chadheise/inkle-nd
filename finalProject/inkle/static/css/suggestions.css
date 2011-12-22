@@ -1,13 +1,20 @@
 .suggestions
 {
     border: solid 1px #919191;
-    background-color: #A0A0A0;
-    font-size: 10px;
-    line-height: 14px;
-    display: none;
-    z-index: 2;
+    background-color: #AAA;
     position: absolute;
+    z-index: 1;
+    display: none;
+}
+
+#searchSuggestions
+{
     top: 65px;
+}
+
+.inklingSuggestions
+{
+    width: 204px;
 }
 
 .suggestion
@@ -15,30 +22,30 @@
     display: block;
     background-color: #E4E4E4;
     clear: left;
-    height: 56px;
-    text-decoration: none;
+    height: 50px;
+    cursor: pointer;
     border-bottom: solid 1px #919191;
 }
 
 .suggestion:hover
 {
-    color: #FFFFFF;
     background-color: #B7B7B7;
 }
 
 .suggestionImage
 {
+    height: 38px;
+    width: 38px;
     float: left;
-    padding: 5px 10px 0px 5px;
-    height: 40px;
-    width: 40px;
+    margin: 5px 10px 0px 5px;
+    border: solid 1px #000;
 }
 
 .suggestionText
 {
     font-size: 20px;
     display: block;
-    padding-top: 18px;
+    padding-top: 12px;
     color: #191919;
 }
 
@@ -53,5 +60,17 @@
 
 .suggestionFooter
 {
-    font-size: 11px;
+    padding: 5px 10px 0px 5px;
+    font-size: 12px;
+    padding-bottom: 5px;
+}
+
+#noSuggestions
+{
+    font-size: 20px;
+    color: #191919;
+    text-align: center;
+    background-color: #E4E4E4;
+    height: 40px;
+    padding-top: 12px;
 }

@@ -323,14 +323,15 @@ def suggestions_view(request, query = ""):
     query = request.POST["query"]
     query_type = request.POST["type"]
 
+    categories = []
+
     if (query_type == "inkling"):
         locations = Location.objects.filter(Q(name__contains = query))
-        categories = [(locations,)]
-        footerSubject = "Location"
+        if (locations):
+            categories.append((locations,))
+        footer_subject = "location"
         
     elif (query_type == "search"):
-        categories = []
-
         people = Member.objects.filter(Q(username__contains = query) | Q(first_name__contains = query) | Q(last_name__contains = query))
         if (people):
             for p in people:
@@ -345,7 +346,7 @@ def suggestions_view(request, query = ""):
         if (spheres):
             categories.append((spheres, "Spheres"))
         
-        footerSubject = ""
+        footer_subject = ""
 
     elif (query_type == "addToCircle"):
         circle_id = request.POST["circleID"]
@@ -356,16 +357,15 @@ def suggestions_view(request, query = ""):
         circle_members = circle.members.all()
         people = list(set(following).difference(set(circle_members)))
        
-        categories = []
         if (people):
             for p in people:
                 p.name = p.first_name + " " + p.last_name
-            categories = [(people,)]
+            categories.append((people,))
 
-        footerSubject = ""
+        footer_subject = ""
 
     return render_to_response("suggestions.html",
-        {"categories" : categories, "footerSubject" : footerSubject},
+        {"categories" : categories, "footerSubject" : footer_subject},
         context_instance = RequestContext(request) )
 
 def get_others_inklings_view(request):
