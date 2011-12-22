@@ -1,4 +1,4 @@
-.date
+.dateContainer
 {
     text-align: center;
     border: solid 2px #288D42;
@@ -7,31 +7,37 @@
     cursor: pointer;
 }
 
-.month
+.weekday
 {
     font-size: 18px;
     padding: 5px 0px 5px 0px;
     background-color: #DDD;
 }
 
-.day
+.month
 {
-    padding-top: 5px;
-    font-size: 40px;
+    margin-top: 2px;
 }
 
-.selectedDate
+.date
+{
+    font-size: 36px;
+    margin-top: -3px;
+}
+
+.selectedDateContainer
 {
     background-color: #DDD;
 }
 
-.selectedDate .month
+.selectedDateContainer .weekday
 {
     background-color: #CD1A26;
     color: #FFF;
+    font-weight: bold;
 }
 
-.selectedDate .day
+.selectedDateContainer .date, .selectedDateContainer .month
 {
     color: #CD1A26;
 }
