@@ -1,16 +1,20 @@
-{% for category, categoryTitle in categories %}
-    {% if categoryTitle %}
-        <span class="suggestionCategory">{{ categoryTitle }}</span>
-    {% endif %}
+{% if categories %}
+    {% for category, categoryTitle in categories %}
+        {% if categoryTitle %}
+            <div class="suggestionCategory">{{ categoryTitle }}</div>
+        {% endif %}
       
-    {% for suggestion in category %}
-        <a class="suggestion" href="#" suggestionID="{{ suggestion.id }}">
-            <img class="suggestionImage" src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
-            <span class="suggestionText">{{ suggestion.name }}</span>
-        </a>
+        {% for suggestion in category %}
+            <div class="suggestion" suggestionID="{{ suggestion.id }}">
+                <img class="suggestionImage" src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
+                <div class="suggestionText">{{ suggestion.name }}</div>
+            </div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
+{% else %}
+    <div id="noSuggestions">No results</div>
+{% endif %}
  
 {% if footerSubject %}
-    <span class="suggestionFooter">{{ footerSubject }} you want not here? Suggest a new one.</span>
+    <div class="suggestionFooter">Suggest a new {{ footerSubject }}.</div>
 {% endif %}
