@@ -47,7 +47,10 @@ $(document).ready(function() {
                         $("#searchSuggestions").html(html);
                         $("#searchSuggestions").fadeIn("medium");
                     },
-                    error: function(a, b, error) { alert("header.js (1): " + error); }
+                    error: function(a, b, error) {
+                        ;
+                        //alert("header.js (1): " + error);
+                    }
                 });
             }
             else

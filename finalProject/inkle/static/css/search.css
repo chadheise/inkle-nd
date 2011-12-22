@@ -66,3 +66,15 @@
 {
     display: none;
 }
+
+.searchSummaryTitle
+{
+    color: #1B5898;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.searchLabel
+{
+    font-weight: bold;
+}

@@ -114,6 +114,10 @@ def search_view(request, query = ""):
     else:
         members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = query.split()[0]) | Q(last_name__contains = query.split()[1]))
 
+    member.num_following = 0
+    member.num_followers = 0
+    member.num_other_people = 0
+
     # Determine the information to show on each member's card
     for m in members:
         # Determine the names of the current member's spheres
@@ -122,14 +126,18 @@ def search_view(request, query = ""):
         # Determine the current member's people type and button list
         if ((m in member.following.all()) and (member in m.following.all())):
             m.people_type = "following follower"
+            member.num_following += 1
+            member.num_followers += 1
             m.show_contact_info = True
             m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
         elif (m in member.following.all()):
             m.people_type = "following"
+            member.num_following += 1
             m.show_contact_info = True
             m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
         elif (member in m.following.all()):
             m.people_type = "follower"
+            member.num_followers += 1
             m.show_contact_info = True
             if (m in member.pending.all()):
                 m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
@@ -137,6 +145,7 @@ def search_view(request, query = ""):
                 m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
         else:
             m.people_type = "other"
+            member.num_other_people += 1
             if (m in member.pending.all()):
                 m.button_list = [buttonDictionary["revoke"]]
             else:
@@ -156,14 +165,19 @@ def search_view(request, query = ""):
     
     # Get the spheres which match the search query
     spheres = Sphere.objects.filter(Q(name__contains = query))
+    
+    member.num_my_spheres = 0
+    member.num_other_spheres = 0
 
     # Determine which spheres the logged in member has joined and set the button list accordingly
     for s in spheres:
         if (s in member.spheres.all()):
             s.contains_member = "containsMember"
+            member.num_my_spheres += 1
             s.button_list = [buttonDictionary["leave"]]
         else:
             s.contains_member = "notContainsMember"
+            member.num_other_spheres += 1
             s.button_list = [buttonDictionary["join"]]
 
     return render_to_response( "search.html",
