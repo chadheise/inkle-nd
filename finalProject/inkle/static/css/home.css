@@ -10,19 +10,18 @@
 .weekday
 {
     font-size: 18px;
-    padding: 5px 0px 5px 0px;
+    padding: 2px 0px 2px 0px;
     background-color: #DDD;
 }
 
 .month
 {
-    margin-top: 2px;
+    margin-top: -5px;
 }
 
 .date
 {
-    font-size: 36px;
-    margin-top: -3px;
+    font-size: 40px;
 }
 
 .selectedDateContainer
