@@ -600,7 +600,13 @@ def register_view(request):
         if (email != confirm_email):
             invalid_confirm_email = True
             invalid_registration = True
-        
+       
+        # Check if the provided password is long enough (at least 8 characters)
+        if (len(password) < 8):
+            invalid_password = True
+            invalid_confirm_password = True
+            invalid_registration = True
+
         # Check if the provided password matches the provided confirm password
         if (password != confirm_password):
             invalid_confirm_password = True
