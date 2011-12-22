@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    // Set the search input's value to the search query
+    var query = $("#searchSummary").attr("query");
+    $("#searchInput").val(query).removeClass("emptySearchInput").removeAttr("empty");
+    
     // Update the search results when one of the main content links is clicked
     $(".contentLink").click(function() {
         // Only change the content if we click a content link which is not already selected
