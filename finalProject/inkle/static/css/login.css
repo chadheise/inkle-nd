@@ -22,12 +22,12 @@
 
 #loginEmail, #registrationFirstName, #registrationLastName, #registrationEmail, #registrationConfirmEmail, #registrationPassword, #registrationConfirmPassword
 {
-    margin-bottom: 10px;
+    margin-bottom: 11px;
 }
 
 #registrationMonth, #registrationDay, #registrationYear
 {
-    margin-bottom: 7px;
+    margin-bottom: 10px;
 }
 
 #registrationConfirmPasswordLabel
@@ -38,8 +38,7 @@
 #keepLoggedIn
 {
     float: right;
-    margin-top: 15px;
-    text-align: right;
+    margin-top: 13px;
 }
 
 #forgottenPassword
