@@ -19,8 +19,16 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div id="searchSummary" class="grid_6 suffix_1" style="border: solid 1px;">
-            <p>Your query: {{ query }}</p>
+        <div id="searchSummary" class="grid_6 suffix_1" query="{{ query }}">
+            <p class="searchSummaryTitle">Search summary</p>
+            <p><span class="searchLabel">People:</span> {{ members|length }}</p>
+            <p><span class="searchLabel">Following:</span> {{ member.num_following }}</p>
+            <p><span class="searchLabel">Followers:</span> {{ member.num_followers }}</p>
+            <p><span class="searchLabel">Other:</span> {{ member.num_other_people }}</p>
+            <p><span class="searchLabel">Locations:</span> {{ locations|length }}</p>
+            <p><span class="searchLabel">Spheres:</span> {{ spheres|length }}</p>
+            <p><span class="searchLabel">My spheres:</span> {{ member.num_my_spheres }}</p>
+            <p><span class="searchLabel">Other spheres:</span> {{ member.num_other_spheres }}</p>
                         
                         <div class="">
                             <input id="newLocationButton" class="newItemInput newItemButton" type="button" value="Create a new location"/>
