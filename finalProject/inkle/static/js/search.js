@@ -6,11 +6,11 @@ $(document).ready(function() {
     // Update the search results when one of the main content links is clicked
     $("#searchContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected
-        if ($(this).attr("id") != "selectedSearchContentLink")
+        if (!$(this).hasClass("selectedContentLink"))
         {
             // Remove the selected content link class from the appropriate element and add it to the clicked content link
-            $("#selectedSearchContentLink").removeAttr("id");
-            $(this).attr("id", "selectedSearchContentLink");
+            $("#searchContentLinks .selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
 
             // Depending on which content link was clicked, hide and show the appropriate results
             var contentType = $(this).attr("contentType");

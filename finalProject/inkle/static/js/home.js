@@ -160,11 +160,11 @@ $(document).ready(function() {
     /* Updates either my inklings or others' inklings when their content link is clicked */
     $("#inklingsContentLinks p").click(function() {
         // Only update the content if the content link that is clicked is not the currently selected content link
-        if ($(this).attr("id") != "selectedInklingsContentLink")
+        if (!$(this).hasClass("selectedContentLink"))
         {
             // Make the clicked link the selected one
-            $("#selectedInklingsContentLink").removeAttr("id");
-            $(this).attr("id", "selectedInklingsContentLink");
+            $("#inklingsContentLinks .selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
         
             // Get the selected date
             var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
