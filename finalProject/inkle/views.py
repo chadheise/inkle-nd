@@ -42,7 +42,7 @@ def home_view(request):
         { "member" : member, "locations" : locations },
         context_instance = RequestContext(request) )
 
-def manage_view(request, defaultContent = "circles"):
+def manage_view(request, default_content_type = "circles"):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
           return HttpResponseRedirect("/inkle/login")
@@ -56,7 +56,7 @@ def manage_view(request, defaultContent = "circles"):
         member.num_requests += 1
 
     return render_to_response( "manage.html",
-        {"member" : member, "defaultContent" : defaultContent},
+        {"member" : member, "defaultContentType" : default_content_type},
         context_instance = RequestContext(request) )
     
 def location_view(request, location_id = None):

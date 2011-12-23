@@ -58,26 +58,26 @@
         </div>
         
         <div class="grid_17 alpha omega">
-            <!-- Content links -->
-            <div class="grid_17">
-                <p id="requestsContentLink" class="contentLink">Requests</p>
-                <p id="circlesContentLink" class="contentLink">Circles</p>
-                <p id="spheresContentLink" class="contentLink">Spheres</p>
-                <p id="followersContentLink" class="contentLink">Followers</p>
-                <div class="clear"></div>
+            <!-- Manage content links -->
+            <div id="manageContentLinks" class="grid_17">
+                <p {% if defaultContentType == "requests" %}id="selectedManageContentLink"{% endif %} contentType="requests">Requests</p>
+                <p {% if defaultContentType == "circles" %}id="selectedManageContentLink"{% endif %} contentType="circles">Circles</p>
+                <p {% if defaultContentType == "spheres" %}id="selectedManageContentLink"{% endif %} contentType="spheres">Spheres</p>
+                <p {% if defaultContentType == "followers" %}id="selectedManageContentLink"{% endif %} contentType="followers">Followers</p>
             </div>
             <div class="clear"></div>
             
             <div id="manageContent" class="grid_17 alpha omega">
-                <div id="requestsSubsectionContentLinks" class="grid_17">
-                    <p id="allRequestsContentLink" class="selectedSubsectionContentLink subsectionContentLink requestsContentLink">All</p>
-                    <p id="requestedRequestsContentLink" class="subsectionContentLink requestsContentLink">Requested</p>
-                    <p id="pendingRequestsContentLink" class="subsectionContentLink requestsContentLink">Pending</p>
-                    <div class="clear"></div>
+                <!-- Requests content links -->
+                <div id="requestsContentLinks" class="grid_17">
+                    <p contentType="all">All</p>
+                    <p contentType="requested">Requested</p>
+                    <p contentType="pending">Pending</p>
                 </div>
                 <div class="clear"></div>
-                <div id="primaryContent" class="grid_17 alpha omega">
-                    <div id="defaultContent" data="{{defaultContent}}"></div>
+
+                <!-- Main manage content -->
+                <div id="mainManageContent" class="grid_17 alpha omega">
                 </div>
             </div>
        </div>
