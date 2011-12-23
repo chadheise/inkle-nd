@@ -3,7 +3,7 @@ $(document).ready(function() {
     var contentType = $("#selectedManageContentLink").attr("contentType");
     loadContent(contentType);
 
-    // Loads the content for the inputted content type and populates the main content with it
+    /* Loads the content for the inputted content type and populates the main content with it */
     function loadContent(contentType)
     {
         $.ajax({
@@ -39,10 +39,9 @@ $(document).ready(function() {
             },
             error: function(a, b, error) { alert("manage.js (2): " + error); }
         });
-        
     }
    
-    // Updates the main content when one of the main content links is clicked
+    /* Updates the main content when one of the main content links is clicked */
     $("#manageContentLinks p").click(function() {
         // Only update the content if the main content link which is clicked is not the currently selected one
         if ($(this).attr("id") != "selectedManageContentLink")

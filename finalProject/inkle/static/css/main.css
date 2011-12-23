@@ -21,6 +21,12 @@ input
     margin-bottom: 20px;
 }
 
+.subsectionTitle
+{
+    font-size: 26px;
+    font-weight: bold;
+    color: #385E0F;
+}
 
 .subsectionContentLink
 {
