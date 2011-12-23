@@ -158,33 +158,34 @@ $(document).ready(function() {
     });
     
     /* Updates either my inklings or others' inklings when their content link is clicked */
-    $(".contentLink").click(function() {
+    $("#inklingsContentLinks p").click(function() {
         // Only update the content if the content link that is clicked is not the currently selected content link
-        if (!$(this).hasClass("selectedContentLink"))
+        if ($(this).attr("id") != "selectedInklingsContentLink")
         {
             // Make the clicked link the selected one
-            $(".selectedContentLink").removeClass("selectedContentLink");
-            $(this).addClass("selectedContentLink");
+            $("#selectedInklingsContentLink").removeAttr("id");
+            $(this).attr("id", "selectedInklingsContentLink");
         
             // Get the selected date
             var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
 
             // Update and show others' inklings if my inklings is visible
-            if ($("#myInklings").is(":visible"))
+            var contentType = $(this).attr("contentType");
+            if (contentType == "myInklings")
             {
-                $("#myInklings").fadeOut("medium", function() {
-                    updateOthersInklings(date, function() {
-                        $("#othersInklings").fadeIn("medium");
+                $("#othersInklings").fadeOut("medium", function() {
+                    updateMyInklings(date, function() {
+                        $("#myInklings").fadeIn("medium");
                     });
                 });
             }
 
             // Othwerise, if others' inklings is visible, update and show my inklings
-            else if ($("#othersInklings").is(":visible"))
+            else if (contentType == "othersInklings")
             {
-                $("#othersInklings").fadeOut("medium", function() {
-                    updateMyInklings(date, function() {
-                        $("#myInklings").fadeIn("medium");
+                $("#myInklings").fadeOut("medium", function() {
+                    updateOthersInklings(date, function() {
+                        $("#othersInklings").fadeIn("medium");
                     });
                 });
             }
