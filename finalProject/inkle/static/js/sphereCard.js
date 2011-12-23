@@ -13,7 +13,7 @@ $(document).ready(function() {
             url: "/inkle/joinSphere/",
             data: { "sphereID" : sphereID },
             success: function(html) {
-                if (thisElement.parents("#searchResults").length == 0)
+                if (thisElement.parents("#mainSearchContent").length == 0)
                 {
                     thisElement.val("Leave sphere");
                     thisElement.addClass("leaveSphere");
@@ -55,7 +55,7 @@ $(document).ready(function() {
             url: "/inkle/leaveSphere/",
             data: { "sphereID" : sphereID },
             success: function(html) {
-                if (thisElement.parents("#searchResults").length == 0)
+                if (thisElement.parents("#mainSearchContent").length == 0)
                 {
                     thisElement.val("Join sphere");
                     thisElement.addClass("joinSphere");
