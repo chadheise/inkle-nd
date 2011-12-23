@@ -123,21 +123,22 @@ $(document).ready(function() {
     });
 
     /* Update the login/registration content when one of their links is clicked */
-    $(".contentLink").click(function() {
-        if (!$(this).hasClass("selectedContentLink"))
+    $("#loginContentLinks p").click(function() {
+        if ($(this).attr("id") != "selectedLoginContentLink")
         {
             // Make the clicked link the selected one
-            $(".selectedContentLink").removeClass("selectedContentLink");
-            $(this).addClass("selectedContentLink");
+            $("#selectedLoginContentLink").removeAttr("id");
+            $(this).attr("id", "selectedLoginContentLink");
 
             // Update the login/registration content
-            if ($(this).attr("id") == "loginContentLink")
+            var contentType = $(this).attr("contentType");
+            if (contentType == "login")
             {
                 $("#registrationContent").fadeOut("medium", function() {
                     $("#loginContent").fadeIn("medium");
                 });
             }
-            else if ($(this).attr("id") == "registrationContentLink")
+            else if (contentType == "registration")
             {
                 $("#loginContent").fadeOut("medium", function() {
                     $("#registrationContent").fadeIn("medium");
