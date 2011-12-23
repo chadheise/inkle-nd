@@ -4,6 +4,27 @@
     padding: 0px;
 }
 
+#searchContentLinks
+{
+    margin-top: -3px;
+    margin-bottom: 15px;
+}
+
+#searchContentLinks p
+{
+    color: #ABC2E5;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    float: left;
+    margin-right: 30px;
+}
+
+#searchContentLinks #selectedSearchContentLink
+{
+    color: #1B5898;
+}
+
 .searchTitle
 {
     font-size: 26px;

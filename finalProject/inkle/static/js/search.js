@@ -4,18 +4,18 @@ $(document).ready(function() {
     $("#searchInput").val(query).removeClass("emptySearchInput").removeAttr("empty");
     
     // Update the search results when one of the main content links is clicked
-    $(".contentLink").click(function() {
+    $("#searchContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected
-        if (!$(this).hasClass("selectedContentLink"))
+        if ($(this).attr("id") != "selectedSearchContentLink")
         {
             // Remove the selected content link class from the appropriate element and add it to the clicked content link
-            $(".selectedContentLink").removeClass("selectedContentLink");
-            $(this).addClass("selectedContentLink");
+            $("#selectedSearchContentLink").removeAttr("id");
+            $(this).attr("id", "selectedSearchContentLink");
 
             // Depending on which content link was clicked, hide and show the appropriate results
-            var thisID = $(this).attr("id");
+            var contentType = $(this).attr("contentType");
             $("#searchContent").fadeOut(function() {
-                if (thisID == "allContentLink")
+                if (contentType == "all")
                 {
                     $("#people").show();
                     $("#locations").show();
@@ -24,7 +24,7 @@ $(document).ready(function() {
                     $("#peopleSubsectionContentLinks").hide();
                     $("#spheresSubsectionContentLinks").hide();
                 }
-                else if (thisID == "peopleContentLink")
+                else if (contentType == "people")
                 {
                     $("#people").show();
                     $("#locations").hide();
@@ -33,7 +33,7 @@ $(document).ready(function() {
                     $("#peopleSubsectionContentLinks").show();
                     $("#spheresSubsectionContentLinks").hide();
                 }
-                else if (thisID == "locationsContentLink")
+                else if (contentType == "locations")
                 {
                     $("#people").hide();
                     $("#locations").show();
@@ -42,7 +42,7 @@ $(document).ready(function() {
                     $("#peopleSubsectionContentLinks").hide();
                     $("#spheresSubsectionContentLinks").hide();
                 }
-                else if (thisID == "spheresContentLink")
+                else if (contentType == "spheres")
                 {
                     $("#people").hide();
                     $("#locations").hide();
