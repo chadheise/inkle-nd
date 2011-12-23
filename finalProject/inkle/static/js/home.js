@@ -217,16 +217,14 @@ $(document).ready(function() {
                 data: {"type" : "inkling", "query" : query},
                 success: function(html) {
                     // Update the HTML of the suggestions element
-                    //suggestionsElement.html(html);
-                    $("#testing").html(html);
+                    suggestionsElement.html(html);
 
                     // Set the size of the suggestion images
                     $(".suggestionImage").css("width", "40px");
                     $(".suggestionImage").css("height", "40px");
                     
                     // Fade in the suggestions element
-                    $("#testing").fadeIn("medium");
-                    //suggestionsElement.fadeIn("medium");
+                    suggestionsElement.fadeIn("medium");
                 },
                 error: function(a, b, error) { alert("home.js (2): " + error); }
             });
