@@ -23,11 +23,11 @@
         <!-- Login/registration (home right) -->
         <div class="grid_10">
             <!-- Content links -->
-            <div>
-                <p id="loginContentLink" class="contentLink {% if selectedContentLink == "login" %}selectedContentLink{% endif %}">Login</p>
-                <p id="registrationContentLink" class="contentLink {% if selectedContentLink == "registration" %}selectedContentLink{% endif %}">Register</p>
-                <div class="clear"></div>
+            <div id="loginContentLinks">
+                <p id="{% if selectedContentLink == "login" %}selectedLoginContentLink{% endif %}" contentType="login">Login</p>
+                <p id="{% if selectedContentLink == "registration" %}selectedLoginContentLink{% endif %}" contentType="registration">Register</p>
             </div> 
+            <div class="clear"></div>
 
             <!-- Login form -->
             <form id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %} action="/inkle/login/" method="POST">

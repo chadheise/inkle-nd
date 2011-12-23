@@ -13,6 +13,27 @@
     width: 470px;
 }
 
+#loginContentLinks
+{
+    margin-top: -3px;
+}
+
+#loginContentLinks p
+{
+    color: #ABC2E5;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 15px;
+}
+
+#loginContentLinks #selectedLoginContentLink
+{
+    color: #1B5898;
+}
+
 .loginLabel, .registrationLabel
 {
     text-align: right;
