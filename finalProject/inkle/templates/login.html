@@ -23,9 +23,9 @@
         <!-- Login/registration (home right) -->
         <div class="grid_10">
             <!-- Content links -->
-            <div id="loginContentLinks">
-                <p id="{% if selectedContentLink == "login" %}selectedLoginContentLink{% endif %}" contentType="login">Login</p>
-                <p id="{% if selectedContentLink == "registration" %}selectedLoginContentLink{% endif %}" contentType="registration">Register</p>
+            <div id="loginContentLinks" class="contentLinks">
+                <p {% if selectedContentLink == "login" %}class="selectedContentLink{% endif %}" contentType="login">Login</p>
+                <p {% if selectedContentLink == "registration" %}class="selectedContentLink{% endif %}" contentType="registration">Register</p>
             </div> 
             <div class="clear"></div>
 

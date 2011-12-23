@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // Populate the main content with the initially selected main content link
-    var contentType = $("#selectedManageContentLink").attr("contentType");
+    var contentType = $("#manageContentLinks .selectedContentLink").attr("contentType");
     loadContent(contentType);
 
     /* Loads the content for the inputted content type and populates the main content with it */
@@ -44,11 +44,11 @@ $(document).ready(function() {
     /* Updates the main content when one of the main content links is clicked */
     $("#manageContentLinks p").click(function() {
         // Only update the content if the main content link which is clicked is not the currently selected one
-        if ($(this).attr("id") != "selectedManageContentLink")
+        if (!$(this).hasClass("selectedContentLink"))
         {
             // Update the selected main content link
-            $("#selectedManageContentLink").removeAttr("id");
-            $(this).attr("id", "selectedManageContentLink");
+            $("#manageContentLinks .selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
 
             // Load the content for the clicked main content link
             var contentType = $(this).attr("contentType");

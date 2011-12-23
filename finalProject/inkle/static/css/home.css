@@ -41,27 +41,6 @@
     color: #CD1A26;
 }
 
-#inklingsContentLinks
-{
-    margin-top: -3px;
-    margin-bottom: 15px;
-}
-
-#inklingsContentLinks p
-{
-    color: #ABC2E5;
-    font-size: 26px;
-    font-weight: bold;
-    cursor: pointer;
-    float: left;
-    margin-right: 30px;
-}
-
-#inklingsContentLinks #selectedInklingsContentLink
-{
-    color: #1B5898;
-}
-
 .inkling
 {
     padding: 3px 10px 10px 10px;

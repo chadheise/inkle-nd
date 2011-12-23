@@ -124,11 +124,11 @@ $(document).ready(function() {
 
     /* Update the login/registration content when one of their links is clicked */
     $("#loginContentLinks p").click(function() {
-        if ($(this).attr("id") != "selectedLoginContentLink")
+        if (!$(this).hasClass("selectedContentLink"))
         {
             // Make the clicked link the selected one
-            $("#selectedLoginContentLink").removeAttr("id");
-            $(this).attr("id", "selectedLoginContentLink");
+            $("#loginContentLinks .selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
 
             // Update the login/registration content
             var contentType = $(this).attr("contentType");

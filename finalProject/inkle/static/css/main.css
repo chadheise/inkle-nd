@@ -21,6 +21,21 @@ input
     margin-bottom: 20px;
 }
 
+.contentLinks p
+{
+    color: #ABC2E5;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    float: left;
+    margin: -3px 30px 15px 0px;
+}
+
+.contentLinks .selectedContentLink
+{
+    color: #1B5898;
+}
+
 .subsectionTitle
 {
     font-size: 26px;
