@@ -211,12 +211,9 @@ $(document).ready(function() {
                         memberCard.html("You revoked your request to follow " + memberCardName + ".");
                         memberCard.css("padding", "10px");
                         memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                            if ($("#pendingRequestsContent").has(".memberCard:visible").length == 0)
+                            if ($("#pendingContent").has(".memberCard:visible").length == 0)
                             {
-                                $("#pendingRequestsContent").fadeOut("medium", function() {
-                                    $("#pendingRequestsContent").html("<p class='requestsTitle'>You have no pending requests to follow anyone.</p>");
-                                    $("#pendingRequestsContent").fadeIn("medium");
-                                });
+                                $("#pendingContentMembers").html("<p>You have no pending requests to follow anyone.</p>");
                             }
                         });
                     });

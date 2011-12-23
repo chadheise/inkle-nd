@@ -1,35 +1,38 @@
 $(document).ready(function() {
-    // Update which requests are displayed when a request subsection content link is clicked 
-    $(".requestsContentLink").live("click", function() {
-        if (!$(this).hasClass("selectedSubsectionContentLink"))
+    /* Updates which requests are displayed when a requests content link is clicked */
+    $("#requestsContentLinks p").live("click", function() {
+        // Only update the requests content if the requests content link which is clicked is not the currently selected one
+        if ($(this).attr("id") != "selectedRequestsContentLink")
         {
-            $(".requestsContentLink").removeClass("selectedSubsectionContentLink");
-            $(this).addClass("selectedSubsectionContentLink");
+            // Update the selected requests content link
+            $("#selectedRequestsContentLink").removeAttr("id");
+            $(this).attr("id", "selectedRequestsContentLink");
 
-            if ($(this).attr("id") == "allRequestsContentLink") 
-            {
-                $("#requestsContent").fadeOut("medium", function () {
-                    $("#requestedRequestsContent").show();
-                    $("#pendingRequestsContent").show();
-                    $("#requestsContent").fadeIn("medium");
-                });
-            }
-            else if ($(this).attr("id") == "requestedRequestsContentLink") 
-            {
-                $("#requestsContent").fadeOut("medium", function () {
-                    $("#requestedRequestsContent").show();
-                    $("#pendingRequestsContent").hide();
-                    $("#requestsContent").fadeIn("medium");
-                });
-            }
-            else if ($(this).attr("id") == "pendingRequestsContentLink") 
-            {
-                $("#requestsContent").fadeOut("medium", function () {
-                    $("#requestedRequestsContent").hide();
-                    $("#pendingRequestsContent").show();
-                    $("#requestsContent").fadeIn("medium");
-                });
-            }
+            // Show the content for the clicked requests content link
+            var contentType = $(this).attr("contentType");
+            $("#requestsContent").fadeOut("medium", function () {
+                if (contentType == "all") 
+                {
+                    $("#requestedContent").show();
+                    $("#pendingContent").show();
+                    $(".subsectionTitle").show();
+                }
+                else if (contentType == "requested") 
+                {
+                    $("#requestedContent").show();
+                    $("#pendingContent").hide();
+                    $(".subsectionTitle").hide();
+                }
+                else if (contentType == "pending") 
+                {
+                    $("#requestedContent").hide();
+                    $("#pendingContent").show();
+                    $(".subsectionTitle").hide();
+                }
+
+                // Fade the requests content back in
+                $("#requestsContent").fadeIn("medium");
+             });
         }
     });
     
@@ -62,12 +65,9 @@ $(document).ready(function() {
                     memberCard.html("You accepted " + memberCardName + "'s request to follow you.");
                     memberCard.css("padding", "10px");
                     memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                        if ($("#requestedRequestsContent").has(".memberCard:visible").length == 0)
+                        if ($("#requestedContent").has(".memberCard:visible").length == 0)
                         {
-                            $("#requestedRequestsContent").fadeOut("medium", function() {
-                                $("#requestedRequestsContent").html("<p class='requestsTitle'>No one has requested to follow you.</p>");
-                                $("#requestedRequestsContent").fadeIn("medium");
-                            });
+                            $("#requestedContentMembers").html("<p style='margin-bottom: 15px;'>No one has requested to follow you.</p>");
                         }
                     });
                 });
@@ -105,12 +105,9 @@ $(document).ready(function() {
                     memberCard.html("You rejected " + memberCardName + "'s request to follow you.");
                     memberCard.css("padding", "10px");
                     memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                        if ($("#requestedRequestsContent").has(".memberCard:visible").length == 0)
+                        if ($("#requestedContent").has(".memberCard:visible").length == 0)
                         {
-                            $("#requestedRequestsContent").fadeOut("medium", function() {
-                                $("#requestedRequestsContent").html("<p class='requestsTitle'>No one has requested to follow you.</p>");
-                                $("#requestedRequestsContent").fadeIn("medium");
-                            });
+                            $("#requestedContentMembers").html("<p style='margin-bottom: 15px;'>No one has requested to follow you.</p>");
                         }
                     });
                 });

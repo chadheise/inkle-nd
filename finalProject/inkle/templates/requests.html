@@ -1,27 +1,31 @@
 <div class="grid_17 alpha omega">
     <div id="requestsContent" class="grid_17 alpha omega">
-        <!-- Requested requests -->
-        <div id="requestedRequestsContent" class="grid_17">
-            {% if requested_members %}
-                <p class="requestsTitle">These people have requested to follow you:</p>
-                {% for m in requested_members %}
-                    {% include "memberCard.html" %}
-                {% endfor %}
-            {% else %}
-                <p class="requestsTitle">No one has requested to follow you.</p>
-            {% endif %}
+        <!-- Requested -->
+        <div id="requestedContent" class="grid_17">
+            <p class="subsectionTitle">Requested</p>
+            <div id="requestedContentMembers">
+                {% if requested_members %}
+                    {% for m in requested_members %}
+                        {% include "memberCard.html" %}
+                    {% endfor %}
+                {% else %}
+                    <p style="margin-bottom: 15px;">No one has requested to follow you.</p>
+                {% endif %}
+            </div>
         </div>
 
-        <!-- Pending requests -->
-        <div id="pendingRequestsContent" class="grid_17">
-            {% if pending_members %}
-                <p class="requestsTitle">You have pending requests to follow these people:</p>
-                {% for m in pending_members %}
-                    {% include "memberCard.html" %}
-                {% endfor %}
-            {% else %}
-                <p class="requestsTitle">You have no pending requests to follow anyone.</p>
-            {% endif %}
+        <!-- Pending -->
+        <div id="pendingContent" class="grid_17">
+            <p class="subsectionTitle">Pending</p>
+            <div id="pendingContentMembers">
+                {% if pending_members %}
+                    {% for m in pending_members %}
+                        {% include "memberCard.html" %}
+                    {% endfor %}
+                {% else %}
+                    <p>You have no pending requests to follow anyone.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
