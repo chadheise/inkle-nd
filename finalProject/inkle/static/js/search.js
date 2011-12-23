@@ -21,8 +21,8 @@ $(document).ready(function() {
                     $("#locations").show();
                     $("#spheres").show();
                     $(".searchTitle").show();
-                    $("#peopleSubsectionContentLinks").hide();
-                    $("#spheresSubsectionContentLinks").hide();
+                    $("#peopleContentLinks").hide();
+                    $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "people")
                 {
@@ -30,8 +30,8 @@ $(document).ready(function() {
                     $("#locations").hide();
                     $("#spheres").hide();
                     $(".searchTitle").hide();
-                    $("#peopleSubsectionContentLinks").show();
-                    $("#spheresSubsectionContentLinks").hide();
+                    $("#peopleContentLinks").show();
+                    $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "locations")
                 {
@@ -39,8 +39,8 @@ $(document).ready(function() {
                     $("#locations").show();
                     $("#spheres").hide();
                     $(".searchTitle").hide();
-                    $("#peopleSubsectionContentLinks").hide();
-                    $("#spheresSubsectionContentLinks").hide();
+                    $("#peopleContentLinks").hide();
+                    $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "spheres")
                 {
@@ -48,8 +48,8 @@ $(document).ready(function() {
                     $("#locations").hide();
                     $("#spheres").show();
                     $(".searchTitle").hide();
-                    $("#peopleSubsectionContentLinks").hide();
-                    $("#spheresSubsectionContentLinks").show();
+                    $("#peopleContentLinks").hide();
+                    $("#spheresContentLinks").show();
                 }
 
                 $("#searchContent").fadeIn();
@@ -58,76 +58,76 @@ $(document).ready(function() {
     });
     
     // Update the people search results when one of the people subsection content links is clicked
-    $(".peopleContentLink").click(function() {
+    $("#peopleContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected
-        if (!$(this).hasClass("selectedPeopleContentLink"))
+        if (!$(this).hasClass("selectedSubsectionContentLink"))
         {
             // Remove the selected people content link class from the appropriate element and add it to the clicked people content link
-            $(".selectedPeopleContentLink").removeClass("selectedPeopleContentLink");
-            $(this).addClass("selectedPeopleContentLink");
+            $("#peopleContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            $(this).addClass("selectedSubsectionContentLink");
 
             // Depending on which people content link was clicked, hide and show the appropriate results
-            var thisID = $(this).attr("id");
-            $("#searchContent").fadeOut(function() {
-                if (thisID == "allPeopleContentLink")
+            var contentType = $(this).attr("contentType");
+            $("#mainSearchContent").fadeOut(function() {
+                if (contentType == "all")
                 {
                     $(".following").show();
                     $(".follower").show();
                     $(".other").show();
                 }
-                else if (thisID == "followingPeopleContentLink")
+                else if (contentType == "following")
                 {
                     $(".follower").hide();
                     $(".other").hide();
                     $(".following").show();
                 }
-                else if (thisID == "followersPeopleContentLink")
+                else if (contentType == "followers")
                 {
                     $(".following").hide();
                     $(".other").hide();
                     $(".follower").show();
                 }
-                else if (thisID == "otherPeopleContentLink")
+                else if (contentType == "other")
                 {
                     $(".following").hide();
                     $(".follower").hide();
                     $(".other").show();
                 }
 
-                $("#searchContent").fadeIn();
+                $("#mainSearchContent").fadeIn();
             });
         }
     });
 
     // Update the spheres search results when one of the sphere subsection content links is clicked
-    $(".spheresContentLink").click(function() {
+    $("#spheresContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected
-        if (!$(this).hasClass("selectedSpheresContentLink"))
+        if (!$(this).hasClass("selectedSubsectionContentLink"))
         {
             // Remove the selected sphere content link class from the appropriate element and add it to the clicked sphere content link
-            $(".selectedSpheresContentLink").removeClass("selectedSpheresContentLink");
-            $(this).addClass("selectedSpheresContentLink");
+            $("#spheresContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            $(this).addClass("selectedSubsectionContentLink");
 
             // Depending on which people content link was clicked, hide and show the appropriate results
-            var thisID = $(this).attr("id");
-            $("#searchContent").fadeOut(function() {
-                if (thisID == "allSpheresContentLink")
+            var contentType = $(this).attr("contentType");
+            $("#mainSearchContent").fadeOut(function() {
+                if (contentType == "all")
                 {
                     $(".containsMember").show();
                     $(".notContainsMember").show();
                 }
-                else if (thisID == "mySpheresContentLink")
+                else if (contentType == "mySpheres")
                 {
                     $(".containsMember").show();
                     $(".notContainsMember").hide();
                 }
-                else if (thisID == "otherSpheresContentLink")
+                else if (contentType == "otherSpheres")
                 {
                     $(".containsMember").hide();
                     $(".notContainsMember").show();
                 }
 
-                $("#searchContent").fadeIn();
+                $("#mainSearchContent").fadeIn();
             });
         }
     });

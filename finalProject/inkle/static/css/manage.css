@@ -6,6 +6,11 @@
     display: none;
 }
 
+#requestsContentLinks
+{
+    display: none;
+}
+
 #profileImage
 {
     height: 200px;
@@ -32,27 +37,6 @@
 
 #discardChangesButton {
     background-color: #CD1A26;
-}
-
-#requestsContentLinks
-{
-    display: none;
-    margin-bottom: 15px;
-}
-
-#requestsContentLinks p
-{
-    color: #F1D8A2;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    float: left;
-    margin-right: 30px;
-}
-
-#requestsContentLinks #selectedRequestsContentLink
-{
-    color: #E48116;
 }
 
 #requestedRequestsContent

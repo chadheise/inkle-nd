@@ -4,6 +4,11 @@
     padding: 0px;
 }
 
+#peopleContentLinks, #spheresContentLinks
+{
+    display: none;
+}
+
 .searchTitle
 {
     font-size: 26px;
@@ -14,10 +19,6 @@
 .noResultsMessage
 {
     margin-bottom: 15px;
-}
-
-.searchResults ul {
-    margin-top: 30px;
 }
 
 .filterButton {

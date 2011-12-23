@@ -2,11 +2,11 @@ $(document).ready(function() {
     /* Updates which requests are displayed when a requests content link is clicked */
     $("#requestsContentLinks p").live("click", function() {
         // Only update the requests content if the requests content link which is clicked is not the currently selected one
-        if ($(this).attr("id") != "selectedRequestsContentLink")
+        if (!$(this).hasClass("selectedSubsectionContentLink"))
         {
             // Update the selected requests content link
-            $("#selectedRequestsContentLink").removeAttr("id");
-            $(this).attr("id", "selectedRequestsContentLink");
+            $("#requestsContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            $(this).addClass("selectedSubsectionContentLink");
 
             // Show the content for the clicked requests content link
             var contentType = $(this).attr("contentType");

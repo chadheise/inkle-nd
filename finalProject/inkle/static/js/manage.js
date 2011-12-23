@@ -20,8 +20,8 @@ $(document).ready(function() {
                         $("#requestsContentLinks").show();
 
                         // Set the "All" content link as the selected requests content link
-                        $("#selectedRequestsContentLink").removeAttr("id");
-                        $("#requestsContentLinks p[contentType='all']").attr("id", "selectedRequestsContentLink");
+                        $("#requestsContentLink .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+                        $("#requestsContentLinks p[contentType='all']").attr("id", "selectedSubsectionContentLink");
                     }
 
                     // Otherwise, hide the requests content links
