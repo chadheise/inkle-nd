@@ -9,13 +9,6 @@
     display: none;
 }
 
-.searchTitle
-{
-    font-size: 26px;
-    font-weight: bold;
-    color: #385E0F;
-}
-
 .noResultsMessage
 {
     margin-bottom: 15px;

@@ -1,6 +1,49 @@
 $(document).ready(function() {
-    // Hide the location edit content
-    $("#locationEditContent").hide();
+    // Update the location inklings when one of the main content links is clicked
+    $("#locationInklingsContentLinks p").click(function() {
+        // Only change the content if we click a content link which is not already selected
+        if (!$(this).hasClass("selectedContentLink"))
+        {
+            // Remove the selected content link class from the appropriate element and add it to the clicked content link
+            $("#locationInklingsContentLinks .selectedContentLink").removeClass("selectedContentLink");
+            $(this).addClass("selectedContentLink");
+
+            // Depending on which content link was clicked, hide and show the appropriate results
+            var contentType = $(this).attr("contentType");
+            $("#locationInklingsContent").fadeOut(function() {
+                if (contentType == "all")
+                {
+                    $("#dinnerContent").show();
+                    $("#pregameContent").show();
+                    $("#mainEventContent").show();
+                    $(".subsectionTitle").show();
+                }
+                else if (contentType == "dinner")
+                {
+                    $("#dinnerContent").show();
+                    $("#pregameContent").hide();
+                    $("#mainEventContent").hide();
+                    $(".subsectionTitle").hide();
+                }
+                else if (contentType == "pregame")
+                {
+                    $("#dinnerContent").hide();
+                    $("#pregameContent").show();
+                    $("#mainEventContent").hide();
+                    $(".subsectionTitle").hide();
+                }
+                else if (contentType == "mainEvent")
+                {
+                    $("#dinnerContent").hide();
+                    $("#pregameContent").hide();
+                    $("#mainEventContent").show();
+                    $(".subsectionTitle").hide();
+                }
+
+                $("#locationInklingsContent").fadeIn();
+            });
+        }
+    });
 
     // Toggle location edit content
     $("#locationEditButton").live("click", function() {

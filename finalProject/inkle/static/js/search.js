@@ -17,37 +17,37 @@ $(document).ready(function() {
             $("#searchContent").fadeOut(function() {
                 if (contentType == "all")
                 {
-                    $("#people").show();
-                    $("#locations").show();
-                    $("#spheres").show();
-                    $(".searchTitle").show();
+                    $("#peopleContent").show();
+                    $("#locationsContent").show();
+                    $("#spheresContent").show();
+                    $(".subsectionTitle").show();
                     $("#peopleContentLinks").hide();
                     $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "people")
                 {
-                    $("#people").show();
-                    $("#locations").hide();
-                    $("#spheres").hide();
-                    $(".searchTitle").hide();
+                    $("#peopleContent").show();
+                    $("#locationsContent").hide();
+                    $("#spheresContent").hide();
+                    $(".subsectionTitle").hide();
                     $("#peopleContentLinks").show();
                     $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "locations")
                 {
-                    $("#people").hide();
-                    $("#locations").show();
-                    $("#spheres").hide();
-                    $(".searchTitle").hide();
+                    $("#peopleContent").hide();
+                    $("#locationsContent").show();
+                    $("#spheresContent").hide();
+                    $(".subsectionTitle").hide();
                     $("#peopleContentLinks").hide();
                     $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "spheres")
                 {
-                    $("#people").hide();
-                    $("#locations").hide();
-                    $("#spheres").show();
-                    $(".searchTitle").hide();
+                    $("#peopleContent").hide();
+                    $("#locationsContent").hide();
+                    $("#spheresContent").show();
+                    $(".subsectionTitle").hide();
                     $("#peopleContentLinks").hide();
                     $("#spheresContentLinks").show();
                 }
