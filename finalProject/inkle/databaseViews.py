@@ -52,7 +52,10 @@ def edit_location_view(request):
     except:
         return HttpResponseRedirect("/inkle/login/")
 
-    # TODO: make sure the logged in member can update the location
+    # Make sure the logged in member can update the location
+    if (not member.is_staff):
+        raise Http404()
+    
     
     # Get the location (or throw a 404 error if the location ID is invalid)
     try:
