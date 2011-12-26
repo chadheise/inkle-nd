@@ -38,10 +38,29 @@
 <br />
 <input id="phoneInput" class="formInput" value="{{ member.phone }}" />
 
-<!-- Member birthday -->
-<label for="birthdayInput" class="infoLabel">Birthday:</label>
-<br />
-<input id="birthdayInput" class="formInput" value="{{ member.birthday }}" />
+<!-- Member birth month -->
+<select id="monthSelect" class="monthSelect grid_2 alpha">
+    <option value="" {% if not member.month %}selected{% endif %}>Month</option>
+    {% for month, abbreviation in months %}
+        <option value="{{ forloop.counter }}" {% if member.month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
+    {% endfor %}
+</select>
+
+<!-- Member birth day -->
+<select id="daySelect" class="daySelect grid_2" day="{{ day }}">
+    <option value="" {% if not member.day %}selected{% endif %}>Day</option>
+    {% for day in member.dayRange %}
+        <option value="{{ day }}" {% if member.day == day %}selected{% endif %}>{{ day }}</option>
+    {% endfor %}
+</select>
+
+<!-- Member birth year -->
+<select id="yearSelect" class="yearSelect grid_2 omega" year="{{ year }}">
+    <option value="" {% if not member.year %}selected{% endif %}>Year</option>
+    {% for year in member.yearRange reversed %}
+        <option value="{{ year }}" {% if member.year == year %}selected{% endif %}>{{ year }}</option>
+    {% endfor %}
+</select>
 
 <!-- Member gender -->
 <label for="genderInput" class="infoLabel">Gender:</label>

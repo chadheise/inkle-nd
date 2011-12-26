@@ -85,7 +85,9 @@ $(document).ready(function() {
             var zipCode = $("#zipCodeInput").val();
             var email = $("#emailInput").val();
             var phone = $("#phoneInput").val();
-            var birthday = $("#birthdayInput").val();
+            var month = $("#monthSelect option:selected").val();
+            var day = $("#daySelect option:selected").val();
+            var year = $("#yearSelect option:selected").val();
             var gender = $("#genderSelect option:selected").val();
             var image = $("#imageInput").val();
 
@@ -93,7 +95,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: "/inkle/editMember/",
-                data: {"first_name" : first_name, "last_name" : last_name, "city" : city, "state" : state, "zipCode" : zipCode, "email" : email, "phone" : phone, "birthday" : birthday, "gender" : gender, "image" : image},
+                data: {"first_name" : first_name, "last_name" : last_name, "city" : city, "state" : state, "zipCode" : zipCode, "email" : email, "phone" : phone, "month" : month, "day" : day, "year" : year, "gender" : gender, "image" : image},
                 success: function(html) {
                     // Update the member info content
                     $("#manageInfo").html(html);

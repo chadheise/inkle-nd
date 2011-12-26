@@ -38,7 +38,7 @@ def edit_member_view(request):
         member.zip_code = request.POST["zipCode"]
         member.email = request.POST["email"]
         member.phone = request.POST["phone"]
-        member.birthday = request.POST["birthday"]
+        member.birthday = request.POST["month"] + "/" + request.POST["day"] + "/" + request.POST["year"]
         member.gender = request.POST["gender"]
         member.image = request.POST["image"]
 

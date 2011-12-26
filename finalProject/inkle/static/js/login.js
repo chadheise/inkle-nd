@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    /* Set the focus to the login email input */
+    $("#loginEmail").focus();
+
     /* Populate the day and year selects */
     var selectedDay = parseInt($("#registrationDay").attr("day"));
     for (var i = 1; i <= 31; i++)
@@ -24,9 +27,6 @@ $(document).ready(function() {
             $("#registrationYear").append("<option value='" + i + "'>" + i + "</option>");
         }
     }
-
-    /* Set the focus to the login email input */
-    $("#loginEmail").focus();
 
     /* Update the day select when the month select changes */
     $("#registrationMonth").change(function() {
