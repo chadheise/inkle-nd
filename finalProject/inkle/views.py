@@ -8,6 +8,7 @@ from django.contrib import auth
 
 from finalProject.inkle.models import *
 from finalProject.inkle.forms import *
+from finalProject.inkle.choices import *
 
 from django.db.models import Q
 
@@ -116,7 +117,7 @@ def get_edit_location_html_view(request):
         raise Http404()
   
     return render_to_response( "editLocationInfo.html",
-        {"member" : member, "location" : location},
+        {"member" : member, "location" : location, "states" : STATES, "categories" : LOCATION_CATEGORIES},
         context_instance = RequestContext(request) )
 
 def search_view(request, query = ""):
