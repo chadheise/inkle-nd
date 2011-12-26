@@ -129,8 +129,14 @@ def get_edit_manage_html_view(request):
     except:
         return HttpResponseRedirect("/inkle/login/")
     
+    member.month = int(member.birthday.split("/")[0])
+    member.day = int(member.birthday.split("/")[1])
+    member.year = int(member.birthday.split("/")[2])
+    member.dayRange = range(1,32)
+    member.yearRange = range(1900, 2013)
+
     return render_to_response( "editManageInfo.html",
-        {"member" : member, "states" : STATES},
+        {"member" : member, "states" : STATES, "months" : MONTHS},
         context_instance = RequestContext(request) )
 
 
