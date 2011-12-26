@@ -1,54 +1,41 @@
-*
-{
-    margin: 0px;
-    padding: 0px;
-}
-
-.hidden
-{
-    display: none;
-}
-
 #locationImage
 {
-    height: 200px;
-    width: 200px;
-    border: solid 1px #777;
+    height: 228px;
+    width: 228px;
+    border: solid 1px #000;
+    margin-bottom: 5px;
 }
 
-#locationnName
+#locationName
 {
     font-size: 36px;
+    margin: -8px 0px 10px 0px;
     font-weight: bold;
     color: #288D42;
     float: left;
 }
 
-#locationSubmitButton, #locationCancelButton
+#locationEditButton, #locationSubmitButton
 {
+    margin-left: -2px;
     padding: 2px 5px 2px 5px;
     background-color: #288D42;
     color: #FFF;
     font-weight: bold;
 }
 
-#locationEditContent
+#locationCancelButton
 {
-    display: none;
-}
-
-#locationEditButton
-{
+    margin-left: 5px;
     padding: 2px 5px 2px 5px;
     background-color: #288D42;
     color: #FFF;
-    margin: 5px 0px 0px 0px;
     font-weight: bold;
 }
 
-.border
+#dinnerContent, #pregameContent
 {
-    border: 1px solid #000000;
+    margin-bottom: 15px;
 }
 
 .infoSection
@@ -59,12 +46,6 @@
 .infoLabel
 {
     font-weight: bold;
-    margin-bottom: 3px;
-}
-
-.formLabel
-{
-    font-weight: bold;
 }
 
 .formInput
@@ -73,19 +54,5 @@
     border: 2px solid #DDD;
     border-style: inset;
     margin-bottom: 10px;
-}
-
-h4
-{
-    font-size: 16px;
-    font-weight: bold;
-    font-family: helvetica;
-    color: #000000;
-}
-
-h3
-{
-    font-size: 28px;
-    font-weight: bold;
-    color: #288D42;
+    width: 100%;
 }

@@ -14,6 +14,7 @@ urlpatterns = patterns(
     (r"^editProfile/$", "edit_profile_view"),
     (r"^location/(?P<location_id>\d+)/$", "location_view"),
     (r"^editLocation/$", "edit_location_view"),
+    (r"^getEditLocationHtml/$", "get_edit_location_html_view"),
     (r"^manage/$", "manage_view"),
     (r"^manage/(?P<default_content_type>requests|circles|spheres|followers)/$", "manage_view"),
     (r"^search/(?P<query>.+)/$", "search_view"),

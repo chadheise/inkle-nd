@@ -1,0 +1,50 @@
+{% if member.is_staff %}
+    <!-- Location name -->
+    <label for="nameInput" class="infoLabel">Name:</label>
+    </br>
+    <input id="nameInput" class="formInput" value="{{ location.name }}" />
+
+    <!-- Location street -->
+    <label for="streetInput" class="infoLabel">Street:</label>
+    <br />
+    <input id="streetInput" class="formInput" value="{{ location.street }}" />
+
+    <!-- Location city -->
+    <label for="cityInput" class="infoLabel">City:</label>
+    <br />
+    <input id="cityInput" class="formInput" value="{{ location.city }}" />
+
+    <!-- Location state -->
+    <label for="stateInput" class="infoLabel">State:</label>
+    <br />
+    <input id="stateInput" class="formInput" value="{{ location.state }}" />
+
+    <!-- Location zip code -->
+    <label for="zipCodeInput" class="infoLabel">Zip code:</label>
+    <br />
+    <input id="zipCodeInput" class="formInput" value="{{ location.zip_code }}" />
+
+    <!-- Location phone -->
+    <label for="phoneInput" class="infoLabel">Phone:</label>
+    <br />
+    <input id="phoneInput" class="formInput" value="{{ location.phone }}" />
+
+    <!-- Location website -->
+    <label for="websiteInput" class="infoLabel">Website:</label>
+    <br />
+    <input id="websiteInput" class="formInput" value="{{ location.website }}" />
+
+    <!-- Location category -->
+    <label for="categoryInput" class="infoLabel">Category:</label>
+    <br />
+    <input id="categoryInput" class="formInput" value="{{ location.category }}" />
+
+    <!-- Location image -->
+    <label for="imageInput" class="infoLabel">Image:</label>
+    <br />
+    <input id="imageInput" class="formInput" value="{{ location.image }}" />
+
+    <!-- Submit and cancel buttons -->
+    <button id="locationSubmitButton" locationID="{{ location.id }}">Submit</button>
+    <button id="locationCancelButton" locationID="{{ location.id }}">Cancel</button>
+{% endif %}

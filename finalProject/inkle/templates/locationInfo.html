@@ -1,0 +1,41 @@
+<!-- Location address -->
+{% if location.street or location.city %}
+    <div class="infoSection">
+        <p class="infoLabel">Address:</p>
+        {% if location.street %}
+            <p id="locationStreet">{{ location.street }}</p>
+        {% endif %}
+        {% if location.city %}
+            <p><span id="locationCity">{{ location.city }}</span>, <span id="locationState">{{ location.state }}</span> <span id="locationZipCode">{{ location.zip_code }}</span></p>
+        {% endif %}
+    </div>
+{% endif %}
+
+<!-- Location phone -->
+{% if location.phone  and location.phone|length_is:"10" %}
+    <div class="infoSection">
+        <p class="infoLabel">Phone:</p>
+        <p id="locationPhone">({{ location.phone|slice:"0:3" }}) {{ location.phone|slice:"3:6" }}-{{ location.phone|slice:"6:10" }}</p>
+    </div>
+{% endif %}
+
+<!-- Location website -->
+{% if location.website %}
+    <div class="infoSection">
+        <p class="infoLabel">Website:</p>
+        <a id="locationWebsite" href="{{ location.website }}">{{ location.website }}</a>
+    </div>
+{% endif %}
+
+<!-- Location category -->
+{% if location.category %}
+    <div class="infoSection">
+        <p class="infoLabel">Category:</p>
+        <p id="locationCategory">{{ location.category }}</p>
+    </div>
+{% endif %}
+
+<!-- Edit location button -->
+{% if member.is_staff %}
+    <button id="locationEditButton" locationID="{{ location.id }}">Edit location</button>
+{% endif %}
