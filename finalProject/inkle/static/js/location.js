@@ -45,68 +45,99 @@ $(document).ready(function() {
         }
     });
 
-    // Toggle location edit content
+    // Show the edit location content when the edit location button is clicked
     $("#locationEditButton").live("click", function() {
-        $("#inklingsTonight").fadeOut('medium', function() {
-            $("#locationEditContent").fadeIn('medium');
-        });
-        $("#locationEditButton").fadeOut('medium');
-        $("#locationContent").fadeOut('medium');
-        
-    
-        $(".hidden").removeClass("hidden");
-    });
-    
-    // Toggle location edit content
-    $("#locationSubmitButton").live("click", function() {
-        // Show edit content
-        $("#locationEditContent").fadeOut('medium', function() {
-            $("#locationEditButton").fadeIn('medium');
-            $("#locationContent").fadeIn('medium');
-            $("#inklingsTonight").fadeIn('medium');
-        });
+        // Replace the location info with the the location info edit content
+        $("#locationInfo").fadeOut("medium", function() {
+            // Get the location ID
+            var locationID = $("#locationEditButton").attr("locationID");
 
-        // Get location ID
-        var locationID = parseInt($("#locationID").val());
-
-        // Get input values
-        var name = $("#nameInput").val();
-        var street = $("#streetInput").val();
-        var city = $("#cityInput").val();
-        var state = $("#stateInput").val();
-        var zipCode = parseInt($("#zipCodeInput").val());
-        var phone = parseInt($("#phoneInput").val());
-        var website = $("#websiteInput").val();
-        var category = $("#categoryInput").val();
-
-        // Update database
-        $.ajax({
-            type: "POST",
-            url: "/inkle/editLocation/",
-            data: {"locationID" : locationID, "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "phone" : phone, "website" : website, "category" : category },
-            success: function(newWebsite) {
-                   // Update view text
-                   $("#locationName").text(name);
-                   $("#locationStreet").text(street);
-                   $("#locationCity").text(city);
-                   $("#locationState").text(state);
-                   $("#locationZipCode").text(zipCode);
-                   $("#locationPhone").text(phone);
-                   $("#locationWebsite").text(newWebsite);
-                   $("#locationWebsite").attr("href", newWebsite);
-                   $("#locationCategory").text(category);
-               },
-               error: function(a, b, error) { alert("location.js (1): " + error); }
-        });
-
-    });
-    
-    // Toggle location edit content
-    $("#locationCancelButton").click(function() {
-            $("#locationEditContent").fadeOut('medium', function() {
-                $("#locationEditButton").fadeIn('medium');
-                $("#locationContent").fadeIn('medium');
-                $("#inklingsTonight").fadeIn('medium');
+            // Get the edit location content
+            $.ajax({
+                type: "POST",
+                url: "/inkle/getEditLocationHtml/",
+                data: {"locationID" : locationID },
+                success: function(html) {
+                    $("#locationInfo").html(html);
+                    $("#locationInfo").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert("location.js (1): " + error); }
             });
+        });
+    });
+    
+    // Update the location's info in the database when the location submit button is clicked
+    $("#locationSubmitButton").live("click", function() {
+        // Replace the location edit info content with the the location info and update the location in the database
+        $("#locationInfo").fadeOut("medium", function() {
+            // Get the location ID
+            var locationID = $("#locationSubmitButton").attr("locationID");
+        
+            // Get the location input values
+            var name = $("#nameInput").val();
+            var street = $("#streetInput").val();
+            var city = $("#cityInput").val();
+            var state = $("#stateInput").val();
+            var zipCode = parseInt($("#zipCodeInput").val());
+            var phone = parseInt($("#phoneInput").val());
+            var website = $("#websiteInput").val();
+            var category = $("#categoryInput").val();
+            var image = $("#imageInput").val();
+            
+            // Update the location in the database and show the location info
+            $.ajax({
+                type: "POST",
+                url: "/inkle/editLocation/",
+                data: {"locationID" : locationID, "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "phone" : phone, "website" : website, "category" : category, "image" : image},
+                success: function(html) {
+                    // Update the location info content
+                    $("#locationInfo").html(html);
+
+                    // Update the location name if it has changed
+                    if (name != $("#locationName").text())
+                    {
+                        $("#locationName").fadeOut("medium", function () {
+                            $("#locationName").text(name);
+                            $("#locationName").fadeIn("medium");
+                        });
+                    }
+
+                    // Update the location image if it has changed
+                    if (image != $("#locationImage").attr("image"))
+                    {
+                        $("#locationImage").fadeOut("medium", function() {
+                            $("#locationImage").attr("src", "/static/media/images/locations/" + image);
+                            $("#locationImage").fadeIn("medium");
+                        });
+                    }
+
+                    // Fade the location info content back in
+                    $("#locationInfo").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert("location.js (2): " + error); }
+            });
+        });
+    });
+    
+    // Show the location info content when the cancel button is clicked
+    $("#locationCancelButton").live("click", function() {
+        // Replace the location info edit content with the the location info
+        $("#locationInfo").fadeOut("medium", function() {
+            // Get the location ID
+            var locationID = $("#locationSubmitButton").attr("locationID");
+       
+            // Show the location info
+            var locationName = $("#nameInput").val();
+            $.ajax({
+                type: "POST",
+                url: "/inkle/editLocation/",
+                data: {"locationID" : locationID},
+                success: function(html) {
+                    $("#locationInfo").html(html);
+                    $("#locationInfo").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert("location.js (3): " + error); }
+            });
+        });
     });
 });

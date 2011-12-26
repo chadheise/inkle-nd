@@ -46,37 +46,49 @@ def edit_profile_view(request):
 
 def edit_location_view(request):
     """Edits a location's Location object."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+
     # TODO: make sure the logged in member can update the location
     
-    # If the location ID is invalid, throw a 404 error
-    location_id = request.POST["locationID"]
+    # Get the location (or throw a 404 error if the location ID is invalid)
     try:
-        location = Location.objects.get(pk = location_id)
+        location = Location.objects.get(pk = request.POST["locationID"])
     except:
         raise Http404()
    
-    # Update the location's information using the POST data
-    location.name = request.POST["name"]
-    location.street = request.POST["street"]
-    location.city = request.POST["city"]
-    location.state = request.POST["state"]
-    location.zip_code = int(request.POST["zipCode"])
-    location.phone = request.POST["phone"]
-    location.category = request.POST["category"]
-    location.website = request.POST["website"]
+    try:
+        # Update the location's information using the POST data
+        location.name = request.POST["name"]
+        location.street = request.POST["street"]
+        location.city = request.POST["city"]
+        location.state = request.POST["state"]
+        location.zip_code = int(request.POST["zipCode"])
+        location.phone = request.POST["phone"]
+        location.category = request.POST["category"]
+        location.website = request.POST["website"]
+        location.image = request.POST["image"]
 
-    # Make sure the location begins with "http://www."
-    if (location.website):
-        if ((not location.website.startswith("http://")) and (not location.website.startswith("www"))):
-            location.website = "http://www." + location.website
-        elif (not location.website.startswith("http://")):
-            location.website = "http://" + location.website
+        # Make sure the location begins with "http://www."
+        if (location.website):
+            if ((not location.website.startswith("http://")) and (not location.website.startswith("www"))):
+                location.website = "http://www." + location.website
+            elif (not location.website.startswith("http://")):
+                location.website = "http://" + location.website
+        print "BOOO"
     
-    # Save the location's updated information
-    location.save()
-    
-    # Return the updated website
-    return HttpResponse(location.website)
+        # Save the location's updated information
+        location.save()
+        print "BOOO"
+    except:
+        pass
+
+    return render_to_response( "locationInfo.html",
+        {"member" : member, "location" : location},
+        context_instance = RequestContext(request) )
 
 
 def request_to_follow_view(request):

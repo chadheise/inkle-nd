@@ -92,9 +92,29 @@ def location_view(request, location_id = None):
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = []
 
-    
     return render_to_response( "location.html",
         {"member" : member, "location" : location, "dinnerPeople" : dinnerPeople, "pregamePeople" : pregamePeople, "maineventPeople" : maineventPeople},
+        context_instance = RequestContext(request) )
+
+
+def get_edit_location_html_view(request):
+    """Returns the edit location HTML."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    # TODO: make sure the logged in member can update the location
+    
+    # Get the location (or throw a 404 error if the location ID is invalid)
+    try:
+        location = Location.objects.get(pk = request.POST["locationID"])
+    except:
+        raise Http404()
+  
+    return render_to_response( "editLocationInfo.html",
+        {"member" : member, "location" : location},
         context_instance = RequestContext(request) )
 
 def search_view(request, query = ""):
@@ -624,8 +644,6 @@ def register_view(request):
                 gender = gender
             )
             
-            # TODO: dont' make everyone staff by default!
-            member.is_staff = True
             member.save()
                 
             # Login the new member

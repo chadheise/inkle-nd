@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-	<title>Inkle | Location</title>
+	<title>Inkle | Location | {{ location.name }}</title>
 {% endblock title %}
 
 {% block css %}
@@ -16,141 +16,72 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <input id="locationID" type="hidden" value="{{ location.id }}" />
-        <div class="grid_6 suffix_1">
-                <!-- Location image -->
-                <img id="locationImage" src="{{ STATIC_URL }}/media/images/locations/{{ location.image }}" />
-                
-                <!-- Location name -->
-                <div class="infoSection">
-                    <p class="infoLabel">Name:</p>
-                    <p><span id="locationName">{{ location.name }}</span></p>
-                </div>
-                
-                <!-- Location address -->
-                <div class="infoSection">
-                    <p class="infoLabel">Address:</p>
-                    <p><span id="locationStreet">{{ location.street }}</span></p>
-                    <p><span id="locationCity">{{ location.city }}</span>, <span id="locationState">{{ location.state }}</span> <span id="locationZipCode">{{ location.zip_code }}</span></p>
-                </div>
-                
-                <!-- Location phone -->
-                <div class="infoSection">
-                    <p class="infoLabel">Phone:</p>
-                    <p id="locationPhone">{{ location.phone }}</p>
-                </div>
-                
-                <!-- Location website -->
-                <div class="infoSection">
-                    <p class="infoLabel">Website:</p>
-                    <a id="locationWebsite" href="{{ location.website }}">{{ location.website }}</a>
-                </div>
-                
-                <!-- Location category -->
-                <div class="infoSection">
-                    <p class="infoLabel">Category:</p>
-                    <p><span id="locationCategory">{{ location.category }}</span></p>
-                </div>
-                    
-                    {% if member.is_staff %}
-                        <div class="grid_3">
-                            <button id="locationEditButton" type="button">Edit location</button>
-                        </div>
-                    {% endif %}
+        <!-- Location info -->
+        <div class="grid_6">
+            <!-- Location image -->
+            <img id="locationImage" src="{{ STATIC_URL }}/media/images/locations/{{ location.image }}" image="{{ location.image }}" />
 
-            </div>
-
-            <div class="grid_17 alpha omega">
-                <!-- Location inklings content links -->
-                <div id="locationInklingsContentLinks" class="contentLinks grid_17">
-                    <p class="selectedContentLink" contentType="all">All</p>
-                    <p contentType="dinner">Dinner</p>
-                    <p contentType="pregame">Pregame</p>
-                    <p contentType="mainEvent">Main event</p>
-                </div>
-                <div class="clear"></div>
-
-                <div id="locationInklingsContent" class="grid_17 alpha omega">
-                    <div id="inklingsTonight" class="grid_17">
-                        <div id="dinnerContent">
-                            <p class="subsectionTitle">Dinner</p>
-                            {% if dinnerPeople %}
-                                {% for m in dinnerPeople %}
-                                    {% include "memberCard.html" %}
-                                {% endfor %}
-                            {% else %}
-                                <p style="margin-bottom: 15px;">None of the poeple you are following are going here for dinner.</p>
-                            {% endif %}
-                        </div>
-
-                        <div id="pregameContent">
-                            <p class="subsectionTitle">Pregame</p>
-                            {% if pregamePeople %}
-                                {% for m in pregamePeople %}
-                                    {% include "memberCard.html" %}
-                                {% endfor %} 
-                            {% else %}
-                                <p style="margin-bottom: 15px;">None of the poeple you are following are going here for pregame.</p>
-                            {% endif %}
-                        </div>
-
-                        <div id="mainEventContent">
-                            <p class="subsectionTitle">Main event</p>
-                            {% if maineventPeople %}
-                                {% for m in maineventPeople %}
-                                    {% include "memberCard.html" %}
-                                {% endfor %}
-                            {% else %}
-                                <p>None of the poeple you are following are going here for the main event.</p>
-                            {% endif %}
-                        </div>
-                    </div>
-        
-                    {% if member.is_staff %}
-                        <div id="locationEditContent" class="grid_12 hidden">
-                            <label for="nameInput" class="formLabel">Name:</label>
-                            </br>
-                            <input id="nameInput" class="formInput grid_10" value="{{ location.name }}" />
-                            <div class="clear"></div>
-                            <label for="streetInput" class="formLabel">Street:</label>
-                            <br />
-                            <input id="streetInput" class="formInput grid_10" value="{{ location.street }}" />
-                            <div class="clear"></div>
-                            <label for="cityInput" class="formLabel">City:</label>
-                            <br />
-                            <input id="cityInput" class="formInput grid_10" value="{{ location.city }}" />
-                            <div class="clear"></div>
-                            <label for="stateInput" class="formLabel">State:</label>
-                            <br />
-                            <input id="stateInput" class="formInput grid_10" value="{{ location.state }}" />
-                            <div class="clear"></div>
-                            <label for="zipCodeInput" class="formLabel">Zip code:</label>
-                            <br />
-                            <input id="zipCodeInput" class="formInput grid_10" value="{{ location.zip_code }}" />
-                            <div class="clear"></div>
-                            <label for="phoneInput" class="formLabel">Phone:</label>
-                            <br />
-                            <input id="phoneInput" class="formInput grid_10" value="{{ location.phone }}" />
-                            <div class="clear"></div>
-                            <label for="websiteInput" class="formLabel">Website:</label>
-                            <br />
-                            <input id="websiteInput" class="formInput grid_10" value="{{ location.website }}" />
-                            <div class="clear"></div>
-                            <label for="categoryInput" class="formLabel">Category:</label>
-                            <br />
-                            <input id="categoryInput" class="formInput grid_10" value="{{ location.category }}" />
-                            <div class="clear"></div>
-            
-                            <div class="actionButtonContainer grid_10">
-                                <input id="locationSubmitButton" class="actionButton" type="submit" value="Submit" />
-                                <button id="locationCancelButton" type="button">Cancel</button>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="clear"></div>
-                {% endif %}
-                </div>
-                <div class="clear"></div>
+            <div id="locationInfo">
+                {% include "locationInfo.html" %}
             </div>
         </div>
+
+        <!-- Location inklings members -->
+        <div class="grid_17 push_1 alpha omega">
+            <!-- Location name -->
+            <div class="grid_17">
+                <p id="locationName">{{ location.name }}</p>
+            </div>
+            <div class="clear"></div>
+                
+            <!-- Location inklings content links -->
+            <div id="locationInklingsContentLinks" class="contentLinks grid_17">
+                <p class="selectedContentLink" contentType="all">All</p>
+                <p contentType="dinner">Dinner</p>
+                <p contentType="pregame">Pregame</p>
+                <p contentType="mainEvent">Main event</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Location inklings content -->
+            <div id="locationInklingsContent" class="grid_17">
+                <!-- Dinner inkling members -->
+                <div id="dinnerContent">
+                    <p class="subsectionTitle">Dinner</p>
+                    {% if dinnerPeople %}
+                        {% for m in dinnerPeople %}
+                            {% include "memberCard.html" %}
+                        {% endfor %}
+                    {% else %}
+                        <p>None of the people you are following are going here for dinner.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Pregame inkling members -->
+                <div id="pregameContent">
+                    <p class="subsectionTitle">Pregame</p>
+                    {% if pregamePeople %}
+                        {% for m in pregamePeople %}
+                            {% include "memberCard.html" %}
+                        {% endfor %} 
+                    {% else %}
+                        <p>None of the people you are following are going here for pregame.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Main event inkling members -->
+                <div id="mainEventContent">
+                    <p class="subsectionTitle">Main event</p>
+                    {% if maineventPeople %}
+                        {% for m in maineventPeople %}
+                            {% include "memberCard.html" %}
+                        {% endfor %}
+                    {% else %}
+                        <p>None of the people you are following are going here for the main event.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
 {% endblock mainContent%}
