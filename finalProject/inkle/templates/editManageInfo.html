@@ -17,9 +17,9 @@
 <label for="stateInput" class="infoLabel">State:</label>
 <br />
 <select id="stateSelect" class="formSelect">
-    <option value="" {% if member.state == "" %}selected="selected"{% endif %}></option>
+    <option value="" {% if member.state == "" %}selected="selected"{% endif %}>State</option>
     {% for state, abbreviation in states %}
-        <option value="{{ abbreviation }}" {% if member.state == abbreviation %}selected="selected"{% endif %}>{{ state }} ({{ abbreviation }})</option>
+        <option value="{{ abbreviation }}" {% if member.state == abbreviation %}selected="selected"{% endif %}>{{ state }} {{ abbreviation }}</option>
     {% endfor %}
 </select>
 

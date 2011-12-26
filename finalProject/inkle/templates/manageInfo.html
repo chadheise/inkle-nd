@@ -2,7 +2,7 @@
 {% if member.city or member.state or member.zip_code %}
     <div class="infoSection">
         <p class="infoLabel">Location:</p>
-            <p><span id="manageCity">{{ member.city }}</span>, <span id="manageState">{{ member.state }}</span> <span id="manageZipCode">{{ member.zip_code }}</span></p>
+            <p><span id="manageCity">{{ member.city }}</span>, <span id="manageState">{{ member.state }}</span> <span id="manageZipCode">({{ member.zip_code }})</span></p>
     </div>
 {% endif %}
 
