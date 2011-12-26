@@ -130,10 +130,36 @@ def get_edit_manage_html_view(request):
         return HttpResponseRedirect("/inkle/login/")
     
     # Parse the birthday information
-    member.month = int(member.birthday.split("/")[0])
-    member.day = int(member.birthday.split("/")[1])
-    member.year = int(member.birthday.split("/")[2])
-    member.day_range = range(1,32)
+    member.month = member.birthday.split("/")[0]
+    member.day = member.birthday.split("/")[1]
+    member.year = member.birthday.split("/")[2]
+
+    if member.month:
+        member.month = int(member.month)
+    else:
+        member.month = 0
+    if member.day:
+        member.day = int(member.day)
+    else:
+        member.day = 0
+
+    if member.year:
+        member.year = int(member.year)
+    else:
+        member.year = 0
+
+    if (member.month == 2):
+        if (member.year == 0):
+            member.day_range = range(1, 30)
+        elif ((member.year % 4 != 0) or (member.year == 1900)):
+            member.day_range = range(1, 29)
+        else:
+            member.day_range = range(1, 30)
+    elif member.month in [4, 6, 9, 11]:
+        member.day_range = range(1, 31)
+    else:
+        member.day_range = range(1, 32)
+
     member.year_range = range(1900, 2013)
 
     return render_to_response( "editManageInfo.html",
@@ -692,7 +718,7 @@ def register_view(request):
     if (month == 2):
         if (not year):
             day_range = range(1, 30)
-        if ((year % 4 != 0) or (year == 1900)):
+        elif ((year % 4 != 0) or (year == 1900)):
             day_range = range(1, 29)
         else:
             day_range = range(1, 30)
