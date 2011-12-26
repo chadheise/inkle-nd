@@ -129,11 +129,12 @@ def get_edit_manage_html_view(request):
     except:
         return HttpResponseRedirect("/inkle/login/")
     
+    # Parse the birthday information
     member.month = int(member.birthday.split("/")[0])
     member.day = int(member.birthday.split("/")[1])
     member.year = int(member.birthday.split("/")[2])
-    member.dayRange = range(1,32)
-    member.yearRange = range(1900, 2013)
+    member.day_range = range(1,32)
+    member.year_range = range(1900, 2013)
 
     return render_to_response( "editManageInfo.html",
         {"member" : member, "states" : STATES, "months" : MONTHS},
@@ -500,7 +501,7 @@ def login_view(request):
             invalid_login = True
 
     return render_to_response( "login.html",
-        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password},
+        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "dayRange" : range(1, 32), "yearRange" : range(1900, 2013), "months" : MONTHS},
         context_instance=RequestContext(request) )
 
 def register_view(request):
@@ -672,9 +673,38 @@ def register_view(request):
             # Login the new member
             request.session["member_id"] = member.id
             return HttpResponseRedirect("/inkle/")
+   
+    # Parse the birthday data
+    if month:
+        month = int(month)
+    else:
+        month = 0
+    if day:
+        day = int(day)
+    else:
+        day = 0
+
+    if year:
+        year = int(year)
+    else:
+        year = 0
+
+    if (month == 2):
+        if (not year):
+            day_range = range(1, 30)
+        if ((year % 4 != 0) or (year == 1900)):
+            day_range = range(1, 29)
+        else:
+            day_range = range(1, 30)
+    elif month in [4, 6, 9, 11]:
+        day_range = range(1, 31)
+    else:
+        day_range = range(1, 32)
+
+    year_range = range(1900, 2013)
 
     return render_to_response( "login.html",
-        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "invalidDay" : invalid_day, "day" : day, "invalidYear" : invalid_year, "year" : year, "invalidGender" : invalid_gender, "gender" : gender},
+        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance=RequestContext(request) )
 
 def logout_view(request):
