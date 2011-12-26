@@ -10,6 +10,7 @@
 
 {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}/js/login.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/birthday.js"></script>
 {% endblock js %}
 
 {% block mainContent %}
@@ -79,26 +80,23 @@
                         <input id="registrationConfirmEmail" class="grid_6 {% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" />
                         <input id="registrationPassword" class="grid_6 {% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{ password }}" />
                         <input id="registrationConfirmPassword" class="grid_6 {% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="30" value="{{ confirmPassword }}" />
-                        <select id="registrationMonth" class="{% if invalidMonth %}invalidInput{% endif %} grid_2 omega" name="month">
-                            <option value="" {% if month == "" %}selected{% endif %}>Month</option>
-                            <option value="1" {% if month == "1" %}selected{% endif %}>Jan</option>
-                            <option value="2" {% if month == "2" %}selected{% endif %}>Feb</option>
-                            <option value="3" {% if month == "3" %}selected{% endif %}>Mar</option>
-                            <option value="4" {% if month == "4" %}selected{% endif %}>Apr</option>
-                            <option value="5" {% if month == "5" %}selected{% endif %}>May</option>
-                            <option value="6" {% if month == "6" %}selected{% endif %}>Jun</option>
-                            <option value="7" {% if month == "7" %}selected{% endif %}>Jul</option>
-                            <option value="8" {% if month == "8" %}selected{% endif %}>Aug</option>
-                            <option value="9" {% if month == "9" %}selected{% endif %}>Sep</option>
-                            <option value="10" {% if month == "10" %}selected{% endif %}>Oct</option>
-                            <option value="11" {% if month == "11" %}selected{% endif %}>Nov</option>
-                            <option value="12" {% if month == "12" %}selected{% endif %}>Dec</option>
+                        <select id="registrationMonth" class="monthSelect {% if invalidMonth %}invalidInput{% endif %} grid_2 omega" name="month">
+                            <option value="" {% if not month %}selected{% endif %}>Month</option>
+                            {% for m, abbreviation in months %}
+                                <option value="{{ forloop.counter }}" {% if month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
+                            {% endfor %}
                         </select>
-                        <select id="registrationDay" class="{% if invalidDay %}invalidInput{% endif %} grid_2 omega" name="day" day="{{ day }}">
-                            <option value="" {% if day == "" %}selected{% endif %}>Day</option>
+                        <select id="registrationDay" class="daySelect {% if invalidDay %}invalidInput{% endif %} grid_2 omega" name="day">
+                            <option value="" {% if not day %}selected{% endif %}>Day</option>
+                            {% for i in dayRange %}
+                                <option value="{{ i }}" {% if day == i %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
                         </select>
-                        <select id="registrationYear" class="{% if invalidYear %}invalidInput{% endif %} grid_2 omega" name="year" year="{{ year }}">
-                            <option value="" {% if year == "" %}selected{% endif %}>Year</option>
+                        <select id="registrationYear" class="yearSelect {% if invalidYear %}invalidInput{% endif %} grid_2 omega" name="year">
+                            <option value="" {% if not year %}selected{% endif %}>Year</option>
+                            {% for i in yearRange reversed %}
+                                <option value="{{ i }}" {% if year == i %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
                         </select>
                         <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %} grid_3" name="gender">
                             <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
