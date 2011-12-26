@@ -56,7 +56,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: "/inkle/getEditLocationHtml/",
-                data: {"locationID" : locationID },
+                data: {"locationID" : locationID},
                 success: function(html) {
                     $("#locationInfo").html(html);
                     $("#locationInfo").fadeIn("medium");
@@ -78,8 +78,8 @@ $(document).ready(function() {
             var street = $("#streetInput").val();
             var city = $("#cityInput").val();
             var state = $("#stateSelect option:selected").val();
-            var zipCode = parseInt($("#zipCodeInput").val());
-            var phone = parseInt($("#phoneInput").val());
+            var zipCode = $("#zipCodeInput").val();
+            var phone = $("#phoneInput").val();
             var website = $("#websiteInput").val();
             var category = $("#categorySelect option:selected").val();
             var image = $("#imageInput").val();
@@ -93,7 +93,7 @@ $(document).ready(function() {
                     // Update the location info content
                     $("#locationInfo").html(html);
 
-                    // Update the location name if it has changed
+                    // Update the location's name if it has changed
                     if (name != $("#locationName").text())
                     {
                         $("#locationName").fadeOut("medium", function () {
@@ -102,11 +102,12 @@ $(document).ready(function() {
                         });
                     }
 
-                    // Update the location image if it has changed
+                    // Update the location's image if it has changed
                     if (image != $("#locationImage").attr("image"))
                     {
                         $("#locationImage").fadeOut("medium", function() {
                             $("#locationImage").attr("src", "/static/media/images/locations/" + image);
+                            $("#locationImage").attr("image", image);
                             $("#locationImage").fadeIn("medium");
                         });
                     }
@@ -127,7 +128,6 @@ $(document).ready(function() {
             var locationID = $("#locationSubmitButton").attr("locationID");
        
             // Show the location info
-            var locationName = $("#nameInput").val();
             $.ajax({
                 type: "POST",
                 url: "/inkle/editLocation/",

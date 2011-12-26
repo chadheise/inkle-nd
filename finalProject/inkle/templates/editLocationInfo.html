@@ -19,7 +19,7 @@
     <br />
     <select id="stateSelect" class="formSelect">
         {% for state, abbreviation in states %}
-            <option value="{{ abbreviation }}" {% if abbreviation == location.state %}selected="selected"{% endif %}>{{ state }} ({{ abbreviation }})</option>
+            <option value="{{ abbreviation }}" {% if location.state == abbreviation %}selected="selected"{% endif %}>{{ state }} ({{ abbreviation }})</option>
         {% endfor %}
     </select>
 
@@ -43,7 +43,7 @@
     <br />
     <select id="categorySelect" class="formSelect">
         {% for category in categories %}
-            <option value="{{ category }}" {% if category == location.category %}selected="selected"{% endif %}>{{ category }}</option>
+            <option value="{{ category }}" {% if location.category == category %}selected="selected"{% endif %}>{{ category }}</option>
         {% endfor %}
     </select>
 

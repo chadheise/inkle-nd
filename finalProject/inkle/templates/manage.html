@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-	<title>Inkle | Profile</title>
+	<title>Inkle | Profile | {{ member.first_name }} {{ member.last_name }}</title>
 {% endblock title %}
 
 {% block css %}
@@ -22,42 +22,23 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div id="profileInfo" class="grid_6 suffix_1">
-            <h3>Profile Info</h3>
-            <img id="profileImage" src="{{ STATIC_URL }}/media/images/members/{{ member.image }}" />
-            <div class="display">
-                <ul>
-                    <li id="displayName">{{ member.first_name }} {{ member.last_name }}</li>
-                    <li id="displayEmail">Email: {{ member.email }}</li>
-                    <li id="displayPhone" value="{{member.phone}}">Phone: {{ member.phone }}</li>
-                    <li id="displayBirthday" value="{{member.birthday}}">Birthday: {{ member.birthday }}</li>
-                    <li id="displayGender">Gender: {{ member.gender }}</li>
-                </ul>
-                <input type="button" value="Edit Profile" id="editProfileButton" class="profileButton"/>
-            </div>
-            <div class="edit">
-                <ul>
-                    <li><input id="inputFirstName" value="{{ member.first_name }}" /> <input id="inputLastName" value="{{ member.last_name }}" /></li>
-                    <!--<li>Password: <input id="inputPassword" value="{{ member.password }}"/></li>-->
-                    <li>Email: <input id="inputEmail" value="{{ member.email }}"/></li>
-                    <li>Phone: <input id="inputPhone" value="{{ member.phone }}"/></li>
-                    <li>Birthday: <input id="inputBirthday" value="{{ member.birthday }}"/></li>
-                    <li>Gender: <select id="inputGender">
-                                {% if member.gender == "Male" %}
-                                    <option value="Male" selected="selected">M</option>
-                                    <option value="Female">F</Option>
-                                {% else %}
-                                    <option value="Male">M</option>
-                                    <option value="Female" selected="selected">F</Option>
-                                {% endif %}
-                                </select> </li>
-                </ul>
-                <input type="button" value="Submit Changes" id="submitChangesButton" class="profileButton"/>
-                <input type="button" value="Discard Changes" id="discardChangesButton" class="profileButton"/>
+        <!-- Profile info -->
+        <div class="grid_6">
+            <!-- Profile image -->
+            <img id="manageImage" src="{{ STATIC_URL }}/media/images/members/{{ member.image }}" image="{{ member.image }}" />
+
+            <div id="manageInfo">
+                {% include "manageInfo.html" %}
             </div>
         </div>
         
-        <div class="grid_17 alpha omega">
+        <div class="grid_17 push_1 alpha omega">
+            <!-- Member name -->
+            <div class="grid_17">
+                <p id="manageName" class="pageTitle">{{ member.first_name }} {{ member.last_name }}</p>
+            </div>
+            <div class="clear"></div>
+
             <!-- Manage content links -->
             <div id="manageContentLinks" class="contentLinks grid_17">
                 <p {% if defaultContentType == "requests" %}class="selectedContentLink"{% endif %} contentType="requests">Requests</p>

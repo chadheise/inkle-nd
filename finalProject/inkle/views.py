@@ -120,6 +120,20 @@ def get_edit_location_html_view(request):
         {"member" : member, "location" : location, "states" : STATES, "categories" : LOCATION_CATEGORIES},
         context_instance = RequestContext(request) )
 
+
+def get_edit_manage_html_view(request):
+    """Returns the edit mange HTML."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    return render_to_response( "editManageInfo.html",
+        {"member" : member, "states" : STATES},
+        context_instance = RequestContext(request) )
+
+
 def search_view(request, query = ""):
     """Returns results for the logged in member's search query."""
     # Get the member who is logged in (or redirect them to the login page)
