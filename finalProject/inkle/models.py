@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 class Location(models.Model):
     name = models.CharField(max_length = 100)
     image = models.CharField(max_length = 100, default = "default.jpg")
+    category = models.CharField(max_length = 20, default = "Other")
     
     # Address
-    category = models.CharField(max_length = 20, default = "Other")
     street = models.CharField(max_length = 50, default = "")
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
@@ -65,6 +65,11 @@ class Member(User):
     birthday = models.CharField(max_length = 14)
     phone = models.CharField(max_length = 10, default = "")
     image = models.CharField(max_length = 100, default = "default.jpg")
+    
+    # Address
+    city = models.CharField(max_length = 50, default = "")
+    state = models.CharField(max_length = 2, default = "")
+    zip_code = models.CharField(max_length = 5, default = "")
     
     def __unicode__(self):
         return "%s" % (self.username)

@@ -33,6 +33,9 @@ def edit_member_view(request):
         # Update the logged in member's information using the POST data
         member.first_name = request.POST["first_name"]
         member.last_name = request.POST["last_name"]
+        member.city = request.POST["city"]
+        member.state = request.POST["state"]
+        member.zip_code = request.POST["zipCode"]
         member.email = request.POST["email"]
         member.phone = request.POST["phone"]
         member.birthday = request.POST["birthday"]
