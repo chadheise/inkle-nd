@@ -77,11 +77,11 @@ $(document).ready(function() {
             var name = $("#nameInput").val();
             var street = $("#streetInput").val();
             var city = $("#cityInput").val();
-            var state = $("#stateInput").val();
+            var state = $("#stateSelect option:selected").val();
             var zipCode = parseInt($("#zipCodeInput").val());
             var phone = parseInt($("#phoneInput").val());
             var website = $("#websiteInput").val();
-            var category = $("#categoryInput").val();
+            var category = $("#categorySelect option:selected").val();
             var image = $("#imageInput").val();
             
             // Update the location in the database and show the location info

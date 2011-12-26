@@ -17,7 +17,11 @@
     <!-- Location state -->
     <label for="stateInput" class="infoLabel">State:</label>
     <br />
-    <input id="stateInput" class="formInput" value="{{ location.state }}" />
+    <select id="stateSelect" class="formSelect">
+        {% for state, abbreviation in states %}
+            <option value="{{ abbreviation }}" {% if abbreviation == location.state %}selected="selected"{% endif %}>{{ state }} ({{ abbreviation }})</option>
+        {% endfor %}
+    </select>
 
     <!-- Location zip code -->
     <label for="zipCodeInput" class="infoLabel">Zip code:</label>
@@ -37,7 +41,11 @@
     <!-- Location category -->
     <label for="categoryInput" class="infoLabel">Category:</label>
     <br />
-    <input id="categoryInput" class="formInput" value="{{ location.category }}" />
+    <select id="categorySelect" class="formSelect">
+        {% for category in categories %}
+            <option value="{{ category }}" {% if category == location.category %}selected="selected"{% endif %}>{{ category }}</option>
+        {% endfor %}
+    </select>
 
     <!-- Location image -->
     <label for="imageInput" class="infoLabel">Image:</label>
