@@ -65,27 +65,20 @@ LOCATION_CATEGORIES = (
     ("Other", "Other"),
 )
 
-INKLING_CATEGORIES = (
-    ("D", "Dinner"),
-    ("P", "Pregame"),
-    ("M", "Main event"),
-)
-
 class Location(models.Model):
     name = models.CharField(max_length = 100)
-    category = models.CharField(max_length = 20, choices = LOCATION_CATEGORIES, default = "Other")
-    street = models.CharField(max_length = 50)
-    city = models.CharField(max_length = 50)
-    state = models.CharField(max_length = 2, choices = STATES, default = "AL")
-    zip_code = models.IntegerField(max_length = 5)
+    image = models.CharField(max_length = 100, default = "default.jpg")
     
+    # Address
+    category = models.CharField(max_length = 20, default = "Other")
+    street = models.CharField(max_length = 50, default = "")
+    city = models.CharField(max_length = 50, default = "")
+    state = models.CharField(max_length = 2, default = "")
+    zip_code = models.CharField(max_length = 5, default = "")
+    
+    # Contact info
     phone = models.CharField(max_length = 10, default = "")
     website = models.CharField(max_length = 100, default = "")
-    image = models.CharField(max_length = 100, default = "default.jpg")
-
-    # age restrictions
-    # hours 
-    # specials 
 
     def __unicode__(self):
         return "%s (%s, %s)" % (self.name, self.city, self.state)
@@ -112,7 +105,7 @@ class Follower(models.Model):
 
 class Inkling(models.Model):
     location = models.ForeignKey(Location)
-    category = models.CharField(max_length = 1, choices = INKLING_CATEGORIES, default = "D")
+    category = models.CharField(max_length = 1)
     date = models.CharField(max_length = 10)
     
     def __unicode__(self):
