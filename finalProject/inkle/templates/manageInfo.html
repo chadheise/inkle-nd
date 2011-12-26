@@ -1,0 +1,34 @@
+<!-- Member email -->
+{% if member.email %}
+    <div class="infoSection">
+        <p class="infoLabel">Email:</p>
+        <a id="manageEmail">{{ member.email }}</a>
+    </div>
+{% endif %}
+
+<!-- Member phone -->
+{% if member.phone  and member.phone|length_is:"10" %}
+    <div class="infoSection">
+        <p class="infoLabel">Phone:</p>
+        <p id="managePhone">({{ member.phone|slice:"0:3" }}) {{ member.phone|slice:"3:6" }}-{{ member.phone|slice:"6:10" }}</p>
+    </div>
+{% endif %}
+
+<!-- Member birthday -->
+{% if member.birthday %}
+    <div class="infoSection">
+        <p class="infoLabel">Birthday:</p>
+        <p id="manageBirthday">{{ member.birthday }}</p>
+    </div>
+{% endif %}
+
+<!-- Member gender -->
+{% if member.gender %}
+    <div class="infoSection">
+        <p class="infoLabel">Gender:</p>
+        <p id="manageGender">{{ member.gender }}</p>
+    </div>
+{% endif %}
+
+<!-- Edit member info button -->
+<button id="manageEditButton">Edit profile</button>

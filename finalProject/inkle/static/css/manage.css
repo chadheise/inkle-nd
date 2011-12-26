@@ -1,42 +1,68 @@
-#profileInfo ul {
-    font-size: 18px;
+#manageImage
+{
+    height: 228px;
+    width: 228px;
+    border: solid 1px #000;
+    margin-bottom: 5px;
 }
 
-#profileInfo .edit {
-    display: none;
+#manageEditButton
+{
+    margin-left: -2px;
+    padding: 2px 5px 2px 5px;
+    background-color: #288D42;
+    color: #FFF;
+    font-weight: bold;
+}
+
+#manageSubmitButton
+{
+    margin-left: -2px;
+    margin-top: 5px;
+    padding: 2px 5px 2px 5px;
+    background-color: #288D42;
+    color: #FFF;
+    font-weight: bold;
+}
+
+#manageCancelButton
+{
+    margin-left: 10px;
+    margin-top: 5px;
+    padding: 2px 5px 2px 5px;
+    background-color: #288D42;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.infoSection
+{
+    margin-bottom: 15px;
+}
+
+.infoLabel
+{
+    font-weight: bold;
+}
+
+.formInput
+{
+    background-color: #EEE;
+    border: 2px solid #DDD;
+    border-style: inset;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.formSelect
+{
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 #requestsContentLinks
 {
     display: none;
-}
-
-#profileImage
-{
-    height: 200px;
-    width: 200px;
-    border: solid 1px #777;
-    margin-top: 5px;
-}
-
-.profileButton {
-    padding: 2px 5px 2px 5px;
-    color: white;
-    font-weight: bold;
-    margin-left: 5px;
-    margin-top: 15px;
-}
-
-#editProfileButton {
-    background-color: #1B5898;
-}
-
-#submitChangesButton {
-    background-color: #288D42;
-}
-
-#discardChangesButton {
-    background-color: #CD1A26;
 }
 
 #requestedRequestsContent

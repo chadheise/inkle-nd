@@ -37,7 +37,7 @@ $(document).ready(function() {
                     $("#manageContent").fadeIn("medium");
                 });
             },
-            error: function(a, b, error) { alert("manage.js (2): " + error); }
+            error: function(a, b, error) { alert("manage.js (1): " + error); }
         });
     }
    
@@ -54,5 +54,91 @@ $(document).ready(function() {
             var contentType = $(this).attr("contentType");
             loadContent(contentType);
         }
+    });
+    
+    // Show the edit profile content when the edit profile button is clicked
+    $("#manageEditButton").live("click", function() {
+        // Replace the logged in member's profile info with the the profile info edit content
+        $("#manageInfo").fadeOut("medium", function() {
+            $.ajax({
+                type: "POST",
+                url: "/inkle/getEditManageHtml/",
+                data: {},
+                success: function(html) {
+                    $("#manageInfo").html(html);
+                    $("#manageInfo").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert("manage.js (2): " + error); }
+            });
+        });
+    });
+    
+    // Update the member's info in the database when the member submit button is clicked
+    $("#manageSubmitButton").live("click", function() {
+        // Replace the member edit info content with the the members info and update the member in the database
+        $("#manageInfo").fadeOut("medium", function() {
+            // Get the member input values
+            var first_name = $("#firstNameInput").val();
+            var last_name = $("#lastNameInput").val();
+            var city = $("#cityInput").val();
+            var state = $("#stateSelect option:selected").val();
+            var zipCode = $("#zipCodeInput").val();
+            var email = $("#emailInput").val();
+            var phone = $("#phoneInput").val();
+            var birthday = $("#birthdayInput").val();
+            var gender = $("#genderSelect option:selected").val();
+            var image = $("#imageInput").val();
+
+            // Update the member in the database and show the member info
+            $.ajax({
+                type: "POST",
+                url: "/inkle/editMember/",
+                data: {"first_name" : first_name, "last_name" : last_name, "city" : city, "state" : state, "zipCode" : zipCode, "email" : email, "phone" : phone, "birthday" : birthday, "gender" : gender, "image" : image},
+                success: function(html) {
+                    // Update the member info content
+                    $("#manageInfo").html(html);
+
+                    // Update the member's name if it has changed
+                    if ((first_name + " " + last_name) != $("#manageName").text())
+                    {
+                        $("#manageName").fadeOut("medium", function () {
+                            $("#manageName").text(first_name + " " + last_name);
+                            $("#manageName").fadeIn("medium");
+                        });
+                    }
+
+                    // Update the location's image if it has changed
+                    if (image != $("#manageImage").attr("image"))
+                    {
+                        $("#manageImage").fadeOut("medium", function() {
+                            $("#manageImage").attr("src", "/static/media/images/locations/" + image);
+                            $("#manageImage").attr("image", image);
+                            $("#manageImage").fadeIn("medium");
+                        });
+                    }
+
+                    // Fade the member info content back in
+                    $("#manageInfo").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert("location.js (3): " + error); }
+            });
+        });
+    });
+    
+    // Show the profile info content when the cancel button is clicked
+    $("#manageCancelButton").live("click", function() {
+        // Replace the member info edit content with the the member info
+        $("#manageInfo").fadeOut("medium", function() {
+            $.ajax({
+                type: "POST",
+                url: "/inkle/editMember/",
+                data: {},
+                success: function(html) {
+                    $("#manageInfo").html(html);
+                    $("#manageInfo").fadeIn("medium");
+                },
+                error: function(a, b, error) { alert("location.js (4): " + error); }
+            });
+        });
     });
 });

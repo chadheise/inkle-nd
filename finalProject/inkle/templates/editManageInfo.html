@@ -1,0 +1,60 @@
+<!-- Member name -->
+<label for="firstNameInput" class="infoLabel">First name:</label>
+</br>
+<input id="firstNameInput" class="formInput" value="{{ member.first_name }}" />
+
+<!-- Member last name -->
+<label for="lastNameInput" class="infoLabel">Last name:</label>
+</br>
+<input id="lastNameInput" class="formInput" value="{{ member.last_name }}" />
+
+<!-- Member city -->
+<label for="cityInput" class="infoLabel">City:</label>
+<br />
+<input id="cityInput" class="formInput" value="{{ member.city }}" />
+
+<!-- Member state -->
+<label for="stateInput" class="infoLabel">State:</label>
+<br />
+<select id="stateSelect" class="formSelect">
+    {% for state, abbreviation in states %}
+        <option value="{{ abbreviation }}" {% if member.state == abbreviation %}selected="selected"{% endif %}>{{ state }} ({{ abbreviation }})</option>
+    {% endfor %}
+</select>
+
+<!-- Member zip code -->
+<label for="zipCodeInput" class="infoLabel">Zip code:</label>
+<br />
+<input id="zipCodeInput" class="formInput" value="{{ member.zip_code }}" />
+
+<!-- Member email -->
+<label for="emailInput" class="infoLabel">Email:</label>
+<br />
+<input id="emailInput" class="formInput" value="{{ member.email }}" />
+
+<!-- Member phone -->
+<label for="phoneInput" class="infoLabel">Phone:</label>
+<br />
+<input id="phoneInput" class="formInput" value="{{ member.phone }}" />
+
+<!-- Member birthday -->
+<label for="birthdayInput" class="infoLabel">Birthday:</label>
+<br />
+<input id="birthdayInput" class="formInput" value="{{ member.birthday }}" />
+
+<!-- Member gender -->
+<label for="genderInput" class="infoLabel">Gender:</label>
+<br />
+<select id="genderSelect" class="formSelect">
+    <option value="Male" {% if member.gender == "Male" %}selected="selected"{% endif %}>Male</option>
+    <option value="Female" {% if member.gender == "Female" %}selected="selected"{% endif %}>Female</option>
+</select>
+
+<!-- Member image -->
+<label for="imageInput" class="infoLabel">Image:</label>
+<br />
+<input id="imageInput" class="formInput" value="{{ member.image }}" />
+
+<!-- Submit and cancel buttons -->
+<button id="manageSubmitButton">Submit</button>
+<button id="manageCancelButton">Cancel</button>

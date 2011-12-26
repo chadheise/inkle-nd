@@ -21,6 +21,15 @@ input
     margin-bottom: 20px;
 }
 
+.pageTitle
+{
+    font-size: 36px;
+    margin: -8px 0px 10px 0px;
+    font-weight: bold;
+    color: #288D42;
+    float: left;
+}
+
 .contentLinks p
 {
     color: #ABC2E5;

@@ -21,7 +21,7 @@ buttonDictionary = {
     "leave" : ("leaveSphere", "Leave sphere", "I no longer wish to be a part of this sphere"),
 }
 
-def edit_profile_view(request):
+def edit_member_view(request):
     """Edits the logged in member's Member object."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -29,19 +29,25 @@ def edit_profile_view(request):
     except:
         return HttpResponseRedirect("/inkle/login/")
 
-    # Update the logged in member's information using the POST data
-    member.first_name = request.POST["first_name"]
-    member.last_name = request.POST["last_name"]
-    #member.set_password(request.POST["password"])
-    member.email = request.POST["email"]
-    member.phone = request.POST["phone"]
-    member.birthday = request.POST["birthday"]
-    member.gender = request.POST["gender"]
+    try:
+        # Update the logged in member's information using the POST data
+        member.first_name = request.POST["first_name"]
+        member.last_name = request.POST["last_name"]
+        member.email = request.POST["email"]
+        member.phone = request.POST["phone"]
+        member.birthday = request.POST["birthday"]
+        member.gender = request.POST["gender"]
+        member.image = request.POST["image"]
+
+        # Save the logged in member's updated information
+        member.save()
     
-    # Save the logged in member's updated information
-    member.save()
+    except:
+        pass
     
-    return HttpResponse()
+    return render_to_response( "manageInfo.html",
+        {"member" : member},
+        context_instance = RequestContext(request) )
 
 
 def edit_location_view(request):
@@ -55,7 +61,6 @@ def edit_location_view(request):
     # Make sure the logged in member can update the location
     if (not member.is_staff):
         raise Http404()
-    
     
     # Get the location (or throw a 404 error if the location ID is invalid)
     try:
@@ -81,11 +86,10 @@ def edit_location_view(request):
                 location.website = "http://www." + location.website
             elif (not location.website.startswith("http://")):
                 location.website = "http://" + location.website
-        print "BOOO"
     
         # Save the location's updated information
         location.save()
-        print "BOOO"
+
     except:
         pass
 
