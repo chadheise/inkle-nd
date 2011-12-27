@@ -14,13 +14,6 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <!-- Content links -->
-        <div id="inklingsContentLinks" class="contentLinks grid_24">
-            <p class="selectedContentLink" contentType="myInklings">My Inklings</p>
-            <p contentType="othersInklings">Others' Inklings</p>
-        </div>
-        <div class="clear"></div>
-
         <!-- Calendar -->
         <div class="grid_3">
             <div class="grid_3">
@@ -47,86 +40,23 @@
         </div>
 
         <!-- My inklings -->
-        <div id="myInklings" class="grid_20 push_1">
-            <!-- Dinner inkling -->
-            <div class="grid_6">
-                <div id="dinnerInkling" class="inkling" inklingType="dinner">
-                    <div>
-                        <p>Dinner</p>
-                        <img src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
-                        <input type="text" location="{{ member.dinnerName }}" />
-                    </div>
-    
-                    <div class="suggestions inklingSuggestions"></div>
-                </div>
+        <div class="grid_20 push_1">
+            <!-- Member name -->
+            <div class="grid_20">
+                <p class="pageTitle">Inklings</p>
             </div>
-
-            <!-- Pregame inkling -->
-            <div class="grid_6 push_1">
-                <div id="pregameInkling" class="inkling" inklingType="pregame">
-                    <div>
-                        <p>Pregame</p>
-                        <img src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
-                        <input type="text" location="{{ member.pregameName }}" />
-                    </div>
-
-                    <div class="suggestions inklingSuggestions"></div>
-                </div>
-            </div>
-
-            <!-- Main event inkling -->
-            <div class="grid_6 push_2">
-                <div id="mainEventInkling" class="inkling" inklingType="mainEvent">
-                    <div>
-                        <p>Main Event</p>
-                        <img src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
-                        <input type="text" location="{{ member.mainEventName }}" />
-                    </div>
-
-                    <div class="suggestions inklingSuggestions"></div>
-                </div>
-            </div>
-        </div>
-   
-        <!-- Others' inklings -->
-        <div id="othersInklings" class="grid_20 push_1">
-            <!-- People filter -->
-            <div class="grid_2 push_1">
-                <p class="subheader">People:</p>
-            </div>
-            
-            <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_1">
-                <optgroup label="Circles">
-                    <option people="circles">All circles</option>
-                    {% for circle in member.circles2 %}
-                        <option circleID="{{ circle.id }}">{{ circle.name }}</option>
-                    {% endfor %}
-                </optgroup>
-                {% if member.spheres2 %}
-                <optgroup label="Spheres">
-                    {% for sphere in member.spheres2 %}
-                        <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
-                    {% endfor %}
-                </optgroup>
-                {% endif %}
-            </select>
-            
-            <!-- Inkling filter -->
-            <div class="grid_2 push_2">
-                <p class="subheader" style="margin-left: -5px;">Inkling:</p>
-            </div>
-            
-            <select id="locationBoardInklingSelect" class="locationBoardSelect grid_6 push_2">
-                <option inklingType="dinner">Dinner</option>
-                <option inklingType="pregame">Pregame</option>
-                <option inklingType="mainEvent">Main event</option>
-            </select>
-            
             <div class="clear"></div>
 
-            <!-- Location board -->
-            <div id="locationBoard" class="grid_20 alpha omega">
-                {% include "locationBoard.html" %}
+            <!-- Content links -->
+            <div id="inklingsContentLinks" class="contentLinks grid_20">
+                <p class="selectedContentLink" contentType="othersInklings">Others'</p>
+                <p contentType="myInklings">Mine</p>
+            </div>
+            <div class="clear"></div>
+            
+            <!-- Others' inklings -->
+            <div id="homeContent" class="grid_20">
+                {% include "othersInklings.html" %}
             </div>
         </div>
     </div>

@@ -1,0 +1,38 @@
+<!-- Dinner inkling -->
+<div class="grid_6">
+    <div id="dinnerInkling" class="inkling" inklingType="dinner">
+        <div>
+            <p>Dinner</p>
+            <img src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
+            <input type="text" location="{{ member.dinnerName }}" />
+        </div>
+    
+        <div class="suggestions inklingSuggestions"></div>
+    </div>
+</div>
+
+<!-- Pregame inkling -->
+<div class="grid_6 push_1">
+    <div id="pregameInkling" class="inkling" inklingType="pregame">
+        <div>
+            <p>Pregame</p>
+            <img src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
+            <input type="text" location="{{ member.pregameName }}" />
+        </div>
+
+        <div class="suggestions inklingSuggestions"></div>
+    </div>
+</div>
+
+<!-- Main event inkling -->
+<div class="grid_6 push_2">
+    <div id="mainEventInkling" class="inkling" inklingType="mainEvent">
+        <div>
+            <p>Main Event</p>
+            <img src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
+            <input type="text" location="{{ member.mainEventName }}" />
+        </div>
+
+        <div class="suggestions inklingSuggestions"></div>
+    </div>
+</div>

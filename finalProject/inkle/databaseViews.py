@@ -487,7 +487,7 @@ def remove_inkling(member, inkling):
     return
 
 
-def get_inklings_view(request):
+def get_my_inklings_view(request):
     """Returns the logged in member's inklings for the inputted date."""
     # Get the logged in member (or redirect them to the login page)
     try:
@@ -499,10 +499,11 @@ def get_inklings_view(request):
     date = request.POST["date"]
     
     # Get the names and images for the logged in member's inkling locations
-    dinnerName, dinnerImage, pregameName, pregameImage, mainEventName, mainEventImage = get_inklings(member, date)
+    member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
 
-    # Return the names and images for the logged in member's inkling locations
-    return HttpResponse(dinnerName + "&&&" +  dinnerImage + "&&&" + pregameName + "&&&" + pregameImage + "&&&" + mainEventName + "&&&" + mainEventImage)
+    return render_to_response( "myInklings.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
 
 
 def get_inklings(member, date):

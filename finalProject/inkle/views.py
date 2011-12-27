@@ -31,12 +31,9 @@ def home_view(request):
     member.spheres2 = member.spheres.all()
     member.circles2 = member.circles.all()
     
-    # Get the logged in member's inklings for today
+    # Get others' dinner inklings for today
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
-    member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
-
-    # Get others' dinner inklings for today
     locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
     return render_to_response( "home.html",
@@ -451,13 +448,22 @@ def get_others_inklings_view(request):
     people_type = request.POST["peopleType"]
     people_id = request.POST["peopleID"]
     inkling_type = request.POST["inklingType"]
+    include_member = request.POST["includeMember"]
 
     # Get others' inklings
     locations = get_others_inklings(member, date, people_type, people_id, inkling_type)
 
-    return render_to_response( "locationBoard.html",
-        {"locations" : locations},
-        context_instance = RequestContext(request) )
+    member.spheres2 = member.spheres.all()
+    member.circles2 = member.circles.all()
+
+    if (include_member == "true"):
+        return render_to_response( "othersInklings.html",
+            { "member" : member, "locations" : locations },
+            context_instance = RequestContext(request) )
+    else:
+        return render_to_response( "locationBoard.html",
+            { "locations" : locations },
+            context_instance = RequestContext(request) )
 
 def get_others_inklings(member, date, people_type, people_id, inkling_type):
     if (people_type == "other"):
