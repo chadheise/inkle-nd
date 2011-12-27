@@ -1,126 +1,113 @@
 $(document).ready(function() {
-    $("#addToCircleInput").live("focus", function() {
-        if ($(this).val() == "Add people to this circle")
+    /* Update the selected circle and the circle content when a circle is clicked */
+    $(".circle").live("click", function(event) {
+        // Only do this if the circle which was clicked is not the new circle
+        if ($(this).attr("id") != "newCircle")
         {
-            $(this).val("");
-            $(this).css("color", "#000");
+            // Set the clicked circle and the selected circle
+            $(".selectedCircle").removeClass("selectedCircle");
+            $(this).addClass("selectedCircle");
+
+            // Get the clicked circles ID
+            var circleID = parseInt($(this).attr("circleID"));
+                
+            // Load the circle's content
+            $.ajax({
+                type: "POST",
+                url: "/inkle/circleContent/",
+                data: { "circleID" : circleID },
+                success: function(html) {
+                    $("#circleContent").fadeOut("medium", function() {
+                        $("#circleContent").html(html);
+                        $("#addToCircleInput").val("Add people to this circle").addClass("emptyAddToCircleInput");
+                        $("#circleContent").fadeIn("medium");
+                    });
+                },
+                error: function(a, b, error) { alert("circles.js (1): " + error); }
+            });
+        }
+    });
+
+    /* Change the text for the add to circle input when it gains focus */
+    $("#addToCircleInput").live("focus", function() {
+        if ($(this).hasClass("emptyAddToCircleInput"))
+        {
+            $(this).val("").removeClass("emptyAddToCircleInput");
         }
     });
     
+    /* Change the text for the add to circle input when it loses focus */
     $("#addToCircleInput").live("blur", function() {
         if ($(this).val() == "")
         {
-            $(this).val("Add people to this circle");
-            $(this).css("color", "#888");
+            $(this).val("Add people to this circle").addClass("emptyAddToCircleInput");
         }
     });
     
-    // Change circle color and members when clicked
-    $(".circle").live("click", function(event) {
-        if ($(this).attr("id") != "newCircle")
-        {
-            $(".selectedCircle").removeClass("selectedCircle");
-            $(this).addClass("selectedCircle");
-        
-            if ($(this).attr("id") != "newCircle")
-            {
-                var circleID = parseInt($(this).attr("circleID"));
-                var circleName = $(this).val()
-                
-                $.ajax({
-                    type: "POST",
-                    url: "/inkle/circleContent/",
-                    data: { "circleID" : circleID },
-                    success: function(html) {
-                        $("#circleContent").fadeOut("medium", function() {
-                            $("#circleContent").html(html);
-                            $("#addToCircleInput").val("Add people to this circle");
-                            $("#circleContent").fadeIn("medium");
-                        });
-                        
-                    },
-                    error: function(a, b, error) { alert("circles.js (1): " + error); }
-                });
-            }
-        }
-    });
-
-    $(".circle").live("mouseenter", function() {
-        $(this).css("border", "solid 5px #ABC2E5");
-    });
-    $(".circle").live("mouseleave", function() {
-        $(this).css("border", "solid 5px #CCC");
-    });
-    $("#createCircleButton").live("mouseenter", function() {
-        $(this).css("border", "solid 5px #ABC2E5");
-    });
-    $("#createCircleButton").live("mouseleave", function() {
-        $(this).css("border", "solid 5px #CCC");
-    });
-
+    /* Displays the new circle when the create circle button is clicked */
     $("#createCircleButton").live("click", function() {
-        $(this).before("<button id='newCircle' class='circle'><input id='newCircleInput' type='text' /></button>");
-        $("#newCircleInput").focus();
-        $(this).hide();
+        $(this).fadeOut("medium", function() {
+            $("#newCircle").fadeIn("medium");
+            $("#newCircleInput").focus();
+        });
     });
 
-    function createCircle(newCircleName) {
-        
-        if (newCircleName == "")
+    /* Creates a new circle */
+    function createCircle(name)
+    {
+        // If the circle name is empty, don't create a new circle and fade in the create circle button
+        if (name == "")
         {
-            $("#newCircle").remove();
-            $(".circle:last").trigger("click");
+            $("#newCircle").fadeOut("medium", function() {
+                $("#createCircleButton").fadeIn("medium");
+            });
         }
+
+        // Otherwise, create a new circle with the inputted name
         else
         {
             $.ajax({
                 type: "POST",
                 url: "/inkle/createCircle/",
-                data: { "circleName" : newCircleName },
+                data: { "circleName" : name },
                 success: function(circleID) {
-                    $("#newCircle").attr("circleID", circleID);
-                    $("#newCircle").removeAttr("id");
-                    $(".circle").each(function() {
-                        if ($(this).hasClass("selectedCircle")) {
-                            $(this).trigger("click");
-                        }
-                    })
+                    $("#newCircle").fadeOut("medium", function() {
+                        $("#newCircleInput").val("")
+                        $("#newCircle").before("<button class='circle' circleID='" + circleID + "'>" + name + "</button>");
+                        $("#createCircleButton").fadeIn("medium");
+                    });
                 },
                 error: function(a, b, error) { alert("circles.js (2): " + error); }
             });
-            $("#newCircle").html(newCircleName);
         }
-        $("#createCircleButton").show();
     }
 
+    /* Create a new circle when the new circle input loses focus */
     $("#newCircleInput").live("blur", function() {
-        var newCircleName = $("#newCircleInput").val();
-        createCircle(newCircleName);
+        createCircle($("#newCircleInput").val());
     });
 
-    $("#newCircleInput").keydown(function(e) {
+    /* Create a new circle when the enter button is pressed in the circle input */
+    $("#newCircleInput").live("keydown", function(e) {
         if ((e.keyCode == 10) || (e.keyCode == 13))
         {
-            var newCircleName = $("#newCircleInput").val();
-            createCircle(newCircleName);
+            createCircle($("#newCircleInput").val());
         }
     });
 
+    /* Deletes the currently selected circle */
     $("#deleteCircleButton").live("click", function() {
+        // Get the ID of the currently selected circle
+        var circleID = parseInt($(".selectedCircle").attr("circleID"))
 
+        // Delete the currently selected circle and set the accepted circle as the newly selected circle
         $.ajax({
             type: "POST",
             url: "/inkle/deleteCircle/",
-            data: { "circleID" : parseInt($(this).attr("circleID")) },
+            data: { "circleID" : circleID },
             success: function() {
-                $.ajax({
-                    type: "POST",
-                    url: "/inkle/circles/",
-                    data: {},
-                    success: function(html) {
-                        $("#primaryContent").html(html);
-                    },
-                    error: function(a, b, error) { alert("circles.js (3): " + error); }
+                $(".selectedCircle").fadeOut("medium", function() {
+                    $(".circle:first").trigger("click");
                 });
             },
             error: function(a, b, error) { alert("circles.js (4): " + error); }

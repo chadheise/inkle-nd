@@ -1,12 +1,12 @@
 $(document).ready(function() {
-    /* Initially, make the search input say "Search" and gray it out */
+    /* Initially, make the search input says "Search" and gray it out */
     $("#searchInput").val("Search").addClass("emptySearchInput");
     
     /* If the search input gains focus and it says "Search" grayed out, make the text black and empty it */
     $("#searchInput").focus(function() {
-        if ($(this).attr("empty"))
+        if ($(this).hasClass("emptySearchInput"))
         {
-            $(this).val("").removeClass("emptySearchInput").removeAttr("empty");
+            $(this).val("").removeClass("emptySearchInput");
         }
     });
    
@@ -14,7 +14,7 @@ $(document).ready(function() {
     $("#searchInput").blur(function() {
         if ($(this).val() == "")
         {
-            $(this).val("Search").addClass("emptySearchInput").attr("empty", "empty");
+            $(this).val("Search").addClass("emptySearchInput");
         }
         
         $("#searchSuggestions").fadeOut("medium");
