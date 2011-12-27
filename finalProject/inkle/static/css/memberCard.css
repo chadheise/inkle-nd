@@ -67,119 +67,40 @@ ul {
     margin-bottom: 5px;
 }
 
-
 .cardButton
 {
-    padding: 2px 5px 2px 5px;
-    color: white;
+    color: #FFF;
     font-weight: bold;
-    float: right;
-    margin-left: 5px;
+    margin-left: 10px;
     border-style: solid;
-    border-radius: 3px;
-    height: 23px;
-}
-
-.cardButton:hover
-{
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.requestToFollow
+.requestToFollow, .revokeRequest, .acceptRequest, .circlesCardButton
 {
     background-color: #E48116;
     border-color: #946732;
-    width: 110px;
 }
 
-.requestToFollow:hover
+.requestToFollow:hover, .revokeRequest:hover, .acceptRequest:hover, .circlesCardButton:hover
 {
     border-color: #793818;
 }
 
-.stopFollowing
+.stopFollowing, .rejectRequest, .preventFollowing
 {
     background-color: #CD1A26;
     border-color: #914044;
-    width: 94px;
 }
 
-.stopFollowing:hover
+.stopFollowing:hover, .rejectRequest:hover, .preventFollowing:hover
 {
     border-color: #7E181A;
 }
 
-.revokeRequest
+.circlesMenu
 {
-    background-color: #E48116;
-    border-color: #946732;
-    width: 97px;
-}
-
-.revokeRequest:hover
-{
-    border-color: #793818;
-}
-.acceptRequest
-{
-    background-color: #E48116;
-    border-color: #946732;
-    width: 95px;
-}
-
-.acceptRequest:hover
-{
-    border-color: #793818;
-}
-
-.rejectRequest
-{
-    background-color: #CD1A26;
-    border-color: #914044;
-    width: 92px;
-}
-
-.rejectRequest:hover
-{
-    border-color: #7E181A;
-}
-
-.preventFollowing
-{
-    background-color: #CD1A26;
-    border-color: #914044;
-    width: 105px;
-}
-
-.preventFollowing:hover
-{
-    border-color: #7E181A;
-}
-
-.remove
-{
-    background-color: #CD1A26;
-}
-
-.add
-{
-    background-color: #1B5898;
-
-}
-
-.circlesCardButton
-{
-    background-color: #E48116;
-    border-color: #946732;
-    width: 50px;
-}
-
-.circlesCardButton:hover
-{
-    border-color: #793818;
-}
-
-.circlesMenu {
     display: none;
     z-index: 1;
     border: 3px solid #946732;
@@ -192,17 +113,8 @@ ul {
     margin-right: 20px;
 }
 
-.circlesMenu ul {
+.circlesMenu ul
+{
     padding: 5px;   
     font-size: 12px;
 }
-
-
-.border
-{
-    border: 1px solid black;
-    margin-left: 9px;
-    margin-right: 9px;
-}
-
-
