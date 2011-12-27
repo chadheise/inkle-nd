@@ -7,7 +7,11 @@
 {% endif %}
 
 <div id="circleMembers">
-    {% for m in members %}
-        {% include "memberCard.html" %}
-    {% endfor %}
+    {% if members %}
+        {% for m in members %}
+            {% include "memberCard.html" %}
+        {% endfor %}
+    {% else %}
+        <p>There is no one in this circle.</p>
+    {% endif %}
 </div>
