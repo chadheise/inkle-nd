@@ -46,36 +46,23 @@ $(document).ready(function() {
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
     $("#locationBoardInklingSelect option:first").attr("selected", "selected");
 
-    // Set the value of the my inkling inputs
-    $("#dinnerInkling input").val($("#dinnerInkling input").attr("location"));
-    $("#pregameInkling input").val($("#pregameInkling input").attr("location"));
-    $("#mainEventInkling input").val($("#mainEventInkling input").attr("location"));
-
     /* Updates my inklings with the logged in user's inklings for the inputted date */
-    function updateMyInklings(date, callback)
+    function updateMyInklings(date)
     {
         $.ajax({
             type: "POST",
-            url: "/inkle/getInklings/",
+            url: "/inkle/getMyInklings/",
             data: {"date" : date},
-            success: function(locations) {
-                $("#myInklings").fadeOut("medium", function() {
-                    // Split up the locations
-                    locations = locations.split("&&&");
+            success: function(html) {
+                $("#homeContent").fadeOut("medium", function() {
+                    $("#homeContent").html(html); 
+    
+                    // Set the value of the my inkling inputs
+                    $("#dinnerInkling input").val($("#dinnerInkling input").attr("location"));
+                    $("#pregameInkling input").val($("#pregameInkling input").attr("location"));
+                    $("#mainEventInkling input").val($("#mainEventInkling input").attr("location"));
 
-                    // Update the input values and images for the logged in user's inklings
-                    $("#dinnerInkling input").val(locations[0]);
-                    $("#dinnerInkling img").attr("src", "/static/media/images/locations/" + locations[1]);
-                    $("#pregameInkling input").val(locations[2]);
-                    $("#pregameInkling img").attr("src", "/static/media/images/locations/" + locations[3]);
-                    $("#mainEventInkling input").val(locations[4]);
-                    $("#mainEventInkling img").attr("src", "/static/media/images/locations/" + locations[5]);
-              
-                    // Execute the callback function if it is defined
-                    if (callback)
-                    {
-                        callback();
-                    }
+                    $("#homeContent").fadeIn("medium"); 
                 });
             },
             error: function(a, b, error) { alert("home.js (1): " + error); }
@@ -83,45 +70,61 @@ $(document).ready(function() {
     }
     
     /* Updates others' inklings with the others' inklings for the inputted date */
-    function updateOthersInklings(date, callback)
+    function updateOthersInklings(date)
     {
-        // Get the selected people type and ID
-        var selectedPeopleOption = $("#locationBoardPeopleSelect option:selected");
-        if (selectedPeopleOption.attr("people"))
+        if ($("#locationBoard").is(":visible"))
+        {
+            // Get the selected people type and ID
+            var selectedPeopleOption = $("#locationBoardPeopleSelect option:selected");
+            if (selectedPeopleOption.attr("people"))
+            {
+                var peopleType = "other";
+                var peopleID = "circles";
+            }
+            else if (selectedPeopleOption.attr("sphereID"))
+            {
+                var peopleType = "sphere";
+                var peopleID = selectedPeopleOption.attr("sphereID");
+            }
+            else if (selectedPeopleOption.attr("circleID"))
+            {
+                var peopleType = "circle";
+                var peopleID = selectedPeopleOption.attr("circleID");
+            }
+
+            // Get the selected inkling type
+            var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
+
+            var includeMember = "false";
+        }
+        else
         {
             var peopleType = "other";
             var peopleID = "circles";
-        }
-        else if (selectedPeopleOption.attr("sphereID"))
-        {
-            var peopleType = "sphere";
-            var peopleID = selectedPeopleOption.attr("sphereID");
-        }
-        else if (selectedPeopleOption.attr("circleID"))
-        {
-            var peopleType = "circle";
-            var peopleID = selectedPeopleOption.attr("circleID");
+            var inklingType = "dinner";
+            var includeMember = "true";
         }
 
-        // Get the selected inkling type
-        var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
-        
         // Update others' inklings
         $.ajax({
             type: "POST",
             url: "/inkle/getOthersInklings/",
-            data: {"peopleType" : peopleType, "peopleID" : peopleID, "inklingType" : inklingType, "date" : date},
+            data: { "peopleType" : peopleType, "peopleID" : peopleID, "inklingType" : inklingType, "includeMember" : includeMember, "date" : date },
             success: function(html) {
-                $("#locationBoard").fadeOut("medium", function() {
-                    // Update the location board
-                    $("#locationBoard").html(html);
-                    
-                    // Execute the callback function if it is defined
-                    if (callback)
-                    {
-                        callback();
-                    }
-                });
+                if (includeMember == "true")
+                {
+                    $("#homeContent").fadeOut("medium", function() {
+                        $("#homeContent").html(html);
+                        $("#homeContent").fadeIn("medium");
+                    });
+                }
+                else
+                {
+                    $("#locationBoard").fadeOut("medium", function() {
+                        $("#locationBoard").html(html);
+                        $("#locationBoard").fadeIn("medium");
+                    });
+                }
             },
             error: function(a, b, error) { alert("home.js (5): " + error); }
         });
@@ -140,19 +143,16 @@ $(document).ready(function() {
             var date = $(this).attr("month") + "/" + $(this).attr("date") + "/" + $(this).attr("year");
        
             // Update my inklings if it is visible
-            if ($("#myInklings").is(":visible"))
+            var contentType = ($(".selectedContentLink").attr("contentType"))
+            if (contentType == "myInklings")
             {
-                updateMyInklings(date, function () {
-                    $("#myInklings").fadeIn("medium");
-                });
+                updateMyInklings(date);
             }
 
             // Othwerise, if others' inklings is visible, update others inklings
-            else if ($("#othersInklings").is(":visible"))
+            else if (contentType == "othersInklings")
             {
-                updateOthersInklings(date, function() {
-                    $("#locationBoard").fadeIn("medium");
-                });
+                updateOthersInklings(date);
             }
         }
     });
@@ -173,38 +173,28 @@ $(document).ready(function() {
             var contentType = $(this).attr("contentType");
             if (contentType == "myInklings")
             {
-                $("#othersInklings").fadeOut("medium", function() {
-                    updateMyInklings(date, function() {
-                        $("#myInklings").fadeIn("medium");
-                    });
-                });
+                updateMyInklings(date);
             }
 
             // Othwerise, if others' inklings is visible, update and show my inklings
             else if (contentType == "othersInklings")
             {
-                $("#myInklings").fadeOut("medium", function() {
-                    updateOthersInklings(date, function() {
-                        $("#othersInklings").fadeIn("medium");
-                    });
-                });
+                updateOthersInklings(date);
             }
         }
     });
 
     /* Updates others' inklings when a location board select is changed */
-    $(".locationBoardSelect").change(function () {
+    $(".locationBoardSelect").live("change", function () {
         // Get the selected date
         var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
         
         // Update others' inklings for the selected date
-        updateOthersInklings(date, function() {
-            $("#locationBoard").fadeIn("medium");
-        });
+        updateOthersInklings(date);
     });
    
     /* Updates the inkling suggestions when a key is pressed in an inkling input */
-    $(".inkling input").keyup(function(e) {
+    $(".inkling input").live("keyup", function(e) {
         // Store the suggestions element
         var suggestionsElement = $(this).parent().next();
         
@@ -239,7 +229,7 @@ $(document).ready(function() {
     });
    
     /* Remove the inkling when it's input is empty and it loses focus */
-    $(".inkling input").blur(function() {
+    $(".inkling input").live("blur", function() {
         // If the value of the of the inkling input is not empty, remove the inkling
         var query = $(this).val();
         if (query == "")
@@ -272,7 +262,7 @@ $(document).ready(function() {
     });
 
     /* Updates the inkling when an inkling suggestion is clicked */
-    $("#myInklings .suggestion").live("click", function() {
+    $("#homeContent .suggestion").live("click", function() {
         // Get the ID of the selected location
         var locationID = $(this).attr("suggestionID");
 

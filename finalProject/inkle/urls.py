@@ -40,7 +40,7 @@ urlpatterns = patterns(
     (r"^suggestions/$", "suggestions_view"),
     (r"^createInkling/$", "create_inkling_view"),
     (r"^removeInkling/$", "remove_inkling_view"),
-    (r"^getInklings/$", "get_inklings_view"),
+    (r"^getMyInklings/$", "get_my_inklings_view"),
     (r"^createSphere/$", "create_sphere_view"),
     (r"^createLocation/$", "create_location_view"),
     (r"^getOthersInklings/$", "get_others_inklings_view"),
