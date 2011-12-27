@@ -264,7 +264,7 @@ def add_to_circle_view(request):
     # Get the to_member's info for their member card
     to_member.sphereNames = [sphere.name for sphere in to_member.spheres.all()]
     to_member.mutual_followings = from_member.following.all() & to_member.following.all()
-    to_member.button_list = [buttonDicationary["circles"], buttonDictionary["stop"]]
+    to_member.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
     to_member.show_contact_info = True
     to_member.circles2 = [circle for circle in from_member.circles.all()]
     for circle in to_member.circles2:
