@@ -14,6 +14,7 @@ button::-moz-focus-inner
     font-weight: bold;
     margin: 0px 14px 15px 0px;
     border: solid 5px #DDD;
+    cursor: pointer;
 }
 
 .circle:hover
@@ -37,7 +38,7 @@ button::-moz-focus-inner
     font-weight: bold;
     margin-bottom: 15px;
     border: solid 5px #DDD;
-    margin-left: 35px;
+    cursor: pointer;
 }
 
 #createCircleButton:hover
@@ -66,13 +67,11 @@ button::-moz-focus-inner
     background-color: #CD1A26;
     border-color: #914044;
     border-style: solid;
-    border-radius: 3px;
-    height: 23px;
-    padding: 2px 5px 2px 5px;
-    color: white;
+    border-radius: 5px;
+    color: #FFF;
     font-weight: bold;
-    margin-left: 10px;
     float: right;
+    padding: 2px 5px 2px 5px;
 }
 
 #deleteCircleButton:hover
