@@ -33,6 +33,7 @@ urlpatterns = patterns(
     (r"^circles/$", "circles_view"),
     (r"^circleContent/$", "circle_content_view"),
     (r"^createCircle/$", "create_circle_view"),
+    (r"^renameCircle/$", "rename_circle_view"),
     (r"^deleteCircle/$", "delete_circle_view"),
     (r"^joinSphere/$", "join_sphere_view"),
     (r"^leaveSphere/$", "leave_sphere_view"),

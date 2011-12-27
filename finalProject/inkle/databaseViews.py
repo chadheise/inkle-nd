@@ -336,6 +336,30 @@ def create_circle_view(request):
     return HttpResponse(circle.id)
 
 
+def rename_circle_view(request):
+    """Updates the name of one of the logged in member's circles."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+
+    # Update the requested circle's name
+    try:
+        # Get the circle whose name is going to be updated
+        circle = member.circles.get(pk = request.POST["circleID"])
+
+        # Update the circle's name
+        circle.name = request.POST["circleName"]
+        circle.save()
+    
+    # Otherwise, the logged in member is trying to change someone else's circle (so raise a 404 error)
+    except:
+        raise Http404()
+
+    return HttpResponse()
+
+
 def delete_circle_view(request):
     """Deletes one of the logged in member's circles."""
     # Get the logged in member (or redirect them to the login page)

@@ -1,8 +1,8 @@
 $(document).ready(function() {
     /* Update the selected circle and the circle content when a circle is clicked */
     $(".circle").live("click", function(event) {
-        // Only do this if the circle which was clicked is not the new circle
-        if ($(this).attr("id") != "newCircle")
+        // Only do this if the circle which was clicked is not the new circle or the currently selected circle
+        if (($(this).attr("id") != "newCircle") && (!$(this).hasClass("selectedCircle")))
         {
             // Set the clicked circle and the selected circle
             $(".selectedCircle").removeClass("selectedCircle");
@@ -25,6 +25,55 @@ $(document).ready(function() {
                 },
                 error: function(a, b, error) { alert("circles.js (1): " + error); }
             });
+        }
+    });
+    
+    /* Update a circle's name when it is double clicked */
+    $(".circle").live("dblclick", function() {
+        // Only do this if the circle which was clicked is not the new circle
+        if (($(this).attr("id") != "newCircle") && ($(this).attr("circleID") != -1))
+        {
+            // Set the clicked circle and the selected circle
+            var currentCircleName = $(this).text();
+            $(this).html("<input id='renameCircleInput' type='text' value='" + currentCircleName + "' maxlength='50' />");
+            $("#renameCircleInput").focus();
+        }
+    });
+
+    /* Renames the circle with the inputted ID to the inputted name */
+    function renameCircle(circleID, circleName)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/inkle/renameCircle/",
+            data: { "circleID" : circleID, "circleName" : circleName },
+            success: function(html) {
+                $("#renameCircleInput").parent(".circle").html(circleName);
+            },
+            error: function(a, b, error) { alert("circles.js (1): " + error); }
+        });
+    }
+
+    /* Renames the circle with the rename circle input when the rename circle input loses focus */
+    $("#renameCircleInput").live("blur", function() {
+        // Get the ID of the circle whose name is being changed
+        var circleID = parseInt($("#renameCircleInput").parent(".circle").attr("circleID"));
+        var newCircleName = $("#renameCircleInput").val();
+                
+        // Change the circle's name and hide the rename circle input
+        renameCircle(circleID, newCircleName);
+    });
+    
+    /* Renames the circle with the rename circle input when the rename circle input loses focus */
+    $("#renameCircleInput").live("keypress", function(e) {
+        if ((e.keyCode == 10) || (e.keyCode == 13))
+        {
+            // Get the ID of the circle whose name is being changed
+            var circleID = parseInt($("#renameCircleInput").parent(".circle").attr("circleID"));
+            var newCircleName = $("#renameCircleInput").val();
+                
+            // Change the circle's name and hide the rename circle input
+            renameCircle(circleID, newCircleName);
         }
     });
 
@@ -88,7 +137,7 @@ $(document).ready(function() {
     });
 
     /* Create a new circle when the enter button is pressed in the circle input */
-    $("#newCircleInput").live("keydown", function(e) {
+    $("#newCircleInput").live("keypress", function(e) {
         if ((e.keyCode == 10) || (e.keyCode == 13))
         {
             createCircle($("#newCircleInput").val());
