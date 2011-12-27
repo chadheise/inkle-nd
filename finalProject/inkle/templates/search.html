@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-	<title>Inkle | Search</title>
+	<title>Inkle | Search | {{ query }}</title>
 {% endblock title %}
 
 {% block css %}
@@ -45,6 +45,12 @@
         </div>
 
         <div class="grid_17 alpha omega">
+            <!-- Page title -->
+            <div class="grid_17">
+                <p class="pageTitle">Search</p>
+            </div>
+            <div class="clear"></div>
+
             <!-- Main search content links -->
             <div id="searchContentLinks" class="contentLinks grid_17">
                 <p class="selectedContentLink" contentType="all">All</p>
