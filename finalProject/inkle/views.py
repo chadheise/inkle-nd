@@ -30,14 +30,18 @@ def home_view(request):
 
     member.spheres2 = member.spheres.all()
     member.circles2 = member.circles.all()
-    
+
+    # Get date objects for today, tomorrow, and the day after tomorrow 
+    today = datetime.date.today()
+    tomorrow = today + datetime.timedelta(days = 1)
+    day_after_tomorrow = today + datetime.timedelta(days = 2)
+
     # Get others' dinner inklings for today
-    now = datetime.datetime.now()
-    date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
+    date = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
     locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
     return render_to_response( "home.html",
-        { "member" : member, "locations" : locations },
+        { "member" : member, "locations" : locations, "today" : today, "tomorrow" : tomorrow, "dayAfterTomorrow" : day_after_tomorrow },
         context_instance = RequestContext(request) )
 
 def manage_view(request, default_content_type = "circles"):

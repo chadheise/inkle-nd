@@ -17,24 +17,24 @@
         <!-- Calendar -->
         <div class="grid_3">
             <div class="grid_3">
-                <div id="today" class="dateContainer selectedDateContainer">
-                    <p class="weekday"></p>
-                    <p class="date"></p>
-                    <p class="month"></p>
+                <div id="today" class="dateContainer selectedDateContainer" date="{{ today|date:"j" }}" month="{{ today|date:"n" }}" year="{{ today|date:"Y" }}">
+                    <p class="weekday">{{ today|date:"l" }}</p>
+                    <p class="date">{{ today|date:"j" }}</p>
+                    <p class="month">{{ today|date:"F" }}</p>
                 </div>
             </div>
             <div class="grid_3">
-                <div id="tomorrow" class="dateContainer">
-                    <p class="weekday"></p>
-                    <p class="date"></p>
-                    <p class="month"></p>
+                <div id="tomorrow" class="dateContainer" date="{{ tomorrow|date:"j" }}" month="{{ tomorrow|date:"n" }}" year="{{ tomorrow|date:"Y" }}">
+                    <p class="weekday">{{ tomorrow|date:"l" }}</p>
+                    <p class="date">{{ tomorrow|date:"j" }}</p>
+                    <p class="month">{{ tomorrow|date:"F" }}</p>
                 </div>
             </div>
             <div class="grid_3">
-                <div id="dayAfterTomorrow" class="dateContainer">
-                    <p class="weekday"></p>
-                    <p class="date"></p>
-                    <p class="month"></p>
+                <div id="dayAfterTomorrow" class="dateContainer" date="{{ dayAfterTomorrow|date:"j" }}" month="{{ dayAfterTomorrow|date:"n" }}" year="{{ dayAfterTomorrow|date:"Y" }}">
+                    <p class="weekday">{{ dayAfterTomorrow|date:"l" }}</p>
+                    <p class="date">{{ dayAfterTomorrow|date:"j" }}</p>
+                    <p class="month">{{ dayAfterTomorrow|date:"F" }}</p>
                 </div>
             </div>
         </div>
