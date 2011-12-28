@@ -1,11 +1,9 @@
 <div class="grid_17">
-    {% if spheres %}
-        <div id ="memberSpheres">
-            {% for s in spheres %}
-                {% include "sphereCard.html" %}
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>You are not in any spheres.</p>
-    {% endif %}
+    <div id ="memberSpheres">
+        {% for s in spheres %}
+            {% include "sphereCard.html" %}
+        {% empty %}
+            <p>You are not in any spheres.</p>
+        {% endfor %}
+    </div>
 </div>

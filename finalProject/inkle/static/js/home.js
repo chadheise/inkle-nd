@@ -1,47 +1,4 @@
 $(document).ready(function() {
-    /* Converts an integer weekday to a lexicographical weekday */
-    function convertWeekday(weekday)
-    {
-        var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        return weekdays[weekday];
-    }
-
-    /* Converts an integer month to a lexicographical month */
-    function convertMonth(month)
-    {
-        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        return months[month];
-    }
-
-    // Create Date objects for today, tomorrow, and the day after tomorrow
-    var today = new Date();
-    var tomorrow = new Date();
-    tomorrow.setTime(tomorrow.getTime() + (1000 * 3600 * 24));
-    var dayAfterTomorrow = new Date();
-    dayAfterTomorrow.setTime(tomorrow.getTime() + (1000 * 3600 * 24));
-
-    // Set the day, month, and year for today, tomorrow, and the day after tomorrow
-    $("#today .weekday").text(convertWeekday(today.getDay()));
-    $("#today .date").text(today.getDate());
-    $("#today .month").text(convertMonth(today.getMonth()));
-    $("#today").attr("date", today.getDate());
-    $("#today").attr("month", today.getMonth() + 1);
-    $("#today").attr("year", today.getFullYear());
-    
-    $("#tomorrow .weekday").text(convertWeekday(tomorrow.getDay()));
-    $("#tomorrow .date").text(tomorrow.getDate());
-    $("#tomorrow .month").text(convertMonth(tomorrow.getMonth()));
-    $("#tomorrow").attr("date", tomorrow.getDate());
-    $("#tomorrow").attr("month", tomorrow.getMonth() + 1);
-    $("#tomorrow").attr("year", tomorrow.getFullYear());
-    
-    $("#dayAfterTomorrow .weekday").text(convertWeekday(dayAfterTomorrow.getDay()));
-    $("#dayAfterTomorrow .date").text(dayAfterTomorrow.getDate());
-    $("#dayAfterTomorrow .month").text(convertMonth(dayAfterTomorrow.getMonth()));
-    $("#dayAfterTomorrow").attr("date", dayAfterTomorrow.getDate());
-    $("#dayAfterTomorrow").attr("month", dayAfterTomorrow.getMonth() + 1);
-    $("#dayAfterTomorrow").attr("year", dayAfterTomorrow.getFullYear());
-  
     // Set the "All circles" and "Dinner" options as the selected options
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
     $("#locationBoardInklingSelect option:first").attr("selected", "selected");
