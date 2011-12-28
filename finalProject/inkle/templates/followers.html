@@ -1,7 +1,9 @@
 <div class="grid_17">
-    {% for m in members %}
-        {% include "memberCard.html" %}
-    {% empty %}
-        <p>No one is following you.</p>
-    {% endfor %}
+    <div id ="followersContent">
+        {% for m in members %}
+            {% include "memberCard.html" %}
+        {% empty %}
+            <p>No one is following you.</p>
+        {% endfor %}
+    </div>
 </div>

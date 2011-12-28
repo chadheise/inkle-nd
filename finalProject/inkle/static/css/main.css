@@ -15,6 +15,11 @@ input
    color: #1B5898;
 }
 
+*::-moz-focus-inner
+{
+    border: none;
+}
+
 #mainContent
 {
     margin-top: 20px;

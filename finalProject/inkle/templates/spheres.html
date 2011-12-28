@@ -1,9 +1,9 @@
 <div class="grid_17">
-    <div id ="memberSpheres">
-        {% for s in spheres %}
+    <div id ="spheresContent" context="manage">
+        {% for sphere in spheres %}
             {% include "sphereCard.html" %}
         {% empty %}
-            <p>You are not in any spheres.</p>
+            <p>You are not a member of any spheres.</p>
         {% endfor %}
     </div>
 </div>

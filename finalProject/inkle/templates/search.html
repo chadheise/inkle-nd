@@ -105,12 +105,12 @@
                     </div>
             
                     <!-- Spheres -->
-                    <div id="spheresContent">
+                    <div id="spheresContent" context="search">
                         <p class="subsectionTitle">Spheres</p>
                         {% if spheres.length == 0 %}
                             <p class="noResultsMessage">No spheres match your query.</p>
                         {% else %}
-                            {% for s in spheres %}
+                            {% for sphere in spheres %}
                                 {% include "sphereCard.html" %}
                             {% endfor %}
                         {% endif %}
