@@ -243,11 +243,11 @@ def search_view(request, query = ""):
     # Determine which spheres the logged in member has joined and set the button list accordingly
     for s in spheres:
         if (s in member.spheres.all()):
-            s.contains_member = "containsMember"
+            s.contains_member = "mySpheres"
             member.num_my_spheres += 1
             s.button_list = [buttonDictionary["leave"]]
         else:
-            s.contains_member = "notContainsMember"
+            s.contains_member = "otherSpheres"
             member.num_other_spheres += 1
             s.button_list = [buttonDictionary["join"]]
 

@@ -113,18 +113,18 @@ $(document).ready(function() {
             $("#mainSearchContent").fadeOut(function() {
                 if (contentType == "all")
                 {
-                    $(".containsMember").show();
-                    $(".notContainsMember").show();
+                    $(".mySpheres").show();
+                    $(".otherSpheres").show();
                 }
                 else if (contentType == "mySpheres")
                 {
-                    $(".containsMember").show();
-                    $(".notContainsMember").hide();
+                    $(".mySpheres").show();
+                    $(".otherSpheres").hide();
                 }
                 else if (contentType == "otherSpheres")
                 {
-                    $(".containsMember").hide();
-                    $(".notContainsMember").show();
+                    $(".mySpheres").hide();
+                    $(".otherSpheres").show();
                 }
 
                 $("#mainSearchContent").fadeIn();

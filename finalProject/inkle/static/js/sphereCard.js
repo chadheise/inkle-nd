@@ -1,97 +1,108 @@
 $(document).ready(function() {
+    /* Helper function for when a "Join sphere" button is clicked */
+    function joinSphereHelper(sphereCard)
+    {
+        // Update the sphere card's button
+        var sphereCardButton = sphereCard.find(".cardButton");
+        sphereCardButton.val("Leave sphere");
+        sphereCardButton.addClass("leaveSphere");
+        sphereCardButton.removeClass("joinSphere");
 
-    function hideSphereCard(sphereID) {
-        $("#sphereCard_"+sphereID).fadeOut('medium');
+        // Update the spherd card's classes
+        sphereCard.removeClass("otherSpheres");
+        sphereCard.addClass("mySpheres");
     }
 
+    /* Add the logged in member to the sphere whose "Join sphere" button is clicked */
     $(".joinSphere").live("click", function() {
-        var thisElement = $(this);
+        // Get the this element
+        var sphereCard = $(this).parents(".sphereCard");
+        
+        // Get the ID of the sphere which the logged in member is joining
         var sphereID = parseInt($(this).attr("sphereID"));
     
+        // Add the logged in member to the clicked sphere and update the sphere card
         $.ajax({
             type: "POST",
             url: "/inkle/joinSphere/",
             data: { "sphereID" : sphereID },
-            success: function(html) {
-                if (thisElement.parents("#mainSearchContent").length == 0)
+            success: function() {
+                // Get the content type of the selected search subsection content link
+                var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
+
+                // If all spheres are showing, simply update the sphere card
+                if (searchContentType == "all")
                 {
-                    thisElement.val("Leave sphere");
-                    thisElement.addClass("leaveSphere");
-                    thisElement.removeClass("joinSphere");
+                    joinSphereHelper(sphereCard);
                 }
-                else if ($("#allSpheresContentLink").hasClass("selectedSpheresContentLink"))
+
+                // If only other spheres are showing, fade out the sphere card and update it
+                else if (searchContentType == "otherSpheres")
                 {
-                    thisElement.val("Leave sphere");
-                    thisElement.addClass("leaveSphere");
-                    thisElement.removeClass("joinSphere");
-                    var sphereCard = thisElement.parents(".sphereCard");
-                    sphereCard.removeClass("notContainsMember");
-                    sphereCard.addClass("containsMember");
-                }
-                else
-                {
-                    var sphereCard = thisElement.parents(".sphereCard");
                     sphereCard.fadeOut("medium", function() {
-                        thisElement.val("Leave sphere");
-                        thisElement.addClass("leaveSphere");
-                        thisElement.removeClass("joinSphere");
-                        
-                        sphereCard.removeClass("notContainsMember");
-                        sphereCard.addClass("containsMember");
+                        joinSphereHelper(sphereCard);
                     });
                 }
             },
             error: function(a, b, error) { alert("sphereCard.js (1): " + error); }
         });
     });
+    
+    /* Helper function for when a "Leave sphere" button is clicked */
+    function leaveSphereHelper(sphereCard)
+    {
+        // Update the sphere card's button
+        var sphereCardButton = sphereCard.find(".cardButton");
+        sphereCardButton.val("Join sphere");
+        sphereCardButton.addClass("joinSphere");
+        sphereCardButton.removeClass("leaveSphere");
 
-    /*----------------------Leave Sphere Button --------------------------*/
+        // Update the sphere card's classes
+        sphereCard.removeClass("mySpheres");
+        sphereCard.addClass("otherSpheres");
+    }
+
+    /* Remove the logged in member from the sphere whose "Leave sphere" button is clicked */
     $(".leaveSphere").live("click", function() {
-        var thisElement = $(this);
+        // Get the this element
+        var sphereCard = $(this).parents(".sphereCard");
+        
+        // Get the ID of the sphere which the logged in member is joining
         var sphereID = parseInt($(this).attr("sphereID"));
-
+    
+        // Remove the logged in member from the clicked sphere and update the sphere card
         $.ajax({
             type: "POST",
             url: "/inkle/leaveSphere/",
             data: { "sphereID" : sphereID },
-            success: function(html) {
-                if (thisElement.parents("#mainSearchContent").length == 0)
+            success: function() {
+                // Get the context of the current page
+                var pageContext = $("#spheresContent").attr("context");
+                
+                // Get the content type of the selected search subsection content link
+                var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
+
+                // Simply hide the sphere card if we are on the manage page
+                if (pageContext == "manage")
                 {
-                    thisElement.val("Join sphere");
-                    thisElement.addClass("joinSphere");
-                    thisElement.removeClass("leaveSphere");
+                    sphereCard.fadeOut("medium");
                 }
-                else if ($("#allSpheresContentLink").hasClass("selectedSpheresContentLink"))
+
+                // If we are on the search page and all spheres are showing, simply update the sphere card
+                else if (searchContentType == "all")
                 {
-                    thisElement.val("Join sphere");
-                    thisElement.addClass("joinSphere");
-                    thisElement.removeClass("leaveSphere");
-                    var sphereCard = thisElement.parents(".sphereCard");
-                    sphereCard.removeClass("containsMember");
-                    sphereCard.addClass("notContainsMember");
+                    leaveSphereHelper(sphereCard);
                 }
-                else
+                
+                // If only my spheres are showing, fade out the sphere card and update it
+                else if (searchContentType == "mySpheres")
                 {
-                    var sphereCard = thisElement.parents(".sphereCard");
                     sphereCard.fadeOut("medium", function() {
-                        thisElement.val("Join sphere");
-                        thisElement.addClass("joinSphere");
-                        thisElement.removeClass("leaveSphere");
-                        
-                        sphereCard.removeClass("containsMember");
-                        sphereCard.addClass("notContainsMember");
+                        leaveSphereHelper(sphereCard);
                     });
                 }
             },
             error: function(a, b, error) { alert("sphereCard.js (2): " + error); }
         });
-        
-        $("div").each( function() {
-            if ($(this).is("#memberSpheres")) {
-                hideSphereCard(sphereID);
-            }
-        });
-            
     });
-    
 });

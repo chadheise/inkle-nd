@@ -16,11 +16,11 @@ $(document).ready(function() {
                     sphereCard.html("You left the '" + sphereCardName + "' sphere.");
                     sphereCard.css("padding", "10px");
                     sphereCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                        if ($("#memberSpheres").has(".sphereCard:visible").length == 0)
+                        if ($("#spheresContent").has(".sphereCard:visible").length == 0)
                         {
-                            $("#memberSpheres").fadeOut("medium", function() {
-                                $("#memberSpheres").html("<p style='text-align: center;'>You are not in any spheres.</p>");
-                                $("#memberSpheres").fadeIn("medium");
+                            $("#spheresContent").fadeOut("medium", function() {
+                                $("#spheresContent").html("<p>You are not a member of any spheres.</p>");
+                                $("#spheresContent").fadeIn("medium");
                             });
                         }
                     });

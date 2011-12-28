@@ -10,8 +10,9 @@
 {
     font-family: helvetica;
     color: #1B5898;
-    font-size: 32px;
+    font-size: 26px;
     font-weight: bold;
+    margin-top: 3px;
     text-decoration: none;
 }
 
@@ -27,13 +28,13 @@
     color: #FFF;
     font-weight: bold;
     float: right;
+    outline: none;
 }
 
 .joinSphere
 {
     background-color: #E48116;
     border-color: #946732;
-    width: 75px;
 }
 
 .joinSphere:hover
@@ -45,7 +46,6 @@
 {
     background-color: #CD1A26;
     border-color: #914044;
-    width: 83px;
 }
 
 .leaveSphere:hover
