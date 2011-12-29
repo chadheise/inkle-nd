@@ -3,14 +3,10 @@ $(document).ready(function() {
     function joinSphereHelper(sphereCard)
     {
         // Update the sphere card's button
-        var sphereCardButton = sphereCard.find(".cardButton");
-        sphereCardButton.val("Leave sphere");
-        sphereCardButton.addClass("leaveSphere");
-        sphereCardButton.removeClass("joinSphere");
+        sphereCard.find(".cardButton").val("Leave sphere").removeClass("joinSphere").addClass("leaveSphere");
 
         // Update the spherd card's classes
-        sphereCard.removeClass("otherSpheres");
-        sphereCard.addClass("mySpheres");
+        sphereCard.removeClass("otherSpheres").addClass("mySpheres");
     }
 
     /* Add the logged in member to the sphere whose "Join sphere" button is clicked */
@@ -52,14 +48,26 @@ $(document).ready(function() {
     function leaveSphereHelper(sphereCard)
     {
         // Update the sphere card's button
-        var sphereCardButton = sphereCard.find(".cardButton");
-        sphereCardButton.val("Join sphere");
-        sphereCardButton.addClass("joinSphere");
-        sphereCardButton.removeClass("leaveSphere");
+        sphereCard.find(".cardButton").val("Join sphere").removeClass("leaveSphere").addClass("joinSphere");
 
         // Update the sphere card's classes
-        sphereCard.removeClass("mySpheres");
-        sphereCard.addClass("otherSpheres");
+        sphereCard.removeClass("mySpheres").addClass("otherSpheres");
+    }
+
+    function showLeaveSphereMessage(sphereCard, sphereName)
+    {
+        sphereCard.fadeOut("medium", function() {
+            sphereCard
+                .html("<p class='leaveSphereMessage'>You left the <span class='leaveSphereName'>" + sphereName + "</span> sphere.</p>")
+                .fadeIn("medium")
+                .delay(2000)
+                .fadeOut("medium", function() {
+                    if ($(".sphereCard:visible").length == 0)
+                    {
+                        $("#spheresContent").html("<p>You are not a member of any spheres.</p>");
+                    }
+                });
+        });
     }
 
     /* Remove the logged in member from the sphere whose "Leave sphere" button is clicked */
@@ -67,7 +75,8 @@ $(document).ready(function() {
         // Get the this element
         var sphereCard = $(this).parents(".sphereCard");
         
-        // Get the ID of the sphere which the logged in member is joining
+        // Get the name and ID of the sphere which the logged in member is joining
+        var sphereName = sphereCard.find(".sphereCardName").text();
         var sphereID = parseInt($(this).attr("sphereID"));
     
         // Remove the logged in member from the clicked sphere and update the sphere card
@@ -85,7 +94,7 @@ $(document).ready(function() {
                 // Simply hide the sphere card if we are on the manage page
                 if (pageContext == "manage")
                 {
-                    sphereCard.fadeOut("medium");
+                    showLeaveSphereMessage(sphereCard, sphereName);
                 }
 
                 // If we are on the search page and all spheres are showing, simply update the sphere card
