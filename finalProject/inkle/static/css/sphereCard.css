@@ -16,6 +16,16 @@
     text-decoration: none;
 }
 
+.leaveSphereName
+{
+    color: #1B5898;
+}
+
+.leaveSphereMessage
+{
+    padding: 5px;
+}
+
 .buttons
 {
     float: right;
