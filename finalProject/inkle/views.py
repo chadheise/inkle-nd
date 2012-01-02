@@ -441,37 +441,58 @@ def circle_content_view(request):
         {"circle" : circle, "members" : members},
         context_instance = RequestContext(request) )
 
+
 def spheres_view(request, other_member_id = None):
+    """Returns the spheres of which either the logged in  member or the member corresponding to the inputted member ID is a member."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/inkle/login/")
     
+    # If another member ID is inputted, get the spheres coresponding to that member
     if (other_member_id):
         # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
         try:
-            member = Member.objects.get(pk = other_member_id)
+            other_member = Member.objects.get(pk = other_member_id)
         except:
             raise Http404()
-        member.is_other = True
         
-        spheres = member.spheres.all()
+        # Get the other memeber's spheres
+        spheres = other_member.spheres.all()
         
+        # Determine the button list for each sphere
         for s in spheres:
             if (s in member.spheres.all()):
                 s.button_list = [buttonDictionary["leave"]]
             else:
                 s.button_list = [buttonDictionary["join"]]
+
+        # Specify the text if the other member is not in any spheres
+        no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
+
+        # Specify the page context
+        page_context = "member"
+    
+    # Otherwise, if no member ID is inputted, get the spheres corresponding to the logged in member
     else:
+        # Get the logged in member's spheres
         spheres = member.spheres.all()
 
+        # Give each sphere the "Leave sphere" button
         for s in spheres:
             s.button_list = [buttonDictionary["leave"]]
+        
+        # Specify the text if the logged in member is not in any spheres
+        no_spheres_text = "You are"
+
+        # Specify the page context
+        page_context = "manage"
 
     return render_to_response( "spheres.html",
-        {"member" : member,"spheres" : spheres},
+        { "spheres" : spheres, "pageContext" : page_context, "noSpheresText" : no_spheres_text },
         context_instance = RequestContext(request) )
+
 
 def suggestions_view(request, query = ""):
     # If a user is not logged in, redirect them to the login page

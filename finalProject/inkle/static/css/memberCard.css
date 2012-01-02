@@ -75,6 +75,7 @@ ul {
     border-style: solid;
     border-radius: 5px;
     cursor: pointer;
+    float: right;
 }
 
 .requestToFollow, .revokeRequest, .acceptRequest, .circlesCardButton
