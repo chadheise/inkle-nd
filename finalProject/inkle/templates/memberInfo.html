@@ -1,0 +1,40 @@
+<!-- Member location -->
+{% if other_member.city or other_member.state or other_member.zip_code %}
+    <div class="infoSection">
+        <p class="infoLabel">Location:</p>
+            <p><span id="memberCity">{{ other_member.city }}</span>, <span id="memberState">{{ other_member.state }}</span> <span id="memberZipCode">({{ other_member.zip_code }})</span></p>
+    </div>
+{% endif %}
+
+
+<!-- Member email -->
+{% if other_member.email %}
+    <div class="infoSection">
+        <p class="infoLabel">Email:</p>
+        <a id="memberEmail">{{ other_member.email }}</a>
+    </div>
+{% endif %}
+
+<!-- Member phone -->
+{% if other_member.phone  and other_member.phone|length_is:"10" %}
+    <div class="infoSection">
+        <p class="infoLabel">Phone:</p>
+        <p id="memberPhone">({{ other_member.phone|slice:"0:3" }}) {{ other_member.phone|slice:"3:6" }}-{{ other_member.phone|slice:"6:10" }}</p>
+    </div>
+{% endif %}
+
+<!-- Member birthday -->
+{% if other_member.birthday %}
+    <div class="infoSection">
+        <p class="infoLabel">Birthday:</p>
+        <p id="memberBirthday">{{ other_member.birthday }}</p>
+    </div>
+{% endif %}
+
+<!-- Member gender -->
+{% if other_member.gender %}
+    <div class="infoSection">
+        <p class="infoLabel">Gender:</p>
+        <p id="memberGender">{{ other_member.gender }}</p>
+    </div>
+{% endif %}

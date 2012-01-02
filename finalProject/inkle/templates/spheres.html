@@ -3,7 +3,11 @@
         {% for sphere in spheres %}
             {% include "sphereCard.html" %}
         {% empty %}
-            <p>You are not a member of any spheres.</p>
+            {% if member.is_other %}
+                <p>{{ member.first_name }} {{ member.last_name }} is not a member of any spheres.</p>
+            {% else %}
+                <p>You are not a member of any spheres.</p>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
