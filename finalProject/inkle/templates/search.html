@@ -79,41 +79,35 @@
                 </div>
                 <div class="clear"></div>
                 
-                <div id="mainSearchContent" class="grid_17 alpha omega">
+                <div id="mainSearchContent" class="grid_17">
                     <!-- People -->
                     <div id="peopleContent">
                         <p class="subsectionTitle">People</p>
-                        {% if members.length == 0 %}
-                            <p class="noResultsMessage">No people match your query.</p>
-                        {% else %}
-                            {% for m in members %}
-                                {% include "memberCard.html" %}
-                            {% endfor %}
-                        {% endif %}
+                        {% for m in members %}
+                            {% include "memberCard.html" %}
+                        {% empty %}
+                            <p class="noResultsMessage">No results match your query.</p>
+                        {% endfor %}
                     </div>
 
                     <!-- Locations -->
                     <div id="locationsContent">
                         <p class="subsectionTitle">Locations</p>
-                        {% if locations.length == 0 %}
-                            <p class="noResultsMessage">No locations match your query.</p>
-                        {% else %}
-                            {% for l in locations %}
-                                {% include "locationCard.html" %}
-                            {% endfor %}
-                        {% endif %}
+                        {% for location in locations %}
+                            {% include "locationCard.html" %}
+                        {% empty %}
+                            <p class="noResultsMessage">No results match your query.</p>
+                        {% endfor %}
                     </div>
             
                     <!-- Spheres -->
                     <div id="spheresContent" context="search">
                         <p class="subsectionTitle">Spheres</p>
-                        {% if spheres.length == 0 %}
-                            <p class="noResultsMessage">No spheres match your query.</p>
-                        {% else %}
-                            {% for sphere in spheres %}
-                                {% include "sphereCard.html" %}
-                            {% endfor %}
-                        {% endif %}
+                        {% for sphere in spheres %}
+                            {% include "sphereCard.html" %}
+                        {% empty %}
+                            <p>No results match your query.</p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
