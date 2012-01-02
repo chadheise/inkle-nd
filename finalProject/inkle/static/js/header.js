@@ -24,6 +24,7 @@ $(document).ready(function() {
         if ((e.keyCode == 10) || (e.keyCode == 13))
         {
             var query = $("#searchInput").val();
+            query = query.replace(/^\s+|\s+$/g, "");
 
             if (query != "")
             {
