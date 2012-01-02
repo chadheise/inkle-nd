@@ -20,11 +20,11 @@ $(document).ready(function() {
                 // Otherwise, fade out the current manage content and fade the new manage content back in
                 else
                 {
-                $("#manageContent").fadeOut("medium", function () {
-                    loadContentHelper(html, function() {                    
-                        $("#manageContent").fadeIn("medium");
+                    $("#manageContent").fadeOut("medium", function () {
+                        loadContentHelper(html, function() {
+                            $("#manageContent").fadeIn("medium");
+                        });
                     });
-                });
                 }
             },
             error: function(a, b, error) { alert("manage.js (1): " + error); }

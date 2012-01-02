@@ -3,7 +3,11 @@
         {% for m in members %}
             {% include "memberCard.html" %}
         {% empty %}
-            <p>No one is following you.</p>
+            {% if member.is_other %}
+                <p>No one is following {{ member.first_name }} {{ member.last_name }}.</p>
+            {% else %}
+                <p>No one is following you.</p>
+            {% endif %}
         {% endfor %}
     </div>
 </div>

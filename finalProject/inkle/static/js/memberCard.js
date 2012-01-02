@@ -58,7 +58,7 @@ $(document).ready(function() {
         }
     });
     
-    /*----------------------Prevent Following Button --------------------------*/
+    /* No longer allow a member to follow the logged in member when the "Prevent following" button is clicked */
     $(".preventFollowing").live("click", function() {
         var thisElement = $(this);
         var fromMemberID = parseInt($(this).attr("memberID"));

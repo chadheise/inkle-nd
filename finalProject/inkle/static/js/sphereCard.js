@@ -54,6 +54,7 @@ $(document).ready(function() {
         sphereCard.removeClass("mySpheres").addClass("otherSpheres");
     }
 
+    /* Shows a message when the logged in member leaves a sphere */
     function showLeaveSphereMessage(sphereCard, sphereName)
     {
         sphereCard.fadeOut("medium", function() {

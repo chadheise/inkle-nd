@@ -1,0 +1,17 @@
+#memberImage
+{
+    height: 228px;
+    width: 228px;
+    border: solid 1px #000;
+    margin-bottom: 5px;
+}
+
+.infoSection
+{
+    margin-bottom: 15px;
+}
+
+.infoLabel
+{
+    font-weight: bold;
+}

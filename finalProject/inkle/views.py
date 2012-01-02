@@ -60,6 +60,29 @@ def manage_view(request, default_content_type = "circles"):
     return render_to_response( "manage.html",
         {"member" : member, "defaultContentType" : default_content_type},
         context_instance = RequestContext(request) )
+
+def member_view(request, other_member_id = None):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+    try:
+        other_member = Member.objects.get(pk = other_member_id)
+    except:
+        raise Http404()
+
+    member.num_requests = 0
+    for r in member.requested.all():
+        member.num_requests += 1
+
+    is_following = other_member in member.following.all()
+
+    return render_to_response( "member.html",
+        { "member" : member, "other_member" : other_member, "is_following" : is_following },
+        context_instance = RequestContext(request) )
     
 def location_view(request, location_id = None):
     # Get the member who is logged in
@@ -287,15 +310,23 @@ def requests_view(request):
         {"requested_members" : requested_members, "pending_members" : pending_members},
         context_instance = RequestContext(request) )
 
-def followers_view(request):
-    # If a user is not logged in, redirect them to the login page
-    if ("member_id" not in request.session):
-        return HttpResponseRedirect("/inkle/login")
-
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-
-    members = [f.follower for f in member.followers.all()]
+def followers_view(request, other_member_id = None):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    if (other_member_id):
+        # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+        try:
+            member = Member.objects.get(pk = other_member_id)
+        except:
+            raise Http404()
+        members = [f.follower for f in member.followers.all()]
+        member.is_other = True
+    else:
+        members = [f.follower for f in member.followers.all()]
 
     for m in members:
         m.spheres2 = m.spheres.all()
@@ -315,8 +346,46 @@ def followers_view(request):
             m.button_list.append(buttonDictionary["request"])
             m.relationship = "other"
             
-
     return render_to_response( "followers.html",
+        {"member" : member, "members" : members},
+        context_instance = RequestContext(request) )
+
+def following_view(request, other_member_id = None):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    if (other_member_id):
+        # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+        try:
+            member = Member.objects.get(pk = other_member_id)
+        except:
+            raise Http404()
+        members = [f for f in member.following.all()]
+    else:
+        raise Http404()
+
+    for m in members:
+        m.spheres2 = m.spheres.all()
+         
+        m.mutual_followings = member.following.all() & m.following.all()
+        m.relationship = "friend"
+        
+        m.button_list = []
+        m.button_list.append(buttonDictionary["prevent"])
+        if m in member.pending.all():
+            m.button_list.append(buttonDictionary["revoke"])
+            m.relationship = "pending"
+        elif m in member.following.all():
+            m.button_list.append(buttonDictionary["stop"])
+            m.relationship = "friend"
+        else:
+            m.button_list.append(buttonDictionary["request"])
+            m.relationship = "other"
+            
+    return render_to_response( "following.html",
         {"member" : member, "members" : members},
         context_instance = RequestContext(request) )
     
@@ -372,15 +441,33 @@ def circle_content_view(request):
         {"circle" : circle, "members" : members},
         context_instance = RequestContext(request) )
 
-def spheres_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+def spheres_view(request, other_member_id = None):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+    
+    if (other_member_id):
+        # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+        try:
+            member = Member.objects.get(pk = other_member_id)
+        except:
+            raise Http404()
+        member.is_other = True
+        
+        spheres = member.spheres.all()
+        
+        for s in spheres:
+            if (s in member.spheres.all()):
+                s.button_list = [buttonDictionary["leave"]]
+            else:
+                s.button_list = [buttonDictionary["join"]]
+    else:
+        spheres = member.spheres.all()
 
-    spheres = member.spheres.all()
-
-    for s in spheres:
-        s.button_list = []
-        s.button_list.append(buttonDictionary["leave"])
+        for s in spheres:
+            s.button_list = [buttonDictionary["leave"]]
 
     return render_to_response( "spheres.html",
         {"member" : member,"spheres" : spheres},

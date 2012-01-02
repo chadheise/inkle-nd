@@ -21,7 +21,10 @@ urlpatterns = patterns(
     (r"^search/(?P<query>.+)/$", "search_view"),
     (r"^requests/$", "requests_view"),
     (r"^spheres/$", "spheres_view"),
+    (r"^spheres/(?P<other_member_id>\d+)/$", "spheres_view"),
     (r"^followers/$", "followers_view"),
+    (r"^followers/(?P<other_member_id>\d+)/$", "followers_view"),
+    (r"^following/(?P<other_member_id>\d+)/$", "following_view"),
     (r"^requestToFollow/$", "request_to_follow_view"),
     (r"^revokeRequest/$", "revoke_request_view"),
     (r"^acceptRequest/$", "accept_request_view"),
@@ -44,4 +47,5 @@ urlpatterns = patterns(
     (r"^createSphere/$", "create_sphere_view"),
     (r"^createLocation/$", "create_location_view"),
     (r"^getOthersInklings/$", "get_others_inklings_view"),
+    (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
 )

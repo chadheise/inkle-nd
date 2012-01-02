@@ -20,7 +20,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <p class="mutualFriends">{{ m.mutual_followings|length }} mutual followings</p>
+            <p class="mutualFriends">{{ m.mutual_followings|length }} mutual following{{ m.mutual_followings|length|pluralize }}</p>
         </div>
 
         <!-- Member card contact info -->
