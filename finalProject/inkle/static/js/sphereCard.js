@@ -23,11 +23,14 @@ $(document).ready(function() {
             url: "/inkle/joinSphere/",
             data: { "sphereID" : sphereID },
             success: function() {
+                // Get the context of the current page
+                var pageContext = $("#spheresContent").attr("context");
+                
                 // Get the content type of the selected search subsection content link
                 var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
 
                 // If all spheres are showing, simply update the sphere card
-                if (searchContentType == "all")
+                if ((pageContext == "member") || (searchContentType == "all"))
                 {
                     joinSphereHelper(sphereCard);
                 }
@@ -99,7 +102,7 @@ $(document).ready(function() {
                 }
 
                 // If we are on the search page and all spheres are showing, simply update the sphere card
-                else if (searchContentType == "all")
+                else if ((pageContext == "member") || (searchContentType == "all"))
                 {
                     leaveSphereHelper(sphereCard);
                 }
