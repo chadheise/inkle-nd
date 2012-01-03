@@ -1,62 +1,75 @@
 <!-- Member card -->
 <div class="grid_17 alpha omega">
+    <!-- TODO: get rid of id here -->
     <div id="memberCard_{{ m.id }}" class="memberCard {{ m.people_type }}">
         <!-- Member card image -->
-        <div>
+        <div style="float: left;">
             <img class="cardImage" src="{{ STATIC_URL }}/media/images/members/{{ m.image }}" />
         </div>
 
-        <!-- Member card member info -->
-        <div class="memberCardInfo">
-            <a class="memberCardName" href="/inkle/member/{{ m.id }}">{{ m.first_name }} {{ m.last_name }}</a>
-            {% if m.sphereNames %}
-                <div class="memberCardSpheres">
-                    {% for sphereName in m.sphereNames %}
-                        {% if forloop.counter == m.sphereNames|length %}
-                            <p class="memberCardSphere">{{ sphereName }}</p>
-                        {% else %}
-                            <p class="memberCardSphere">{{ sphereName }}&nbsp;&middot;&nbsp;</p>
+        <!-- Member info -->
+        <div class="memberInfo">
+            <div class="infoRow">
+                <!-- Member card name -->
+                <a class="memberName" href="/inkle/member/{{ m.id }}">{{ m.first_name }} {{ m.last_name }}</a>
+                
+                <!-- Contact information -->
+                {% if m.show_contact_info %}
+                    <div class="contactInfo">
+                        <!-- Email -->
+                        {% if m.email %}
+                            <p>{{ m.email }}</p>
                         {% endif %}
+
+                        <!-- Phone -->
+                        {% if m.phone and m.phone|length_is:"10" %}
+                            <p>({{ m.phone|slice:"0:3" }}) {{ m.phone|slice:"3:6" }}-{{ m.phone|slice:"6:10" }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Spheres -->
+            {% if m.sphereNames %}
+                <div class="memberSpheres infoRow">
+                    {% for sphereName in m.sphereNames %}
+                        {% if sphereName != m.sphereNames|first %}
+                            <span>&middot;</span>
+                        {% endif %}
+                        {% for word in sphereName %}
+                            <span>{{ word }}</span>
+                        {% endfor %}
                     {% endfor %}
                 </div>
             {% endif %}
-            <p class="mutualFriends">{{ m.mutual_followings|length }} mutual following{{ m.mutual_followings|length|pluralize }}</p>
-        </div>
 
-        <!-- Member card contact info -->
-        {% if m.show_contact_info %}
-            <div class="memberCardContactInfo">
-                <ul>
-                    {% if m.email %}
-                        <li>{{ m.email }}</li>
-                    {% endif %}
-                    {% if m.phone %}
-                        <li>{{ m.phone }}</li>
-                    {% endif %}
-                </ul>
+            <!-- Mutual followings -->
+            <div class="infoRow">
+                <p class="mutualFollowings">{{ m.mutual_followings|length }} mutual following{{ m.mutual_followings|length|pluralize }}</p>
             </div>
-        {% endif %}
-                
-                <div class="grid_11 buttons">
-                    {% if m != member %}
-                        {% for buttonClass, buttonText, toolTip in m.button_list %}
-                            <button class="cardButton {{ buttonClass }}" memberID="{{ m.id }}" title="{{ toolTip }}">{{ buttonText }}</button>
-                            {% if buttonClass == "circlesCardButton" %}
-                                <div id="circlesMenu_{{m.id}}" class="circlesMenu" showing="false">
-                                    <ul class="circlesMenuList" memberID="{{ m.id }}">
-                                        {% for c in m.circles2 %}
-                                            {% if m in c.members2 %}
-                                                <li><input type="checkbox" name="{{c.name}}" class="circlesMenuItem" checked="checked" circleID="{{c.id}}" toMemberID="{{m.id}}"/>{{c.name}}</li>
-                                            {% else %}
-                                                <li><input type="checkbox" name="{{c.name}}" class="circlesMenuItem" circleID="{{c.id}}" toMemberID="{{m.id}}"/>{{c.name}}</li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </div>
+
+            <!-- Button list -->
+            <div class="infoRow">
+                {% if m != member %}
+                    {% for buttonClass, buttonText, toolTip in m.button_list %}
+                        <button class="cardButton {{ buttonClass }}" memberID="{{ m.id }}" title="{{ toolTip }}">{{ buttonText }}</button>
+                        {% if buttonClass == "circlesCardButton" %}
+                            <div id="circlesMenu_{{m.id}}" class="circlesMenu" showing="false">
+                                <ul class="circlesMenuList" memberID="{{ m.id }}">
+                                    {% for circle in m.circleNames %}
+                                        {% if m in circle.memberNames %}
+                                            <li><input type="checkbox" name="{{ circle.name }}" class="circlesMenuItem" checked="checked" circleID="{{ circle.id }}" toMemberID="{{ m.id }}"/>{{ circle.name }}</li>
+                                        {% else %}
+                                            <li><input type="checkbox" name="{{ circle.name }}" class="circlesMenuItem" circleID="{{ circle.id }}" toMemberID="{{ m.id }}"/>{{ circle.name }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
         <div class="clear"></div>
     </div>
 </div>
