@@ -1,46 +1,16 @@
-.locationCard
-{
-    border: 2px solid #444;
-    background-color: #BBB;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.cardImage
-{
-    border: solid black 1px;
-    margin-top: 5px;
-}
-
-.locationName
+.locationCard .cardName
 {
     color: #1B5898;
-    font-size: 32px;
-    font-weight: bold;
-    text-decoration: none;
-    margin-top: 5px;
-}
-
-.locationCategory
-{
-    font-size: 14px;
 }
 
 .locationAddress
 {
     font-size: 14px;
-    margin-top: 15px;
+    margin-top: -3px;
 }
 
-.locationInfo
+.locationWebsite
 {
-    font-size: 10px;
-    color: navy;
-    margin-right: 15px;
-    margin-top: 15px;
-}
-
-.locationInfoLabel
-{
-    color: gray;
+    font-size: 12px;
+    color: #1B5898;
 }
