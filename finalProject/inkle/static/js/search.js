@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    if ($(".mySpheres").add(".otherSpheres").length == 0)
+    {
+        $("#noSpheresResultsMessage").show();
+    }
+
     // Set the search input's value to the search query
     var query = $("#searchSummary").attr("query");
     $("#searchInput").val(query).removeClass("emptySearchInput").removeAttr("empty");
@@ -15,8 +20,13 @@ $(document).ready(function() {
             // Depending on which content link was clicked, hide and show the appropriate results
             var contentType = $(this).attr("contentType");
             $("#searchContent").fadeOut(function() {
+                $("#noSpheresResultsMessage").hide();
                 if (contentType == "all")
                 {
+                    if ($(".mySpheres").add(".otherSpheres").length == 0)
+                    {
+                        $("#noSpheresResultsMessage").show();
+                    }
                     $("#peopleContent").show();
                     $("#locationsContent").show();
                     $("#spheresContent").show();
@@ -44,6 +54,10 @@ $(document).ready(function() {
                 }
                 else if (contentType == "spheres")
                 {
+                    if ($(".mySpheres").add(".otherSpheres").length == 0)
+                    {
+                        $("#noSpheresResultsMessage").show();
+                    }
                     $("#peopleContent").hide();
                     $("#locationsContent").hide();
                     $("#spheresContent").show();
@@ -69,6 +83,8 @@ $(document).ready(function() {
             // Depending on which people content link was clicked, hide and show the appropriate results
             var contentType = $(this).attr("contentType");
             $("#mainSearchContent").fadeOut(function() {
+                $(".noResultsMessage").hide();
+
                 if (contentType == "all")
                 {
                     $(".following").show();
@@ -111,20 +127,39 @@ $(document).ready(function() {
             // Depending on which people content link was clicked, hide and show the appropriate results
             var contentType = $(this).attr("contentType");
             $("#mainSearchContent").fadeOut(function() {
+                // Remove any sphere messages and hide the no spheres results message
+                $(".sphereMessage").remove();
+                $("#noSpheresResultsMessage").hide();
+
                 if (contentType == "all")
                 {
                     $(".mySpheres").show();
                     $(".otherSpheres").show();
+
+                    if ($(".mySpheres").add(".otherSpheres").length == 0)
+                    {
+                        $("#noSpheresResultsMessage").show();
+                    }
                 }
                 else if (contentType == "mySpheres")
                 {
                     $(".mySpheres").show();
                     $(".otherSpheres").hide();
+                    
+                    if ($(".mySpheres").length == 0)
+                    {
+                        $("#noSpheresResultsMessage").show();
+                    }
                 }
                 else if (contentType == "otherSpheres")
                 {
                     $(".mySpheres").hide();
                     $(".otherSpheres").show();
+
+                    if ($(".otherSpheres").length == 0)
+                    {
+                        $("#noSpheresResultsMessage").show();
+                    }
                 }
 
                 $("#mainSearchContent").fadeIn();
