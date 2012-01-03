@@ -1,57 +1,91 @@
 $(document).ready(function() {
-    /*----------------------Circle Button Functions--------------------------*/
-    $(".circlesCardButton").live("mouseenter", function() {
-        var memberID = $(this).attr("memberID");
-        if ($("#circlesMenu_"+memberID).attr("showing") == "false") {
+    /* Fades in the circles menu when a circles card button is clicked */
+    $(".circlesCardButton").live("click", function() {
+        // Get the circles menu corresponding to the clicked circles card button
+        var circlesMenuElement = $(this).siblings(".circlesMenu");
+       
+        // If the circles menu is not visible, fade out all the other circle menus and fade in the clicked circle menu
+        if (! circlesMenuElement.is(":visible"))
+        {
+            // Fade out all the other circles menus
             $(".circlesMenu").fadeOut('medium');
+
+            // Fade in the circles menu below the circles card button
             var buttonPosition = $(this).position();
             var buttonHeight = $(this).height();
-            $("#circlesMenu_"+memberID).css('left', buttonPosition.left);
-            $("#circlesMenu_"+memberID).css('top', buttonPosition.top + 2*buttonHeight);
-            $("#circlesMenu_"+memberID).fadeIn('medium');
-            $(".circleMenu").attr("showing", "false");
-            $("#circlesMenu_"+memberID).attr("showing", "true");
+            circlesMenuElement
+                .css("left", buttonPosition.left + 10)
+                .css("top", (buttonPosition.top + 2 * buttonHeight - 5))
+                .fadeIn("medium");
+        }
+
+        // Otherwise, if the circles menu is visible, fade it out
+        else
+        {
+            circlesMenuElement.fadeOut('medium');
         }
     });
     
-    $(".circlesCardButton").live("click", function() {
-        var memberID = $(this).attr("memberID");
-        $("#circlesMenu_"+memberID).fadeToggle('medium');
-         if ($("#circlesMenu_"+memberID).attr("showing") == "true") {
-             $(".circleMenu").attr("showing", "false");
-             //$("#circlesMenu_"+memberID).attr("showing", "false");
-         }
-         else {
-             $(".circleMenu").attr("showing", "false");
-             $("#circlesMenu_"+memberID).attr("showing", "true");
-         }
+    /* Fades out the circles menu when a click occurs on an element which is not a circles card button on circles menu */
+    $("body").live("click", function(e) {
+        if ($(".circlesMenu:visible").length != 0)
+        {
+            if ((!($(e.target).hasClass("circlesCardButton"))) && (($(e.target).parents(".circlesMenu").length == 0)))
+            {
+                $(".circlesMenu").fadeOut("medium");
+            }
+        }
     });
-    
-    $(".circlesMenu").live("mouseleave", function() {
-        $(this).fadeOut('medium');
-        $(this).attr("showing", "false");
-    });
-    
-    $(".circlesMenuItem").live("change", function() {
+   
+    /* Adds or removes a member to or from one of the logged in member's circle when a circle menu input is changed */
+    $(".circlesMenu input").live("change", function() {
+        // Get the circle ID corresponding to the changed input
         var circleID = parseInt($(this).attr("circleID"));
-        var toMemberID = parseInt($(this).attr("toMemberID"));
-        var currentCircle = parseInt($(".selectedCircle").attr("circleID"));
+        var toMemberID = parseInt($(this).parents(".circlesMenu").siblings(".circlesCardButton").attr("memberID"));
         
-        if ($(this).is(':checked')) { var URL = "/inkle/addToCircle/" } //If it is checked
-        else { var URL = "/inkle/removeFromCircle/" } //If it is un-checked
+        // Get the member card
+        var memberCard = $(this).parents(".memberCard");
         
+        // Determine whether to add or remove the member from the circle depending on whether or not the input is checked
+        if ($(this).is(":checked"))
+        {
+            var url = "/inkle/addToCircle/"
+        }
+        else
+        {
+            var url = "/inkle/removeFromCircle/"
+        }
+        
+        // Add or remove the member to or from the circle
         $.ajax({
             type: "POST",
-            url: URL,
-            data: { "circleID" : circleID,
-                    "toMemberID" : toMemberID},
-            success: function(html) {},
+            url: url,
+            data: { "circleID" : circleID, "toMemberID" : toMemberID},
+            success: function(html) {
+                // If we are on the circles manage page and we remove a member from the accepted or the selected circle, hide the member card and display a message
+                var selectedCircleID = $(".selectedCircle").attr("circleID");
+                if ((circleID == selectedCircleID) || (selectedCircleID == -1))
+                {
+                    var memberName = memberCard.find(".memberName").text();
+                    memberCard.fadeOut("medium", function() {
+                        // Create the member message
+                        memberCard.after("<p class='memberMessage'>You removed <span class='memberMessageName'>" + memberName + "</span> from this sphere.</p>");
+
+                        // Fade in the member message and then fade it out after a set time
+                        var memberMessageElement = memberCard.next(".memberMessage");
+                        memberMessageElement
+                            .fadeIn("medium")
+                            .delay(2000)
+                            .fadeOut("medium", function() {
+                                // Remove the member card and message
+                                $(this).remove();
+                                memberCard.remove();
+                            });
+                    });
+                }
+            },
             error: function(a, b, error) { alert("memberCard.js (1): " + error); }
         });
-        
-        if (circleID == currentCircle || currentCircle == -1) {
-            $("#memberCard_" + toMemberID).fadeOut('medium');
-        }
     });
     
     /* Helper function for when a "Prevent following" button is clicked */
