@@ -1,5 +1,5 @@
 <div class="grid_17">
-    <div id ="followersContent">
+    <div id ="followersContent" class="peopleContent" context="{{ pageContext }}">
         {% for m in members %}
             {% include "memberCard.html" %}
         {% empty %}

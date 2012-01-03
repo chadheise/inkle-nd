@@ -10,6 +10,21 @@ ul {
     margin-bottom: 10px;
 }
 
+.memberMessageName
+{
+    color: #288D42;
+}
+
+.memberMessage
+{
+    display: none;
+    padding: 5px;
+    border: 2px solid #444;
+    background-color: #BBB;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
 .cardImage
 {
     border: 1px solid #444;

@@ -3,9 +3,9 @@ $(document).ready(function() {
     function joinSphereHelper(sphereCard)
     {
         // Update the sphere card's button
-        sphereCard.find(".cardButton").val("Leave sphere").removeClass("joinSphere").addClass("leaveSphere");
+        sphereCard.find(".cardButton").text("Leave sphere").removeClass("joinSphere").addClass("leaveSphere");
 
-        // Update the spherd card's classes
+        // Update the sphere card's classes
         sphereCard.removeClass("otherSpheres").addClass("mySpheres");
     }
 
@@ -15,7 +15,7 @@ $(document).ready(function() {
         // Fade out the sphere card
         sphereCard.fadeOut("medium", function() {
             // Create the sphere message
-            sphereCard.after("<p class='sphereMessage'>You joined the <span class='leaveSphereName'>" + sphereName + "</span> sphere.</p>");
+            sphereCard.after("<p class='sphereMessage'>You joined the <span class='sphereMessageName'>" + sphereName + "</span> sphere.</p>");
 
             // Fade in the sphere message and then fade it out after a set time
             var sphereMessageElement = sphereCard.next(".sphereMessage");
@@ -37,7 +37,7 @@ $(document).ready(function() {
 
     /* Add the logged in member to the sphere whose "Join sphere" button is clicked */
     $(".joinSphere").live("click", function() {
-        // Get the this element
+        // Get the sphere card
         var sphereCard = $(this).parents(".sphereCard");
         
         // Get the name and ID of the sphere which the logged in member is joining
@@ -77,7 +77,7 @@ $(document).ready(function() {
     function leaveSphereHelper(sphereCard)
     {
         // Update the sphere card's button
-        sphereCard.find(".cardButton").val("Join sphere").removeClass("leaveSphere").addClass("joinSphere");
+        sphereCard.find(".cardButton").text("Join sphere").removeClass("leaveSphere").addClass("joinSphere");
 
         // Update the sphere card's classes
         sphereCard.removeClass("mySpheres").addClass("otherSpheres");
@@ -89,7 +89,7 @@ $(document).ready(function() {
         // Fade out the sphere card
         sphereCard.fadeOut("medium", function() {
             // Create the sphere message
-            sphereCard.after("<p class='sphereMessage'>You left the <span class='leaveSphereName'>" + sphereName + "</span> sphere.</p>");
+            sphereCard.after("<p class='sphereMessage'>You left the <span class='sphereMessageName'>" + sphereName + "</span> sphere.</p>");
 
             // Fade in the sphere message and then fade it out after a set time
             var sphereMessageElement = sphereCard.next(".sphereMessage");
@@ -130,7 +130,7 @@ $(document).ready(function() {
 
     /* Remove the logged in member from the sphere whose "Leave sphere" button is clicked */
     $(".leaveSphere").live("click", function() {
-        // Get the this element
+        // Get the sphere card
         var sphereCard = $(this).parents(".sphereCard");
         
         // Get the name and ID of the sphere which the logged in member is leaving

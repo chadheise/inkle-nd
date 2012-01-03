@@ -266,11 +266,11 @@ def search_view(request, query = ""):
     # Determine which spheres the logged in member has joined and set the button list accordingly
     for s in spheres:
         if (s in member.spheres.all()):
-            s.contains_member = "mySpheres"
+            s.sphere_type = "mySpheres"
             member.num_my_spheres += 1
             s.button_list = [buttonDictionary["leave"]]
         else:
-            s.contains_member = "otherSpheres"
+            s.sphere_type = "otherSpheres"
             member.num_other_spheres += 1
             s.button_list = [buttonDictionary["join"]]
 
@@ -325,8 +325,10 @@ def followers_view(request, other_member_id = None):
             raise Http404()
         members = [f.follower for f in member.followers.all()]
         member.is_other = True
+        page_context = "otherFollowers"
     else:
         members = [f.follower for f in member.followers.all()]
+        page_context = "myFollowers"
 
     for m in members:
         m.spheres2 = m.spheres.all()
@@ -347,7 +349,7 @@ def followers_view(request, other_member_id = None):
             m.relationship = "other"
             
     return render_to_response( "followers.html",
-        {"member" : member, "members" : members},
+        { "member" : member, "members" : members, "pageContext" : page_context },
         context_instance = RequestContext(request) )
 
 def following_view(request, other_member_id = None):
@@ -511,7 +513,10 @@ def suggestions_view(request, query = ""):
         footer_subject = "location"
         
     elif (query_type == "search"):
-        people = Member.objects.filter(Q(username__contains = query) | Q(first_name__contains = query) | Q(last_name__contains = query))
+        if (len(query.split()) == 1):
+            people = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query))
+        else:
+            people = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = query.split()[0]) | Q(last_name__contains = query.split()[1]))
         if (people):
             for p in people:
                 p.name = p.first_name + " " + p.last_name

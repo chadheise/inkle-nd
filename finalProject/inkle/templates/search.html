@@ -82,23 +82,21 @@
                 <div id="mainSearchContent" class="grid_17">
                     <!-- People -->
                     <p class="subsectionTitle">People</p>
-                    <div id="peopleContent">
+                    <div id="peopleContent" class="peopleContent" context="search">
                         {% for m in members %}
                             {% include "memberCard.html" %}
-                        {% empty %}
-                            <p class="noResultsMessage">No results match your query.</p>
                         {% endfor %}
                     </div>
+                    <p id="noPeopleResultsMessage" class="noResultsMessage">No results match your query.</p>
 
                     <!-- Locations -->
                     <p class="subsectionTitle">Locations</p>
                     <div id="locationsContent">
                         {% for location in locations %}
                             {% include "locationCard.html" %}
-                        {% empty %}
-                            <p class="noResultsMessage">No results match your query.</p>
                         {% endfor %}
                     </div>
+                    <p id="noLocationsResultsMessage" class="noResultsMessage">No results match your query.</p>
             
                     <!-- Spheres -->
                     <p class="subsectionTitle">Spheres</p>

@@ -1,5 +1,13 @@
 $(document).ready(function() {
-    if ($(".mySpheres").add(".otherSpheres").length == 0)
+    if ($(".memberCard").length == 0)
+    {
+        $("#noPeopleResultsMessage").show();
+    }
+    if ($(".locationCard").length == 0)
+    {
+        $("#noLocationsResultsMessage").show();
+    }
+    if ($(".sphereCard").length == 0)
     {
         $("#noSpheresResultsMessage").show();
     }
@@ -20,23 +28,41 @@ $(document).ready(function() {
             // Depending on which content link was clicked, hide and show the appropriate results
             var contentType = $(this).attr("contentType");
             $("#searchContent").fadeOut(function() {
-                $("#noSpheresResultsMessage").hide();
+                $(".noResultsMessage").hide();
+
                 if (contentType == "all")
                 {
-                    if ($(".mySpheres").add(".otherSpheres").length == 0)
+                    if ($(".memberCard").length == 0)
+                    {
+                        $("#noPeopleResultsMessage").show();
+                    }
+                    if ($(".locationCard").length == 0)
+                    {
+                        $("#noLocationsResultsMessage").show();
+                    }
+                    if ($(".sphereCard").length == 0)
                     {
                         $("#noSpheresResultsMessage").show();
                     }
                     $("#peopleContent").show();
+                    $(".memberCard").show();
                     $("#locationsContent").show();
                     $("#spheresContent").show();
+                    $(".sphereCard").show();
                     $(".subsectionTitle").show();
                     $("#peopleContentLinks").hide();
                     $("#spheresContentLinks").hide();
                 }
                 else if (contentType == "people")
                 {
+                    if ($(".memberCard").length == 0)
+                    {
+                        $("#noPeopleResultsMessage").show();
+                    }
                     $("#peopleContent").show();
+                    $(".memberCard").show();
+                    $("#peopleContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+                    $("#peopleContentLinks [contentType='all']").addClass("selectedSubsectionContentLink");
                     $("#locationsContent").hide();
                     $("#spheresContent").hide();
                     $(".subsectionTitle").hide();
@@ -45,6 +71,10 @@ $(document).ready(function() {
                 }
                 else if (contentType == "locations")
                 {
+                    if ($(".locationCard").length == 0)
+                    {
+                        $("#noLocationsResultsMessage").show();
+                    }
                     $("#peopleContent").hide();
                     $("#locationsContent").show();
                     $("#spheresContent").hide();
@@ -54,14 +84,17 @@ $(document).ready(function() {
                 }
                 else if (contentType == "spheres")
                 {
-                    if ($(".mySpheres").add(".otherSpheres").length == 0)
+                    if ($(".sphereCard").length == 0)
                     {
                         $("#noSpheresResultsMessage").show();
                     }
                     $("#peopleContent").hide();
                     $("#locationsContent").hide();
                     $("#spheresContent").show();
+                    $(".sphereCard").show();
                     $(".subsectionTitle").hide();
+                    $("#spheresContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+                    $("#spheresContentLinks [contentType='all']").addClass("selectedSubsectionContentLink");
                     $("#peopleContentLinks").hide();
                     $("#spheresContentLinks").show();
                 }
@@ -90,24 +123,44 @@ $(document).ready(function() {
                     $(".following").show();
                     $(".follower").show();
                     $(".other").show();
+                    
+                    if ($(".memberCard").length == 0)
+                    {
+                        $("#noPeopleResultsMessage").show();
+                    }
                 }
                 else if (contentType == "following")
                 {
                     $(".follower").hide();
                     $(".other").hide();
                     $(".following").show();
+                    
+                    if ($(".following").length == 0)
+                    {
+                        $("#noPeopleResultsMessage").show();
+                    }
                 }
                 else if (contentType == "followers")
                 {
                     $(".following").hide();
                     $(".other").hide();
                     $(".follower").show();
+
+                    if ($(".follower").length == 0)
+                    {
+                        $("#noPeopleResultsMessage").show();
+                    }
                 }
                 else if (contentType == "other")
                 {
                     $(".following").hide();
                     $(".follower").hide();
                     $(".other").show();
+
+                    if ($(".other").length == 0)
+                    {
+                        $("#noPeopleResultsMessage").show();
+                    }
                 }
 
                 $("#mainSearchContent").fadeIn();
@@ -136,7 +189,7 @@ $(document).ready(function() {
                     $(".mySpheres").show();
                     $(".otherSpheres").show();
 
-                    if ($(".mySpheres").add(".otherSpheres").length == 0)
+                    if ($(".sphereCard").length == 0)
                     {
                         $("#noSpheresResultsMessage").show();
                     }
