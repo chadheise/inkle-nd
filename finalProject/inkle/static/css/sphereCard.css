@@ -21,9 +21,14 @@
     color: #1B5898;
 }
 
-.leaveSphereMessage
+.sphereMessage
 {
+    display: none;
     padding: 5px;
+    border: 2px solid #444;
+    background-color: #BBB;
+    border-radius: 5px;
+    margin-bottom: 15px;
 }
 
 .buttons

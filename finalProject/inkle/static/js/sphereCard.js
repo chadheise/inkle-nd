@@ -9,12 +9,39 @@ $(document).ready(function() {
         sphereCard.removeClass("otherSpheres").addClass("mySpheres");
     }
 
+    /* Shows a message when the logged in member joins a sphere */
+    function showJoinSphereMessage(sphereCard, sphereName)
+    {
+        // Fade out the sphere card
+        sphereCard.fadeOut("medium", function() {
+            // Create the sphere message
+            sphereCard.after("<p class='sphereMessage'>You joined the <span class='leaveSphereName'>" + sphereName + "</span> sphere.</p>");
+
+            // Fade in the sphere message and then fade it out after a set time
+            var sphereMessageElement = sphereCard.next(".sphereMessage");
+            sphereMessageElement
+                .fadeIn("medium")
+                .delay(2000)
+                .fadeOut("medium", function() {
+                    // Remove the sphere message
+                    $(this).remove();
+
+                    // If no other spheres or sphere messages exist, fade in the no spheres results message
+                    if ($(".otherSpheres").add(".sphereMessage").length == 0)
+                    {
+                        $("#noSpheresResultsMessage").fadeIn("medium");
+                    }
+                });
+        });
+    }
+
     /* Add the logged in member to the sphere whose "Join sphere" button is clicked */
     $(".joinSphere").live("click", function() {
         // Get the this element
         var sphereCard = $(this).parents(".sphereCard");
         
-        // Get the ID of the sphere which the logged in member is joining
+        // Get the name and ID of the sphere which the logged in member is joining
+        var sphereName = sphereCard.find(".sphereCardName").text();
         var sphereID = parseInt($(this).attr("sphereID"));
     
         // Add the logged in member to the clicked sphere and update the sphere card
@@ -29,7 +56,7 @@ $(document).ready(function() {
                 // Get the content type of the selected search subsection content link
                 var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
 
-                // If all spheres are showing, simply update the sphere card
+                // If we are on the member page or we are on the search page and all spheres are showing, simply update the sphere card
                 if ((pageContext == "member") || (searchContentType == "all"))
                 {
                     joinSphereHelper(sphereCard);
@@ -38,9 +65,8 @@ $(document).ready(function() {
                 // If only other spheres are showing, fade out the sphere card and update it
                 else if (searchContentType == "otherSpheres")
                 {
-                    sphereCard.fadeOut("medium", function() {
-                        joinSphereHelper(sphereCard);
-                    });
+                    showJoinSphereMessage(sphereCard, sphereName);
+                    joinSphereHelper(sphereCard);
                 }
             },
             error: function(a, b, error) { alert("sphereCard.js (1): " + error); }
@@ -58,17 +84,45 @@ $(document).ready(function() {
     }
 
     /* Shows a message when the logged in member leaves a sphere */
-    function showLeaveSphereMessage(sphereCard, sphereName)
+    function showLeaveSphereMessage(sphereCard, sphereName, pageContext)
     {
+        // Fade out the sphere card
         sphereCard.fadeOut("medium", function() {
-            sphereCard
-                .html("<p class='leaveSphereMessage'>You left the <span class='leaveSphereName'>" + sphereName + "</span> sphere.</p>")
+            // Create the sphere message
+            sphereCard.after("<p class='sphereMessage'>You left the <span class='leaveSphereName'>" + sphereName + "</span> sphere.</p>");
+
+            // Fade in the sphere message and then fade it out after a set time
+            var sphereMessageElement = sphereCard.next(".sphereMessage");
+            sphereMessageElement
                 .fadeIn("medium")
                 .delay(2000)
                 .fadeOut("medium", function() {
-                    if ($(".sphereCard:visible").length == 0)
+                    // Remove the sphere message
+                    $(this).remove();
+                    
+                    // If we are on the manage page, remove the sphere card and check if no more spheres are present
+                    if (pageContext == "manage")
                     {
-                        $("#spheresContent").html("<p>You are not a member of any spheres.</p>");
+                        // Remove the sphere card
+                        sphereCard.remove();
+
+                        // If no more sphere cards are present, fade in a message saying the user is not in any spheres
+                        if ($(".sphereCard").length == 0)
+                        {
+                            $("#spheresContent").hide(function() {
+                                $("#spheresContent").html("<p>You are not a member of any spheres.</p>");
+                                $("#spheresContent").fadeIn("medium");
+                            });
+                        }
+                    }
+
+                    // If we are on the search page and there are no more my spheres or sphere messages, fade in the no spheres results message
+                    else if (pageContext == "search")
+                    {
+                        if ($(".mySpheres").add(".sphereMessage").length == 0)
+                        {
+                            $("#noSpheresResultsMessage").fadeIn("medium");
+                        }
                     }
                 });
         });
@@ -79,7 +133,7 @@ $(document).ready(function() {
         // Get the this element
         var sphereCard = $(this).parents(".sphereCard");
         
-        // Get the name and ID of the sphere which the logged in member is joining
+        // Get the name and ID of the sphere which the logged in member is leaving
         var sphereName = sphereCard.find(".sphereCardName").text();
         var sphereID = parseInt($(this).attr("sphereID"));
     
@@ -98,10 +152,10 @@ $(document).ready(function() {
                 // Simply hide the sphere card if we are on the manage page
                 if (pageContext == "manage")
                 {
-                    showLeaveSphereMessage(sphereCard, sphereName);
+                    showLeaveSphereMessage(sphereCard, sphereName, pageContext);
                 }
 
-                // If we are on the search page and all spheres are showing, simply update the sphere card
+                // If we are on the member page or on the search page and all spheres are showing, simply update the sphere card
                 else if ((pageContext == "member") || (searchContentType == "all"))
                 {
                     leaveSphereHelper(sphereCard);
@@ -110,9 +164,8 @@ $(document).ready(function() {
                 // If only my spheres are showing, fade out the sphere card and update it
                 else if (searchContentType == "mySpheres")
                 {
-                    sphereCard.fadeOut("medium", function() {
-                        leaveSphereHelper(sphereCard);
-                    });
+                    showLeaveSphereMessage(sphereCard, sphereName, pageContext);
+                    leaveSphereHelper(sphereCard);
                 }
             },
             error: function(a, b, error) { alert("sphereCard.js (2): " + error); }
