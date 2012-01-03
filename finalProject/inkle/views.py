@@ -215,8 +215,8 @@ def search_view(request, query = ""):
     # Determine the information to show on each member's card
     for m in members:
         # Determine the names of the current member's spheres
-        m.sphereNames = [s.name for s in m.spheres.all()]
-        
+        m.sphereNames = [s.name.split() for s in m.spheres.all()]
+
         # Determine the current member's people type and button list
         if ((m in member.following.all()) and (member in m.following.all())):
             m.people_type = "following follower"
@@ -247,9 +247,9 @@ def search_view(request, query = ""):
 
         #Add circles
         if (m in member.following.all()):
-            m.circles2 = [c for c in member.circles.all()]
-            for c in m.circles2:
-                    c.members2 = c.members.all()
+            m.circleNames = [circle for circle in member.circles.all()]
+            for circle in m.circleNames:
+                    circle.memberNames = circle.members.all()
 
         # Determine the mutual followings
         m.mutual_followings = member.following.all() & m.following.all()
@@ -293,14 +293,14 @@ def requests_view(request):
 
     # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in requested_members:
-        m.sphereNames = [sphere.name for sphere in m.spheres.all()]
+        m.sphereNames = [sphere.name.split() for sphere in m.spheres.all()]
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
         m.show_contact_info = True
     
     # For each pending member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in pending_members:
-        m.sphereNames = [sphere.name for sphere in m.spheres.all()]
+        m.sphereNames = [sphere.name.split() for sphere in m.spheres.all()]
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = [buttonDictionary["revoke"]]
         if ((m in member.followers.all()) or (m in requested_members)):

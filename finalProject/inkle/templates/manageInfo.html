@@ -16,7 +16,7 @@
 {% endif %}
 
 <!-- Member phone -->
-{% if member.phone  and member.phone|length_is:"10" %}
+{% if member.phone and member.phone|length_is:"10" %}
     <div class="infoSection">
         <p class="infoLabel">Phone:</p>
         <p id="managePhone">({{ member.phone|slice:"0:3" }}) {{ member.phone|slice:"3:6" }}-{{ member.phone|slice:"6:10" }}</p>

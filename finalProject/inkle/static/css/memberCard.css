@@ -10,6 +10,70 @@ ul {
     margin-bottom: 10px;
 }
 
+.cardImage
+{
+    border: 1px solid #444;
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin: 5px 10px 5px 5px;
+}
+
+.memberCard .memberInfo
+{
+    float: left;
+    width: 540px;
+    margin-bottom: 5px;
+}
+
+.memberCard .infoRow
+{
+    float: left;
+    clear: right;
+    width: 100%;
+}
+
+.memberCard .memberName
+{
+    color: #288D42;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+    float: left;
+}
+
+.memberCard .memberSpheres
+{
+    font-size: 14px;
+    text-align: justify;
+    margin: -3px 0px 3px 0px;
+}
+
+.mutualFollowings
+{
+    font-size: 12px;
+}
+
+.memberCard .contactInfo
+{
+    float: right;
+    font-size: 12px;
+    text-align: right;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.cardButton
+{
+    color: #FFF;
+    font-weight: bold;
+    margin-left: 10px;
+    border-style: solid;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+}
+
 .memberMessageName
 {
     color: #288D42;
@@ -23,74 +87,6 @@ ul {
     background-color: #BBB;
     border-radius: 5px;
     margin-bottom: 15px;
-}
-
-.cardImage
-{
-    border: 1px solid #444;
-    height: 100px;
-    width: 100px;
-    float: left;
-    margin: 5px 10px 5px 5px;
-}
-
-.memberCardInfo
-{
-    width: 400px;
-    float: left;
-    margin: 0px 10px 5px 0px;
-}
-
-.memberCardName
-{
-    color: #288D42;
-    font-size: 32px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.memberCardSpheres
-{
-    font-size: 14px;
-    width: 100%;
-}
-
-.memberCardSphere
-{
-    float: left;
-}
-
-.mutualFriends
-{
-    clear: both;
-    font-size: 12px;
-    margin-bottom: 5px;
-}
-
-.memberCardContactInfo
-{
-    float: left;
-    font-size: 12px;
-    text-align: right;
-    width: 130px;
-    margin-top: 5px;
-}
-
-.buttons
-{
-    float: right;
-    margin-bottom: 5px;
-}
-
-.cardButton
-{
-    color: #FFF;
-    font-weight: bold;
-    margin-left: 10px;
-    border-style: solid;
-    border-radius: 5px;
-    cursor: pointer;
-    float: right;
 }
 
 .requestToFollow, .revokeRequest, .acceptRequest, .circlesCardButton
@@ -119,14 +115,12 @@ ul {
 {
     display: none;
     z-index: 1;
-    border: 3px solid #946732;
-    border-radius: 5px;
-    background-color: #F1D8A2;
     position: absolute;
     width: 200px;
     color: #946732;
-    margin-bottom: 20px;
-    margin-right: 20px;
+    background-color: #F1D8A2;
+    border: 3px solid #946732;
+    border-radius: 5px;
 }
 
 .circlesMenu ul

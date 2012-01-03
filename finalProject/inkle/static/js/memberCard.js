@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    function hideMemberCard(memberID) {
-        $("#memberCard_" + memberID).fadeOut('medium');
-    }
-    
     /*----------------------Circle Button Functions--------------------------*/
     $(".circlesCardButton").live("mouseenter", function() {
         var memberID = $(this).attr("memberID");
@@ -54,7 +50,7 @@ $(document).ready(function() {
         });
         
         if (circleID == currentCircle || currentCircle == -1) {
-           hideMemberCard(toMemberID);
+            $("#memberCard_" + toMemberID).fadeOut('medium');
         }
     });
     
