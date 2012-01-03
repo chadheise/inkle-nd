@@ -1,20 +1,38 @@
 <!-- Location card -->
 <div class="grid_17 alpha omega">
-    <div id="locationCard_{{ location.id }}" class="locationCard">
-        <div class="grid_3">
-            <img class="cardImage" src="{{ STATIC_URL }}/media/images/locations/{{ location.image }}" />
-        </div>
-        
-        <div class="grid_9">
-            <a class="locationName" href="/inkle/location/{{ location.id }}">{{ location.name }}</a>
-            <p class="locationCategory">{{ location.category }}</p>
-            <div class="locationInfo grid_4">
-                <p><span class="locationInfoLabel">Phone: </span>{{ location.phone }}</p>
-                <p><span class="locationInfoLabel">Website: </span>{{ location.website }}</p>
+    <div class="locationCard">
+        <!-- Image -->
+        <img src="{{ STATIC_URL }}/media/images/locations/{{ location.image }}" />
+       
+        <!-- Location info -->
+        <div class="info">
+            <div class="infoRow">
+                <!-- Name -->
+                <a class="cardName" href="/inkle/location/{{ location.id }}">{{ location.name }}</a>
+            
+                <!-- Contact information -->
+                <div class="contactInfo">
+                    <!-- Phone -->
+                    {% if location.phone and location.phone|length_is:"10" %}
+                        <p>({{ location.phone|slice:"0:3" }}) {{ location.phone|slice:"3:6" }}-{{ location.phone|slice:"6:10" }}</p>
+                    {% endif %}
+                    
+                    <!-- Category -->
+                    {% if location.category %}
+                        <p>{{ location.category }}</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="locationInfo push_1 grid_4">
+
+            <!-- Address -->
+            <div class="infoRow locationAddress">
                 <p>{{ location.street }}</p>
                 <p>{{ location.city }}, {{ location.state }} {{ location.zip_code }}</p>
+            </div>
+
+            <!-- Website -->
+            <div class="infoRow">
+                <a class="locationWebsite"href="{{ location.website }}">{{ location.website }}</a>
             </div>
         </div>
         <div class="clear"></div>

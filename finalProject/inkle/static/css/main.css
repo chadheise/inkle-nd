@@ -94,3 +94,75 @@ input
     padding-top: 7px;
     font-size: 14px;
 }
+
+.memberCard, .locationCard, .sphereCard
+{
+    border: 2px solid #444;
+    background-color: #BBB;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.memberCard img, .locationCard img, .sphereCard img
+{
+    border: 1px solid #444;
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin: 5px 10px 5px 5px;
+}
+
+.cardName
+{
+    font-family: helvetica;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    float: left;
+}
+
+.cardButton
+{
+    padding: 2px 5px 2px 5px;
+    margin-left: 10px;
+    color: #FFF;
+    border-style: solid;
+    font-weight: bold;
+    float: right;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.infoRow
+{
+    float: left;
+    clear: right;
+    width: 100%;
+}
+
+.memberMessage, .sphereMessage
+{
+    display: none;
+    padding: 5px;
+    border: 2px solid #444;
+    background-color: #BBB;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.memberCard .info, .locationCard .info
+{
+    float: left;
+    width: 542px;
+    margin-bottom: 5px;
+}
+
+.memberCard .contactInfo, .locationCard .contactInfo
+{
+    float: right;
+    font-size: 12px;
+    text-align: right;
+    margin-top: 2px;
+    font-weight: bold;
+}

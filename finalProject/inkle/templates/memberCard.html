@@ -1,17 +1,14 @@
 <!-- Member card -->
 <div class="grid_17 alpha omega">
-    <!-- TODO: get rid of id here -->
-    <div id="memberCard_{{ m.id }}" class="memberCard {{ m.people_type }}">
-        <!-- Member card image -->
-        <div style="float: left;">
-            <img class="cardImage" src="{{ STATIC_URL }}/media/images/members/{{ m.image }}" />
-        </div>
+    <div class="memberCard {{ m.people_type }}">
+        <!-- Image -->
+        <img src="{{ STATIC_URL }}/media/images/members/{{ m.image }}" />
 
         <!-- Member info -->
-        <div class="memberInfo">
+        <div class="info">
             <div class="infoRow">
-                <!-- Member card name -->
-                <a class="memberName" href="/inkle/member/{{ m.id }}">{{ m.first_name }} {{ m.last_name }}</a>
+                <!-- Name -->
+                <a class="cardName" href="/inkle/member/{{ m.id }}">{{ m.first_name }} {{ m.last_name }}</a>
                 
                 <!-- Contact information -->
                 {% if m.show_contact_info %}
