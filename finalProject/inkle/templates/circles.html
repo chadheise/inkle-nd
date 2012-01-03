@@ -18,6 +18,8 @@
         <div id="circleMembers">
             {% for m in members %}
                 {% include "memberCard.html" %}
+            {% empty %}
+                <p>There is no one in this circle.</p>
             {% endfor %}
         </div>
     </div>

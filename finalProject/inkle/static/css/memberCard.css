@@ -121,10 +121,6 @@ ul {
     background-color: #F1D8A2;
     border: 3px solid #946732;
     border-radius: 5px;
-}
-
-.circlesMenu ul
-{
-    padding: 5px;   
-    font-size: 12px;
+    padding: 5px;
+    font-size: 13px;
 }

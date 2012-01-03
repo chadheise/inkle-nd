@@ -247,9 +247,9 @@ def search_view(request, query = ""):
 
         #Add circles
         if (m in member.following.all()):
-            m.circleNames = [circle for circle in member.circles.all()]
-            for circle in m.circleNames:
-                    circle.memberNames = circle.members.all()
+            m.circles_copy = [circle for circle in member.circles.all()]
+            for circle in m.circles_copy:
+                    circle.members_copy = circle.members.all()
 
         # Determine the mutual followings
         m.mutual_followings = member.following.all() & m.following.all()
@@ -397,21 +397,21 @@ def circles_view(request):
     
     circles = member.circles.all()
     
-    for c in circles:
-        c.ms = c.members.all()
+    for circle in circles:
+        circle.ms = circle.members.all()
 
     members = member.accepted.all()
     for m in members:
-        m.spheres2 = m.spheres.all()
-        m.relationship = "friend"
+        m.sphereNames = [s.name.split() for s in m.spheres.all()]
+        m.show_contact_info = True
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
-        m.circles2 = [c for c in member.circles.all()]
-        for c in m.circles2:
-                c.members2 = c.members.all()
+        m.circles_copy = [circle for circle in member.circles.all()]
+        for circle in m.circles_copy:
+            circle.members_copy = circle.members.all()
 
     return render_to_response( "circles.html",
-        {"member" : member,"members" : members,"circles" : circles},
+        { "member" : member, "members" : members, "circles" : circles },
         context_instance = RequestContext(request) )
 
 def circle_content_view(request):
@@ -428,16 +428,13 @@ def circle_content_view(request):
         members = circle.members.all()
 
     for m in members:
-        m.spheres2 = m.spheres.all()
-        m.relationship = "friend"
+        m.sphereNames = [s.name.split() for s in m.spheres.all()]
+        m.show_contact_info = True
         m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = []
-        m.button_list.append(buttonDictionary["stop"])
-        #Add circles
-        m.button_list.append(buttonDictionary["circles"])
-        m.circles2 = [c for c in member.circles.all()]
-        for c in m.circles2:
-                c.members2 = c.members.all()
+        m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+        m.circles_copy = [circle for circle in member.circles.all()]
+        for circle in m.circles_copy:
+            circle.members_copy = circle.members.all()
 
     return render_to_response("circleContent.html", 
         {"circle" : circle, "members" : members},
