@@ -1,12 +1,12 @@
 <div class="grid_17 alpha omega">
-    <div id="sphereCard_{{sphere.id}}" class="sphereCard {{ sphere.contains_member }}">
+    <div class="sphereCard {{ sphere.sphere_type }}">
         <div class="grid_13">
             <p class="sphereCardName">{{ sphere.name }}</p>
         </div>
  
         <div class="buttons grid_3">
             {% for buttonClass, buttonText in sphere.button_list %}
-                <input class="cardButton {{buttonClass}}" type="button" value="{{buttonText}}" sphereID="{{ sphere.id }}" />
+                <button class="cardButton {{buttonClass}}" sphereID="{{ sphere.id }}" >{{ buttonText }}</button>
             {% endfor %}
         </div>
         <div class="clear"></div>

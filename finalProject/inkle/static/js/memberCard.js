@@ -58,9 +58,81 @@ $(document).ready(function() {
         }
     });
     
-    /* No longer allow a member to follow the logged in member when the "Prevent following" button is clicked */
+    /* Helper function for when a "Prevent following" button is clicked */
+    function preventFollowingHelper(memberCard)
+    {
+        // Remove the "Prevent following" button
+        memberCard.find(".preventFollowing").fadeOut("medium", function()
+        {
+            $(this).remove();
+        });
+
+        // Update the member card's classes
+        memberCard.removeClass("follower");
+        if (! memberCard.hasClass("following"))
+        {
+            memberCard.addClass("other");
+        }
+    }
+    
+    /* Shows a message when the logged in member prevents a member from following them */
+    function showPreventFollowingMessage(memberCard, memberName, pageContext)
+    {
+        // Fade out the member card
+        memberCard.fadeOut("medium", function() {
+            // Create the member message
+            memberCard.after("<p class='memberMessage'><span class='memberMessageName'>" + memberName + "</span> is no longer following you.</p>");
+
+            // Fade in the member message and then fade it out after a set time
+            var memberMessageElement = memberCard.next(".memberMessage");
+            memberMessageElement
+                .fadeIn("medium")
+                .delay(2000)
+                .fadeOut("medium", function() {
+                    // Remove the member message
+                    $(this).remove();
+
+                    // If we are on the followers manage page, remove the member card and check if no more members are present
+                    if (pageContext == "myFollowers")
+                    {
+                        // Remove the member card
+                        memberCard.remove();
+
+                        // If no more member cards are present, fade in a message saying no members are following the logged in member
+                        if ($(".memberCard").length == 0)
+                        {
+                            $("#followersContent").hide(function() {
+                                $("#followersContent").html("<p>No one is following you.</p>");
+                                $("#followersContent").fadeIn("medium");
+                            });
+                        }
+                    }
+
+                    // TODO:
+                    /*if ((pageContext == "location") && ($(".follower").length == 0))
+                    {
+                        $("#noPeopleResultsMessage").fadeIn("medium");
+                    }*/
+
+                    // If we are on the search page and there are no more followers or member messages, fade in the no people results message
+                    else if (pageContext == "search")
+                    {
+                        if ($(".follower").add(".memberMessage").length == 0)
+                        {
+                            $("#noPeopleResultsMessage").fadeIn("medium");
+                        }
+                    }
+                });
+        });
+    }
+
+    /* No longer allows a member to follow the logged in member when the "Prevent following" button is clicked */
     $(".preventFollowing").live("click", function() {
-        var thisElement = $(this);
+        // Get the member card
+        var memberCard = $(this).parents(".memberCard");
+        
+        // Get the name and ID of the member which the logged in member is prevent from following
+        var fromMemberName = memberCard.find(".memberCardName").text();
         var fromMemberID = parseInt($(this).attr("memberID"));
         
         $.ajax({
@@ -68,112 +140,140 @@ $(document).ready(function() {
             url: "/inkle/preventFollowing/",
             data: { "fromMemberID" : fromMemberID },
             success: function() {
-                if (!$("#peopleSubsectionContentLinks").is(":visible"))
+                // Get the context of the current page
+                var pageContext = $(".peopleContent").attr("context");
+                
+                // Get the content type of the selected search subsection content link
+                var searchContentType = $("#peopleContentLinks .selectedSubsectionContentLink").attr("contentType");
+               
+                // If any of the following are true, simply update the member card
+                if ((pageContext == "otherFollowers") || (pageContext == "following") || (pageContext == "location") || (searchContentType == "all") || (searchContentType == "following"))
                 {
-                    thisElement.remove();
+                    preventFollowingHelper(memberCard);
                 }
-                else if ($("#allPeopleContentLink").hasClass("selectedPeopleContentLink"))
+
+                // Otherwise, if any of the following are true, fade out the member card and update it
+                else if ((pageContext == "myFollowers") || (searchContentType = "followers"))
                 {
-                    var memberCard = thisElement.parents(".memberCard");
-                    thisElement.remove();
-                    memberCard.removeClass("follower");
-                    if (!memberCard.hasClass("following"))
-                    {
-                        memberCard.addClass("other");
-                    }
-                }
-                else if ($("#followingPeopleContentLink").hasClass("selectedPeopleContentLink"))
-                {
-                    var memberCard = thisElement.parents(".memberCard");
-                    thisElement.remove();
-                    memberCard.removeClass("follower");
-                }
-                else if ($("#followersPeopleContentLink").hasClass("selectedPeopleContentLink"))
-                {
-                    var memberCard = thisElement.parents(".memberCard");
-                    memberCard.fadeOut("medium", function() {
-                        thisElement.remove();
-                    
-                        memberCard.removeClass("follower");
-                        if (!memberCard.hasClass("following"))
-                        {
-                            memberCard.addClass("other");
-                        }
-                    });
+                    showPreventFollowingMessage(memberCard, fromMemberName, pageContext);
+                    preventFollowingHelper(memberCard);
                 }
             },
             error: function(a, b, error) { alert("memberCard.js (2): " + error); }
         });
     });
     
-    /*----------------------Stop Following Button --------------------------*/
-    $(".stopFollowing").live("click", function() {
-            var thisElement = $(this);
-            var toMemberID = parseInt($(this).attr("memberID"));
-            
-            $.ajax({
-                type: "POST",
-                url: "/inkle/stopFollowing/",
-                data: { "toMemberID" : toMemberID },
-                success: function() {
-                    if (!$("#peopleSubsectionContentLinks").is(":visible"))
+    /* Helper function for when a "Stop following" button is clicked */
+    function stopFollowingHelper(memberCard)
+    {
+        // Update the "Stop following" button and remove the "Circles" button
+        memberCard.find(".stopFollowing").fadeOut("medium", function()
+        {
+            $(this).text("Request to follow").removeClass("stopFollowing").addClass("requestToFollow");
+            $(this).fadeIn("medium");
+        });
+        memberCard.find(".circlesCardButton").fadeOut("medium", function()
+        {
+            $(this).remove();
+        });
+
+        // Update the member card's classes
+        memberCard.removeClass("following");
+        if (! memberCard.hasClass("follower"))
+        {
+            memberCard.addClass("other");
+        }
+    }
+    
+    /* Shows a message when the logged in member stop following another member */
+    function showStopFollowingMessage(memberCard, memberName, pageContext)
+    {
+        // Fade out the member card
+        memberCard.fadeOut("medium", function() {
+            // Create the member message
+            memberCard.after("<p class='memberMessage'>You are no longer following <span class='memberMessageName'>" + memberName + "</span>.</p>");
+
+            // Fade in the member message and then fade it out after a set time
+            var memberMessageElement = memberCard.next(".memberMessage");
+            memberMessageElement
+                .fadeIn("medium")
+                .delay(2000)
+                .fadeOut("medium", function() {
+                    // Remove the member message
+                    $(this).remove();
+
+                    // If we are on the followers manage page, remove the member card and check if no more members are present
+                    if (pageContext == "circles")
                     {
-                        thisElement.val("Request to follow");
-                        thisElement.addClass("requestToFollow");
-                        thisElement.removeClass("stopFollowing");
-                    }
-                    else if ($("#allPeopleContentLink").hasClass("selectedPeopleContentLink"))
-                    {
-                        thisElement.val("Request to follow");
-                        thisElement.addClass("requestToFollow");
-                        thisElement.removeClass("stopFollowing");
-                        var memberCard = thisElement.parents(".memberCard");
-                        memberCard.removeClass("following");
-                        if (!memberCard.hasClass("follower"))
+                        // Remove the member card
+                        memberCard.remove();
+
+                        // If no more member cards are present, fade in a message saying no members are following the logged in member
+                        if ($(".memberCard").length == 0)
                         {
-                            memberCard.addClass("other");
+                            $("#circleMembers").hide(function() {
+                                $("#circleMembers").html("<p>There is no one in this circle.</p>");
+                                $("#circleMembers").fadeIn("medium");
+                            });
                         }
                     }
-                    else if ($("#followersPeopleContentLink").hasClass("selectedPeopleContentLink"))
+
+                    // TODO
+                    else if (pageContext == "location")
                     {
-                        thisElement.val("Request to follow");
-                        thisElement.addClass("requestToFollow");
-                        thisElement.removeClass("stopFollowing");
-                        var memberCard = thisElement.parents(".memberCard");
-                        memberCard.removeClass("following");
+                        var a = 0;
                     }
-                    else if ($("#followingPeopleContentLink").hasClass("selectedPeopleContentLink"))
+
+                    // If we are on the search page and there are no more followers or member messages, fade in the no people results message
+                    else if (pageContext == "search")
                     {
-                        var memberCard = thisElement.parents(".memberCard");
-                        memberCard.fadeOut("medium", function() {
-                            thisElement.val("Request to follow");
-                            thisElement.addClass("requestToFollow");
-                            thisElement.removeClass("stopFollowing");
-                        
-                            memberCard.removeClass("following");
-                            if (!memberCard.hasClass("follower"))
-                            {
-                                memberCard.addClass("other");
-                            }
-                        });
-                    }
-                },
-                error: function(a, b, error) { alert("memberCard.js (3): " + error); }
-            });
-            
-            if ($(".selectedCircle").attr("circleID")) {
-               hideMemberCard(toMemberID);
-            }
-            else {
-                $(".circlesCardButton").each(function() {
-                    if ($(this).attr("memberID") == toMemberID) {
-                        $(this).fadeOut('medium');
+                        if ($(".following").add(".memberMessage").length == 0)
+                        {
+                            $("#noPeopleResultsMessage").fadeIn("medium");
+                        }
                     }
                 });
-            }
         });
+    }
+
+    /* Stops the logged in member from following another member when the "Stop following" button is clicked */
+    $(".stopFollowing").live("click", function() {
+        // Get the member card
+        var memberCard = $(this).parents(".memberCard");
         
-    /*----------------------Request to Following Button --------------------------*/
+        // Get the name and ID of the member which the logged in member is prevent from following
+        var toMemberName = memberCard.find(".memberCardName").text();
+        var toMemberID = parseInt($(this).attr("memberID"));
+            
+        $.ajax({
+            type: "POST",
+            url: "/inkle/stopFollowing/",
+            data: { "toMemberID" : toMemberID },
+            success: function() {
+                // Get the context of the current page
+                var pageContext = $(".peopleContent").attr("context");
+                
+                // Get the content type of the selected search subsection content link
+                var searchContentType = $("#peopleContentLinks .selectedSubsectionContentLink").attr("contentType");
+
+                // If any of the following are true, simply update the member card
+                if ((pageContext == "myFollowers") || (pageContext == "otherFollowers") || (pageContext == "following") || (searchContentType == "all") || (searchContentType == "followers"))
+                {
+                    stopFollowingHelper(memberCard);
+                }
+
+                // Otherwise, if any of the following are true, fade out the member card and update it
+                else if ((pageContext == "circles") || (pageContext == "location") || (searchContentType = "following"))
+                {
+                    showStopFollowingMessage(memberCard, toMemberName, pageContext);
+                    stopFollowingHelper(memberCard);
+                }
+            },
+            error: function(a, b, error) { alert("memberCard.js (3): " + error); }
+        });
+    });
+        
+    /* Send a request to follow a member when a "Request to follow" button is clicked */
     $(".requestToFollow").live("click", function() {
         var thisElement = $(this);
         var toMemberID = parseInt($(this).attr("memberID"));
@@ -183,16 +283,13 @@ $(document).ready(function() {
             url: "/inkle/requestToFollow/",
             data: { "toMemberID" : toMemberID },
             success: function(title) {
-                thisElement.val("Revoke request");
-                thisElement.addClass("revokeRequest");
-                thisElement.removeClass("requestToFollow");
-                thisElement.attr("title", title);
+                thisElement.text("Revoke request").addClass("revokeRequest").removeClass("requestToFollow").attr("title", title);
             },
             error: function(a, b, error) { alert("memberCard.js (4): " + error); }
         });
     });
     
-    // Revoke request button
+    /* Revoke a request to follow a member when a "Revoke request" button is clicked */
     $(".revokeRequest").live("click", function() {
         var thisElement = $(this);
         var toMemberID = parseInt($(this).attr("memberID"));
@@ -220,10 +317,7 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    thisElement.val("Request to follow");
-                    thisElement.removeClass("revokeRequest");
-                    thisElement.addClass("requestToFollow");
-                    thisElement.attr("title", title);
+                    thisElement.text("Request to follow").removeClass("revokeRequest").addClass("requestToFollow").attr("title", title);
                 }
             },
             error: function(a, b, error) { alert("memberCard.js (5): " + error); }
