@@ -48,4 +48,5 @@ urlpatterns = patterns(
     (r"^createLocation/$", "create_location_view"),
     (r"^getOthersInklings/$", "get_others_inklings_view"),
     (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
+    (r"^uploadImage/$", "upload_image_view"),
 )

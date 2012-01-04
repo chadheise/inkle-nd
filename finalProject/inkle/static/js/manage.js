@@ -93,8 +93,17 @@ $(document).ready(function() {
         });
     });
     
+    $('#imageForm').submit(function() {
+      alert('Handler for .submit() called.');
+      return false;
+    });
+    
     // Update the member's info in the database when the member submit button is clicked
     $("#manageSubmitButton").live("click", function() {
+        
+        //Submit the image
+        $('#imageForm').submit();
+        
         // Replace the member edit info content with the the members info and update the member in the database
         $("#manageInfo").fadeOut("medium", function() {
             // Get the member input values
@@ -109,13 +118,12 @@ $(document).ready(function() {
             var day = $("#daySelect option:selected").val();
             var year = $("#yearSelect option:selected").val();
             var gender = $("#genderSelect option:selected").val();
-            var image = $("#imageInput").val();
 
             // Update the member in the database and show the member info
             $.ajax({
                 type: "POST",
                 url: "/inkle/editMember/",
-                data: {"first_name" : first_name, "last_name" : last_name, "city" : city, "state" : state, "zipCode" : zipCode, "email" : email, "phone" : phone, "month" : month, "day" : day, "year" : year, "gender" : gender, "image" : image},
+                data: {"first_name" : first_name, "last_name" : last_name, "city" : city, "state" : state, "zipCode" : zipCode, "email" : email, "phone" : phone, "month" : month, "day" : day, "year" : year, "gender" : gender},
                 success: function(html) {
                     // Update the member info content
                     $("#manageInfo").html(html);
