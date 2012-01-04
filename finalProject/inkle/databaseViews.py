@@ -37,7 +37,7 @@ def upload_image_view(request):
             destination.close()
         print "Copied image"
     
-    return 1
+    return HttpResponse()
 
 def edit_member_view(request):
     """Edits the logged in member's Member object."""
