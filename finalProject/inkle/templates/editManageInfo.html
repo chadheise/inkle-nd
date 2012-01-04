@@ -73,9 +73,15 @@
 </select>
 
 <!-- Member image -->
-<label for="imageInput" class="infoLabel">Image:</label>
-<br />
-<input id="imageInput" class="formInput" value="{{ member.image }}" />
+<form id="imageForm" action="/inkle/uploadImage/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="imageInput" class="infoLabel">Image:</label>
+    <br />
+    <input type="file" id="imageInput" name ="image" class="formInput" value="{{ member.image }}" />
+    <input type="submit" style="display:none;"/>
+    <!-- <input type="submit"/> -->
+</form>
+    
 
 <!-- Submit and cancel buttons -->
 <button id="manageSubmitButton">Submit</button>

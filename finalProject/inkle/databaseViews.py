@@ -21,6 +21,24 @@ buttonDictionary = {
     "leave" : ("leaveSphere", "Leave sphere", "I no longer wish to be a part of this sphere"),
 }
 
+def upload_image_view(request):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/inkle/login/")
+
+    if request.FILES:
+        print str(request.FILES['image'])
+        fileName = 'inkle/static/media/images/members/' + str(request.session["member_id"]) + '.jpg'
+        destination = open(fileName, 'wb+')
+        for chunk in request.FILES['image'].chunks():
+            destination.write(chunk)
+            destination.close()
+        print "Copied image"
+    
+    return 1
+
 def edit_member_view(request):
     """Edits the logged in member's Member object."""
     # Get the member who is logged in (or redirect them to the login page)
@@ -40,7 +58,6 @@ def edit_member_view(request):
         member.phone = request.POST["phone"]
         member.birthday = request.POST["month"] + "/" + request.POST["day"] + "/" + request.POST["year"]
         member.gender = request.POST["gender"]
-        member.image = request.POST["image"]
 
         # Save the logged in member's updated information
         member.save()
