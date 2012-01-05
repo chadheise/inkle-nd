@@ -56,6 +56,24 @@ def edit_member_view(request):
         member.zip_code = request.POST["zipCode"]
         member.email = request.POST["email"]
         member.phone = request.POST["phone"]
+        
+        """# Check if the user is at least sixteen years old
+        if (day and month and year):
+            born = datetime.date(day = int(day), month = int(month), year = int(year))
+            today = datetime.date.today()
+    
+            try:
+                birthday = born.replace(year = today.year)
+            except ValueError:
+                birthday = born.replace(year = today.year, day = born.day - 1)
+            if birthday > today:
+                age = today.year - born.year - 1
+            else:
+                age = today.year - born.year
+
+            if (age < 16):
+                invalid_registration = True"""
+
         member.birthday = request.POST["month"] + "/" + request.POST["day"] + "/" + request.POST["year"]
         member.gender = request.POST["gender"]
 

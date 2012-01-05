@@ -60,7 +60,7 @@ $(document).ready(function() {
 
                 // Alert the user that they accepted the request
                 var memberCard = thisElement.parents(".memberCard");
-                var memberCardName = memberCard.find(".memberCardName").text();
+                var memberCardName = memberCard.find(".cardName").text();
                 memberCard.fadeOut(function() {
                     memberCard.html("You accepted " + memberCardName + "'s request to follow you.");
                     memberCard.css("padding", "10px");
@@ -100,7 +100,7 @@ $(document).ready(function() {
 
                 // Alert the user that they rejected the request
                 var memberCard = thisElement.parents(".memberCard");
-                var memberCardName = memberCard.find(".memberCardName").text();
+                var memberCardName = memberCard.find(".cardName").text();
                 memberCard.fadeOut(function() {
                     memberCard.html("You rejected " + memberCardName + "'s request to follow you.");
                     memberCard.css("padding", "10px");
