@@ -162,7 +162,7 @@ $(document).ready(function() {
         var memberCard = $(this).parents(".memberCard");
         
         // Get the name and ID of the member which the logged in member is prevent from following
-        var fromMemberName = memberCard.find(".memberCardName").text();
+        var fromMemberName = memberCard.find(".cardName").text();
         var fromMemberID = parseInt($(this).attr("memberID"));
         
         $.ajax({
@@ -272,7 +272,7 @@ $(document).ready(function() {
         var memberCard = $(this).parents(".memberCard");
         
         // Get the name and ID of the member which the logged in member is prevent from following
-        var toMemberName = memberCard.find(".memberCardName").text();
+        var toMemberName = memberCard.find(".cardName").text();
         var toMemberID = parseInt($(this).attr("memberID"));
             
         $.ajax({
@@ -333,7 +333,7 @@ $(document).ready(function() {
                 {
                     // Alert the user that they revoked the request
                     var memberCard = thisElement.parents(".memberCard");
-                    var memberCardName = memberCard.find(".memberCardName").text();
+                    var memberCardName = memberCard.find(".cardName").text();
                     memberCard.fadeOut(function() {
                         memberCard.html("You revoked your request to follow " + memberCardName + ".");
                         memberCard.css("padding", "10px");

@@ -41,7 +41,7 @@ $(document).ready(function() {
         var sphereCard = $(this).parents(".sphereCard");
         
         // Get the name and ID of the sphere which the logged in member is joining
-        var sphereName = sphereCard.find(".sphereCardName").text();
+        var sphereName = sphereCard.find(".cardName").text();
         var sphereID = parseInt($(this).attr("sphereID"));
     
         // Add the logged in member to the clicked sphere and update the sphere card
@@ -134,7 +134,7 @@ $(document).ready(function() {
         var sphereCard = $(this).parents(".sphereCard");
         
         // Get the name and ID of the sphere which the logged in member is leaving
-        var sphereName = sphereCard.find(".sphereCardName").text();
+        var sphereName = sphereCard.find(".cardName").text();
         var sphereID = parseInt($(this).attr("sphereID"));
     
         // Remove the logged in member from the clicked sphere and update the sphere card

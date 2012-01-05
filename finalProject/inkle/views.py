@@ -185,7 +185,8 @@ def get_edit_manage_html_view(request):
     else:
         member.day_range = range(1, 32)
 
-    member.year_range = range(1900, 2013)
+    today = datetime.date.today()
+    member.year_range = range(1900, today.year + 1)
 
     return render_to_response( "editManageInfo.html",
         {"member" : member, "states" : STATES, "months" : MONTHS},
@@ -646,9 +647,13 @@ def login_view(request):
             return HttpResponseRedirect("/inkle/")
         else:
             invalid_login = True
+    
+    # Create the year range
+    today = datetime.date.today()
+    year_range = range(1900, today.year + 1)
 
     return render_to_response( "login.html",
-        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "dayRange" : range(1, 32), "yearRange" : range(1900, 2013), "months" : MONTHS},
+        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "dayRange" : range(1, 32), "yearRange" : year_range, "months" : MONTHS},
         context_instance=RequestContext(request) )
 
 def register_view(request):
@@ -802,6 +807,26 @@ def register_view(request):
         if (password != confirm_password):
             invalid_confirm_password = True
             invalid_registration = True
+    
+        # Check if the user is at least sixteen years old
+        if (day and month and year):
+            born = datetime.date(day = int(day), month = int(month), year = int(year))
+            today = datetime.date.today()
+    
+            try:
+                birthday = born.replace(year = today.year)
+            except ValueError:
+                birthday = born.replace(year = today.year, day = born.day - 1)
+            if birthday > today:
+                age = today.year - born.year - 1
+            else:
+                age = today.year - born.year
+
+            if (age < 16):
+                invalid_day = True
+                invalid_month = True
+                invalid_year = True
+                invalid_registration = True
 
         # If the registration form is valid, create a new member with the provided POST data
         if (not invalid_registration):
@@ -853,7 +878,8 @@ def register_view(request):
     else:
         day_range = range(1, 32)
 
-    year_range = range(1900, 2013)
+    today = datetime.date.today()
+    year_range = range(1900, today.year + 1)
 
     return render_to_response( "login.html",
         {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
