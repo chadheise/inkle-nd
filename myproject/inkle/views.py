@@ -11,6 +11,9 @@ from myproject.inkle.choices import *
 
 from myproject.inkle.emails import *
 
+import random
+import hashlib
+
 from django.db.models import Q
 
 import datetime
@@ -831,6 +834,9 @@ def register_view(request):
 
         # If the registration form is valid, create a new member with the provided POST data
         if (not invalid_registration):
+            # Create the email verification hash
+            verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
+            
             member = Member(
                 first_name = first_name,
                 last_name = last_name,
@@ -838,7 +844,8 @@ def register_view(request):
                 password = password,
                 email = email,
                 birthday = month + "/" + day + "/" + year,
-                gender = gender
+                gender = gender,
+                verification_hash = verification_hash
             )
             
             member.save()
@@ -848,8 +855,8 @@ def register_view(request):
             member.image = str(member.id) + ".jpg"
             member.save()
 
-            # Send the new member the registration email
-            send_registration_email(member)
+            # Send the new member an email to verify their email address
+            send_email_verification_email(member)
                 
             # Login the new member
             request.session["member_id"] = member.id
@@ -887,7 +894,7 @@ def register_view(request):
 
     return render_to_response( "login.html",
         {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
-        context_instance=RequestContext(request) )
+        context_instance = RequestContext(request) )
 
 def logout_view(request):
     """Logs out the current user."""
@@ -897,3 +904,23 @@ def logout_view(request):
         pass
 
     return HttpResponseRedirect("/login/")
+
+
+def verify_email_view(request, email = None, verification_hash = None):
+    # Get the member corresponding to the inputted email (or redirect them to the login page)
+    try:
+        member = Member.objects.get(username = email)
+        return_dictionary = { "first_name" : member.first_name, "email" : email, "verified" : True },
+    except:
+        return_dictionary = { "verified" : False }
+
+    if (member.verification_hash == verification_hash):
+        member.verified = True
+        member.save()
+    else:
+        return_dictionary = { "verified" : False }
+
+    return render_to_response( "verifyEmail.html",
+        return_dictionary,
+        context_instance = RequestContext(request) )
+

@@ -66,6 +66,10 @@ class Member(User):
     phone = models.CharField(max_length = 10, default = "")
     image = models.CharField(max_length = 100, default = "default.jpg")
     
+    # Email verification
+    verification_hash = models.CharField(max_length = 32)
+    verified = models.BooleanField(default = False)
+
     # Address
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
