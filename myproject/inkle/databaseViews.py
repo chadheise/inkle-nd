@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 from myproject.inkle.models import *
-#from myproject.inkle.forms import *
+from myproject.inkle.emails import *
 
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
@@ -151,6 +151,9 @@ def request_to_follow_view(request):
     from_member.pending.add(to_member)
     to_member.requested.add(from_member)
 
+    # Email the to_member to let them know from_member has requested to follow them
+    send_request_to_follow_email(from_member, to_member)
+
     # Return the updated tooltip
     return HttpResponse(buttonDictionary["revoke"][2])
 
@@ -193,6 +196,9 @@ def accept_request_view(request):
     from_follower.save()
     to_member.followers.add(from_follower)
     from_member.following.add(to_member)
+    
+    # Email the from_member to let them know to_member has accepted their request to follow them
+    send_accept_request_email(from_member, to_member)
 
     return HttpResponse()
 
