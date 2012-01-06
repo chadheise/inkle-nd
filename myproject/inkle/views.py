@@ -6,9 +6,9 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib import auth
 
-from finalProject.inkle.models import *
-from finalProject.inkle.forms import *
-from finalProject.inkle.choices import *
+from myproject.inkle.models import *
+from myproject.inkle.forms import *
+from myproject.inkle.choices import *
 
 from django.db.models import Q
 

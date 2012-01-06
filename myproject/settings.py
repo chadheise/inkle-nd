@@ -9,8 +9,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-mysite_path = "/Users/cheise/Documents/Notre Dame/Courses/E-Technologies/homework/inkle/finalProject/"
-#mysite_path = "/home/jwenger/inkle/finalProject/"
+mysite_path = "/Users/cheise/Documents/Notre Dame/Courses/E-Technologies/homework/inkle/myproject/"
+#mysite_path = "/home/jwenger/inkle/myproject/"
 
 DATABASES = {
     'default': {
@@ -103,7 +103,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'finalProject.urls'
+ROOT_URLCONF = 'myproject.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
