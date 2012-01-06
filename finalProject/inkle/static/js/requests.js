@@ -44,7 +44,7 @@ $(document).ready(function() {
         // Send friend request to database
         $.ajax({
             type: "POST",
-            url: "/inkle/acceptRequest/",
+            url: "/acceptRequest/",
             data: { "fromMemberID" : fromMemberID },
             success: function() {
                 // Decrement the notification counter and hide it if it reaches zero
@@ -84,7 +84,7 @@ $(document).ready(function() {
         // Send friend request to database
         $.ajax({
             type: "POST",
-            url: "/inkle/rejectRequest/",
+            url: "/rejectRequest/",
             data: { "fromMemberID" : fromMemberID },
             success: function() {
                 // Decrement the notification counter and hide it if it reaches zero

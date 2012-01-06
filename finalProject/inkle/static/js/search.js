@@ -232,10 +232,10 @@ $(document).ready(function() {
        var locationName = $("#newLocationText").val()
        $.ajax({
            type: "POST",
-           url: "/inkle/createLocation/",
+           url: "/createLocation/",
            data: { "locationName" : locationName },
            success: function(locationID) {
-               window.location.href = "/inkle/location/" + locationID;
+               window.location.href = "/location/" + locationID;
            },
            error: function(a, b, error) { alert("search.js (1): " + error); }
        }); 
@@ -261,7 +261,7 @@ $(document).ready(function() {
           var sphereName = $("#newSphereText").val()
           $.ajax({
               type: "POST",
-              url: "/inkle/createSphere/",
+              url: "/createSphere/",
               data: { "sphereName" : sphereName },
               success: function() {
                   $("#newSphereText").fadeOut('medium', function() {
