@@ -48,16 +48,56 @@ def send_email_verification_email(member):
 
             <p>Hi %s,</p>
 
-            <p>Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking on the following link:</p>
-
-            <a href="http://www.inkleit.com/verifyEmail/%s/%s/">http://www.inkleit.com/verifyEmail/%s/%s/</a>
+            <p>Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a>.</p>
 
             <p>Once you account is verified, you'll be able to log into <a href="http://www.inkleit.com">Inkle</a> and redefine how you plan your weekends!</p>
     
             <p>Welcome aboard,<br />
             The Inkle team</p>
         </body>
-    </html>""" % (member.first_name, member.username, member.verification_hash, member.username, member.verification_hash)
+    </html>""" % (member.first_name, member.username, member.verification_hash)
+    
+    # Send the email
+    send_email(from_address, to_addresses, subject, body_text, body_html)
+
+
+def send_reset_password_email(member):
+    """Sends an email which allows member to reset their password."""
+    # Specify the from address and to addresses
+    from_address = "support@inkleit.com"
+    to_addresses = [member.email]
+
+    # Specify the subject
+    subject = "Reset your Inkle password"
+    
+    # Specify the text body
+    body_text = """Hi %s,
+
+        We hear you forgot the password to your Inkle account! You can easily reset it using the following link:
+
+        http://www.inkleit.com/resetPassword/%s/%s/
+
+        If you didn't request to reset your password, don't worry - just disregard this message.
+    
+    Thanks,
+    The Inkle team""" % (member.first_name, member.username, member.verification_hash)
+    
+    # Specify the HTML body
+    body_html = """<html>
+        <head><head>
+        <body>
+            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
+
+            <p>Hi %s,</p>
+
+            <p>We hear you forgot the password to your Inkle account! You can easily reset it <a href="http://www.inkleit.com/resetPassword/%s/%s/">here</a>.</p>
+
+            <p>If you didn't request to reset your password, don't worry - just disregard this message.</p>
+    
+            <p>Thanks,<br />
+            The Inkle team</p>
+        </body>
+    </html>""" % (member.first_name, member.username, member.verification_hash)
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)

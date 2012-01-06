@@ -606,3 +606,26 @@ def create_location_view(request):
 
     # Return the new location's ID
     return HttpResponse(location.id)
+
+
+def reset_password_database_view(request):
+    """Resets the member's password."""
+    # Get the logged in member (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.POST["memberID"])
+    except:
+        return HttpResponseRedirect("/login/")
+
+    password = request.POST["password"]
+    confirmPassword = request.POST["confirmPassword"]
+
+    if ((password) and (password == confirmPassword)):
+        member.set_password(password)
+        member.save()
+        return render_to_response( "passwordChanged.html",
+            { "m" : member },
+            context_instance = RequestContext(request) )
+    else:
+        return render_to_response( "resetPasswordContent.html",
+            { "m" : member },
+            context_instance = RequestContext(request) )
