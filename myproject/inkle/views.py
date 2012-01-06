@@ -7,8 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 from myproject.inkle.models import *
-#from myproject.inkle.forms import *
 from myproject.inkle.choices import *
+
+from myproject.inkle.emails import *
 
 from django.db.models import Q
 
@@ -842,15 +843,18 @@ def register_view(request):
             
             member.save()
             
-            #Create default image for the new member
+            # Create default image for the new member
             shutil.copyfile('inkle/static/media/images/members/default.jpg', 'inkle/static/media/images/members/' + str(member.id) + '.jpg')
             member.image = str(member.id) + ".jpg"
             member.save()
+
+            # Send the new member the registration email
+            send_registration_email(member)
                 
             # Login the new member
             request.session["member_id"] = member.id
             return HttpResponseRedirect("/")
-   
+
     # Parse the birthday data
     if month:
         month = int(month)
