@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Email verification</title>
+{% endblock title %}
+	
+{% block css %}
+{% endblock css %}
+
+{% block js %}
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <!-- Welcome (home left) -->
+        <div class="grid_24">
+            {% if verified %}
+                <p>Congrats {{ first_name }}, your account has been verified! Head to the <a href="/login/">home page</a> to log in and start using Inkle!</p>
+            {% else %}
+                <p>Your account could not be verified either because no account exists with the provided username or the activation code is incorrect.</p>
+            {% endif %}
+        </div>
+{% endblock mainContent %}
