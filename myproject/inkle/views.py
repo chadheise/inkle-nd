@@ -646,7 +646,7 @@ def login_view(request):
                 invalid_login = True
         
         # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
-        if ((not invalid_login) and (member.password == password)):
+        if ((not invalid_login) and (member.password == password) and (member.verified)):
             request.session["member_id"] = member.id
             return HttpResponseRedirect("/")
         else:
@@ -858,9 +858,10 @@ def register_view(request):
             # Send the new member an email to verify their email address
             send_email_verification_email(member)
                 
-            # Login the new member
-            request.session["member_id"] = member.id
-            return HttpResponseRedirect("/")
+            # Send the member to the successful account creation page
+            return render_to_response( "accountCreated.html",
+                { "email" : email },
+                context_instance = RequestContext(request) )
 
     # Parse the birthday data
     if month:
@@ -907,14 +908,17 @@ def logout_view(request):
 
 
 def verify_email_view(request, email = None, verification_hash = None):
-    # Get the member corresponding to the inputted email (or redirect them to the login page)
+    """Verifies a member's email address using the inputted verification hash."""
+    # Get the member corresponding to the inputted email
     try:
         member = Member.objects.get(username = email)
-        return_dictionary = { "first_name" : member.first_name, "email" : email, "verified" : True },
+        return_dictionary = { "first_name" : member.first_name, "email" : email, "verified" : True }
     except:
+        member = None
         return_dictionary = { "verified" : False }
 
-    if (member.verification_hash == verification_hash):
+    # If the member object has been found, the account has not been verified yet, and the verification has is correct, verify the member
+    if ((member) and (not member.verified) and (member.verification_hash == verification_hash)):
         member.verified = True
         member.save()
     else:
@@ -923,4 +927,3 @@ def verify_email_view(request, email = None, verification_hash = None):
     return render_to_response( "verifyEmail.html",
         return_dictionary,
         context_instance = RequestContext(request) )
-
