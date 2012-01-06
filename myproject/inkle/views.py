@@ -646,7 +646,7 @@ def login_view(request):
                 invalid_login = True
         
         # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
-        if ((not invalid_login) and (member.password == password) and (member.verified)):
+        if ((not invalid_login) and (auth.authenticate(username = email, password = password)) and (member.verified)):
             request.session["member_id"] = member.id
             return HttpResponseRedirect("/")
         else:
@@ -658,7 +658,47 @@ def login_view(request):
 
     return render_to_response( "login.html",
         {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "dayRange" : range(1, 32), "yearRange" : year_range, "months" : MONTHS},
-        context_instance=RequestContext(request) )
+        context_instance = RequestContext(request) )
+
+def forgotten_password_view(request):
+    return render_to_response( "forgottenPassword.html",
+        {},
+        context_instance = RequestContext(request) )
+
+def send_reset_password_email_view(request):
+    # Get the email that was typed in
+    email = request.POST["email"]
+   
+    # Get the member who corresponds to the inputted email
+    try:
+        member = Member.objects.get(username = email)
+    except:
+        pass
+
+    if (member):
+        send_reset_password_email(member)
+    
+    return render_to_response( "resetPasswordEmailSent.html",
+        {"email" : email},
+        context_instance = RequestContext(request) )
+
+def reset_password_view(request, email = None, verification_hash = None):
+    """Verifies a member's email address using the inputted verification hash."""
+    # Get the member corresponding to the inputted email (or raise a 404 error)
+    try:
+        member = Member.objects.get(username = email)
+    except:
+        raise Http404()
+
+    # If the verification hash is correct, let the member reset their password 
+    if (member.verification_hash == verification_hash):
+        return render_to_response( "resetPassword.html",
+            { "m" : member },
+            context_instance = RequestContext(request) )
+
+    # Otherwise, if the hash is incorrect, raise a 404 error
+    else:
+        raise Http404()
 
 def register_view(request):
     """User login."""
@@ -841,13 +881,13 @@ def register_view(request):
                 first_name = first_name,
                 last_name = last_name,
                 username = email,
-                password = password,
                 email = email,
                 birthday = month + "/" + day + "/" + year,
                 gender = gender,
                 verification_hash = verification_hash
             )
             
+            member.set_password(password)
             member.save()
             
             # Create default image for the new member
