@@ -30,5 +30,5 @@ def send_email_verification_email(member):
                   http://www.inkleit.com/verifyEmail/%s/%s/
         Peace,
         The Inkle team
-    """ % (member.first_name, member.username, member.email_verification_hash)
+    """ % (member.first_name, member.username, member.verification_hash)
     send_email(from_address, to_addresses, subject, body)
