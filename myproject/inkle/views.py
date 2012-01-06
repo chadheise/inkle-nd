@@ -11,6 +11,9 @@ from myproject.inkle.choices import *
 
 from myproject.inkle.emails import *
 
+import random
+import hashlib
+
 from django.db.models import Q
 
 import datetime
@@ -643,7 +646,7 @@ def login_view(request):
                 invalid_login = True
         
         # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
-        if ((not invalid_login) and (member.password == password)):
+        if ((not invalid_login) and (member.password == password) and (member.verified)):
             request.session["member_id"] = member.id
             return HttpResponseRedirect("/")
         else:
@@ -831,6 +834,9 @@ def register_view(request):
 
         # If the registration form is valid, create a new member with the provided POST data
         if (not invalid_registration):
+            # Create the email verification hash
+            verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
+            
             member = Member(
                 first_name = first_name,
                 last_name = last_name,
@@ -838,7 +844,8 @@ def register_view(request):
                 password = password,
                 email = email,
                 birthday = month + "/" + day + "/" + year,
-                gender = gender
+                gender = gender,
+                verification_hash = verification_hash
             )
             
             member.save()
@@ -848,12 +855,13 @@ def register_view(request):
             member.image = str(member.id) + ".jpg"
             member.save()
 
-            # Send the new member the registration email
-            send_registration_email(member)
+            # Send the new member an email to verify their email address
+            send_email_verification_email(member)
                 
-            # Login the new member
-            request.session["member_id"] = member.id
-            return HttpResponseRedirect("/")
+            # Send the member to the successful account creation page
+            return render_to_response( "accountCreated.html",
+                { "email" : email },
+                context_instance = RequestContext(request) )
 
     # Parse the birthday data
     if month:
@@ -887,7 +895,7 @@ def register_view(request):
 
     return render_to_response( "login.html",
         {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
-        context_instance=RequestContext(request) )
+        context_instance = RequestContext(request) )
 
 def logout_view(request):
     """Logs out the current user."""
@@ -897,3 +905,25 @@ def logout_view(request):
         pass
 
     return HttpResponseRedirect("/login/")
+
+
+def verify_email_view(request, email = None, verification_hash = None):
+    """Verifies a member's email address using the inputted verification hash."""
+    # Get the member corresponding to the inputted email
+    try:
+        member = Member.objects.get(username = email)
+        return_dictionary = { "first_name" : member.first_name, "email" : email, "verified" : True }
+    except:
+        member = None
+        return_dictionary = { "verified" : False }
+
+    # If the member object has been found, the account has not been verified yet, and the verification has is correct, verify the member
+    if ((member) and (not member.verified) and (member.verification_hash == verification_hash)):
+        member.verified = True
+        member.save()
+    else:
+        return_dictionary = { "verified" : False }
+
+    return render_to_response( "verifyEmail.html",
+        return_dictionary,
+        context_instance = RequestContext(request) )

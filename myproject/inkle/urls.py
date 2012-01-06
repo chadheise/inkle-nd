@@ -10,6 +10,7 @@ urlpatterns = patterns(
     (r"^$", "home_view"),
     (r"^login/$", "login_view"),
     (r"^register/$", "register_view"),
+    (r"^verifyEmail/(?P<email>.+)/(?P<verification_hash>\w+)/$", "verify_email_view"),
     (r"^logout/$", "logout_view"),
     (r"^editMember/$", "edit_member_view"),
     (r"^location/(?P<location_id>\d+)/$", "location_view"),

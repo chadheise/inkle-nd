@@ -19,15 +19,16 @@ def send_email(from_address, to_addresses, subject, body):
     server.quit()
 
 
-def send_registration_email(member):
-    """Sends the registration email."""
+def send_email_verification_email(member):
+    """Sends the email verification email."""
     from_address = "support@inkleit.com"
     to_addresses = [member.email]
     subject = "Welcome to Inkle!"
-    body = """
-        Hi %s,
-           Welcome to Inkle! It'll lead you to a much better life.
+    body = """Hi %s,
+                  Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking on the following link:
+
+                  http://www.inkleit.com/verifyEmail/%s/%s/
         Peace,
         The Inkle team
-    """ % (member.first_name)
+    """ % (member.first_name, member.username, member.verification_hash)
     send_email(from_address, to_addresses, subject, body)
