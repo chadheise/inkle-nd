@@ -2,7 +2,7 @@
     <div class="container_24">
         <!-- Logo -->
         <div class="grid_5 suffix_1">
-            <a id="logoLink" href="/inkle/"><img id="logo" src="{{ STATIC_URL }}media/images/main/inkleLogo.png" /></a>
+            <a id="logoLink" href="/"><img id="logo" src="{{ STATIC_URL }}/media/images/main/inkleLogo.png" /></a>
         </div>
         
         {% if member %}
@@ -15,7 +15,7 @@
             <!-- Notifications -->
             <div class="grid_1">
                 {% if member.num_requests %}
-                    <a id="requestNotificationLink" href="/inkle/manage/requests/"><div id="requestNotification">{{ member.num_requests }}</div></a>
+                    <a id="requestNotificationLink" href="/manage/requests/"><div id="requestNotification">{{ member.num_requests }}</div></a>
                 {% else %}
                     <p class="grid_1">&nbsp;</p>
                 {% endif %}
@@ -24,10 +24,10 @@
             <!-- Member name / logout -->
             <div class="grid_5">
                 <div id="username" class="grid_5">
-                    <a href="/inkle/manage/circles/">{{ member.first_name }} {{ member.last_name }}</a>
+                    <a href="/manage/circles/">{{ member.first_name }} {{ member.last_name }}</a>
                 </div>
                 <div id="logout" class="grid_5">
-                    <a href="/inkle/logout/">Logout</a>
+                    <a href="/logout/">Logout</a>
                 </div>
             </div>
         {% endif %}

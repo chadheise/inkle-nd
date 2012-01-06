@@ -8,7 +8,7 @@ $(document).ready(function() {
     {
         $.ajax({
             type: "POST",
-            url: "/inkle/" + contentType + "/",
+            url: "/" + contentType + "/",
             data: {},
             success: function(html) {
                 // If this is the first load, simply load the member content

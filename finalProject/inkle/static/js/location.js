@@ -55,7 +55,7 @@ $(document).ready(function() {
             // Get the edit location content
             $.ajax({
                 type: "POST",
-                url: "/inkle/getEditLocationHtml/",
+                url: "/getEditLocationHtml/",
                 data: {"locationID" : locationID},
                 success: function(html) {
                     $("#locationInfo").html(html);
@@ -87,7 +87,7 @@ $(document).ready(function() {
             // Update the location in the database and show the location info
             $.ajax({
                 type: "POST",
-                url: "/inkle/editLocation/",
+                url: "/editLocation/",
                 data: {"locationID" : locationID, "name" : name, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "phone" : phone, "website" : website, "category" : category, "image" : image},
                 success: function(html) {
                     // Update the location info content
@@ -130,7 +130,7 @@ $(document).ready(function() {
             // Show the location info
             $.ajax({
                 type: "POST",
-                url: "/inkle/editLocation/",
+                url: "/editLocation/",
                 data: {"locationID" : locationID},
                 success: function(html) {
                     $("#locationInfo").html(html);

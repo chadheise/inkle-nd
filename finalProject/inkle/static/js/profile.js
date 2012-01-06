@@ -31,7 +31,7 @@ $(document).ready(function() {
        
         $.ajax({
             type: "POST",
-            url: "/inkle/editProfile/",
+            url: "/editProfile/",
             data: { "first_name" : first_name,
                     "last_name" : last_name,
                     "email" : email,

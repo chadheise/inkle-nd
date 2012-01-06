@@ -26,7 +26,7 @@ def upload_image_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     if request.FILES:
         print str(request.FILES['image'])
@@ -45,7 +45,7 @@ def edit_member_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     try:
         # Update the logged in member's information using the POST data
@@ -94,7 +94,7 @@ def edit_location_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Make sure the logged in member can update the location
     if (not member.is_staff):
@@ -142,7 +142,7 @@ def request_to_follow_view(request):
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request is being sent
     to_member = Member.objects.get(pk = request.POST["toMemberID"])
@@ -161,7 +161,7 @@ def revoke_request_view(request):
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
     to_member = Member.objects.get(pk = request.POST["toMemberID"])
@@ -180,7 +180,7 @@ def accept_request_view(request):
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member who sent the request
     from_member = Member.objects.get(pk = request.POST["fromMemberID"])
@@ -203,7 +203,7 @@ def reject_request_view(request):
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member who sent the request
     from_member = Member.objects.get(pk = request.POST["fromMemberID"])
@@ -221,7 +221,7 @@ def stop_following_view(request):
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
     to_member = Member.objects.get(pk = request.POST["toMemberID"])
@@ -238,7 +238,7 @@ def prevent_following_view(request):
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member who sent the request
     from_member = Member.objects.get(pk = request.POST["fromMemberID"])
@@ -275,7 +275,7 @@ def add_to_circle_view(request):
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
     to_member = Member.objects.get(pk = request.POST["toMemberID"])
@@ -318,7 +318,7 @@ def remove_from_circle_view(request):
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
     to_member = Member.objects.get(pk = request.POST["toMemberID"])
@@ -358,7 +358,7 @@ def create_circle_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Create the new circle
     circle = Circle(name = request.POST["circleName"])
@@ -377,7 +377,7 @@ def rename_circle_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Update the requested circle's name
     try:
@@ -401,7 +401,7 @@ def delete_circle_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the circle which is to be deleted
     circle = Circle.objects.get(pk = request.POST["circleID"])
@@ -425,7 +425,7 @@ def join_sphere_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the sphere which is being joined
     sphere = Sphere.objects.get(pk = request.POST["sphereID"])
@@ -442,7 +442,7 @@ def leave_sphere_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the sphere which is being left
     sphere = Sphere.objects.get(pk = request.POST["sphereID"])
@@ -459,7 +459,7 @@ def create_inkling_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
    
     # Get the POST data
     inkling_type = request.POST["inklingType"]
@@ -494,7 +494,7 @@ def remove_inkling_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Get the POST data
     inkling_type = request.POST["inklingType"]
@@ -528,7 +528,7 @@ def get_my_inklings_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Get the POST data
     date = request.POST["date"]

@@ -49,11 +49,11 @@ $(document).ready(function() {
         // Determine whether to add or remove the member from the circle depending on whether or not the input is checked
         if ($(this).is(":checked"))
         {
-            var url = "/inkle/addToCircle/"
+            var url = "/addToCircle/"
         }
         else
         {
-            var url = "/inkle/removeFromCircle/"
+            var url = "/removeFromCircle/"
         }
         
         // Add or remove the member to or from the circle
@@ -167,7 +167,7 @@ $(document).ready(function() {
         
         $.ajax({
             type: "POST",
-            url: "/inkle/preventFollowing/",
+            url: "/preventFollowing/",
             data: { "fromMemberID" : fromMemberID },
             success: function() {
                 // Get the context of the current page
@@ -277,7 +277,7 @@ $(document).ready(function() {
             
         $.ajax({
             type: "POST",
-            url: "/inkle/stopFollowing/",
+            url: "/stopFollowing/",
             data: { "toMemberID" : toMemberID },
             success: function() {
                 // Get the context of the current page
@@ -310,7 +310,7 @@ $(document).ready(function() {
         // Send friend request to database
         $.ajax({
             type: "POST",
-            url: "/inkle/requestToFollow/",
+            url: "/requestToFollow/",
             data: { "toMemberID" : toMemberID },
             success: function(title) {
                 thisElement.text("Revoke request").addClass("revokeRequest").removeClass("requestToFollow").attr("title", title);
@@ -326,7 +326,7 @@ $(document).ready(function() {
         // Send friend request to database
         $.ajax({
             type: "POST",
-            url: "/inkle/revokeRequest/",
+            url: "/revokeRequest/",
             data: { "toMemberID" : toMemberID },
             success: function(title) {
                 if (thisElement.parents("#requestsContent").length != 0)

@@ -14,7 +14,7 @@ $(document).ready(function() {
             // Load the circle's content
             $.ajax({
                 type: "POST",
-                url: "/inkle/circleContent/",
+                url: "/circleContent/",
                 data: { "circleID" : circleID },
                 success: function(html) {
                     $("#circleContent").fadeOut("medium", function() {
@@ -45,7 +45,7 @@ $(document).ready(function() {
     {
         $.ajax({
             type: "POST",
-            url: "/inkle/renameCircle/",
+            url: "/renameCircle/",
             data: { "circleID" : circleID, "circleName" : circleName },
             success: function(html) {
                 $("#renameCircleInput").parent(".circle").html(circleName);
@@ -117,7 +117,7 @@ $(document).ready(function() {
         {
             $.ajax({
                 type: "POST",
-                url: "/inkle/createCircle/",
+                url: "/createCircle/",
                 data: { "circleName" : name },
                 success: function(circleID) {
                     $("#newCircle").fadeOut("medium", function() {
@@ -152,7 +152,7 @@ $(document).ready(function() {
         // Delete the currently selected circle and set the accepted circle as the newly selected circle
         $.ajax({
             type: "POST",
-            url: "/inkle/deleteCircle/",
+            url: "/deleteCircle/",
             data: { "circleID" : circleID },
             success: function() {
                 $(".selectedCircle").fadeOut("medium", function() {
@@ -171,7 +171,7 @@ $(document).ready(function() {
         {
             $.ajax({
                 type: "POST",
-                url: "/inkle/suggestions/",
+                url: "/suggestions/",
                 data: {"type" : "addToCircle", "circleID" : circleID, "query" : query},
                 success: function(html) {
                     $("#addToCircleSuggestions").html(html);
@@ -192,7 +192,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/inkle/addToCircle/",
+            url: "/addToCircle/",
             data: {"circleID" : circleID, "toMemberID" : toMemberID},
             success: function(html) {
                 $("#circleMembers").prepend(html);

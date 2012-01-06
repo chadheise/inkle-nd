@@ -47,7 +47,7 @@ $(document).ready(function() {
         // Add the logged in member to the clicked sphere and update the sphere card
         $.ajax({
             type: "POST",
-            url: "/inkle/joinSphere/",
+            url: "/joinSphere/",
             data: { "sphereID" : sphereID },
             success: function() {
                 // Get the context of the current page
@@ -140,7 +140,7 @@ $(document).ready(function() {
         // Remove the logged in member from the clicked sphere and update the sphere card
         $.ajax({
             type: "POST",
-            url: "/inkle/leaveSphere/",
+            url: "/leaveSphere/",
             data: { "sphereID" : sphereID },
             success: function() {
                 // Get the context of the current page

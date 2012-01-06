@@ -20,7 +20,7 @@ from databaseViews import *
 def home_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
-           return HttpResponseRedirect("/inkle/login")
+           return HttpResponseRedirect("/login")
     
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -48,7 +48,7 @@ def home_view(request):
 def manage_view(request, default_content_type = "circles"):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
-          return HttpResponseRedirect("/inkle/login")
+          return HttpResponseRedirect("/login")
 
     # Get the member who is logged in
     member = Member.objects.get(pk = request.session["member_id"])
@@ -67,7 +67,7 @@ def member_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
     try:
@@ -129,7 +129,7 @@ def get_edit_location_html_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Make sure the logged in member can update the location
     if (not member.is_staff):
@@ -152,7 +152,7 @@ def get_edit_manage_html_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Parse the birthday information
     member.month = member.birthday.split("/")[0]
@@ -199,7 +199,7 @@ def search_view(request, query = ""):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Determine how many requests the logged in member has
     member.num_requests = len(member.requested.all())
@@ -285,7 +285,7 @@ def requests_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
 
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
@@ -317,7 +317,7 @@ def followers_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     if (other_member_id):
         # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
@@ -359,7 +359,7 @@ def following_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     if (other_member_id):
         # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
@@ -449,7 +449,7 @@ def spheres_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # If another member ID is inputted, get the spheres coresponding to that member
     if (other_member_id):
@@ -498,7 +498,7 @@ def spheres_view(request, other_member_id = None):
 def suggestions_view(request, query = ""):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
-           return HttpResponseRedirect("/inkle/login")
+           return HttpResponseRedirect("/login")
 
     query = request.POST["query"]
     query_type = request.POST["type"]
@@ -554,7 +554,7 @@ def suggestions_view(request, query = ""):
 def get_others_inklings_view(request):
     # If a user is not logged in, redirect them to the login page
     if ("member_id" not in request.session):
-           return HttpResponseRedirect("/inkle/login")
+           return HttpResponseRedirect("/login")
      
     # Get the logged in member
     member = Member.objects.get(pk = request.session["member_id"])
@@ -614,7 +614,7 @@ def login_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
     if ("member_id" in request.session):
-        return HttpResponseRedirect("/inkle/")
+        return HttpResponseRedirect("/")
         
     # Initially say the login is valid
     invalid_login = False
@@ -644,7 +644,7 @@ def login_view(request):
         # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
         if ((not invalid_login) and (member.password == password)):
             request.session["member_id"] = member.id
-            return HttpResponseRedirect("/inkle/")
+            return HttpResponseRedirect("/")
         else:
             invalid_login = True
     
@@ -660,11 +660,11 @@ def register_view(request):
     """User login."""
     # If a user is already logged in, go to the main page
     if ("member_id" in request.session):
-        return HttpResponseRedirect("/inkle/")
+        return HttpResponseRedirect("/")
     
     # If there is no POST data, redirect the user to the login page
     if (not request.POST):
-        return HttpResponseRedirect("/inkle/login/")
+        return HttpResponseRedirect("/login/")
     
     # Create a new user and log them in if they provided valid form data
     else:
@@ -849,7 +849,7 @@ def register_view(request):
                 
             # Login the new member
             request.session["member_id"] = member.id
-            return HttpResponseRedirect("/inkle/")
+            return HttpResponseRedirect("/")
    
     # Parse the birthday data
     if month:
@@ -892,4 +892,4 @@ def logout_view(request):
     except:
         pass
 
-    return HttpResponseRedirect("/inkle/login/")
+    return HttpResponseRedirect("/login/")

@@ -8,7 +8,7 @@ $(document).ready(function() {
     {
         $.ajax({
             type: "POST",
-            url: "/inkle/getMyInklings/",
+            url: "/getMyInklings/",
             data: {"date" : date},
             success: function(html) {
                 $("#homeContent").fadeOut("medium", function() {
@@ -65,7 +65,7 @@ $(document).ready(function() {
         // Update others' inklings
         $.ajax({
             type: "POST",
-            url: "/inkle/getOthersInklings/",
+            url: "/getOthersInklings/",
             data: { "peopleType" : peopleType, "peopleID" : peopleID, "inklingType" : inklingType, "includeMember" : includeMember, "date" : date },
             success: function(html) {
                 if (includeMember == "true")
@@ -161,7 +161,7 @@ $(document).ready(function() {
         {
             $.ajax({
                 type: "POST",
-                url: "/inkle/suggestions/",
+                url: "/suggestions/",
                 data: {"type" : "inkling", "query" : query},
                 success: function(html) {
                     // Update the HTML of the suggestions element
@@ -201,7 +201,7 @@ $(document).ready(function() {
             // Remove the inkling (and its corresponding image)
             $.ajax({
                 type: "POST",
-                url: "/inkle/removeInkling/",
+                url: "/removeInkling/",
                 data: {"inklingType" : inklingType, "date" : date},
                 success: function() {
                     inklingElement.find("img").attr("src", "/static/media/images/locations/default.jpg");
@@ -233,7 +233,7 @@ $(document).ready(function() {
         // Create the selected inkling and update its corresponding content
         $.ajax({
             type: "POST",
-            url: "/inkle/createInkling/",
+            url: "/createInkling/",
             data: {"inklingType" : inklingType, "locationID" : locationID, "date" : date},
             success: function(locationInfo) {
                 // Split the location name and image

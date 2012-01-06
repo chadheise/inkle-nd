@@ -28,7 +28,7 @@ $(document).ready(function() {
 
             if (query != "")
             {
-                window.location.href = "/inkle/search/" + query;
+                window.location.href = "/search/" + query;
             }
         }
     });
@@ -42,7 +42,7 @@ $(document).ready(function() {
             {
                 $.ajax({
                     type: "POST",
-                    url: "/inkle/suggestions/",
+                    url: "/suggestions/",
                     data: {"type" : "search", "query" : query},
                     success: function(html) {
                         $("#searchSuggestions").html(html);
@@ -63,6 +63,6 @@ $(document).ready(function() {
     
     $("#searchSuggestions .suggestion").live("click", function() {
         var query = $(this).children(".suggestionText").text();
-        window.location.href = "/inkle/search/" + query;
+        window.location.href = "/search/" + query;
     });
 });

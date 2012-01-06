@@ -31,7 +31,7 @@
             <div class="clear"></div>
 
             <!-- Login form -->
-            <form id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %} action="/inkle/login/" method="POST">
+            <form id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %} action="/login/" method="POST">
                 {% csrf_token %}
                 <div class="grid_10 alpha">
                     <!-- Login labels -->
@@ -46,7 +46,7 @@
                         <input id="loginEmail" class="grid_6 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ loginEmail }}" />
                         <input id="loginPassword" class="grid_6 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{loginPassword}}"/>
                         <div id="forgottenPassword" class="grid_6">
-                            <a href="/inkle/forgottenPassword/">I forgot my password</a>
+                            <a href="/forgottenPassword/">I forgot my password</a>
                         </div>
                         <label for="keepLoggedIn" class="grid_6">Keep me logged in</label>
                     </div>
@@ -57,7 +57,7 @@
             </form>
 
             <!-- Registration form -->
-            <form id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %} action="/inkle/register/" method="POST">
+            <form id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %} action="/register/" method="POST">
                 {% csrf_token %}
                 <div class="grid_10 alpha omega">
                     <!-- Registration labels -->

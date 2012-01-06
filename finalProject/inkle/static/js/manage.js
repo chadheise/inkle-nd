@@ -8,7 +8,7 @@ $(document).ready(function() {
     {
         $.ajax({
             type: "POST",
-            url: "/inkle/" + contentType + "/",
+            url: "/" + contentType + "/",
             data: {},
             success: function(html) {
                 // If this is the first load, simply load the manage content
@@ -82,7 +82,7 @@ $(document).ready(function() {
         $("#manageInfo").fadeOut("medium", function() {
             $.ajax({
                 type: "POST",
-                url: "/inkle/getEditManageHtml/",
+                url: "/getEditManageHtml/",
                 data: {},
                 success: function(html) {
                     $("#manageInfo").html(html);
@@ -122,7 +122,7 @@ $(document).ready(function() {
             // Update the member in the database and show the member info
             $.ajax({
                 type: "POST",
-                url: "/inkle/editMember/",
+                url: "/editMember/",
                 data: {"first_name" : first_name, "last_name" : last_name, "city" : city, "state" : state, "zipCode" : zipCode, "email" : email, "phone" : phone, "month" : month, "day" : day, "year" : year, "gender" : gender},
                 success: function(html) {
                     // Update the member info content
@@ -161,7 +161,7 @@ $(document).ready(function() {
         $("#manageInfo").fadeOut("medium", function() {
             $.ajax({
                 type: "POST",
-                url: "/inkle/editMember/",
+                url: "/editMember/",
                 data: {},
                 success: function(html) {
                     $("#manageInfo").html(html);
