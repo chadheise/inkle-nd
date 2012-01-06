@@ -8,5 +8,5 @@ from django.conf.urls.defaults import *
 #admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^',  include('inkle.urls')),
+    (r'^',  include('myproject.inkle.urls')),
 )

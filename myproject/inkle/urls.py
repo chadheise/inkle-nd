@@ -6,7 +6,7 @@ from django.conf.urls.defaults import *
 #admin.autodiscover()
 
 urlpatterns = patterns(
-    "inkle.views",
+    "myproject.inkle.views",
     (r"^$", "home_view"),
     (r"^login/$", "login_view"),
     (r"^register/$", "register_view"),
