@@ -851,7 +851,7 @@ def register_view(request):
             member.save()
             
             # Create default image for the new member
-            shutil.copyfile('inkle/static/media/images/members/default.jpg', 'inkle/static/media/images/members/' + str(member.id) + '.jpg')
+            shutil.copyfile('static/media/images/members/default.jpg', 'static/media/images/members/' + str(member.id) + '.jpg')
             member.image = str(member.id) + ".jpg"
             member.save()
 
