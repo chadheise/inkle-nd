@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 from myproject.inkle.models import *
-from myproject.inkle.forms import *
+#from myproject.inkle.forms import *
 from myproject.inkle.choices import *
 
 from django.db.models import Q
