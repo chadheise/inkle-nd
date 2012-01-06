@@ -6,8 +6,8 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
 from django.contrib import auth
 
-from finalProject.inkle.models import *
-from finalProject.inkle.forms import *
+from myproject.inkle.models import *
+from myproject.inkle.forms import *
 
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
