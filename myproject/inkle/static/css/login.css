@@ -13,6 +13,13 @@
     width: 470px;
 }
 
+#javascriptDisabledMessage
+{
+    color: #FF0000;
+    text-align: justify;
+    margin-top: 20px;
+}
+
 .unselectedContent
 {
     display: none;

@@ -39,6 +39,11 @@
                     {% endif %}
                 {% else %}
                     {% include "loginForm.html" %}
+                    <noscript id="javascriptDisabledMessage">
+                    <div id="javascriptDisabledMessage">
+                        We notice you don't have JavaScript enabled! In order to use Inkle properly, you'll need to turn JavaScript on in your browser's settings.
+                    </div></noscript>
+
                 {% endif %}
             </div>
 
