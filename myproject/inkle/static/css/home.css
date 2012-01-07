@@ -48,7 +48,7 @@
     background-color: #ABD4B0;
 }
 
-.inkling p
+.inklingTitle
 {
     margin-top: 2px;
     text-align: center;
@@ -57,7 +57,7 @@
     color: #288D42;
 }
 
-.inkling img
+.inklingImage
 {
     margin-top: 5px;
     border: solid 1px #000;
@@ -71,6 +71,12 @@
     font-size: 18px;
     padding: 5px;
     width: 192px;
+    border: inset 2px #BBB;
+}
+
+.inklingSuggestions
+{
+    width: 202px;
 }
 
 .locationBoardSelect

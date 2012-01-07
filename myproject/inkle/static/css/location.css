@@ -35,6 +35,11 @@
     font-weight: bold;
 }
 
+#locationInfo
+{
+    overflow: hidden;
+}
+
 #dinnerContent, #pregameContent
 {
     margin-bottom: 15px;

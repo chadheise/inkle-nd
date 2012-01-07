@@ -18,6 +18,14 @@
     margin-top: 36px;
     padding: 0px 5px 0px 5px;
     font-size: 16px;
+    border: inset 2px #BBB;
+}
+
+#searchSuggestions
+{
+    top: 65px;
+    margin-left: 5px;
+    width: 440px;
 }
 
 .emptySearchInput

@@ -514,7 +514,8 @@ def suggestions_view(request, query = ""):
         locations = Location.objects.filter(Q(name__contains = query))
         if (locations):
             categories.append((locations,))
-        footer_subject = "location"
+            
+        num_chars = 15
         
     elif (query_type == "search"):
         if (len(query.split()) == 1):
@@ -533,8 +534,8 @@ def suggestions_view(request, query = ""):
         spheres = Sphere.objects.filter(Q(name__contains = query))
         if (spheres):
             categories.append((spheres, "Spheres"))
-        
-        footer_subject = ""
+
+        num_chars = 45
 
     elif (query_type == "addToCircle"):
         circle_id = request.POST["circleID"]
@@ -550,10 +551,10 @@ def suggestions_view(request, query = ""):
                 p.name = p.first_name + " " + p.last_name
             categories.append((people,))
 
-        footer_subject = ""
+        num_chars = 10
 
-    return render_to_response("suggestions.html",
-        {"categories" : categories, "footerSubject" : footer_subject},
+    return render_to_response( "suggestions.html",
+        { "categories" : categories, "numChars" : num_chars },
         context_instance = RequestContext(request) )
 
 def get_others_inklings_view(request):
