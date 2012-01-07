@@ -209,13 +209,17 @@ def search_view(request, query = ""):
     # Determine how many requests the logged in member has
     member.num_requests = len(member.requested.all())
 
+    # Strip the whitespace off the ends of the query
+    query = query.strip()
+
     # Get the people who match the search query
     if (len(query.split()) == 1):
         members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
-    elif (query.split()[1] == ""):
-        members = Member.objects.filter(Q(first_name__startswith = query.split()[0]) | Q(last_name__startswith = query.split()[0]))
+    elif (len(query.split()) == 2):
+        query_split = query.split()
+        members = Member.objects.filter((Q(first_name__startswith = query_split[0]) & Q(last_name__startswith = query_split[1])) | (Q(first_name__startswith = query_split[1]) & Q(last_name__startswith = query_split[0])))
     else:
-        members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query) | Q(first_name__startswith = query.split()[0]) | Q(last_name__startswith = query.split()[1]))
+        members = []
 
     member.num_following = 0
     member.num_followers = 0
