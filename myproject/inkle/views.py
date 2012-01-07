@@ -13,6 +13,7 @@ from myproject.inkle.emails import *
 
 import random
 import hashlib
+import re
 
 from django.db.models import Q
 
@@ -702,10 +703,11 @@ def reset_password_view(request, email = None, verification_hash = None):
 
 def register_view(request):
     """User login."""
-    # If a user is already logged in, go to the main page
+    # If a member is already logged in, redirect them to the home page
     if ("member_id" in request.session):
         return HttpResponseRedirect("/")
     
+    # If no POST data is present, redirect the member to the login view
     if (not request.POST):
         return HttpResponseRedirect("/login/")
     
@@ -835,6 +837,11 @@ def register_view(request):
             invalid_email = True
             invalid_registration = True
 
+        # Check if the provided email is a valid email address
+        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", email)):
+            invalid_email = True
+            invalid_registration = True
+    
         # Check if the provided email matches the provided confirm email
         if (email != confirm_email):
             invalid_confirm_email = True
@@ -875,7 +882,8 @@ def register_view(request):
         if (not invalid_registration):
             # Create the email verification hash
             verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
-            
+           
+            # Create the new member
             member = Member(
                 first_name = first_name,
                 last_name = last_name,
@@ -886,12 +894,14 @@ def register_view(request):
                 verification_hash = verification_hash
             )
             
+            # Set the new member's password
             member.set_password(password)
-            member.save()
-            
+
             # Create default image for the new member
             shutil.copyfile('static/media/images/members/default.jpg', 'static/media/images/members/' + str(member.id) + '.jpg')
             member.image = str(member.id) + ".jpg"
+
+            # Save the new member
             member.save()
 
             # Send the new member an email to verify their email address
@@ -936,15 +946,6 @@ def register_view(request):
         {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance = RequestContext(request) )
 
-def logout_view(request):
-    """Logs out the current user."""
-    try:
-        del request.session["member_id"]
-    except:
-        pass
-
-    return HttpResponseRedirect("/login/")
-
 
 def verify_email_view(request, email = None, verification_hash = None):
     """Verifies a member's email address using the inputted verification hash."""
@@ -964,3 +965,13 @@ def verify_email_view(request, email = None, verification_hash = None):
     return render_to_response( "login.html",
         { "selectedContentLink" : "registration", "registrationContent" : "verifyEmail", "m" : member },
         context_instance = RequestContext(request) )
+
+
+def logout_view(request):
+    """Logs out the current user."""
+    try:
+        del request.session["member_id"]
+    except:
+        pass
+
+    return HttpResponseRedirect("/login/")
