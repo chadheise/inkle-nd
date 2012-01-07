@@ -706,7 +706,6 @@ def register_view(request):
     if ("member_id" in request.session):
         return HttpResponseRedirect("/")
     
-    # If there is no POST data, redirect the user to the login page
     if (not request.POST):
         return HttpResponseRedirect("/login/")
     
@@ -899,7 +898,7 @@ def register_view(request):
             send_email_verification_email(member)
                 
             # Send the member to the successful account creation page
-            return render_to_response( "accountCreated.html",
+            return render_to_response( "registrationConfirmation.html",
                 { "email" : email },
                 context_instance = RequestContext(request) )
 
@@ -933,7 +932,7 @@ def register_view(request):
     today = datetime.date.today()
     year_range = range(1900, today.year + 1)
 
-    return render_to_response( "login.html",
+    return render_to_response( "registrationForm.html",
         {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance = RequestContext(request) )
 

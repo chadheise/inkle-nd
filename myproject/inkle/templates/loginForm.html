@@ -1,0 +1,28 @@
+<form id="loginForm" action="/login/" method="POST">
+    {% csrf_token %}
+
+    <!-- Login form -->
+    <table>
+        <!-- Email -->
+        <tr>
+            <th><label for="loginEmail">Email:</label></th>
+            <td><input id="loginEmail" class="{% if invalidLogin %}invalid{% endif %}" type="text" name="email" maxlength="30" value="{{ loginEmail }}" /></td>
+        </tr>
+
+        <!-- Password -->
+        <tr>
+            <th><label for="loginPassword">Password:</label></th>
+            <td><input id="loginPassword" class="{% if invalidLogin %}invalid{% endif %}" type="password" name="password" maxlength="100" value="{{ loginPassword }}"/></td>
+        </tr>
+    </table>
+
+    <!-- Forgotten password link -->
+    <div id="forgottenPassword">
+        <a href="/forgottenPassword/">I forgot my password</a>
+    </div>
+
+    <!-- Login button -->
+    <div class="buttonContainer">
+        <input id="loginButton" type="submit" name="submit" value="Login" />
+    </div>
+</form>

@@ -24,92 +24,23 @@
         <!-- Login/registration (home right) -->
         <div class="grid_10">
             <!-- Content links -->
-            <div id="loginContentLinks" class="contentLinks">
+            <div id="loginContentLinks" class="contentLinks grid_10 alpha omega">
                 <p {% if selectedContentLink == "login" %}class="selectedContentLink{% endif %}" contentType="login">Login</p>
                 <p {% if selectedContentLink == "registration" %}class="selectedContentLink{% endif %}" contentType="registration">Register</p>
             </div> 
             <div class="clear"></div>
 
-            <!-- Login form -->
-            <form id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %} action="/login/" method="POST">
-                {% csrf_token %}
-                <div class="grid_10 alpha">
-                    <!-- Login labels -->
-                    <div class="grid_4 alpha omega">
-                        <label for="loginEmail" class="loginLabel grid_4">Email:</label>
-                        <label for="loginPassword" class="loginLabel grid_4">Password:</label>
-                        <div class="grid_4"><input id="keepLoggedIn" type="checkbox" name="keepLoggedIn" /></div>
-                    </div>
+            <!-- Login content -->
+            <div id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %}>
+                {% include "loginForm.html" %}
+            </div>
 
-                    <!-- Login inputs -->
-                    <div class="grid_6">
-                        <input id="loginEmail" class="grid_6 {% if invalidLogin %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ loginEmail }}" />
-                        <input id="loginPassword" class="grid_6 {% if invalidLogin %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{loginPassword}}"/>
-                        <div id="forgottenPassword" class="grid_6">
-                            <a href="/forgottenPassword/">I forgot my password</a>
-                        </div>
-                        <label for="keepLoggedIn" class="grid_6">Keep me logged in</label>
-                    </div>
-                </div>    
-
-                <!-- Login button -->
-                <input id="loginButton" class="button grid_4 push_3 alpha" type="submit" name="submit" value="Login" />
-            </form>
-
-            <!-- Registration form -->
-            <form id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %} action="/register/" method="POST">
-                {% csrf_token %}
-                <div class="grid_10 alpha omega">
-                    <!-- Registration labels -->
-                    <div class="grid_4 alpha omega">
-                        <label for="registrationFirstName" class="registrationLabel grid_4">First name:</label>
-                        <label for="registrationLastName" class="registrationLabel grid_4">Last name:</label>
-                        <label for="registrationEmail" class="registrationLabel grid_4">Email:</label>
-                        <label for="registrationConfirmEmail" class="registrationLabel grid_4">Confirm email:</label>
-                        <label for="registrationPassword" class="registrationLabel grid_4">Password:</label>
-                        <label id="registrationConfirmPasswordLabel" for="registrationConfirmPassword" class="registrationLabel grid_5">Confirm password:</label>
-                        <label for="registrationBirthday" class="registrationLabel grid_4">Birthday:</label>
-                        <label for="registrationGender" class="registrationLabel grid_4">Gender:</label>
-                    </div>
-
-                    <!-- Registration inputs -->
-                    <div class="grid_6 omega">
-                        <input id="registrationFirstName" class="grid_6 {% if invalidFirstName %}invalidInput{% endif %}" type="text" name="firstName" maxlength="30" value="{{ firstName }}" />
-                        <input id="registrationLastName" class="grid_6 {% if invalidLastName %}invalidInput{% endif %}" type="text" name="lastName" maxlength="30" value="{{ lastName }}" />
-                        <input id="registrationEmail" class="grid_6 {% if invalidEmail %}invalidInput{% endif %}" type="text" name="email" maxlength="30" value="{{ email }}" />
-                        <input id="registrationConfirmEmail" class="grid_6 {% if invalidConfirmEmail %}invalidInput{% endif %}" type="text" name="confirmEmail" maxlength="30" value="{{ confirmEmail }}" />
-                        <input id="registrationPassword" class="grid_6 {% if invalidPassword %}invalidInput{% endif %}" type="password" name="password" maxlength="30" value="{{ password }}" />
-                        <input id="registrationConfirmPassword" class="grid_6 {% if invalidConfirmPassword %}invalidInput{% endif %}" type="password" name="confirmPassword" maxlength="30" value="{{ confirmPassword }}" />
-                        <select id="registrationMonth" class="monthSelect {% if invalidMonth %}invalidInput{% endif %} grid_2 omega" name="month">
-                            <option value="" {% if not month %}selected{% endif %}>Month</option>
-                            {% for m, abbreviation in months %}
-                                <option value="{{ forloop.counter }}" {% if month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
-                            {% endfor %}
-                        </select>
-                        <select id="registrationDay" class="daySelect {% if invalidDay %}invalidInput{% endif %} grid_2 omega" name="day">
-                            <option value="" {% if not day %}selected{% endif %}>Day</option>
-                            {% for i in dayRange %}
-                                <option value="{{ i }}" {% if day == i %}selected{% endif %}>{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                        <select id="registrationYear" class="yearSelect {% if invalidYear %}invalidInput{% endif %} grid_2 omega" name="year">
-                            <option value="" {% if not year %}selected{% endif %}>Year</option>
-                            {% for i in yearRange reversed %}
-                                <option value="{{ i }}" {% if year == i %}selected{% endif %}>{{ i }}</option>
-                            {% endfor %}
-                        </select>
-                        <select id="registrationGender" class="{% if invalidGender %}invalidInput{% endif %} grid_3" name="gender">
-                            <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
-                            <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
-                            <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
-                        </select>
-                    </div>
-                </div>    
-
-                <!-- Registration button -->
-                <input id="registrationButton" class="button grid_4 push_3 alpha" type="submit" name="submit" value="Register" />
-            </form>
+            <!-- Registration content -->
+            <div id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %}>
+                {% include "registrationForm.html" %}
+            </div>
         </div>
+        <div class="clear"></div>
     </div>
 {% endblock mainContent %}
 

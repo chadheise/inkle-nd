@@ -1,0 +1,84 @@
+<div id="registrationForm">
+    {% csrf_token %}
+
+    <!-- Registration form -->
+    <table>
+        <!-- First name -->
+        <tr>
+            <th><label for="registrationFirstName">First name:</label></th>
+            <td><input id="registrationFirstName" class="{% if invalidFirstName %}invalid{% endif %}" type="text" maxlength="30" value="{{ firstName }}" /></td>
+        </tr>
+
+        <!-- Last name -->
+        <tr>
+            <th><label for="registrationLastName">Last name:</label></th>
+            <td><input id="registrationLastName" class="{% if invalidLastName %}invalid{% endif %}" type="text" maxlength="30" value="{{ lastName }}" /></td>
+        </tr>
+
+        <!-- Email -->
+        <tr>
+            <th><label for="registrationEmail">Email:</label></th>
+            <td><input id="registrationEmail" class="{% if invalidEmail %}invalid{% endif %}" type="text" maxlength="30" value="{{ email }}" /></td>
+        </tr>
+
+        <!-- Confirm email -->
+        <tr>
+            <th><label for="registrationConfirmEmail">Confirm email:</label></th>
+            <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalid{% endif %}" type="text" maxlength="30" value="{{ confirmEmail }}" /></td>
+        </tr>
+
+        <!-- Password -->
+        <tr>
+            <th><label for="registrationPassword">Password:</label></th>
+            <td><input id="registrationPassword" class="{% if invalidPassword %}invalid{% endif %}" type="password" maxlength="100" value="{{ password }}" /></td>
+        </tr>
+
+        <!-- Confirm password -->
+        <tr>
+            <th><label for="registrationConfirmPassword">Confirm password:</label></th>
+            <td><input id="registrationConfirmPassword" class="{% if invalidConfirmPassword %}invalid{% endif %}" type="password" maxlength="100" value="{{ confirmPassword }}" /></td>
+        </tr>
+
+        <!-- Birthday -->
+        <tr>
+            <th><label for="registrationMonth">Birthday:</label></th>
+            <td>
+                <select id="registrationMonth" class="monthSelect {% if invalidMonth %}invalid{% endif %}">
+                    <option value="" {% if not month %}selected{% endif %}>Month</option>
+                    {% for m, abbreviation in months %}
+                        <option value="{{ forloop.counter }}" {% if month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
+                    {% endfor %}
+                </select>
+                <select id="registrationDay" class="daySelect {% if invalidDay %}invalid{% endif %}">
+                    <option value="" {% if not day %}selected{% endif %}>Day</option>
+                    {% for i in dayRange %}
+                        <option value="{{ i }}" {% if day == i %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <select id="registrationYear" class="yearSelect {% if invalidYear %}invalid{% endif %}">
+                    <option value="" {% if not year %}selected{% endif %}>Year</option>
+                    {% for i in yearRange reversed %}
+                        <option value="{{ i }}" {% if year == i %}selected{% endif %}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <!-- Gender -->
+        <tr>
+            <th><label for="registrationGender">Gender:</label></th>
+            <td>
+                <select id="registrationGender" class="{% if invalidGender %}invalid{% endif %}">
+                    <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
+                    <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Registration button -->
+    <div class="buttonContainer">
+        <button id="registrationButton">Register</button>
+    </div>
+</div>
