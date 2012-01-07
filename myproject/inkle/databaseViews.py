@@ -611,6 +611,18 @@ def create_location_view(request):
     return HttpResponse(location.id)
 
 
+def send_password_reset_email_view(request):
+    """Sends an email to the inputted email so that the corresponding user can reset their password."""
+    # Get the member who corresponds to the provided email and send them an email to reset their password
+    try:
+        member = Member.objects.get(username = request.POST["email"])
+        send_password_reset_email(member)
+    except:
+        pass
+
+    return HttpResponse()
+
+
 def set_password_view(request):
     """Resets the member's password."""
     # Get the member corresponding to the provided email (or throw a 404 error)

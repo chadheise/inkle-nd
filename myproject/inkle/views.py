@@ -669,17 +669,16 @@ def request_password_reset_view(request):
         context_instance = RequestContext(request) )
 
 
-def send_password_reset_email_view(request):
-    """Sends an email to the inputted email so that the corresponding user can reset their password."""
-    # Get the member who corresponds to the provided email and send them an email to reset their password
+def password_reset_confirmation_view(request):
+    """Returns a confirmation message saying an email has been sent to the inputted email so that the corresponding user can reset their password."""
+    # Get the member who corresponds to the provided email
     email = request.POST["email"]
     try:
         member = Member.objects.get(username = email)
-        send_password_reset_email(member)
     except:
         pass
    
-    return render_to_response( "passwordResetEmailSent.html",
+    return render_to_response( "passwordResetConfirmation.html",
         { "email" : email },
         context_instance = RequestContext(request) )
 

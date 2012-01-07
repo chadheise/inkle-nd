@@ -12,6 +12,7 @@ urlpatterns = patterns(
     (r"^register/$", "register_view"),
     (r"^verifyEmail/(?P<email>.+)/(?P<verification_hash>\w+)/$", "verify_email_view"),
     (r"^requestPasswordReset/$", "request_password_reset_view"),
+    (r"^passwordResetConfirmation/$", "password_reset_confirmation_view"),
     (r"^sendPasswordResetEmail/$", "send_password_reset_email_view"),
     (r"^resetPassword/(?P<email>.+)/(?P<verification_hash>\w+)/$", "reset_password_view"),
     (r"^resetPassword/$", "set_password_view"),

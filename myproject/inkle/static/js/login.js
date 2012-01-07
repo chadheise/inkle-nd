@@ -49,14 +49,23 @@ $(document).ready(function() {
         {
             $.ajax({
                 type: "POST",
-                url: "/sendPasswordResetEmail/",
+                url: "/passwordResetConfirmation/",
                 data: { "email" : email },
                 success: function(html) {
                     $("#loginContent").fadeOut("medium", function() {
+                        // Fade in the confirmation content
                         $(this).html(html).fadeIn("medium");
+                        
+                        // Send the confirmation email
+                        $.ajax({
+                            type: "POST",
+                            url: "/sendPasswordResetEmail/",
+                            data: { "email" : email },
+                            error: function (a, b, error) { alert("login.js (2.2): " + error); }
+                        });
                     });
                 },
-                error: function (a, b, error) { alert("login.js (2): " + error); }
+                error: function (a, b, error) { alert("login.js (2.1): " + error); }
             });
         }
 
