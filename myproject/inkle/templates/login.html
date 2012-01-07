@@ -37,7 +37,13 @@
 
             <!-- Registration content -->
             <div id="registrationContent" {% if selectedContentLink == "login" %}class="unselectedContent"{% endif %}>
-                {% include "registrationForm.html" %}
+                {% if registrationContent %}
+                    {% if registrationContent == "verifyEmail" %}
+                        {% include "verifyEmail.html" %}
+                    {% endif %}
+                {% else %}
+                    {% include "registrationForm.html" %}
+                {% endif %}
             </div>
         </div>
         <div class="clear"></div>

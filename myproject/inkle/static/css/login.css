@@ -86,3 +86,13 @@ table td .invalid
     border-color: #1A492B;
     cursor: pointer;
 }
+
+.registrationMessage
+{
+    text-align: justify;
+}
+
+.boldFont
+{
+    font-weight: bold;
+}

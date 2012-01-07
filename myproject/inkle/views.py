@@ -948,21 +948,19 @@ def logout_view(request):
 
 def verify_email_view(request, email = None, verification_hash = None):
     """Verifies a member's email address using the inputted verification hash."""
-    # Get the member corresponding to the inputted email
+    # Get the member corresponding to the provided email (otherwise, throw a 404 error)
     try:
         member = Member.objects.get(username = email)
-        return_dictionary = { "first_name" : member.first_name, "email" : email, "verified" : True }
     except:
-        member = None
-        return_dictionary = { "verified" : False }
+        raise Http404()
 
-    # If the member object has been found, the account has not been verified yet, and the verification has is correct, verify the member
-    if ((member) and (not member.verified) and (member.verification_hash == verification_hash)):
+    # If the member has not yet been verified and the verification hash is correct, verify the member (otherwise, throw a 404 error)
+    if ((not member.verified) and (member.verification_hash == verification_hash)):
         member.verified = True
         member.save()
     else:
-        return_dictionary = { "verified" : False }
+        raise Http404()
 
-    return render_to_response( "verifyEmail.html",
-        return_dictionary,
+    return render_to_response( "login.html",
+        { "selectedContentLink" : "registration", "registrationContent" : "verifyEmail", "m" : member },
         context_instance = RequestContext(request) )
