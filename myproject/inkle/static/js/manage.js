@@ -100,7 +100,6 @@ $(document).ready(function() {
     
     // Update the member's info in the database when the member submit button is clicked
     $("#manageSubmitButton").live("click", function() {
-        
         //Submit the image
         $('#imageForm').submit();
         
