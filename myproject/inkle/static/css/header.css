@@ -1,8 +1,10 @@
 #header
 {
+    position: fixed;
     background-color: #288D42;
     height: 100px;
     width: 100%;
+    top: 0px;
 }
 
 #logo
