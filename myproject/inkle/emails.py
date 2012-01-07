@@ -31,7 +31,7 @@ def send_email_verification_email(member):
     # Specify the text body
     body_text = """Hi %s,
 
-        Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking on the following link:
+        Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking on the following one-time-only link:
 
         http://www.inkleit.com/verifyEmail/%s/%s/
 
@@ -48,7 +48,7 @@ def send_email_verification_email(member):
 
             <p>Hi %s,</p>
 
-            <p>Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a>.</p>
+            <p>Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> (Note that this link is a one-time-only link).</p>
 
             <p>Once you account is verified, you'll be able to log into <a href="http://www.inkleit.com">Inkle</a> and redefine how you plan your weekends!</p>
     
