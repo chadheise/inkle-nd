@@ -51,15 +51,26 @@ table td .invalid
     width: 75px;
 }
 
-#forgottenPassword
+#requestPasswordReset
 {
     text-align: right;
-}
-
-#forgottenPassword a
-{
+    margin-right: 6px;
     font-size: 12px;
     color: #288D42;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#requestPasswordResetEmail
+{
+    text-align: center;
+    margin: 10px 0px 5px 0px;
+}
+
+#requestPasswordResetEmail input
+{
+    width: 250px;
+    border: inset 2px #BBB;
 }
 
 .buttonContainer
@@ -67,7 +78,7 @@ table td .invalid
     text-align: center;
 }
 
-#loginButton, #registrationButton
+#loginButton, #registrationButton, #requestPasswordResetButton
 {
     padding: 5px 0px 5px 0px;
     width: 100px;
@@ -79,6 +90,7 @@ table td .invalid
     border-radius: 5px;
     background-color: #288D42;
     border-color: #336E34;
+    cursor: pointer;
 }
 
 #loginButton:hover, #registrationButton:hover
@@ -87,7 +99,7 @@ table td .invalid
     cursor: pointer;
 }
 
-.registrationMessage
+.loginMessage, .registrationMessage
 {
     text-align: justify;
 }

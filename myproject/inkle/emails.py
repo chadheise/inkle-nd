@@ -61,7 +61,7 @@ def send_email_verification_email(member):
     send_email(from_address, to_addresses, subject, body_text, body_html)
 
 
-def send_reset_password_email(member):
+def send_password_reset_email(member):
     """Sends an email which allows member to reset their password."""
     # Specify the from address and to addresses
     from_address = "support@inkleit.com"
