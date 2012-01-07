@@ -27,7 +27,47 @@ $(document).ready(function() {
         }
     });
 
-    // Define a startsWith() string function
+    /* Load the request password reset HTMl when the forgotten password link is clicked */
+    $("#requestPasswordReset").live("click", function() {
+        $.ajax({
+            url: "/requestPasswordReset/",
+            success: function(html) {
+                $("#loginContent").fadeOut("medium", function() {
+                    $(this).html(html).fadeIn("medium");
+                });
+            },
+            error: function(a, b, error) { alert("login.js (1): " + error); }
+        });
+    });
+
+    /* Send an email to the provided email with a link to reset their password when the request password reset button is clicked */
+    $("#requestPasswordResetButton").live("click", function() {
+        // If the input is a valid email address, send an email to it allowing them to reset their password
+        var email = $("#requestPasswordResetEmail input").val();
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;   
+        if (emailPattern.test(email))
+        {
+            $.ajax({
+                type: "POST",
+                url: "/sendPasswordResetEmail/",
+                data: { "email" : email },
+                success: function(html) {
+                    $("#loginContent").fadeOut("medium", function() {
+                        $(this).html(html).fadeIn("medium");
+                    });
+                },
+                error: function (a, b, error) { alert("login.js (2): " + error); }
+            });
+        }
+
+        // Otherwise, invalidate the email input
+        else
+        {
+            $("#requestPasswordResetEmail input").css("border", "solid 2px #FF0000");
+        }
+    });
+
+    /* Define a startsWith() string function */
     if(!String.prototype.startsWith) {
         String.prototype.startsWith = function (str) {
             return !this.indexOf(str);
@@ -35,8 +75,7 @@ $(document).ready(function() {
     }
 
     /* Submit the registration form when the "Register" button is clicked */
-    $("#registrationButton").live("click", function()
-    {
+    $("#registrationButton").live("click", function() {
         // Get the registration input values
         var firstName = $("#registrationFirstName").val();
         var lastName = $("#registrationLastName").val();
@@ -69,7 +108,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("login.js (1): " + error); }
+            error: function(a, b, error) { alert("login.js (3): " + error); }
         });
     });
 });

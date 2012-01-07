@@ -661,26 +661,26 @@ def login_view(request):
         {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "dayRange" : range(1, 32), "yearRange" : year_range, "months" : MONTHS},
         context_instance = RequestContext(request) )
 
-def forgotten_password_view(request):
-    return render_to_response( "forgottenPassword.html",
+
+def request_password_reset_view(request):
+    """Sends the HTML which enables a member to request a password reset email."""
+    return render_to_response( "requestPasswordReset.html",
         {},
         context_instance = RequestContext(request) )
 
-def send_reset_password_email_view(request):
-    # Get the email that was typed in
+
+def send_password_reset_email_view(request):
+    """Sends an email to the inputted email so that the corresponding user can reset their password."""
+    # Get the member who corresponds to the provided email and send them an email to reset their password
     email = request.POST["email"]
-   
-    # Get the member who corresponds to the inputted email
     try:
         member = Member.objects.get(username = email)
+        send_password_reset_email(member)
     except:
         pass
-
-    if (member):
-        send_reset_password_email(member)
-    
-    return render_to_response( "resetPasswordEmailSent.html",
-        {"email" : email},
+   
+    return render_to_response( "passwordResetEmailSent.html",
+        { "email" : email },
         context_instance = RequestContext(request) )
 
 def reset_password_view(request, email = None, verification_hash = None):
