@@ -211,9 +211,11 @@ def search_view(request, query = ""):
 
     # Get the people who match the search query
     if (len(query.split()) == 1):
-        members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query))
+        members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
+    elif (query.split()[1] == ""):
+        members = Member.objects.filter(Q(first_name__startswith = query.split()[0]) | Q(last_name__startswith = query.split()[0]))
     else:
-        members = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = query.split()[0]) | Q(last_name__contains = query.split()[1]))
+        members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query) | Q(first_name__startswith = query.split()[0]) | Q(last_name__startswith = query.split()[1]))
 
     member.num_following = 0
     member.num_followers = 0
@@ -510,22 +512,32 @@ def suggestions_view(request, query = ""):
 
     categories = []
 
+    # Strip the whitespace off the ends of the query
+    query = query.strip()
+
     if (query_type == "inkling"):
         locations = Location.objects.filter(Q(name__contains = query))
         if (locations):
             categories.append((locations,))
             
         num_chars = 15
-        
+       
+    # Header search suggestions
     elif (query_type == "search"):
+        # If the query is only one word long, match the members' first or last names alone
         if (len(query.split()) == 1):
-            people = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query))
+            members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
+        elif (len(query.split()) == 2):
+            query_split = query.split()
+            members = Member.objects.filter((Q(first_name__startswith = query_split[0]) & Q(last_name__startswith = query_split[1])) | (Q(first_name__startswith = query_split[1]) & Q(last_name__startswith = query_split[0])))
         else:
-            people = Member.objects.filter(Q(first_name__contains = query) | Q(last_name__contains = query) | Q(first_name__contains = query.split()[0]) | Q(last_name__contains = query.split()[1]))
-        if (people):
-            for p in people:
-                p.name = p.first_name + " " + p.last_name
-            categories.append((people, "People"))
+            members = []
+
+        # Add the members category to the search suggestions
+        if (members):
+            for m in members:
+                m.name = m.first_name + " " + m.last_name
+            categories.append((members, "Members"))
         
         locations = Location.objects.filter(Q(name__contains = query) | Q(city__contains = query))
         if (locations):
