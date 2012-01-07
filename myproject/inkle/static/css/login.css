@@ -61,27 +61,15 @@ table td .invalid
     cursor: pointer;
 }
 
-#requestPasswordResetEmail
-{
-    text-align: center;
-    margin: 10px 0px 5px 0px;
-}
-
-#requestPasswordResetEmail input
-{
-    width: 250px;
-    border: inset 2px #BBB;
-}
-
 .buttonContainer
 {
     text-align: center;
 }
 
-#loginButton, #registrationButton, #requestPasswordResetButton
+#loginButton, #registrationButton, #requestPasswordResetButton, #resetPasswordButton
 {
     padding: 5px 0px 5px 0px;
-    width: 100px;
+    width: 125px;
     font-weight: bold;
     font-size: 12px;
     color: white;
@@ -107,4 +95,9 @@ table td .invalid
 .boldFont
 {
     font-weight: bold;
+}
+
+.loginPageLink
+{
+    color: #288D42;
 }

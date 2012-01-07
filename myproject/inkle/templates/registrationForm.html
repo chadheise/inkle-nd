@@ -18,13 +18,13 @@
         <!-- Email -->
         <tr>
             <th><label for="registrationEmail">Email:</label></th>
-            <td><input id="registrationEmail" class="{% if invalidEmail %}invalid{% endif %}" type="text" maxlength="30" value="{{ email }}" /></td>
+            <td><input id="registrationEmail" class="{% if invalidEmail %}invalid{% endif %}" type="text" maxlength="50" value="{{ email }}" /></td>
         </tr>
 
         <!-- Confirm email -->
         <tr>
             <th><label for="registrationConfirmEmail">Confirm email:</label></th>
-            <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalid{% endif %}" type="text" maxlength="30" value="{{ confirmEmail }}" /></td>
+            <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalid{% endif %}" type="text" maxlength="50" value="{{ confirmEmail }}" /></td>
         </tr>
 
         <!-- Password -->

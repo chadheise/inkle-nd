@@ -33,7 +33,13 @@
 
             <!-- Login content -->
             <div id="loginContent" {% if selectedContentLink == "registration" %}class="unselectedContent"{% endif %}>
-                {% include "loginForm.html" %}
+                {% if loginContent %}
+                    {% if loginContent == "resetPassword" %}
+                        {% include "resetPassword.html" %}
+                    {% endif %}
+                {% else %}
+                    {% include "loginForm.html" %}
+                {% endif %}
             </div>
 
             <!-- Registration content -->

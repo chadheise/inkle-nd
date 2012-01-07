@@ -14,7 +14,7 @@ urlpatterns = patterns(
     (r"^requestPasswordReset/$", "request_password_reset_view"),
     (r"^sendPasswordResetEmail/$", "send_password_reset_email_view"),
     (r"^resetPassword/(?P<email>.+)/(?P<verification_hash>\w+)/$", "reset_password_view"),
-    (r"^resetPassword/$", "reset_password_database_view"),
+    (r"^resetPassword/$", "set_password_view"),
     (r"^logout/$", "logout_view"),
     (r"^editMember/$", "edit_member_view"),
     (r"^location/(?P<location_id>\d+)/$", "location_view"),
