@@ -9,6 +9,9 @@ from django.contrib import auth
 from myproject.inkle.models import *
 from myproject.inkle.emails import *
 
+import random
+import hashlib
+
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
     "prevent" : ("preventFollowing", "Prevent following", "No longer allow this person to follow me"),
@@ -608,24 +611,29 @@ def create_location_view(request):
     return HttpResponse(location.id)
 
 
-def reset_password_database_view(request):
+def set_password_view(request):
     """Resets the member's password."""
-    # Get the logged in member (or redirect them to the login page)
+    # Get the member corresponding to the provided email (or throw a 404 error)
     try:
         member = Member.objects.get(pk = request.POST["memberID"])
     except:
-        return HttpResponseRedirect("/login/")
+        raise Http404()
 
+    # Get the POST data
     password = request.POST["password"]
-    confirmPassword = request.POST["confirmPassword"]
+    confirm_password = request.POST["confirmPassword"]
+    verification_hash = request.POST["verificationHash"]
 
-    if ((password) and (password == confirmPassword)):
+    # If the passwords are long enough and match and the verification hash is correct, reset the user's password and generate a new verification hash
+    if ((len(password) >= 8) and (password == confirm_password) and (verification_hash == member.verification_hash)):
         member.set_password(password)
+        member.verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
         member.save()
-        return render_to_response( "passwordChanged.html",
-            { "m" : member },
-            context_instance = RequestContext(request) )
+
+    # Otherwise, throw a 404 error
     else:
-        return render_to_response( "resetPasswordContent.html",
-            { "m" : member },
-            context_instance = RequestContext(request) )
+        raise Http404()
+        
+    return render_to_response( "resetPasswordConfirmation.html",
+        { "m" : member },
+        context_instance = RequestContext(request) )

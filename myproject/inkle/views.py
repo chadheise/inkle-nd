@@ -685,7 +685,7 @@ def send_password_reset_email_view(request):
 
 def reset_password_view(request, email = None, verification_hash = None):
     """Verifies a member's email address using the inputted verification hash."""
-    # Get the member corresponding to the inputted email (or raise a 404 error)
+    # Get the member corresponding to the provided email (or raise a 404 error)
     try:
         member = Member.objects.get(username = email)
     except:
@@ -693,8 +693,8 @@ def reset_password_view(request, email = None, verification_hash = None):
 
     # If the verification hash is correct, let the member reset their password 
     if (member.verification_hash == verification_hash):
-        return render_to_response( "resetPassword.html",
-            { "m" : member },
+        return render_to_response( "login.html",
+            { "selectedContentLink" : "login", "loginContent" : "resetPassword", "m" : member },
             context_instance = RequestContext(request) )
 
     # Otherwise, if the hash is incorrect, raise a 404 error

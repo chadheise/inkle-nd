@@ -43,7 +43,7 @@ $(document).ready(function() {
     /* Send an email to the provided email with a link to reset their password when the request password reset button is clicked */
     $("#requestPasswordResetButton").live("click", function() {
         // If the input is a valid email address, send an email to it allowing them to reset their password
-        var email = $("#requestPasswordResetEmail input").val();
+        var email = $("#requestPasswordResetEmail").val();
         var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;   
         if (emailPattern.test(email))
         {
@@ -63,7 +63,38 @@ $(document).ready(function() {
         // Otherwise, invalidate the email input
         else
         {
-            $("#requestPasswordResetEmail input").css("border", "solid 2px #FF0000");
+            $("#requestPasswordResetEmail").css("border", "solid 2px #FF0000");
+        }
+    });
+
+    /* Reset the member's password when the reset password button is pressed */
+    $("#resetPasswordButton").click(function() {
+        var memberID = $(this).attr("memberID");
+        var verificationHash = $(this).attr("verificationHash");
+        var password = $("#resetPasswordPassword").val();
+        var confirmPassword = $("#resetPasswordConfirmPassword").val();
+      
+        // If the passwords are long enough and match, reset the member's password
+        if ((password.length >= 8) && (password == confirmPassword))
+        {
+            $.ajax({
+                type: "POST",
+                url: "/resetPassword/",
+                data: { "memberID" : memberID, "verificationHash" : verificationHash, "password" : password, "confirmPassword" : confirmPassword },
+                success: function(html) {
+                    $("#loginContent").fadeOut("medium", function() {
+                        $(this).html(html).fadeIn("medium");
+                    });
+                },
+                error: function (a, b, error) { alert("login.js (3): " + error); }
+            });
+        }
+
+        // Otherwise, invalidate the password and confirm password inputs
+        else
+        {
+            $("#resetPasswordPassword").css("border", "solid 2px #FF0000");
+            $("#resetPasswordConfirmPassword").css("border", "solid 2px #FF0000");
         }
     });
 
@@ -108,7 +139,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("login.js (3): " + error); }
+            error: function(a, b, error) { alert("login.js (4): " + error); }
         });
     });
 });
