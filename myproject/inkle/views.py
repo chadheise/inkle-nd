@@ -880,7 +880,7 @@ def register_view(request):
 
         # If the registration form is valid, create a new member with the provided POST data
         if (not invalid_registration):
-            # Create the email verification hash
+            # Create the verification hash
             verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
            
             # Create the new member
@@ -955,9 +955,10 @@ def verify_email_view(request, email = None, verification_hash = None):
     except:
         raise Http404()
 
-    # If the member has not yet been verified and the verification hash is correct, verify the member (otherwise, throw a 404 error)
+    # If the member has not yet been verified and the verification hash is correct, verify the member and give them a new verification hash(otherwise, throw a 404 error)
     if ((not member.verified) and (member.verification_hash == verification_hash)):
         member.verified = True
+        member.verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
         member.save()
     else:
         raise Http404()
