@@ -1,20 +1,21 @@
-{% if categories %}
-    {% for category, categoryTitle in categories %}
-        {% if categoryTitle %}
-            <div class="suggestionCategory">{{ categoryTitle }}</div>
-        {% endif %}
+{% load extraTags %}
+
+{% for category, categoryTitle in categories %}
+    <!-- Category title -->
+    {% if categoryTitle %}
+        <div class="suggestionCategory">
+            <p>{{ categoryTitle }}</p>
+        </div>
+    {% endif %}
       
-        {% for suggestion in category %}
-            <div class="suggestion" suggestionID="{{ suggestion.id }}">
-                <img class="suggestionImage" src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
-                <div class="suggestionText">{{ suggestion.name }}</div>
-            </div>
-        {% endfor %}
+    <!-- Category suggestions -->
+    {% for suggestion in category %}
+        <div class="suggestion" suggestionID="{{ suggestion.id }}">
+            <img src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
+            <p>{{ suggestion.name|truncatecharacters:numChars }}</p>
+        </div>
     {% endfor %}
-{% else %}
+{% empty %}
+    <!-- No suggestions -->
     <div id="noSuggestions">No results</div>
-{% endif %}
- 
-{% if footerSubject %}
-    <div class="suggestionFooter">Suggest a new {{ footerSubject }}.</div>
-{% endif %}
+{% endfor %}

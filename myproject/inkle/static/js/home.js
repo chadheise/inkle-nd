@@ -167,10 +167,6 @@ $(document).ready(function() {
                     // Update the HTML of the suggestions element
                     suggestionsElement.html(html);
 
-                    // Set the size of the suggestion images
-                    $(".suggestionImage").css("width", "40px");
-                    $(".suggestionImage").css("height", "40px");
-                    
                     // Fade in the suggestions element
                     suggestionsElement.fadeIn("medium");
                 },

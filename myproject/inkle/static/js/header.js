@@ -62,7 +62,7 @@ $(document).ready(function() {
     });
     
     $("#searchSuggestions .suggestion").live("click", function() {
-        var query = $(this).children(".suggestionText").text();
+        var query = $(this).children(".suggestion p").text();
         window.location.href = "/search/" + query;
     });
 });

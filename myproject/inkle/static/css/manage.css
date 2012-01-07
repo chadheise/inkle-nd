@@ -35,6 +35,11 @@
     font-weight: bold;
 }
 
+#manageInfo
+{
+    overflow: hidden;
+}
+
 .infoSection
 {
     margin-bottom: 15px;
