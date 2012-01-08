@@ -241,6 +241,18 @@ def members_search_query(query):
     return members
 
 
+def locations_search_query(query):
+    """Returns the locations which match the inputted query."""
+    locations = Location.objects.filter(Q(name__contains = query))
+    return locations
+        
+
+def spheres_search_query(query):
+    """Returns the spheres which match the inputted query."""
+    spheres = Sphere.objects.filter(Q(name__contains = query))
+    return spheres
+
+
 def search_view(request, query = ""):
     """Gets the members, locations, and spheres which match the inputted query and returns the HTML for the search page."""
     # Get the member who is logged in (or redirect them to the login page)
@@ -327,6 +339,77 @@ def search_view(request, query = ""):
 
     return render_to_response( "search.html",
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
+        context_instance = RequestContext(request) )
+
+
+def suggestions_view(request):
+    """Returns suggestions for the inputted query."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/")
+    
+    # Get the POST data
+    query = request.POST["query"].strip()
+    query_type = request.POST["type"]
+
+    # Initialize the list of suggestion categories
+    categories = []
+
+    # Case 1: Location suggestions for an inkling
+    if (query_type == "inkling"):
+        # Get the location suggestions (and add them to the categories list if there are any)
+        locations = locations_search_query(query)
+        if (locations):
+            categories.append((locations,))
+        
+        # Set the number of characters to show for each suggestion
+        num_chars = 15
+       
+    # Case 2: Member, location, and sphere suggestions for the main header search
+    elif (query_type == "search"):
+        # Get the member suggestions (and add them to the categories list if there are any)
+        members = members_search_query(query)
+        if (members):
+            for m in members:
+                m.name = m.first_name + " " + m.last_name
+            categories.append((members, "People"))
+        
+        # Get the location suggestions (and add them to the categories list if there are any)
+        locations = locations_search_query(query)
+        if (locations):
+            categories.append((locations, "Locations"))
+
+        # Get the sphere suggestions (and add them to the categories list if there are any)
+        spheres = Sphere.objects.filter(Q(name__contains = query))
+        if (spheres):
+            categories.append((spheres, "Spheres"))
+
+        # Set the number of characters to show for each suggestion
+        num_chars = 45
+
+    # Case 3: Member suggestions for adding members to circles
+    elif (query_type == "addToCircle"):
+        # Get the requested circle (or throw a 404 error if the circle ID is invalid)
+        try:
+            circle = Circle.objects.get(pk = request.POST["circleID"])
+        except:
+            raise Http404()
+            
+        # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
+        members = members_search_query(query)
+        members = list(set(members) - set(circle.members.all()))
+        if (members):
+            for m in members:
+                m.name = m.first_name + " " + m.last_name
+            categories.append((members,))
+
+        # Set the number of characters to show for each suggestion
+        num_chars = 20
+
+    return render_to_response( "suggestions.html",
+        { "categories" : categories, "numChars" : num_chars },
         context_instance = RequestContext(request) )
 
 
@@ -471,75 +554,64 @@ def following_view(request, other_member_id = None):
         context_instance = RequestContext(request) )
 
     
-def circles_view(request):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-    
-    circles = member.circles.all()
-    
-    for circle in circles:
-        circle.ms = circle.members.all()
-
-    members = member.accepted.all()
-    for m in members:
-        m.sphereNames = [s.name.split() for s in m.spheres.all()]
-        m.show_contact_info = True
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
-        m.circles_copy = [circle for circle in member.circles.all()]
-        for circle in m.circles_copy:
-            circle.members_copy = circle.members.all()
-
-    return render_to_response( "circles.html",
-        { "member" : member, "members" : members, "circles" : circles },
-        context_instance = RequestContext(request) )
-
-def circle_content_view(request):
-    # Get the circle which was clicked
-    circle_id = request.POST["circleID"]
-    
-    member = Member.objects.get(pk = request.session["member_id"])
-    
-    circle = None
-    if (int(circle_id) == -1):
-        members = member.accepted.all()
-    else:
-        circle = Circle.objects.get(pk = circle_id)
-        members = circle.members.all()
-
-    for m in members:
-        m.sphereNames = [s.name.split() for s in m.spheres.all()]
-        m.show_contact_info = True
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
-        m.circles_copy = [circle for circle in member.circles.all()]
-        for circle in m.circles_copy:
-            circle.members_copy = circle.members.all()
-
-    return render_to_response("circleContent.html", 
-        {"circle" : circle, "members" : members},
-        context_instance = RequestContext(request) )
-
-
-def spheres_view(request, other_member_id = None):
-    """Returns the spheres of which either the logged in  member or the member corresponding to the inputted member ID is a member."""
+def circles_view(request, circle_id = None):
+    """Gets the logged in member's circles returns the HTML for the circles page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/")
-    
-    # If another member ID is inputted, get the spheres coresponding to that member
+
+    # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
+    if (circle_id):
+        circle = Circle.objects.get(pk = circle_id)
+        members = circle.members.all()
+    else:
+        circle = []
+        members = member.accepted.all()
+
+    # Get the necessary information for each member's member card
+    for m in members:
+        # Show the logged in member's contact information
+        m.show_contact_info = True
+
+        # Show the "Stop following" and "Circles" buttons
+        m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+
+        # Determine the members who are being followed by both the logged in member and the current member
+        m.mutual_followings = member.following.all() & m.following.all()
+
+    # If a circle ID is specified, return only the circle content (otherwise, return the entire HTML for the circles page)
+    try:
+        content = request.POST["content"]
+        html = "circleContent.html"
+    except:
+        html = "circles.html"
+
+    return render_to_response( html, 
+        { "member" : member, "members" : members, "circle" : circle },
+        context_instance = RequestContext(request) )
+
+
+def spheres_view(request, other_member_id = None):
+    """Gets the logged in member's or other member's spheres and returns the HTML for the sphere page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/")
+   
+    # If we are viewing another member's page, get the members who are following them
     if (other_member_id):
-        # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+        # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
             other_member = Member.objects.get(pk = other_member_id)
         except:
             raise Http404()
-        
-        # Get the other memeber's spheres
+
+        # Get the other member's spheres
         spheres = other_member.spheres.all()
-        
+
         # Determine the button list for each sphere
         for s in spheres:
             if (s in member.spheres.all()):
@@ -547,11 +619,11 @@ def spheres_view(request, other_member_id = None):
             else:
                 s.button_list = [buttonDictionary["join"]]
 
-        # Specify the text if the other member is not in any spheres
-        no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
-
         # Specify the page context
         page_context = "member"
+
+        # Specify the text if the other member is not in any spheres
+        no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
     
     # Otherwise, if no member ID is inputted, get the spheres corresponding to the logged in member
     else:
@@ -561,77 +633,17 @@ def spheres_view(request, other_member_id = None):
         # Give each sphere the "Leave sphere" button
         for s in spheres:
             s.button_list = [buttonDictionary["leave"]]
-        
-        # Specify the text if the logged in member is not in any spheres
-        no_spheres_text = "You are"
 
         # Specify the page context
         page_context = "manage"
+        
+        # Specify the text if the logged in member is not in any spheres
+        no_spheres_text = "You are"
 
     return render_to_response( "spheres.html",
         { "spheres" : spheres, "pageContext" : page_context, "noSpheresText" : no_spheres_text },
         context_instance = RequestContext(request) )
 
-
-def suggestions_view(request, query = ""):
-    # If a user is not logged in, redirect them to the login page
-    if ("member_id" not in request.session):
-           return HttpResponseRedirect("/login")
-
-    query = request.POST["query"]
-    query_type = request.POST["type"]
-
-    categories = []
-
-    # Strip the whitespace off the ends of the query
-    query = query.strip()
-
-    if (query_type == "inkling"):
-        locations = Location.objects.filter(Q(name__contains = query))
-        if (locations):
-            categories.append((locations,))
-            
-        num_chars = 15
-       
-    # Header search suggestions
-    elif (query_type == "search"):
-        members = members_search_query(query)
-
-        # Add the members category to the search suggestions
-        if (members):
-            for m in members:
-                m.name = m.first_name + " " + m.last_name
-            categories.append((members, "People"))
-        
-        locations = Location.objects.filter(Q(name__contains = query) | Q(city__contains = query))
-        if (locations):
-            categories.append((locations, "Locations"))
-
-        spheres = Sphere.objects.filter(Q(name__contains = query))
-        if (spheres):
-            categories.append((spheres, "Spheres"))
-
-        num_chars = 45
-
-    elif (query_type == "addToCircle"):
-        circle_id = request.POST["circleID"]
-        circle = Circle.objects.get(pk = circle_id)
-
-        member = Member.objects.get(pk = request.session["member_id"])
-        following = member.following.all()
-        circle_members = circle.members.all()
-        people = list(set(following).difference(set(circle_members)))
-       
-        if (people):
-            for p in people:
-                p.name = p.first_name + " " + p.last_name
-            categories.append((people,))
-
-        num_chars = 10
-
-    return render_to_response( "suggestions.html",
-        { "categories" : categories, "numChars" : num_chars },
-        context_instance = RequestContext(request) )
 
 def get_others_inklings_view(request):
     # If a user is not logged in, redirect them to the login page
