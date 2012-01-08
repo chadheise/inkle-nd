@@ -19,32 +19,56 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div id="searchSummary" class="grid_6 suffix_1" query="{{ query }}">
-            <p class="searchSummaryTitle">Search summary</p>
-            <p><span class="searchLabel">People:</span> {{ members|length }}</p>
-            <p><span class="searchLabel">Following:</span> {{ member.num_following }}</p>
-            <p><span class="searchLabel">Followers:</span> {{ member.num_followers }}</p>
-            <p><span class="searchLabel">Other:</span> {{ member.num_other_people }}</p>
-            <p><span class="searchLabel">Locations:</span> {{ locations|length }}</p>
-            <p><span class="searchLabel">Spheres:</span> {{ spheres|length }}</p>
-            <p><span class="searchLabel">My spheres:</span> {{ member.num_my_spheres }}</p>
-            <p><span class="searchLabel">Other spheres:</span> {{ member.num_other_spheres }}</p>
-                        
-                        <div class="">
-                            <input id="newLocationButton" class="newItemInput newItemButton" type="button" value="Create a new location"/>
-                            <input id="newLocationText" class="newItemInput newItemText" type="text"/>
-                            <input id="newLocationSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
-                            <input id="newLocationCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
-                        </div>
-                        <div class="">
-                            <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
-                            <input id="newSphereText" class="newItemInput newItemText" type="text"/>
-                            <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
-                            <input id="newSphereCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
-                        </div>
+        <!-- Search results summary -->
+        <div id="searchSummary" class="grid_6" query="{{ query }}">
+            <!-- Title -->
+            <p class="searchSummaryTitle">Results summary</p>
+
+            <!-- Query -->
+            <div class="searchSummarySection">
+                <p class="searchSummarySubtitle">Query</p>
+                <p>{{ query }}</p>
+            </div>
+            
+            <!-- People -->
+            <div class="searchSummarySection">
+                <p class="searchSummarySubtitle">People</p>
+                <p>All - {{ members|length }}</p>
+                <p>Following - {{ member.num_following }}</p>
+                <p>Followers - {{ member.num_followers }}</p>
+                <p>Other - {{ member.num_other_people }}</p>
+            </div>
+            
+            <!-- Locations -->
+            <div class="searchSummarySection">
+                <p class="searchSummarySubtitle">Locations</p>
+                <p>All - {{ locations|length }}</p>
+            </div>
+
+            <!-- Spheres -->
+            <div class="searchSummarySection">
+                <p class="searchSummarySubtitle">Spheres</p>
+                <p>All - {{ spheres|length }}</p>
+                <p>Mine - {{ member.num_my_spheres }}</p>
+                <p>Other - {{ member.num_other_spheres }}</p>
+            </div>
+            
+            <!-- TODO: get rid of -->
+            <div>
+                <input id="newLocationButton" class="newItemInput newItemButton" type="button" value="Create a new location"/>
+                <input id="newLocationText" class="newItemInput newItemText" type="text"/>
+                <input id="newLocationSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
+                <input id="newLocationCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+            </div>
+            <div>
+                <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
+                <input id="newSphereText" class="newItemInput newItemText" type="text"/>
+                <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
+                <input id="newSphereCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+            </div>
         </div>
 
-        <div class="grid_17 alpha omega">
+        <div class="grid_17 push_1 alpha omega">
             <!-- Page title -->
             <div class="grid_17">
                 <p class="pageTitle">Search</p>
