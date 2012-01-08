@@ -3,7 +3,7 @@
     <button class="circle selectedCircle" circleID="-1">Accepted</button>
 
     <!-- User-created circles -->
-    {% for circle in circles %}
+    {% for circle in member.circles.all %}
         <button class="circle" circleID="{{ circle.id }}">{{ circle.name }}</button>
     {% endfor %}
 

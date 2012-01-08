@@ -10,12 +10,24 @@ $(document).ready(function() {
 
             // Get the clicked circles ID
             var circleID = parseInt($(this).attr("circleID"));
-                
+
+            // If the selected circle's ID is -1 (i.e. the accepted circle), set the URL with no circle ID
+            if (circleID == -1)
+            {
+                url = "/circles/";
+            }
+
+            // Otherwise, put the circle ID in the URL
+            else
+            {
+                url = "/circles/" + circleID + "/";
+            }
+
             // Load the circle's content
             $.ajax({
                 type: "POST",
-                url: "/circleContent/",
-                data: { "circleID" : circleID },
+                url: url,
+                data: { "content" : "circleOnly" },
                 success: function(html) {
                     $("#circleContent").fadeOut("medium", function() {
                         $("#circleContent").html(html);
@@ -172,7 +184,7 @@ $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: "/suggestions/",
-                data: {"type" : "addToCircle", "circleID" : circleID, "query" : query},
+                data: { "type" : "addToCircle", "circleID" : circleID, "query" : query },
                 success: function(html) {
                     $("#addToCircleSuggestions").html(html);
                     $("#addToCircleSuggestions").fadeIn("medium");
