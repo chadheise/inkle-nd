@@ -1,9 +1,7 @@
-<div class="grid_17">
-    <div id ="followingContent" class="peopleContent" context="following">
-        {% for m in members %}
-            {% include "memberCard.html" %}
-        {% empty %}
-            <p>{{ member.first_name }} {{ member.last_name }} is not following anyone.</p>
-        {% endfor %}
-    </div>
+<div id ="followingContent" class="peopleContent grid_17" context="following">
+    {% for m in members %}
+        {% include "memberCard.html" %}
+    {% empty %}
+        <p>{{ otherMemberName }} is not following anyone.</p>
+    {% endfor %}
 </div>

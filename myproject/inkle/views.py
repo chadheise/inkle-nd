@@ -22,9 +22,8 @@ import shutil
 
 from databaseViews import *
 
-
 def home_view(request):
-    """Get dates objects and others' inkling locations and returns the HTML for the home page."""
+    """Gets dates objects and others' inkling locations and returns the HTML for the home page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -59,6 +58,7 @@ def manage_view(request, default_content_type = "circles"):
 
 
 def member_view(request, other_member_id = None):
+    """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -71,12 +71,17 @@ def member_view(request, other_member_id = None):
     except:
         raise Http404()
 
+    # Redirect the logged in member to their profile page if they are the other member
+    if (member == other_member):
+        return HttpResponseRedirect("/manage/")
+
     return render_to_response( "member.html",
         { "member" : member, "other_member" : other_member },
         context_instance = RequestContext(request) )
     
 
 def location_view(request, location_id = None):
+    """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -167,7 +172,7 @@ def get_edit_location_html_view(request):
 
 
 def get_edit_manage_html_view(request):
-    """Returns the edit mange HTML."""
+    """Returns the edit manage HTML."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -234,7 +239,7 @@ def members_search_query(query):
 
 
 def search_view(request, query = ""):
-    """Returns member, location, and sphere results for the submitted query."""
+    """Gets the members, locations, and spheres which match the inputted query and returns the HTML for the search page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -321,7 +326,9 @@ def search_view(request, query = ""):
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
         context_instance = RequestContext(request) )
 
+
 def requests_view(request):
+    """Gets the logged in member's request and returns the HTML for the requests page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
@@ -331,108 +338,135 @@ def requests_view(request):
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
     
+    # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
+    for m in requested_members:
+        m.mutual_followings = member.following.all() & m.following.all()
+        m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
+        if (m in member.following.all()):
+            m.show_contact_info = True
+        else:
+            m.show_contact_info = False
+    
     # Get the members whom the the logged in member has requested to follow
     pending_members = member.pending.all()
 
-    # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
-    for m in requested_members:
-        m.sphereNames = [sphere.name.split() for sphere in m.spheres.all()]
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
-        m.show_contact_info = True
-    
     # For each pending member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in pending_members:
-        m.sphereNames = [sphere.name.split() for sphere in m.spheres.all()]
         m.mutual_followings = member.following.all() & m.following.all()
         m.button_list = [buttonDictionary["revoke"]]
-        if ((m in member.followers.all()) or (m in requested_members)):
-            m.show_contact_info = True
+        m.show_contact_info = False
 
     return render_to_response( "requests.html",
-        {"requested_members" : requested_members, "pending_members" : pending_members},
+        { "requestedMembers" : requested_members, "pendingMembers" : pending_members },
         context_instance = RequestContext(request) )
 
+
 def followers_view(request, other_member_id = None):
+    """Gets the logged in member's or other member's followers and returns the HTML for the followers page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/")
-    
+   
+    # If we are viewing another member's page, get the members who are following them
     if (other_member_id):
-        # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+        # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
-            member = Member.objects.get(pk = other_member_id)
+            other_member = Member.objects.get(pk = other_member_id)
         except:
             raise Http404()
-        members = [f.follower for f in member.followers.all()]
-        member.is_other = True
+
+        # Get the members who are following the member whose page we are on and set the appropriate page context and no followers text
+        members = [f.follower for f in other_member.followers.all()]
         page_context = "otherFollowers"
+        no_followers_text = other_member.first_name + " " + other_member.last_name
+
+    # Otherwise, get the members who are following the logged in member and set the appropriate page context and no followers text
     else:
         members = [f.follower for f in member.followers.all()]
         page_context = "myFollowers"
+        no_followers_text = "you"
 
+    # Get the necessary information for each member's member card
     for m in members:
-        m.spheres2 = m.spheres.all()
-         
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.relationship = "friend"
-        
-        m.button_list = []
-        m.button_list.append(buttonDictionary["prevent"])
-        if m in member.pending.all():
-            m.button_list.append(buttonDictionary["revoke"])
-            m.relationship = "pending"
-        elif m in member.following.all():
-            m.button_list.append(buttonDictionary["stop"])
-            m.relationship = "friend"
+        # Case 1: The logged in member is the current member
+        if (m == member):
+            m.button_list = []
+            m.show_contact_info = True
+
+        # Case 2: The logged in member has a pending request to follow the current member
+        elif (m in member.pending.all()):
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+            m.show_contact_info = False
+
+        # Case 3: The logged in member is following the current member
+        elif (m in member.following.all()):
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["circles"]]
+            m.show_contact_info = True
+
+        # Case 4: The logged in member is not following and has not requested to follow the current member
         else:
-            m.button_list.append(buttonDictionary["request"])
-            m.relationship = "other"
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+            m.show_contact_info = False
             
+        # Determine the members who are being followed by both the logged in member and the current member
+        m.mutual_followings = member.following.all() & m.following.all()
+
     return render_to_response( "followers.html",
-        { "member" : member, "members" : members, "pageContext" : page_context },
+        { "member" : member, "members" : members, "pageContext" : page_context, "noFollowersText" : no_followers_text },
         context_instance = RequestContext(request) )
 
+
 def following_view(request, other_member_id = None):
+    """Gets the logged in member's or other member's following and returns the HTML for the following page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/")
     
-    if (other_member_id):
-        # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
-        try:
-            member = Member.objects.get(pk = other_member_id)
-        except:
-            raise Http404()
-        members = [f for f in member.following.all()]
-    else:
+    # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
+    try:
+        other_member = Member.objects.get(pk = other_member_id)
+    except:
         raise Http404()
 
+    # Get the members whom the other member is following
+    members = [m for m in other_member.following.all()]
+
+    # Get the necessary information for each member's member card
     for m in members:
-        m.spheres2 = m.spheres.all()
-         
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.relationship = "friend"
-        
-        m.button_list = []
-        m.button_list.append(buttonDictionary["prevent"])
-        if m in member.pending.all():
-            m.button_list.append(buttonDictionary["revoke"])
-            m.relationship = "pending"
-        elif m in member.following.all():
-            m.button_list.append(buttonDictionary["stop"])
-            m.relationship = "friend"
+        # Case 1: The logged in member is the current member
+        if (m == member):
+            m.button_list = []
+            m.show_contact_info = True
+
+        # Case 2: The logged in member has a pending request to follow the current member
+        elif (m in member.pending.all()):
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+            m.show_contact_info = False
+
+        # Case 3: The logged in member is following the current member
+        elif (m in member.following.all()):
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["circles"]]
+            m.show_contact_info = True
+
+        # Case 4: The logged in member is not following and has not requested to follow the current member
         else:
-            m.button_list.append(buttonDictionary["request"])
-            m.relationship = "other"
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+            m.show_contact_info = False
             
+        # Determine the members who are being followed by both the logged in member and the current member
+        m.mutual_followings = member.following.all() & m.following.all()
+
+    # Get the other member's name
+    other_member_name = other_member.first_name + " " + other_member.last_name
+
     return render_to_response( "following.html",
-        {"member" : member, "members" : members},
+        { "member" : member, "members" : members, "otherMemberName" : other_member_name },
         context_instance = RequestContext(request) )
+
     
 def circles_view(request):
     # Get the member who is logged in

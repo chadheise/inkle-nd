@@ -1,13 +1,7 @@
-<div class="grid_17">
-    <div id ="followersContent" class="peopleContent" context="{{ pageContext }}">
-        {% for m in members %}
-            {% include "memberCard.html" %}
-        {% empty %}
-            {% if member.is_other %}
-                <p>No one is following {{ member.first_name }} {{ member.last_name }}.</p>
-            {% else %}
-                <p>No one is following you.</p>
-            {% endif %}
-        {% endfor %}
-    </div>
+<div id ="followersContent" class="peopleContent grid_17" context="{{ pageContext }}">
+    {% for m in members %}
+        {% include "memberCard.html" %}
+    {% empty %}
+        <p>No one is following {{ noFollowersText }}.</p>
+    {% endfor %}
 </div>

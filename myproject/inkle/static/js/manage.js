@@ -14,14 +14,14 @@ $(document).ready(function() {
                 // If this is the first load, simply load the manage content
                 if (firstLoad)
                 {
-                    loadContentHelper(html);
+                    loadContentHelper(html, contentType);
                 }
 
                 // Otherwise, fade out the current manage content and fade the new manage content back in
                 else
                 {
                     $("#manageContent").fadeOut("medium", function () {
-                        loadContentHelper(html, function() {
+                        loadContentHelper(html, contentType, function() {
                             $("#manageContent").fadeIn("medium");
                         });
                     });
@@ -32,7 +32,7 @@ $(document).ready(function() {
     }
  
     /* Helper function for loadContent() which replaces the manage content HTML*/
-    function loadContentHelper(html, callback)
+    function loadContentHelper(html, contentType, callback)
     {
         // Show the requests content links if the content type is "requests"
         if (contentType == "requests")
@@ -41,8 +41,8 @@ $(document).ready(function() {
             $("#requestsContentLinks").show();
 
             // Set the "All" content link as the selected requests content link
-            $("#requestsContentLink .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
-            $("#requestsContentLinks p[contentType='all']").attr("id", "selectedSubsectionContentLink");
+            $("#requestsContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            $("#requestsContentLinks p[contentType='all']").addClass("selectedSubsectionContentLink");
         }
 
         // Otherwise, hide the requests content links

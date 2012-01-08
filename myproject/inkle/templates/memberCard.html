@@ -41,9 +41,11 @@
             </div>
 
             <!-- Mutual followings -->
-            <div class="infoRow">
-                <p class="mutualFollowings">{{ m.mutual_followings|length }} mutual following{{ m.mutual_followings|length|pluralize }}</p>
-            </div>
+            {% if m != member %}
+                <div class="infoRow">
+                    <p class="mutualFollowings">{{ m.mutual_followings|length }} mutual following{{ m.mutual_followings|length|pluralize }}</p>
+                </div>
+            {% endif %}
 
             <!-- Button list -->
             <div class="infoRow">
