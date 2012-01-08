@@ -4,7 +4,7 @@ register = template.Library()
 
 @register.filter(name = "truncatecharacters")
 def truncatecharacters(value, arg):
-    """Truncates a string after a certain number of chars. Argument: number of chars to truncate after."""
+    """Truncates a string after a certain number of characters."""
     # Get the number of chars to truncate after (or fail silently if it is not an int)
     try:
         length = int(arg)
@@ -15,3 +15,8 @@ def truncatecharacters(value, arg):
     if len(value) > length:
         return value[:length] + "..."
     return value
+
+@register.filter(name = "split")
+def split(value):
+    """Splits a string at the whitespace."""
+    return value.split()

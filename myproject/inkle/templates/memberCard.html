@@ -1,3 +1,5 @@
+{% load extraTags %}
+
 <!-- Member card -->
 <div class="grid_17 alpha omega">
     <div class="memberCard {{ m.people_type }}">
@@ -27,18 +29,16 @@
             </div>
 
             <!-- Spheres -->
-            {% if m.sphereNames %}
-                <div class="memberSpheres infoRow">
-                    {% for sphereName in m.sphereNames %}
-                        {% if sphereName != m.sphereNames|first %}
-                            <span>&middot;</span>
-                        {% endif %}
-                        {% for word in sphereName %}
-                            <span>{{ word }}</span>
-                        {% endfor %}
+            <div class="memberSpheres infoRow">
+                {% for sphere in m.spheres.all %}
+                    {% if sphere != m.spheres.all|first %}
+                        <span>&middot;</span>
+                    {% endif %}
+                    {% for word in sphere.name|split %}
+                        <span>{{ word }}</span>
                     {% endfor %}
-                </div>
-            {% endif %}
+                {% endfor %}
+            </div>
 
             <!-- Mutual followings -->
             <div class="infoRow">
@@ -52,9 +52,9 @@
                         <button class="cardButton {{ buttonClass }}" memberID="{{ m.id }}" title="{{ toolTip }}">{{ buttonText }}</button>
                         {% if buttonClass == "circlesCardButton" %}
                             <div class="circlesMenu">
-                                {% for circle in m.circles_copy %}
+                                {% for circle in member.circles.all %}
                                     <div>
-                                        <input id="m{{ m.id }}_c{{ circle.id }}" type="checkbox" {% if m in circle.members_copy %}checked="checked"{% endif %} circleID="{{ circle.id }}" />
+                                        <input id="m{{ m.id }}_c{{ circle.id }}" type="checkbox" {% if m in circle.members.all %}checked="checked"{% endif %} circleID="{{ circle.id }}" />
                                         <label for="m{{ m.id }}_c{{ circle.id }}">{{ circle.name }}</label>
                                     </div>
                                 {% empty %}
