@@ -101,9 +101,12 @@ def location_view(request, location_id = None):
     # Get the people who the logged in member is following
     following = member.following.all()
 
+    # Get all of the specified date's inklings at the provided location
+    location_inklings = Inkling.objects.filter(date = date, location = location)
+
     # Get the logged in member's dinner inkling and the members who are attending
     try:
-        dinner_inkling = Inkling.objects.get(date = date, category = "dinner", location = location)
+        dinner_inkling = location_inklings.get(category = "dinner")
         all_dinner_members = dinner_inkling.member_set.all()
         member.dinner_members = [m for m in all_dinner_members if (m in following)]
         member.num_dinner_others = len(all_dinner_members) - len(member.dinner_members)
@@ -117,7 +120,7 @@ def location_view(request, location_id = None):
 
     # Get the logged in member's pregame inkling and the members who are attending
     try:
-        pregame_inkling = Inkling.objects.get(date = date, category = "pregame", location = location)
+        pregame_inkling = location_inklings.get(category = "pregame")
         all_pregame_members = pregame_inkling.member_set.all()
         member.pregame_members = [m for m in all_pregame_members if (m in following)]
         member.num_pregame_others = len(all_pregame_members) - len(member.pregame_members)
@@ -131,7 +134,7 @@ def location_view(request, location_id = None):
 
     # Get the logged in member's main event inkling and the members who are attending
     try:
-        main_event_inkling = Inkling.objects.get(date = date, category = "mainEvent", location = location)
+        main_event_inkling = location_inklings.get(category = "mainEvent")
         all_main_event_members = main_event_inkling.member_set.all()
         member.main_event_members = [m for m in all_main_event_members if (m in following)]
         member.num_main_event_others = len(all_main_event_members) - len(member.main_event_members)
