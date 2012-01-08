@@ -549,7 +549,7 @@ def suggestions_view(request, query = ""):
         if (members):
             for m in members:
                 m.name = m.first_name + " " + m.last_name
-            categories.append((members, "Members"))
+            categories.append((members, "People"))
         
         locations = Location.objects.filter(Q(name__contains = query) | Q(city__contains = query))
         if (locations):

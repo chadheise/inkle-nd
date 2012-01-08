@@ -3,24 +3,36 @@
     display: none;
 }
 
+#peopleSubsectionContentLinks, #spheresSubsectionContentLinks
+{
+    display: none;
+}
+
+.searchSummaryTitle
+{
+    color: #1B5898;
+    font-size: 26px;
+    margin: -3px 0px 10px 0px;
+    font-weight: bold;
+}
+
+.searchSummarySubtitle
+{
+    color: #288D42;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.searchSummarySection
+{
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
 .noResultsMessage
 {
     display: none;
     margin-bottom: 15px;
-}
-
-.filterButton {
-    height: 50px;
-    font-size: 24px;
-    color: #009ACD;
-    background-color: lightgray;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.selected {
-    background-color: #385E0F;
-    color: #FFFFFF;
 }
 
 .newItemInput
@@ -49,21 +61,4 @@
 .newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
 {
     display: none;
-}
-
-#peopleSubsectionContentLinks, #spheresSubsectionContentLinks
-{
-    display: none;
-}
-
-.searchSummaryTitle
-{
-    color: #1B5898;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.searchLabel
-{
-    font-weight: bold;
 }
