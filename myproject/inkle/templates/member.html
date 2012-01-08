@@ -35,20 +35,26 @@
             </div>
             <div class="clear"></div>
 
-                <!-- Member content links -->
-                <div id="memberContentLinks" class="contentLinks grid_17">
-                    <p class="selectedContentLink" contentType="inklings/{{ other_member.id }}">Inklings</p>
-                    <p contentType="spheres/{{ other_member.id }}">Spheres</p>
-                    <p contentType="following/{{ other_member.id }}">Following</p>
-                    <p contentType="followers/{{ other_member.id }}">Followers</p>
-                </div>
-                <div class="clear"></div>
-    
-                <div id="memberContent" class="grid_17 alpha omega">
-                    <!-- Main manage content -->
-                    <div id="mainMemberContent" class="grid_17 alpha omega">
+                {% if other_member in member.following.all %}
+                    <!-- Member content links -->
+                    <div id="memberContentLinks" class="contentLinks grid_17">
+                        <p class="selectedContentLink" contentType="inklings/{{ other_member.id }}">Inklings</p>
+                        <p contentType="spheres/{{ other_member.id }}">Spheres</p>
+                        <p contentType="following/{{ other_member.id }}">Following</p>
+                        <p contentType="followers/{{ other_member.id }}">Followers</p>
                     </div>
-                </div>
+                    <div class="clear"></div>
+                
+                    <div id="memberContent" class="grid_17 alpha omega">
+                        <!-- Main manage content -->
+                        <div id="mainMemberContent" class="grid_17 alpha omega">
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="grid_17">
+                        <p>Follow this member to see their page.</p>
+                    </div>
+                {% endif %}
         </div>
     </div>
 {% endblock mainContent%}

@@ -22,21 +22,15 @@ import shutil
 
 from databaseViews import *
 
+
 def home_view(request):
-    # If a user is not logged in, redirect them to the login page
-    if ("member_id" not in request.session):
-           return HttpResponseRedirect("/login")
+    """Get dates objects and others' inkling locations and returns the HTML for the home page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/")
     
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-    
-    member.num_requests = 0
-    for r in member.requested.all():
-        member.num_requests += 1
-
-    member.spheres2 = member.spheres.all()
-    member.circles2 = member.circles.all()
-
     # Get date objects for today, tomorrow, and the day after tomorrow 
     today = datetime.date.today()
     tomorrow = today + datetime.timedelta(days = 1)
@@ -50,22 +44,19 @@ def home_view(request):
         { "member" : member, "locations" : locations, "today" : today, "tomorrow" : tomorrow, "dayAfterTomorrow" : day_after_tomorrow },
         context_instance = RequestContext(request) )
 
+
 def manage_view(request, default_content_type = "circles"):
-    # If a user is not logged in, redirect them to the login page
-    if ("member_id" not in request.session):
-          return HttpResponseRedirect("/login")
-
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
-    member.spheres2 = member.spheres.all()
-
-    member.num_requests = 0
-    for r in member.requested.all():
-        member.num_requests += 1
+    """Returns the HTML for the manage page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/")
 
     return render_to_response( "manage.html",
         {"member" : member, "defaultContentType" : default_content_type},
         context_instance = RequestContext(request) )
+
 
 def member_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
@@ -74,57 +65,81 @@ def member_view(request, other_member_id = None):
     except:
         return HttpResponseRedirect("/login/")
     
-    # Get the member whose page the logged in member is viewing (or throw a 404 error if the member doesn't exist)
+    # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
         other_member = Member.objects.get(pk = other_member_id)
     except:
         raise Http404()
 
-    member.num_requests = 0
-    for r in member.requested.all():
-        member.num_requests += 1
-
-    is_following = other_member in member.following.all()
-
     return render_to_response( "member.html",
-        { "member" : member, "other_member" : other_member, "is_following" : is_following },
+        { "member" : member, "other_member" : other_member },
         context_instance = RequestContext(request) )
     
+
 def location_view(request, location_id = None):
-    # Get the member who is logged in
-    member = Member.objects.get(pk = request.session["member_id"])
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/")
     
-    # If the location ID is invalid, throw a 404 error
+    # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
         location = Location.objects.get(pk = location_id)
     except:
         raise Http404()
 
+    # Get today's date
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     
-    people = member.following.all()
-    dinnerPeople = [p for p in people if (p.inklings.filter(date = date, category = "dinner", location = location))]
-    for m in dinnerPeople:
-        m.spheres2 = m.spheres.all()
-        m.show_contact_info = True
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = []
-    pregamePeople = [p for p in people if (p.inklings.filter(date = date, category = "pregame", location = location))]
-    for m in pregamePeople:
-        m.spheres2 = m.spheres.all()
-        m.show_contact_info = True
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = []
-    maineventPeople = [p for p in people if (p.inklings.filter(date = date, category = "mainEvent", location = location))]
-    for m in maineventPeople:
-        m.spheres2 = m.spheres.all()
-        m.show_contact_info = True
-        m.mutual_followings = member.following.all() & m.following.all()
-        m.button_list = []
+    # Get the people who the logged in member is following
+    following = member.following.all()
+
+    # Get the logged in member's dinner inkling and the members who are attending
+    try:
+        dinner_inkling = Inkling.objects.get(date = date, category = "dinner", location = location)
+        all_dinner_members = dinner_inkling.member_set.all()
+        member.dinner_members = [m for m in all_dinner_members if (m in following)]
+        member.num_dinner_others = len(all_dinner_members) - len(member.dinner_members)
+        for m in member.dinner_members:
+            m.show_contact_info = True
+            m.mutual_followings = member.following.all() & m.following.all()
+            m.button_list = [buttonDictionary["circles"]]
+    except:
+        member.dinner_members = []
+        member.num_dinner_others = 0
+
+    # Get the logged in member's pregame inkling and the members who are attending
+    try:
+        pregame_inkling = Inkling.objects.get(date = date, category = "pregame", location = location)
+        all_pregame_members = pregame_inkling.member_set.all()
+        member.pregame_members = [m for m in all_pregame_members if (m in following)]
+        member.num_pregame_others = len(all_pregame_members) - len(member.pregame_members)
+        for m in member.pregame_members:
+            m.show_contact_info = True
+            m.mutual_followings = member.following.all() & m.following.all()
+            m.button_list = [buttonDictionary["circles"]]
+    except:
+        member.pregame_members = []
+        member.num_pregame_others = 0
+
+    # Get the logged in member's main event inkling and the members who are attending
+    try:
+        main_event_inkling = Inkling.objects.get(date = date, category = "mainEvent", location = location)
+        all_main_event_members = main_event_inkling.member_set.all()
+        member.main_event_members = [m for m in all_main_event_members if (m in following)]
+        member.num_main_event_others = len(all_main_event_members) - len(member.main_event_members)
+        for m in member.main_event_members:
+            m.show_contact_info = True
+            m.mutual_followings = member.following.all() & m.following.all()
+            m.button_list = [buttonDictionary["circles"]]
+    except:
+        member.main_event_members = []
+        member.num_main_event_others = 0
 
     return render_to_response( "location.html",
-        {"member" : member, "location" : location, "dinnerPeople" : dinnerPeople, "pregamePeople" : pregamePeople, "maineventPeople" : maineventPeople},
+        { "member" : member, "location" : location },
         context_instance = RequestContext(request) )
 
 

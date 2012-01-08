@@ -6,14 +6,14 @@
 <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_1">
     <optgroup label="Circles">
         <option people="circles" selected="selected">All circles</option>
-        {% for circle in member.circles2 %}
+        {% for circle in member.circles.all %}
             <option circleID="{{ circle.id }}">{{ circle.name }}</option>
         {% endfor %}
     </optgroup>
 
-    {% if member.spheres2 %}
+    {% if member.spheres.all %}
         <optgroup label="Spheres">
-            {% for sphere in member.spheres2 %}
+            {% for sphere in member.spheres.all %}
                 <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
             {% endfor %}
         </optgroup>
