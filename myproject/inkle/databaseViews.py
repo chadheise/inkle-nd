@@ -14,7 +14,7 @@ import hashlib
 
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
-    "prevent" : ("preventFollowing", "Prevent following", "No longer allow this person to follow me"),
+    "prevent" : ("preventFollowing", "Block", "No longer allow this person to follow me"),
     "revoke" : ("revokeRequest", "Revoke request", "Revoke my request to follow this person"),
     "stop" : ("stopFollowing", "Stop following", "Stop following this person"),
     "circles" : ("circlesCardButton", "Circles"),
