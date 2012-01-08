@@ -27,7 +27,7 @@ def home_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get date objects for today, tomorrow, and the day after tomorrow 
@@ -49,7 +49,7 @@ def manage_view(request, default_content_type = "circles"):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     return render_to_response( "manage.html",
@@ -62,13 +62,13 @@ def member_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
         other_member = Member.objects.get(pk = other_member_id)
-    except:
+    except Member.DoesNotExist:
         raise Http404()
 
     # Redirect the logged in member to their profile page if they are the other member
@@ -85,13 +85,13 @@ def location_view(request, location_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
         location = Location.objects.get(pk = location_id)
-    except:
+    except Location.DoesNotExist:
         raise Http404()
 
     # Get today's date
@@ -114,7 +114,7 @@ def location_view(request, location_id = None):
             m.show_contact_info = True
             m.mutual_followings = member.following.all() & m.following.all()
             m.button_list = [buttonDictionary["circles"]]
-    except:
+    except Inkling.DoesNotExist:
         member.dinner_members = []
         member.num_dinner_others = 0
 
@@ -128,7 +128,7 @@ def location_view(request, location_id = None):
             m.show_contact_info = True
             m.mutual_followings = member.following.all() & m.following.all()
             m.button_list = [buttonDictionary["circles"]]
-    except:
+    except Inkling.DoesNotExist:
         member.pregame_members = []
         member.num_pregame_others = 0
 
@@ -142,7 +142,7 @@ def location_view(request, location_id = None):
             m.show_contact_info = True
             m.mutual_followings = member.following.all() & m.following.all()
             m.button_list = [buttonDictionary["circles"]]
-    except:
+    except Inkling.DoesNotExist:
         member.main_event_members = []
         member.num_main_event_others = 0
 
@@ -156,7 +156,7 @@ def get_edit_location_html_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Make sure the logged in member can update the location
@@ -166,7 +166,7 @@ def get_edit_location_html_view(request):
     # Get the location (or throw a 404 error if the location ID is invalid)
     try:
         location = Location.objects.get(pk = request.POST["locationID"])
-    except:
+    except Location.DoesNotExist:
         raise Http404()
   
     return render_to_response( "editLocationInfo.html",
@@ -179,7 +179,7 @@ def get_edit_manage_html_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Parse the birthday information
@@ -258,7 +258,7 @@ def search_view(request, query = ""):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Strip the whitespace off the ends of the query
@@ -347,7 +347,7 @@ def suggestions_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get the POST data
@@ -394,7 +394,7 @@ def suggestions_view(request):
         # Get the requested circle (or throw a 404 error if the circle ID is invalid)
         try:
             circle = Circle.objects.get(pk = request.POST["circleID"])
-        except:
+        except Circle.DoesNotExist:
             raise Http404()
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
@@ -418,7 +418,7 @@ def requests_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the members who have requested to follow the logged in member
@@ -452,7 +452,7 @@ def followers_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
    
     # If we are viewing another member's page, get the members who are following them
@@ -460,7 +460,7 @@ def followers_view(request, other_member_id = None):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
             other_member = Member.objects.get(pk = other_member_id)
-        except:
+        except Member.DoesNotExist:
             raise Http404()
 
         # Get the members who are following the member whose page we are on and set the appropriate page context and no followers text
@@ -509,13 +509,13 @@ def following_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
         other_member = Member.objects.get(pk = other_member_id)
-    except:
+    except Member.DoesNotExist:
         raise Http404()
 
     # Get the members whom the other member is following
@@ -559,7 +559,7 @@ def circles_view(request, circle_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
@@ -598,7 +598,7 @@ def spheres_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
    
     # If we are viewing another member's page, get the members who are following them
@@ -606,7 +606,7 @@ def spheres_view(request, other_member_id = None):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
             other_member = Member.objects.get(pk = other_member_id)
-        except:
+        except Member.DoesNotExist:
             raise Http404()
 
         # Get the other member's spheres
@@ -732,7 +732,7 @@ def login_view(request):
         if (not invalid_login):
             try:
                 member = Member.objects.get(username = email)
-            except:
+            except Member.DoesNotExist:
                 invalid_login = True
         
         # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
@@ -762,10 +762,6 @@ def password_reset_confirmation_view(request):
     """Returns a confirmation message saying an email has been sent to the inputted email so that the corresponding user can reset their password."""
     # Get the member who corresponds to the provided email
     email = request.POST["email"]
-    try:
-        member = Member.objects.get(username = email)
-    except:
-        pass
    
     return render_to_response( "passwordResetConfirmation.html",
         { "email" : email },
@@ -776,7 +772,7 @@ def reset_password_view(request, email = None, verification_hash = None):
     # Get the member corresponding to the provided email (or raise a 404 error)
     try:
         member = Member.objects.get(username = email)
-    except:
+    except Member.DoesNotExist:
         raise Http404()
 
     # If the verification hash is correct, let the member reset their password 
@@ -919,7 +915,7 @@ def register_view(request):
         # Check if the provided email already exists
         try:
             member = Member.objects.get(username = email)
-        except:
+        except Member.DoesNotExist:
             member = None
         if (member):
             invalid_email = True
@@ -1040,7 +1036,7 @@ def verify_email_view(request, email = None, verification_hash = None):
     # Get the member corresponding to the provided email (otherwise, throw a 404 error)
     try:
         member = Member.objects.get(username = email)
-    except:
+    except Member.DoesNotExist:
         raise Http404()
 
     # If the member has not yet been verified and the verification hash is correct, verify the member and give them a new verification hash(otherwise, throw a 404 error)
@@ -1060,7 +1056,7 @@ def logout_view(request):
     """Logs out the current user."""
     try:
         del request.session["member_id"]
-    except:
+    except KeyError:
         pass
 
     return HttpResponseRedirect("/login/")

@@ -28,7 +28,7 @@ def upload_image_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     if request.FILES:
@@ -47,7 +47,7 @@ def edit_member_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     try:
@@ -96,7 +96,7 @@ def edit_location_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Make sure the logged in member can update the location
@@ -106,7 +106,7 @@ def edit_location_view(request):
     # Get the location (or throw a 404 error if the location ID is invalid)
     try:
         location = Location.objects.get(pk = request.POST["locationID"])
-    except:
+    except Location.DoesNotExist:
         raise Http404()
    
     try:
@@ -144,7 +144,7 @@ def request_to_follow_view(request):
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request is being sent
@@ -166,7 +166,7 @@ def revoke_request_view(request):
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
@@ -185,7 +185,7 @@ def accept_request_view(request):
     # Get the member to whom the request was sent (or redirect them to the login page)
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member who sent the request
@@ -211,7 +211,7 @@ def reject_request_view(request):
     # Get the member to whom the request was sent (or redirect them to the login page)
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member who sent the request
@@ -229,7 +229,7 @@ def stop_following_view(request):
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
@@ -246,7 +246,7 @@ def prevent_following_view(request):
     # Get the member to whom the request was sent (or redirect them to the login page)
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member who sent the request
@@ -283,7 +283,7 @@ def add_to_circle_view(request):
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
@@ -326,7 +326,7 @@ def remove_from_circle_view(request):
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent
@@ -366,7 +366,7 @@ def create_circle_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Create the new circle
@@ -385,7 +385,7 @@ def rename_circle_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Update the requested circle's name
@@ -409,7 +409,7 @@ def delete_circle_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the circle which is to be deleted
@@ -433,7 +433,7 @@ def join_sphere_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the sphere which is being joined
@@ -450,7 +450,7 @@ def leave_sphere_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
     # Get the sphere which is being left
@@ -467,7 +467,7 @@ def create_inkling_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
    
     # Get the POST data
@@ -478,7 +478,7 @@ def create_inkling_view(request):
     # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
         inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
-    except:
+    except Inkling.DoesNotExist:
         inkling = Inkling(location = location, category = inkling_type, date = date)
         inkling.save()
     
@@ -487,7 +487,7 @@ def create_inkling_view(request):
         conflicting_inkling = member.inklings.get(category = inkling_type, date = date)
         if (conflicting_inkling != inkling):
             remove_inkling(member, conflicting_inkling)
-    except:
+    except Inkling.DoesNotExist:
         pass
 
     # Add the inkling to the logged in member's inklings list
@@ -502,7 +502,7 @@ def remove_inkling_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get the POST data
@@ -513,7 +513,7 @@ def remove_inkling_view(request):
     try:
         inkling = member.inklings.get(category = inkling_type, date = date)
         remove_inkling(member, inkling)
-    except:
+    except Inkling.DoesNotExist:
         pass
 
     return HttpResponse()
@@ -536,7 +536,7 @@ def get_my_inklings_view(request):
     # Get the logged in member (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
     
     # Get the POST data
@@ -557,7 +557,7 @@ def get_inklings(member, date):
         inkling = member.inklings.get(date = date, category = "dinner")
         dinnerName = inkling.location.name
         dinnerImage = inkling.location.image
-    except:
+    except Inkling.DoesNotExist:
         dinnerName = ""
         dinnerImage = "default.jpg"
     
@@ -566,7 +566,7 @@ def get_inklings(member, date):
         inkling = member.inklings.get(date = date, category = "pregame")
         pregameName = inkling.location.name
         pregameImage = inkling.location.image
-    except:
+    except Inkling.DoesNotExist:
         pregameName = ""
         pregameImage = "default.jpg"
 
@@ -575,7 +575,7 @@ def get_inklings(member, date):
         inkling =  member.inklings.get(date = date, category = "mainEvent")
         mainEventName = inkling.location.name
         mainEventImage = inkling.location.image
-    except:
+    except Inkling.DoesNotExist:
         mainEventName = ""
         mainEventImage = "default.jpg"
 
@@ -617,7 +617,7 @@ def send_password_reset_email_view(request):
     try:
         member = Member.objects.get(username = request.POST["email"])
         send_password_reset_email(member)
-    except:
+    except Member.DoesNotExist:
         pass
 
     return HttpResponse()
@@ -628,7 +628,7 @@ def set_password_view(request):
     # Get the member corresponding to the provided email (or throw a 404 error)
     try:
         member = Member.objects.get(pk = request.POST["memberID"])
-    except:
+    except Member.DoesNotExist:
         raise Http404()
 
     # Get the POST data
