@@ -14,8 +14,8 @@
 
             <!-- Notifications -->
             <div class="grid_1">
-                {% if member.num_requests %}
-                    <a id="requestNotificationLink" href="/manage/requests/"><div id="requestNotification">{{ member.num_requests }}</div></a>
+                {% if member.requested.all|length %}
+                    <a id="requestNotificationLink" href="/manage/requests/"><div id="requestNotification">{{ member.requested.all|length }}</div></a>
                 {% else %}
                     <p class="grid_1">&nbsp;</p>
                 {% endif %}
@@ -23,10 +23,10 @@
 
             <!-- Member name / logout -->
             <div class="grid_5">
-                <div id="username" class="grid_5">
+                <div id="username">
                     <a href="/manage/circles/">{{ member.first_name }} {{ member.last_name }}</a>
                 </div>
-                <div id="logout" class="grid_5">
+                <div id="logout">
                     <a href="/logout/">Logout</a>
                 </div>
             </div>

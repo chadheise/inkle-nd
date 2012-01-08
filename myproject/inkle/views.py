@@ -196,75 +196,89 @@ def get_edit_manage_html_view(request):
     return render_to_response( "editManageInfo.html",
         {"member" : member, "states" : STATES, "months" : MONTHS},
         context_instance = RequestContext(request) )
+ 
+
+def members_search_query(query):
+    """Returns the members who match the inputted query."""
+    # Split the query into words
+    query_split = query.split()
+    
+    # If the query is only one word long, match the members' first or last names alone
+    if (len(query_split) == 1):
+        members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
+
+    # If the query is two words long, match the members' first and last names
+    elif (len(query_split) == 2):
+        members = Member.objects.filter((Q(first_name__startswith = query_split[0]) & Q(last_name__startswith = query_split[1])) | (Q(first_name__startswith = query_split[1]) & Q(last_name__startswith = query_split[0])))
+    
+    # if the query is more than two words long, return no results
+    else:
+        members = []
+
+    return members
 
 
 def search_view(request, query = ""):
-    """Returns results for the logged in member's search query."""
+    """Returns member, location, and sphere results for the submitted query."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/")
     
-    # Determine how many requests the logged in member has
-    member.num_requests = len(member.requested.all())
-
     # Strip the whitespace off the ends of the query
     query = query.strip()
 
-    # Get the people who match the search query
-    if (len(query.split()) == 1):
-        members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
-    elif (len(query.split()) == 2):
-        query_split = query.split()
-        members = Member.objects.filter((Q(first_name__startswith = query_split[0]) & Q(last_name__startswith = query_split[1])) | (Q(first_name__startswith = query_split[1]) & Q(last_name__startswith = query_split[0])))
-    else:
-        members = []
+    # Get the members who match the search query
+    members = members_search_query(query)
 
+    # Initialize member variables
     member.num_following = 0
     member.num_followers = 0
     member.num_other_people = 0
 
-    # Determine the information to show on each member's card
+    # Determine each member's people type and button list
     for m in members:
-        # Determine the names of the current member's spheres
-        m.sphereNames = [s.name.split() for s in m.spheres.all()]
-
-        # Determine the current member's people type and button list
+        # Case 1: The logged in member is following and is being followed by the current member
         if ((m in member.following.all()) and (member in m.following.all())):
             m.people_type = "following follower"
             member.num_following += 1
             member.num_followers += 1
             m.show_contact_info = True
-            m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
+            #m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["circles"]]
+
+        # Case 2: The logged member is following the current member
         elif (m in member.following.all()):
             m.people_type = "following"
             member.num_following += 1
             m.show_contact_info = True
-            m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+            #m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["circles"]]
+
+        # Case 3: The logged member is being followed by the current member
         elif (member in m.following.all()):
             m.people_type = "follower"
             member.num_followers += 1
-            m.show_contact_info = True
+            m.show_contact_info = False
             if (m in member.pending.all()):
-                m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+                #m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+                m.button_list = [buttonDictionary["revoke"]]
             else:
-                m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+                #m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+                m.button_list = [buttonDictionary["request"]]
+
+        # Case 4: Neither the logged in member nor the current member are following each other
         else:
             m.people_type = "other"
             member.num_other_people += 1
+            m.show_contact_info = False
             if (m in member.pending.all()):
                 m.button_list = [buttonDictionary["revoke"]]
             else:
                 m.button_list = [buttonDictionary["request"]]
 
-        #Add circles
-        if (m in member.following.all()):
-            m.circles_copy = [circle for circle in member.circles.all()]
-            for circle in m.circles_copy:
-                    circle.members_copy = circle.members.all()
-
-        # Determine the mutual followings
+        # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.all() & m.following.all()
 
     # Get the locations which match the search query
@@ -273,19 +287,20 @@ def search_view(request, query = ""):
     # Get the spheres which match the search query
     spheres = Sphere.objects.filter(Q(name__contains = query))
     
+    # Initialize member variables
     member.num_my_spheres = 0
     member.num_other_spheres = 0
 
-    # Determine which spheres the logged in member has joined and set the button list accordingly
-    for s in spheres:
-        if (s in member.spheres.all()):
-            s.sphere_type = "mySpheres"
+    # Determine which spheres the logged in member has joined and set their button lists accordingly
+    for sphere in spheres:
+        if (sphere in member.spheres.all()):
+            sphere.sphere_type = "mySpheres"
             member.num_my_spheres += 1
-            s.button_list = [buttonDictionary["leave"]]
+            sphere.button_list = [buttonDictionary["leave"]]
         else:
-            s.sphere_type = "otherSpheres"
+            sphere.sphere_type = "otherSpheres"
             member.num_other_spheres += 1
-            s.button_list = [buttonDictionary["join"]]
+            sphere.button_list = [buttonDictionary["join"]]
 
     return render_to_response( "search.html",
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
@@ -528,14 +543,7 @@ def suggestions_view(request, query = ""):
        
     # Header search suggestions
     elif (query_type == "search"):
-        # If the query is only one word long, match the members' first or last names alone
-        if (len(query.split()) == 1):
-            members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
-        elif (len(query.split()) == 2):
-            query_split = query.split()
-            members = Member.objects.filter((Q(first_name__startswith = query_split[0]) & Q(last_name__startswith = query_split[1])) | (Q(first_name__startswith = query_split[1]) & Q(last_name__startswith = query_split[0])))
-        else:
-            members = []
+        members = members_search_query(query)
 
         # Add the members category to the search suggestions
         if (members):
