@@ -74,8 +74,8 @@ $(document).ready(function() {
         }
     });
 
-    /* Every time a search suggestion is clicked, redirect to the search page */
-    $("#headerSearchSuggestions .suggestion").live("click", function() {
+    /* Redirect to the search page when the header search's more suggestions link is clicked */
+    $("#headerSearch #moreSuggestions").live("click", function() {
         var query = $(this).children(".suggestion p").text();
         window.location.href = "/search/" + query;
     });

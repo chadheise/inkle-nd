@@ -22,12 +22,17 @@
     margin-top: -3px;
 }
 
+.suggestions a
+{
+    color: black;
+    text-decoration: none;
+}
+
 .suggestion
 {
     background-color: #E4E4E4;
     border-top: solid 2px #AAA;
     height: 50px;
-    cursor: pointer;
 }
 
 .suggestion:hover

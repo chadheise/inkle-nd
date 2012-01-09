@@ -32,7 +32,8 @@
     outline: none;
     border: none;
     border-right: solid 1px #288D42;
-    width: 92%;
+    padding-right: 4px;
+    width: 91%;
     float: left;
 }
 
