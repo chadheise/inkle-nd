@@ -27,7 +27,7 @@ def home_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Get date objects for today, tomorrow, and the day after tomorrow 
@@ -49,7 +49,7 @@ def manage_view(request, default_content_type = "circles"):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
 
     return render_to_response( "manage.html",
@@ -62,13 +62,13 @@ def member_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
         other_member = Member.objects.get(pk = other_member_id)
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Redirect the logged in member to their profile page if they are the other member
@@ -85,13 +85,13 @@ def location_view(request, location_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
         location = Location.objects.get(pk = location_id)
-    except Location.DoesNotExist:
+    except:
         raise Http404()
 
     # Get today's date
@@ -156,7 +156,7 @@ def get_edit_location_html_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Make sure the logged in member can update the location
@@ -166,7 +166,7 @@ def get_edit_location_html_view(request):
     # Get the location (or throw a 404 error if the location ID is invalid)
     try:
         location = Location.objects.get(pk = request.POST["locationID"])
-    except Location.DoesNotExist:
+    except:
         raise Http404()
   
     return render_to_response( "editLocationInfo.html",
@@ -179,7 +179,7 @@ def get_edit_manage_html_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Parse the birthday information
@@ -258,7 +258,7 @@ def search_view(request, query = ""):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Strip the whitespace off the ends of the query
@@ -347,7 +347,7 @@ def suggestions_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Get the POST data
@@ -394,7 +394,7 @@ def suggestions_view(request):
         # Get the requested circle (or throw a 404 error if the circle ID is invalid)
         try:
             circle = Circle.objects.get(pk = request.POST["circleID"])
-        except Circle.DoesNotExist:
+        except:
             raise Http404()
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
@@ -418,7 +418,7 @@ def requests_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
 
     # Get the members who have requested to follow the logged in member
@@ -452,7 +452,7 @@ def followers_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
    
     # If we are viewing another member's page, get the members who are following them
@@ -509,7 +509,7 @@ def following_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
@@ -556,7 +556,7 @@ def circles_view(request, circle_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
 
     # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
@@ -582,7 +582,7 @@ def circles_view(request, circle_id = None):
     try:
         content = request.POST["content"]
         html = "circleContent.html"
-    except:
+    except KeyError:
         html = "circles.html"
 
     return render_to_response( html, 
@@ -595,7 +595,7 @@ def spheres_view(request, other_member_id = None):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
    
     # If we are viewing another member's page, get the members who are following them
@@ -717,12 +717,12 @@ def login_view(request):
         # Get the POST data (and set the appropriate flag if the necessary POST data is not there)
         try:
             email = request.POST["email"]
-        except:
+        except KeyError:
             invalid_login = True
 
         try:
             password = request.POST["password"]
-        except:
+        except KeyError:
             invalid_login = True
 
         # Get the member with the provided username (or set the appropriate flag if it does not exist)
@@ -810,70 +810,70 @@ def register_view(request):
         # Get the POST data (and set the appropriate flags if the necessary POST data is not there)
         try:
             first_name = request.POST["firstName"]
-        except:
+        except KeyError:
             first_name = ""
             invalid_first_name = True
             invalid_registration = True
 
         try:
             last_name = request.POST["lastName"]
-        except:
+        except KeyError:
             last_name = ""
             invalid_last_name = True
             invalid_registration = True
 
         try:
             email = request.POST["email"]
-        except:
+        except KeyError:
             email = ""
             invalid_email = True
             invalid_registration = True
             
         try:
             confirm_email = request.POST["confirmEmail"]
-        except:
+        except KeyError:
             confirm_email = ""
             invalid_confirm_email = True
             invalid_registration = True
             
         try:
             password = request.POST["password"]
-        except:
+        except KeyError:
             password = ""
             invalid_password = True
             invalid_registration = True
             
         try:
             confirm_password = request.POST["confirmPassword"]
-        except:
+        except KeyError:
             confirm_password = ""
             invalid_confirm_password = True
             invalid_registration = True
         
         try:
             month = request.POST["month"]
-        except:
+        except KeyError:
             month = ""
             invalid_month = True
             invalid_registration = True
         
         try:
             day = request.POST["day"]
-        except:
+        except KeyError:
             day = ""
             invalid_day = True
             invalid_registration = True
         
         try:
             year = request.POST["year"]
-        except:
+        except KeyError:
             year = ""
             invalid_year = True
             invalid_registration = True
             
         try:
             gender = request.POST["gender"]
-        except:
+        except KeyError:
             gender = ""
             invalid_registration = True
 
