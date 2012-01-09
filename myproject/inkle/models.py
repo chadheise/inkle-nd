@@ -54,16 +54,6 @@ class Circle(models.Model):
         return "/sphere/%i/" % (self.id)
 
 
-class Follower(models.Model):
-    """Follower class definition."""
-    follower = models.ForeignKey("Member")
-    count = models.IntegerField()
-    
-    def __unicode__(self):
-        """String representation for Follower class objects."""
-        return "%s (%d)" % (self.follower.username, self.count)
-
-
 class Inkling(models.Model):
     """Inkling class definition."""
     location = models.ForeignKey(Location)
@@ -82,11 +72,11 @@ class Member(User):
     inklings = models.ManyToManyField(Inkling)
 
     # Member lists
-    pending = models.ManyToManyField("self", symmetrical = False, related_name = "pending_members")
-    accepted = models.ManyToManyField("self", symmetrical = False, related_name = "accepted_members")
-    requested = models.ManyToManyField("self", symmetrical = False, related_name = "requested_members")
-    followers = models.ManyToManyField(Follower, symmetrical = False)
-    following = models.ManyToManyField("self", symmetrical = False, related_name = "following_members")
+    pending = models.ManyToManyField("self", symmetrical = False, related_name = "pending_related")
+    accepted = models.ManyToManyField("self", symmetrical = False, related_name = "accepted_related")
+    requested = models.ManyToManyField("self", symmetrical = False, related_name = "requested_related")
+    followers = models.ManyToManyField("self", symmetrical = False, related_name = "followers_related")
+    following = models.ManyToManyField("self", symmetrical = False, related_name = "following_related")
     
     # Profile information
     gender = models.CharField(max_length = 6)
