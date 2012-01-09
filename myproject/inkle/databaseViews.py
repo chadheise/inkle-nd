@@ -28,7 +28,7 @@ def upload_image_view(request):
     # Get the member who is logged in (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     if request.FILES:
@@ -47,7 +47,7 @@ def edit_member_view(request):
     # Get the member who is logged in (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     try:
@@ -83,7 +83,7 @@ def edit_member_view(request):
         # Save the logged in member's updated information
         member.save()
     
-    except:
+    except KeyError:
         pass
     
     return render_to_response( "manageInfo.html",
@@ -96,7 +96,7 @@ def edit_location_view(request):
     # Get the member who is logged in (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Make sure the logged in member can update the location
@@ -106,7 +106,7 @@ def edit_location_view(request):
     # Get the location (or throw a 404 error if the location ID is invalid)
     try:
         location = Location.objects.get(pk = request.POST["locationID"])
-    except Location.DoesNotExist:
+    except:
         raise Http404()
    
     try:
@@ -131,7 +131,7 @@ def edit_location_view(request):
         # Save the location's updated information
         location.save()
 
-    except:
+    except KeyError:
         pass
 
     return render_to_response( "locationInfo.html",
@@ -144,13 +144,13 @@ def request_to_follow_view(request):
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member to whom the request is being sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.POST["toMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Update the database to signify the request
@@ -169,13 +169,13 @@ def revoke_request_view(request):
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member to whom the request is being sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.POST["toMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Update the database to signify the revoking of the request
@@ -191,13 +191,13 @@ def accept_request_view(request):
     # Get the member to whom the request is being sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.POST["fromMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Update the database to signify the accepted request
@@ -218,13 +218,13 @@ def reject_request_view(request):
     # Get the member to whom the request is being sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.POST["fromMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Update the database to signify the request
@@ -239,13 +239,13 @@ def stop_following_view(request):
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member to whom the request was sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.POST["toMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Make the from_member stop following the to_member
@@ -259,13 +259,13 @@ def prevent_following_view(request):
     # Get the member to whom the request was sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.POST["fromMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Make the from_member stop following the to_member
@@ -297,19 +297,19 @@ def add_to_circle_view(request):
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the member to whom the request was sent (or raise a 404 error if the member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.POST["toMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the circle to which to_member is being added (or raise a 404 error if the circle ID is invalid)
     try:
         circle = Circle.objects.get(pk = request.POST["circleID"])
-    except Circle.DoesNotExist:
+    except:
         raise Http404()
 
     # Add the to_member to the circle
@@ -334,19 +334,19 @@ def remove_from_circle_view(request):
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         return HttpResponseRedirect("/login/")
 
     # Get the member to whom the request was sent (or throw a 404 error if the to member ID is invalid)
     try:
         to_member = Member.objects.get(pk = request.POST["toMemberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
     
     # Get the circle to which to_member is being removed (or raise a 404 error if the circle ID is invalid)
     try:
         circle = Circle.objects.get(pk = request.POST["circleID"])
-    except Circle.DoesNotExist:
+    except:
         raise Http404()
 
     # Remove the to_member from the from_member's circle
@@ -375,7 +375,7 @@ def create_circle_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Create the new circle and add it to the logged in member's circles list
@@ -391,13 +391,13 @@ def rename_circle_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Update the requested circle's name (or raise a 404 error if the circle ID is invalid)
     try:
         circle = member.circles.filter(pk = request.POST["circleID"]).update(name = request.POST["circleName"])
-    except:
+    except KeyError:
         raise Http404()
 
     return HttpResponse()
@@ -408,13 +408,13 @@ def delete_circle_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the circle which is to be deleted (or raise a 404 error if the circle ID is invalid)
     try:
         circle = Circle.objects.get(pk = request.POST["circleID"])
-    except Circle.DoesNotExist:
+    except:
         raise Http404()
 
     # Remove each member from the circle to be deleted 
@@ -435,13 +435,13 @@ def join_sphere_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the sphere which is being joined (or raise a 404 error if the sphere ID is invalid)
     try:
         sphere = Sphere.objects.get(pk = request.POST["sphereID"])
-    except Circle.DoesNotExist:
+    except:
         raise Http404()
 
     # Add the sphere to the logged in member's spheres list
@@ -455,13 +455,13 @@ def leave_sphere_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the sphere which is being left (or raise a 404 error if the sphere ID is invalid)
     try:
         sphere = Sphere.objects.get(pk = request.POST["sphereID"])
-    except Circle.DoesNotExist:
+    except:
         raise Http404()
 
     # Remove the sphere from the logged in member's spheres list
@@ -475,7 +475,7 @@ def create_inkling_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
    
     # Get the POST data
@@ -510,7 +510,7 @@ def remove_inkling_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
     
     # Get the POST data
@@ -544,7 +544,7 @@ def get_my_inklings_view(request):
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
     
     # Get the POST data
@@ -625,7 +625,7 @@ def send_password_reset_email_view(request):
     try:
         member = Member.objects.get(username = request.POST["email"])
         send_password_reset_email(member)
-    except Member.DoesNotExist:
+    except:
         pass
 
     return HttpResponse()
@@ -636,7 +636,7 @@ def set_password_view(request):
     # Get the member corresponding to the provided email (or throw a 404 error)
     try:
         member = Member.objects.get(pk = request.POST["memberID"])
-    except Member.DoesNotExist:
+    except:
         raise Http404()
 
     # Get the POST data
