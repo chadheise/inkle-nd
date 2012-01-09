@@ -33,24 +33,24 @@
             <!-- People -->
             <div class="searchSummarySection">
                 <p class="searchSummarySubtitle">People</p>
-                <p>All - {{ members|length }}</p>
-                <p>Following - {{ member.num_following }}</p>
-                <p>Followers - {{ member.num_followers }}</p>
-                <p>Other - {{ member.num_other_people }}</p>
+                <p>All: {{ members|length }}</p>
+                <p>Following: {{ member.num_following }}</p>
+                <p>Followers: {{ member.num_followers }}</p>
+                <p>Other: {{ member.num_other_people }}</p>
             </div>
             
             <!-- Locations -->
             <div class="searchSummarySection">
                 <p class="searchSummarySubtitle">Locations</p>
-                <p>All - {{ locations|length }}</p>
+                <p>All: {{ locations|length }}</p>
             </div>
 
             <!-- Spheres -->
             <div class="searchSummarySection">
                 <p class="searchSummarySubtitle">Spheres</p>
-                <p>All - {{ spheres|length }}</p>
-                <p>Mine - {{ member.num_my_spheres }}</p>
-                <p>Other - {{ member.num_other_spheres }}</p>
+                <p>All: {{ spheres|length }}</p>
+                <p>Mine: {{ member.num_my_spheres }}</p>
+                <p>Other: {{ member.num_other_spheres }}</p>
             </div>
             
             <!-- TODO: get rid of -->
