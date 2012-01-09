@@ -19,7 +19,16 @@ class Location(models.Model):
     website = models.CharField(max_length = 100, default = "")
 
     def __unicode__(self):
+        """String representation for Location class objects."""
         return "%s (%s, %s)" % (self.name, self.city, self.state)
+
+    def get_absolute_url(self):
+        """Returns the URL for Location class objects."""
+        return "/location/%i/" % (self.id)
+
+    def get_formatted_phone(self):
+        """Returns the current Location object's formatted phone number."""
+        return "(%s) %s-%s" % (self.phone[0:3], self.phone[3:6], self.phone[6:10])
 
 
 class Sphere(models.Model):
@@ -27,6 +36,7 @@ class Sphere(models.Model):
     name = models.CharField(max_length = 50)
     
     def __unicode__(self):
+        """String representation for Sphere class objects."""
         return "%s" % (self.name)
 
 
@@ -36,7 +46,12 @@ class Circle(models.Model):
     members = models.ManyToManyField("Member", symmetrical = False)
     
     def __unicode__(self):
+        """String representation for Circle class objects."""
         return "%s" % (self.name)
+
+    def get_absolute_url(self):
+        """Returns the URL for Sphere class objects."""
+        return "/sphere/%i/" % (self.id)
 
 
 class Follower(models.Model):
@@ -45,6 +60,7 @@ class Follower(models.Model):
     count = models.IntegerField()
     
     def __unicode__(self):
+        """String representation for Follower class objects."""
         return "%s (%d)" % (self.follower.username, self.count)
 
 
@@ -55,6 +71,7 @@ class Inkling(models.Model):
     date = models.CharField(max_length = 10)
     
     def __unicode__(self):
+        """String representation for Inkling class objects."""
         return "%s (%s, %s)" % (self.location.name, self.date, self.category)
 
 
@@ -88,4 +105,17 @@ class Member(User):
     #       id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
    
     def __unicode__(self):
+        """String representation for Member class objects."""
         return "%s (%s %s)" % (self.username, self.first_name, self.last_name)
+
+    def get_absolute_url(self):
+        """Returns the URL for Member class objects."""
+        return "/member/%i/" % (self.id)
+
+    def get_full_name(self):
+        """Returns the current Member object's full name."""
+        return "%s %s" % (self.first_name, self.last_name)
+    
+    def get_formatted_phone(self):
+        """Returns the current Member object's formatted phone number."""
+        return "(%s) %s-%s" % (self.phone[0:3], self.phone[3:6], self.phone[6:10])

@@ -19,7 +19,7 @@
 {% if other_member.phone  and other_member.phone|length_is:"10" %}
     <div class="infoSection">
         <p class="infoLabel">Phone:</p>
-        <p id="memberPhone">({{ other_member.phone|slice:"0:3" }}) {{ other_member.phone|slice:"3:6" }}-{{ other_member.phone|slice:"6:10" }}</p>
+        <p id="memberPhone">{{ other_member.get_formatted_phone }}</p>
     </div>
 {% endif %}
 

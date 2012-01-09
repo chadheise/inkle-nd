@@ -2,6 +2,6 @@
     {% for m in members %}
         {% include "memberCard.html" %}
     {% empty %}
-        <p>{{ otherMemberName }} is not following anyone.</p>
+        <p>{{ otherMember.get_full_name }} is not following anyone.</p>
     {% endfor %}
 </div>

@@ -10,7 +10,7 @@
         <div class="info">
             <div class="infoRow">
                 <!-- Name -->
-                <a class="cardName" href="/member/{{ m.id }}">{{ m.first_name }} {{ m.last_name }}</a>
+                <a class="cardName" href="{{ m.get_absolute_url }}">{{ m.get_full_name }}</a>
                 
                 <!-- Contact information -->
                 {% if m.show_contact_info %}
@@ -22,7 +22,7 @@
 
                         <!-- Phone -->
                         {% if m.phone and m.phone|length_is:"10" %}
-                            <p>({{ m.phone|slice:"0:3" }}) {{ m.phone|slice:"3:6" }}-{{ m.phone|slice:"6:10" }}</p>
+                            <p>{{ m.get_formatted_phone }}</p>
                         {% endif %}
                     </div>
                 {% endif %}

@@ -8,13 +8,13 @@
         <div class="info">
             <div class="infoRow">
                 <!-- Name -->
-                <a class="cardName" href="/location/{{ location.id }}">{{ location.name }}</a>
+                <a class="cardName" href="{{ location.get_absolute_url }}">{{ location.name }}</a>
             
                 <!-- Contact information -->
                 <div class="contactInfo">
                     <!-- Phone -->
                     {% if location.phone and location.phone|length_is:"10" %}
-                        <p>({{ location.phone|slice:"0:3" }}) {{ location.phone|slice:"3:6" }}-{{ location.phone|slice:"6:10" }}</p>
+                        <p>{{ location.get_formatted_phone }}</p>
                     {% endif %}
                     
                     <!-- Category -->
