@@ -10,10 +10,12 @@
       
     <!-- Category suggestions -->
     {% for suggestion in category %}
-        <div class="suggestion" suggestionID="{{ suggestion.id }}">
-            <img src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
-            <p>{{ suggestion.name|truncatecharacters:numChars }}</p>
-        </div>
+        <a href="{{ suggestion.get_absolute_url }}">
+            <div class="suggestion" suggestionID="{{ suggestion.id }}">
+                <img src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
+                <p>{{ suggestion.name|truncatecharacters:numChars }}</p>
+            </div>
+        </a>
     {% endfor %}
 {% empty %}
     <!-- No suggestions -->
