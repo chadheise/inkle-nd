@@ -464,13 +464,13 @@ def followers_view(request, other_member_id = None):
             raise Http404()
 
         # Get the members who are following the member whose page we are on and set the appropriate page context and no followers text
-        members = [f.follower for f in other_member.followers.all()]
+        members = other_member.followers.all()
         page_context = "otherFollowers"
         no_followers_text = other_member.first_name + " " + other_member.last_name
 
     # Otherwise, get the members who are following the logged in member and set the appropriate page context and no followers text
     else:
-        members = [f.follower for f in member.followers.all()]
+        members = member.followers.all()
         page_context = "myFollowers"
         no_followers_text = "you"
 

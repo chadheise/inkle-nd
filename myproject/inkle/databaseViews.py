@@ -195,9 +195,7 @@ def accept_request_view(request):
     from_member.pending.remove(to_member)
     from_member.accepted.add(to_member)
     to_member.requested.remove(from_member)
-    from_follower = Follower(follower = from_member, count = 1)
-    from_follower.save()
-    to_member.followers.add(from_follower)
+    to_member.followers.add(from_member)
     from_member.following.add(to_member)
     
     # Email the from_member to let them know to_member has accepted their request to follow them
@@ -268,9 +266,7 @@ def remove_following(from_member, to_member):
         circle.members.remove(to_member)
 
     # Remove the from_member follower of to_member
-    from_member_follower = to_member.followers.get(follower = from_member)
-    to_member.followers.remove(from_member_follower)
-    from_member_follower.delete()
+    to_member.followers.remove(from_member)
     
     # Remove to_member from from_member's following list
     from_member.following.remove(to_member)
@@ -299,12 +295,6 @@ def add_to_circle_view(request):
     if (to_member in from_member.accepted.all()):
         from_member.accepted.remove(to_member)
     
-    # Otherwise, increment the from_member's follower count
-    else:
-        from_member_follower = to_member.followers.get(follower = from_member)
-        from_member_follower.count += 1
-        from_member_follower.save()
-    
     # Get the to_member's info for their member card
     to_member.sphereNames = [sphere.name for sphere in to_member.spheres.all()]
     to_member.mutual_followings = from_member.following.all() & to_member.following.all()
@@ -329,8 +319,11 @@ def remove_from_circle_view(request):
     except Member.DoesNotExist:
         return HttpResponseRedirect("/login/")
 
-    # Get the member to whom the request was sent
-    to_member = Member.objects.get(pk = request.POST["toMemberID"])
+    # Get the member to whom the request was sent (or throw a 404 error if the to member ID is invalid)
+    try:
+        to_member = Member.objects.get(pk = request.POST["toMemberID"])
+    except Member.DoesNotExist:
+        raise Http404()
     
     # Get the circle to which to_member is being removed
     circle = Circle.objects.get(pk = request.POST["circleID"])
@@ -346,17 +339,12 @@ def remove_from_circle(from_member, to_member, circle):
     # Remove the to_member from the from_member's circle
     circle.members.remove(to_member)
 
-    # Get the from_member's follower of to_member
-    from_member_follower = to_member.followers.get(follower = from_member)
+    # Get the number of from_member's circles which to_member is in
+    count = len([c for c in from_member.circles.all().select_related("members") if (to_member in c.members.all())])
 
-    # Add the to_member to the from_member's accepted list if this is the last circle the to_member belongs to
-    if (from_member_follower.count == 1):
+    # Add the to_member to the from_member's accepted list if the to_member no longer belongs to any of from_member's circles
+    if (count == 0):
         from_member.accepted.add(to_member)
-
-    # Otherwise, decrement the from_member's follower count
-    else:
-        from_member_follower.count -= 1
-        from_member_follower.save()
 
     return
 
