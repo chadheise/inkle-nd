@@ -228,11 +228,11 @@ def members_search_query(query):
     
     # If the query is only one word long, match the members' first or last names alone
     if (len(query_split) == 1):
-        members = Member.objects.filter(Q(first_name__startswith = query) | Q(last_name__startswith = query))
+        members = Member.objects.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
 
     # If the query is two words long, match the members' first and last names
     elif (len(query_split) == 2):
-        members = Member.objects.filter((Q(first_name__startswith = query_split[0]) & Q(last_name__startswith = query_split[1])) | (Q(first_name__startswith = query_split[1]) & Q(last_name__startswith = query_split[0])))
+        members = Member.objects.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
     
     # if the query is more than two words long, return no results
     else:
@@ -243,13 +243,13 @@ def members_search_query(query):
 
 def locations_search_query(query):
     """Returns the locations which match the inputted query."""
-    locations = Location.objects.filter(Q(name__contains = query))
+    locations = Location.objects.filter(Q(name__icontains = query))
     return locations
         
 
 def spheres_search_query(query):
     """Returns the spheres which match the inputted query."""
-    spheres = Sphere.objects.filter(Q(name__contains = query))
+    spheres = Sphere.objects.filter(Q(name__icontains = query))
     return spheres
 
 
@@ -546,11 +546,8 @@ def following_view(request, other_member_id = None):
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.all() & m.following.all()
 
-    # Get the other member's name
-    other_member_name = other_member.first_name + " " + other_member.last_name
-
     return render_to_response( "following.html",
-        { "member" : member, "members" : members, "otherMemberName" : other_member_name },
+        { "member" : member, "otherMember" : other_member, "members" : members },
         context_instance = RequestContext(request) )
 
     
