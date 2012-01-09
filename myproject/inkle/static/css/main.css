@@ -86,13 +86,17 @@ input
     height: 30px;
     width: 100%;
     text-align: center;
+    bottom: 0px;
+    position: fixed;
+    z-index: 1;
 }
 
-.footerText
+#footer p, #footer a
 {
     color: #FFFFFF;
     padding-top: 7px;
     font-size: 14px;
+    text-decoration: none;
 }
 
 .memberCard, .locationCard, .sphereCard

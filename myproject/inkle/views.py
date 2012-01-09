@@ -27,7 +27,7 @@ def home_view(request):
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
-    except:
+    except (Member.DoesNotExist, KeyError) as e:
         return HttpResponseRedirect("/login/")
     
     # Get date objects for today, tomorrow, and the day after tomorrow 

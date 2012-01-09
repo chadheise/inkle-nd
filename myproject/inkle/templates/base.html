@@ -27,12 +27,14 @@
     </head>
 
     <body>
+        <!-- Header -->
         {% include "header.html" %}
 
+        <!-- Main content -->
         {% block mainContent %}
         {% endblock mainContent %}
     
-        {% block footer %}
-        {% endblock footer %}
+        <!-- Footer -->
+        {% include "footer.html" %}
     </body>
 </html>
