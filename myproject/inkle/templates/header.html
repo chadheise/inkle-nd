@@ -7,13 +7,14 @@
         
         {% if member %}
             <!-- Search bar -->
-            <div id="headerSearchContainer" class="grid_11 suffix_1">
-                <input id="searchInput" class="grid_11" type="text" />
-                <div id="searchSuggestions" class="suggestions"></div>
+            <div id="headerSearch" class="grid_11">
+                <input id="headerSearchInput" type="text" />
+                <img id="headerSearchButton" src="{{ STATIC_URL }}/media/images/main/searchButton.png" />
+                <div id="headerSearchSuggestions" class="suggestions"></div>
             </div>
 
             <!-- Notifications -->
-            <div class="grid_1">
+            <div class="grid_1 push_1">
                 {% if member.requested.all|length %}
                     <a id="requestNotificationLink" href="/manage/requests/"><div id="requestNotification">{{ member.requested.all|length }}</div></a>
                 {% else %}
@@ -22,7 +23,7 @@
             </div>
 
             <!-- Member name / logout -->
-            <div class="grid_5">
+            <div class="grid_5 push_1">
                 <div id="username">
                     <a href="/manage/circles/">{{ member.first_name }} {{ member.last_name }}</a>
                 </div>

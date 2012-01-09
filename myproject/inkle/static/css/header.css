@@ -15,20 +15,41 @@
     margin-top: 23px;
 }
 
-#searchInput
+#headerSearch
 {
     height: 25px;
     margin-top: 36px;
-    padding: 0px 5px 0px 5px;
     font-size: 16px;
     border: inset 2px #BBB;
+    background-color: #FFF;
 }
 
-#searchSuggestions
+#headerSearchInput
 {
-    top: 65px;
-    margin-left: 5px;
-    width: 440px;
+    height: 19px;
+    margin: 3px 0px 3px 5px;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    border-right: solid 1px #288D42;
+    width: 92%;
+    float: left;
+}
+
+#headerSearchButton
+{
+    float: left;
+    padding: 3px 4px 7px 5px;
+    height: 19px;
+    width: 19px;
+    cursor: pointer;
+    clear: right;
+}
+
+#headerSearchSuggestions
+{
+    margin: 27px 0px 0px -2px;
+    width: 430px;
 }
 
 .emptySearchInput
