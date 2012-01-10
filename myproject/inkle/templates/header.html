@@ -1,34 +1,58 @@
+{% load extraTags %}
+
 <div id="header">
     <div class="container_24">
         <!-- Logo -->
         <div class="grid_5 suffix_1">
-            <a id="logoLink" href="/"><img id="logo" src="{{ STATIC_URL }}/media/images/main/inkleLogo.png" /></a>
+            <a id="logoLink" href="/" title="Home"><img id="logo" src="{{ STATIC_URL }}/media/images/main/inkleLogo.png" /></a>
         </div>
         
         {% if member %}
             <!-- Search bar -->
-            <div id="headerSearch" class="grid_11">
+            <div id="headerSearch" class="grid_11 alpha">
                 <input id="headerSearchInput" type="text" maxlength="100" />
-                <img id="headerSearchButton" src="{{ STATIC_URL }}/media/images/main/searchButton.png" />
+                <img id="headerSearchButton" src="{{ STATIC_URL }}/media/images/main/searchButton.png" title="Search" />
                 <div id="headerSearchSuggestions" class="suggestions"></div>
             </div>
 
             <!-- Notifications -->
-            <div class="grid_1 push_1">
+            <!--<div class="grid_1 push_1">
                 {% if member.requested.all|length %}
                     <a id="requestNotificationLink" href="/manage/requests/"><div id="requestNotification">{{ member.requested.all|length }}</div></a>
                 {% else %}
                     <p class="grid_1">&nbsp;</p>
                 {% endif %}
-            </div>
+            </div>-->
 
-            <!-- Member name / logout -->
-            <div class="grid_5 push_1">
-                <div id="username">
-                    <a href="/manage/circles/">{{ member.first_name }} {{ member.last_name }}</a>
+            <!-- Member name and header dropdown -->
+            <div id="headerMemberSection" class="grid_7 alpha omega">
+                <div>
+                    <img id="headerDropdownButton" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
+                    <div id="headerMemberContainer">
+                        <a href="/manage/circles/" title="Profile">
+                            <p id="headerMemberName">{{ member.get_full_name|truncatecharacters:25 }}</p>
+                            <img id="headerMemberImage" src="{{ STATIC_URL }}/media/images/members/{{ member.id }}.jpg" />
+                        </a>
+                    </div>
                 </div>
-                <div id="logout">
-                    <a href="/logout/">Logout</a>
+                <div id="headerDropdown">
+                    <a href="/editProfile/">
+                        <p class="headerDropdownOption">Profile information</p>
+                    </a>
+                    <a href="/manageAccount/">
+                        <p class="headerDropdownOption">Manage account</p>
+                    </a>
+                    <a href="/manage/requests/">
+                        {% if member.requested.all|length %}
+                            <p class="headerDropdownOption">Requests ({{ member.requested.all|length }})</p>
+                        {% else %}
+                            <p class="headerDropdownOption">Requests</p>
+                        {% endif %}
+                        
+                    </a>
+                    <a href="/logout/">
+                        <p class="headerDropdownOption">Logout</p>
+                    </a>
                 </div>
             </div>
         {% endif %}

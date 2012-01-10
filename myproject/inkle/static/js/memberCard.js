@@ -22,12 +22,12 @@ $(document).ready(function() {
         // Otherwise, if the circles menu is visible, fade it out
         else
         {
-            circlesMenuElement.fadeOut('medium');
+            circlesMenuElement.fadeOut("medium");
         }
     });
     
     /* Fades out the circles menu when a click occurs on an element which is not a circles card button on circles menu */
-    $("body").live("click", function(e) {
+    $("html").live("click", function(e) {
         if ($(".circlesMenu:visible").length != 0)
         {
             if ((!($(e.target).hasClass("circlesCardButton"))) && (($(e.target).parents(".circlesMenu").length == 0)))
