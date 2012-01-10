@@ -151,11 +151,9 @@
     z-index: 1;
     position: absolute;
     width: 175px;
-    background-color: #ABD4B0;
-    background-color: #FFF;
     background-color: #EEE;
     border-radius: 3px 0px 3px 3px;
-    border: solid 2px #288D42;
+    border: solid 2px #AAA;
 }
 
 #headerDropdown a
