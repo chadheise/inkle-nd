@@ -9,9 +9,6 @@ from django.contrib import auth
 from myproject.inkle.models import *
 from myproject.inkle.emails import *
 
-import random
-import hashlib
-
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
     "prevent" : ("preventFollowing", "Block", "No longer allow this person to follow me"),
@@ -619,13 +616,30 @@ def create_location_view(request):
     return HttpResponse(location.id)
 
 
-def send_password_reset_email_view(request):
-    """Sends an email to the inputted email so that the corresponding user can reset their password."""
-    # Get the member who corresponds to the provided email and send them an email to reset their password
+def send_email_verification_email_view(request, email = None):
+    """Sends an email to the provided email allowing them to verify that email."""
+    # Get the member who corresponds to the provided email (or raise a 404 error if no corresponding member exists)
     try:
-        member = Member.objects.get(username = request.POST["email"])
+        member = Member.objects.get(username = email)
+    except Member.DoesNotExist:
+        raise Http404()
+
+    # Send the member an email to verifiy their email address (or raise a 404 error if their email is already verified)
+    if (member.verified == False):
+        send_email_verification_email(member)
+    else:
+        raise Http404()
+
+    return HttpResponse()
+
+
+def send_password_reset_email_view(request, email = None):
+    """Sends an email to the provided email allowing the corresponding to reset their password."""
+    # Get the member who corresponds to the provided email and send them an email to reset their password (otherwise, don't do anything)
+    try:
+        member = Member.objects.get(username = email)
         send_password_reset_email(member)
-    except:
+    except Member.DoesNotExist:
         pass
 
     return HttpResponse()
@@ -644,13 +658,10 @@ def set_password_view(request):
     confirm_password = request.POST["confirmPassword"]
     verification_hash = request.POST["verificationHash"]
 
-    # If the passwords are long enough and match and the verification hash is correct, reset the user's password and generate a new verification hash
+    # If the passwords are long enough and match and the verification hash is correct, reset the member's password (or throw a 404 error)
     if ((len(password) >= 8) and (password == confirm_password) and (verification_hash == member.verification_hash)):
         member.set_password(password)
-        member.verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
         member.save()
-
-    # Otherwise, throw a 404 error
     else:
         raise Http404()
         

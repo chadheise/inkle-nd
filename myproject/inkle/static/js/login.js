@@ -48,19 +48,15 @@ $(document).ready(function() {
         if (emailPattern.test(email))
         {
             $.ajax({
-                type: "POST",
-                url: "/passwordResetConfirmation/",
-                data: { "email" : email },
+                url: "/passwordResetConfirmation/" + email + "/",
                 success: function(html) {
                     $("#loginContent").fadeOut("medium", function() {
                         // Fade in the confirmation content
                         $(this).html(html).fadeIn("medium");
                         
-                        // Send the confirmation email
+                        // Send the password reset email
                         $.ajax({
-                            type: "POST",
-                            url: "/sendPasswordResetEmail/",
-                            data: { "email" : email },
+                            url: "/sendPasswordResetEmail/" + email + "/",
                             error: function (a, b, error) { alert("login.js (2.2): " + error); }
                         });
                     });
@@ -146,9 +142,15 @@ $(document).ready(function() {
                     $("#registrationContent").fadeOut("medium", function() {
                         $(this).html(html).fadeIn("medium");
                     });
+                    
+                    // Send the email verification email
+                    $.ajax({
+                        url: "/sendEmailVerificationEmail/" + email + "/",
+                        error: function (a, b, error) { alert("login.js (4.2): " + error); }
+                    });
                 }
             },
-            error: function(a, b, error) { alert("login.js (4): " + error); }
+            error: function(a, b, error) { alert("login.js (4.1): " + error); }
         });
     });
 });
