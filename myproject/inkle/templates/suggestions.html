@@ -10,12 +10,16 @@
       
     <!-- Category suggestions -->
     {% for suggestion in category %}
-        <a href="{{ suggestion.get_absolute_url }}">
-            <div class="suggestion" suggestionID="{{ suggestion.id }}">
-                <img src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
-                <p>{{ suggestion.name|truncatecharacters:numChars }}</p>
-            </div>
-        </a>
+        {% if queryType == "search" %}
+            <a href="{{ suggestion.get_absolute_url }}">
+        {% endif %}
+        <div class="suggestion" suggestionID="{{ suggestion.id }}">
+            <img src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
+            <p>{{ suggestion.name|truncatecharacters:numChars }}</p>
+        </div>
+        {% if queryType == "search" %}
+            </a>
+        {% endif %}
     {% endfor %}
 {% empty %}
     <!-- No suggestions -->

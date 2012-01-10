@@ -33,6 +33,7 @@
     background-color: #E4E4E4;
     border-top: solid 2px #AAA;
     height: 50px;
+    cursor: pointer;
 }
 
 .suggestion:hover
