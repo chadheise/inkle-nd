@@ -20,6 +20,15 @@ input
     border: none;
 }
 
+body
+{
+    background-image: url(/static/media/images/main/gradient.png);
+    background-repeat: repeat-y;
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+}
+
 #mainContent
 {
     margin-top: 100px;
