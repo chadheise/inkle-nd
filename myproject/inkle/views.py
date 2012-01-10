@@ -360,7 +360,7 @@ def suggestions_view(request):
     # Case 1: Location suggestions for an inkling
     if (query_type == "inkling"):
         # Get the location suggestions (and add them to the categories list if there are any)
-        locations = locations_search_query(query)
+        locations = locations_search_query(query)[0:5]
         if (locations):
             categories.append((locations,))
         
@@ -377,12 +377,12 @@ def suggestions_view(request):
             categories.append((members, "People"))
         
         # Get the location suggestions (and add them to the categories list if there are any)
-        locations = locations_search_query(query)[0:3]
+        locations = locations_search_query(query)[0:5]
         if (locations):
             categories.append((locations, "Locations"))
 
         # Get the sphere suggestions (and add them to the categories list if there are any)
-        spheres = Sphere.objects.filter(Q(name__contains = query))[0:3]
+        spheres = Sphere.objects.filter(Q(name__contains = query))[0:5]
         if (spheres):
             categories.append((spheres, "Spheres"))
 
@@ -399,7 +399,7 @@ def suggestions_view(request):
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
         members = members_search_query(query)
-        members = list(set(members) - set(circle.members.all()))
+        members = list(set(members) - set(circle.members.all()))[0:5]
         if (members):
             for m in members:
                 m.name = m.first_name + " " + m.last_name
