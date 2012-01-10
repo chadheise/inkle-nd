@@ -36,7 +36,7 @@
     cursor: pointer;
 }
 
-.suggestion:hover
+.selectedSuggestion
 {
     background-color: #ABD4B0;
 }

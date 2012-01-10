@@ -20,17 +20,111 @@ $(document).ready(function() {
         $("#headerSearchSuggestions").fadeOut("medium");
     });
 
-    /* If the "Enter" button is pressed and the search input is not empty, redirect to the search page */
-    $("#headerSearchInput").keydown(function(e) {
-        if ((e.keyCode == 10) || (e.keyCode == 13))
+    $("#headerSearchSuggestions .suggestion").live("hover", function() {
+        // If there is a selected item, remove it
+        if ($(".selectedSuggestion").length != 0)
         {
-            var query = $(this).val();
-            query = query.replace(/^\s+|\s+$/g, "");
+            $(".selectedSuggestion").removeClass("selectedSuggestion");
+        }
 
-            if (query != "")
+        // Set the suggestion which was hovered over as selected
+        $(this).addClass("selectedSuggestion");
+    });
+
+    /* If the "Enter" button is pressed and the search input is not empty, redirect to the search page */
+    $("#headerSearchInput").keyup(function(e) {
+        // Get the current search query and strip its whitespace
+        var query = $(this).val().replace(/^\s+|\s+$/g, "");
+
+        // Make sure the search query is not empty
+        if (query != "")
+        {
+            // If the "Enter" button is pressed, redirect to the search page or trigger the selected item's click event
+            if ((e.keyCode == 10) || (e.keyCode == 13))
             {
-                window.location.href = "/search/" + query;
+                // If there is no selected item, redirect to the search page with the current query
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    window.location.href = "/search/" + query;
+                }
+
+                // Otherwise, trigger the selected item's click event
+                else
+                {
+                    $(".selectedSuggestion").trigger("click");
+                }
             }
+
+            // If the up arrow key is pressed, scroll through the suggestions
+            else if (e.keyCode == 38)
+            {
+                // If there is no selected suggestion, set the last suggestion as selected
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    $(".suggestion:last").addClass("selectedSuggestion");
+                }
+
+                // Otherwise, set the previous suggestion as selected
+                else
+                {
+                    var selectedSuggestionElement = $(".selectedSuggestion");
+                    var nextSuggestionElement = selectedSuggestionElement.parent().prev().find(".suggestion");
+                    selectedSuggestionElement.removeClass("selectedSuggestion");
+                    nextSuggestionElement.addClass("selectedSuggestion");
+                    if ($(".selectedSuggestion").length == 0)
+                    {
+                        var nextSuggestionElement = selectedSuggestionElement.parent().prev().prev().find(".suggestion");
+                        nextSuggestionElement.addClass("selectedSuggestion");
+                    }
+                }
+            }
+       
+            // If the down arrow key is pressed, scroll through the suggestions
+            else if (e.keyCode == 40)
+            {
+                // If there is no selected suggestion, set the first suggestion as selected
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    $(".suggestion:first").addClass("selectedSuggestion");
+                }
+
+                // Otherwise, set the next suggestion as selected
+                else
+                {
+                    var selectedSuggestionElement = $(".selectedSuggestion");
+                    var nextSuggestionElement = selectedSuggestionElement.parent().next().find(".suggestion");
+                    selectedSuggestionElement.removeClass("selectedSuggestion");
+                    nextSuggestionElement.addClass("selectedSuggestion");
+                    if ($(".selectedSuggestion").length == 0)
+                    {
+                        var nextSuggestionElement = selectedSuggestionElement.parent().next().next().find(".suggestion");
+                        nextSuggestionElement.addClass("selectedSuggestion");
+                    }
+                }
+            }
+
+            // Otherwise, if the left or right arrow keys are not pressed, update the search suggestions
+            else if ((e.keyCode != 37) && (e.keyCode != 39))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "/suggestions/",
+                    data: {"type" : "search", "query" : query},
+                    success: function(html) {
+                        $("#headerSearchSuggestions").html(html);
+                        $("#headerSearchSuggestions").fadeIn("medium");
+                    },
+                    error: function(a, b, error) {
+                        alert("header.js (1): " + error);
+                    }
+                });
+            }
+        }
+
+        // If the search query is empty, fade out the search suggestions
+        else
+        {
+            $("#headerSearchSuggestions").fadeOut("medium");
         }
     });
     
@@ -45,35 +139,6 @@ $(document).ready(function() {
         }
     });
    
-    /* Update the search suggestions every time a key is pressed */
-    $("#headerSearchInput").keyup(function(e) {
-        if ((e.keyCode != 10) && (e.keyCode != 13))
-        {
-            var query = $(this).val();
-
-            if (query != "")
-            {
-                $.ajax({
-                    type: "POST",
-                    url: "/suggestions/",
-                    data: {"type" : "search", "query" : query},
-                    success: function(html) {
-                        $("#headerSearchSuggestions").html(html);
-                        $("#headerSearchSuggestions").fadeIn("medium");
-                    },
-                    error: function(a, b, error) {
-                        ;
-                        alert("header.js (1): " + error);
-                    }
-                });
-            }
-            else
-            {
-                $("#headerSearchSuggestions").fadeOut("medium");
-            }
-        }
-    });
-
     /* Fades in the header dropdown menu when the header dropdown menu button is clicked */
     $("#headerDropdownButton").live("click", function() {
         // Get the header dropdown menu
