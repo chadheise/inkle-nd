@@ -31,11 +31,11 @@ def send_email_verification_email(member):
     # Specify the text body
     body_text = """Hi %s,
 
-        Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking on the following one-time-only link:
+        Welcome to Inkle! Click on the following link to verify this email address and complete the registration process:
 
         http://www.inkleit.com/verifyEmail/%s/%s/
 
-        Once you account is verified, you'll be able to log into Inkle and redefine how you plan your weekends!
+        Once your account is verified, you'll be able to log into Inkle and redefine how you plan your weekends!
     
     Welcome aboard,
     The Inkle team""" % (member.first_name, member.username, member.verification_hash)
@@ -48,9 +48,9 @@ def send_email_verification_email(member):
 
             <p>Hi %s,</p>
 
-            <p>Welcome to Inkle! To complete the sign-up process, please verify this email address by clicking <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> (Note that this link is a one-time-only link).</p>
+            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify this email address and complete the registration process.</p>
 
-            <p>Once you account is verified, you'll be able to log into <a href="http://www.inkleit.com">Inkle</a> and redefine how you plan your weekends!</p>
+            <p>Once your account is verified, you'll be able to log into <a href="http://www.inkleit.com">Inkle</a> and redefine how you plan your weekends!</p>
     
             <p>Welcome aboard,<br />
             The Inkle team</p>
@@ -73,11 +73,11 @@ def send_password_reset_email(member):
     # Specify the text body
     body_text = """Hi %s,
 
-        We hear you forgot the password to your Inkle account! You can easily reset it using the following link:
+        We hear you forgot the password to your Inkle account! You can easily reset it using the link below. Note that you will only be able to visit this link one time. If you need another password reset link, go to the Inkle home page and request a new one.
 
         http://www.inkleit.com/resetPassword/%s/%s/
 
-        If you didn't request to reset your password, don't worry - just disregard this message.
+        If you didn't request to have your password reset, don't worry - just disregard this message.
     
     Thanks,
     The Inkle team""" % (member.first_name, member.username, member.verification_hash)
@@ -90,9 +90,9 @@ def send_password_reset_email(member):
 
             <p>Hi %s,</p>
 
-            <p>We hear you forgot the password to your Inkle account! You can easily reset it <a href="http://www.inkleit.com/resetPassword/%s/%s/">here</a>.</p>
+            <p>We hear you forgot the password to your Inkle account! You can easily reset it by clicking <a href="http://www.inkleit.com/resetPassword/%s/%s/">here</a>. Note that you will only be able to visit this link one time. If you need another password reset link, go to the Inkle home page and request a new one.</p>
 
-            <p>If you didn't request to reset your password, don't worry - just disregard this message.</p>
+            <p>If you didn't request to have you password reset, don't worry - just disregard this message.</p>
     
             <p>Thanks,<br />
             The Inkle team</p>

@@ -11,8 +11,6 @@ from myproject.inkle.choices import *
 
 from myproject.inkle.emails import *
 
-import random
-import hashlib
 import re
 
 from django.db.models import Q
@@ -755,14 +753,16 @@ def request_password_reset_view(request):
         context_instance = RequestContext(request) )
 
 
-def password_reset_confirmation_view(request):
+def password_reset_confirmation_view(request, email = None):
     """Returns a confirmation message saying an email has been sent to the inputted email so that the corresponding user can reset their password."""
-    # Get the member who corresponds to the provided email
-    email = request.POST["email"]
+    # If no email is provided, raise a 404 error
+    if (not email):
+        raise Http404()
    
     return render_to_response( "passwordResetConfirmation.html",
         { "email" : email },
         context_instance = RequestContext(request) )
+
 
 def reset_password_view(request, email = None, verification_hash = None):
     """Verifies a member's email address using the inputted verification hash."""
@@ -772,15 +772,16 @@ def reset_password_view(request, email = None, verification_hash = None):
     except Member.DoesNotExist:
         raise Http404()
 
-    # If the verification hash is correct, let the member reset their password 
+    # If the verification hash is correct update the member's verification and let them reset their password (otherwise, raise a 404 error)
     if (member.verification_hash == verification_hash):
-        return render_to_response( "login.html",
-            { "selectedContentLink" : "login", "loginContent" : "resetPassword", "m" : member },
-            context_instance = RequestContext(request) )
-
-    # Otherwise, if the hash is incorrect, raise a 404 error
+        member.update_verification_hash()
+        member.save()
     else:
         raise Http404()
+        
+    return render_to_response( "login.html",
+        { "selectedContentLink" : "login", "loginContent" : "resetPassword", "m" : member },
+        context_instance = RequestContext(request) )
 
 def register_view(request):
     """User login."""
@@ -961,9 +962,6 @@ def register_view(request):
 
         # If the registration form is valid, create a new member with the provided POST data
         if (not invalid_registration):
-            # Create the verification hash
-            verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
-           
             # Create the new member
             member = Member(
                 first_name = first_name,
@@ -971,8 +969,7 @@ def register_view(request):
                 username = email,
                 email = email,
                 birthday = month + "/" + day + "/" + year,
-                gender = gender,
-                verification_hash = verification_hash
+                gender = gender
             )
             
             # Set the new member's password
@@ -985,9 +982,6 @@ def register_view(request):
             # Save the new member
             member.save()
 
-            # Send the new member an email to verify their email address
-            send_email_verification_email(member)
-                
             # Send the member to the successful account creation page
             return render_to_response( "registrationConfirmation.html",
                 { "email" : email },
@@ -1036,10 +1030,10 @@ def verify_email_view(request, email = None, verification_hash = None):
     except Member.DoesNotExist:
         raise Http404()
 
-    # If the member has not yet been verified and the verification hash is correct, verify the member and give them a new verification hash(otherwise, throw a 404 error)
+    # If the member has not yet been verified and the verification hash is correct, verify the member and give them a new verification hash (otherwise, throw a 404 error)
     if ((not member.verified) and (member.verification_hash == verification_hash)):
+        member.update_verification_hash()
         member.verified = True
-        member.verification_hash = hashlib.md5(str(random.randint(1000, 5000))).hexdigest()
         member.save()
     else:
         raise Http404()
