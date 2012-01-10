@@ -135,6 +135,7 @@ $(document).ready(function() {
                     $("#newCircle").fadeOut("medium", function() {
                         $("#newCircleInput").val("")
                         $("#newCircle").before("<button class='circle' circleID='" + circleID + "'>" + name + "</button>");
+                        $(".circlesMenu").append("<div><input type='checkbox' circleID='" +  circleID + "' /><label>" + name + "</label></div>");
                         $("#createCircleButton").fadeIn("medium");
                     });
                 },
