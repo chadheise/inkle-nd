@@ -13,7 +13,7 @@ def truncatecharacters(value, arg):
 
     # Add an ellipse if applicable, otherwise, simply return the input value
     if len(value) > length:
-        return value[:length] + "..."
+        return value[:(length - 3)] + "..."
     return value
 
 @register.filter(name = "split")

@@ -370,19 +370,19 @@ def suggestions_view(request):
     # Case 2: Member, location, and sphere suggestions for the main header search
     elif (query_type == "search"):
         # Get the member suggestions (and add them to the categories list if there are any)
-        members = members_search_query(query)
+        members = members_search_query(query)[0:5]
         if (members):
             for m in members:
                 m.name = m.first_name + " " + m.last_name
             categories.append((members, "People"))
         
         # Get the location suggestions (and add them to the categories list if there are any)
-        locations = locations_search_query(query)
+        locations = locations_search_query(query)[0:3]
         if (locations):
             categories.append((locations, "Locations"))
 
         # Get the sphere suggestions (and add them to the categories list if there are any)
-        spheres = Sphere.objects.filter(Q(name__contains = query))
+        spheres = Sphere.objects.filter(Q(name__contains = query))[0:3]
         if (spheres):
             categories.append((spheres, "Spheres"))
 
@@ -409,7 +409,7 @@ def suggestions_view(request):
         num_chars = 20
 
     return render_to_response( "suggestions.html",
-        { "categories" : categories, "numChars" : num_chars },
+        { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
         context_instance = RequestContext(request) )
 
 

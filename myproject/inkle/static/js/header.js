@@ -74,6 +74,44 @@ $(document).ready(function() {
         }
     });
 
+    /* Fades in the header dropdown menu when the header dropdown menu button is clicked */
+    $("#headerDropdownButton").live("click", function() {
+        // Get the header dropdown menu
+        var headerDropdownElement = $("#headerDropdown");
+       
+        // If the header dropdown menu is not visible, fade it in
+        if (! headerDropdownElement.is(":visible"))
+        {
+            var buttonPosition = $(this).position();
+            var buttonHeight = $(this).height();
+            var buttonWidth = $(this).width();
+            headerDropdownElement
+                .css("left", buttonPosition.left + 20 - headerDropdownElement.width())
+                .css("top", (buttonPosition.top + 2 * buttonHeight + 22))
+                .fadeIn("medium");
+            $(this).addClass("selectedHeaderDropdownButton");
+        }
+
+        // Otherwise, if the circles menu is visible, fade it out
+        else
+        {
+            headerDropdownElement.fadeOut("medium");
+            $(this).removeClass("selectedHeaderDropdownButton");
+        }
+    });
+    
+    /* Fades out the header dropdown menu when a click occurs on an element which is not part of the header dropdown menu */
+    $("html").live("click", function(e) {
+        if ($("#headerDropdown:visible").length != 0)
+        {
+            if ((!($(e.target).hasClass("headerDropdownOption"))) && (e.target.id != "headerDropdownButton") && (($(e.target).parents("#headerDropdown").length == 0)))
+            {
+                $("#headerDropdown").fadeOut("fast");
+                $("#headerDropdownButton").removeClass("selectedHeaderDropdownButton");
+            }
+        }
+    });
+
     /* Redirect to the search page when the header search's more suggestions link is clicked */
     $("#headerSearch #moreSuggestions").live("click", function() {
         var query = $(this).children(".suggestion p").text();
