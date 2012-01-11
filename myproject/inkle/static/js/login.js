@@ -131,7 +131,7 @@ $(document).ready(function() {
             data: {"firstName" : firstName, "lastName" : lastName, "email" : email, "confirmEmail" : confirmEmail, "password" : password, "confirmPassword" : confirmPassword, "month" : month, "day" : day, "year" : year, "gender" : gender},
             success: function(html) {
                 // If the returned HTML is the registration form again, simply update the registration content
-                if (html.startsWith("<div"))
+                if (html.startsWith("\n"))
                 {
                     $("#registrationContent").html(html);
                 }

@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 #from django.contrib.auth.views import login, logout
 
 # Uncomment the next two lines to enable the admin:
@@ -12,8 +13,8 @@ urlpatterns = patterns(
     (r"^register/$", "register_view"),
     (r"^sendEmailVerificationEmail/(?P<email>.+)/$", "send_email_verification_email_view"),
     (r"^verifyEmail/(?P<email>.+)/(?P<verification_hash>\w+)/$", "verify_email_view"),
-    (r"^requestPasswordReset/$", "request_password_reset_view"),
-    (r"^passwordResetConfirmation/(?P<email>.+)/$", "password_reset_confirmation_view"),
+    (r"^requestPasswordReset/$", direct_to_template, { "template" : "requestPasswordReset.html" }),
+    (r"^passwordResetConfirmation/(?P<email>.+)/$", direct_to_template, { "template" : "passwordResetConfirmation.html" }),
     (r"^sendPasswordResetEmail/(?P<email>.+)/$", "send_password_reset_email_view"),
     (r"^resetPassword/(?P<email>.+)/(?P<verification_hash>\w+)/$", "reset_password_view"),
     (r"^resetPassword/$", "set_password_view"),

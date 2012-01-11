@@ -30,7 +30,7 @@
                     <img id="headerDropdownButton" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
                     <div id="headerMemberContainer">
                         <a href="/manage/circles/" title="Profile">
-                            <p id="headerMemberName">{{ member.get_full_name|truncatecharacters:25 }}</p>
+                            <p id="headerMemberName">{{ member.get_full_name|truncate_characters:25 }}</p>
                             <img id="headerMemberImage" src="{{ STATIC_URL }}/media/images/members/{{ member.id }}.jpg" />
                         </a>
                     </div>

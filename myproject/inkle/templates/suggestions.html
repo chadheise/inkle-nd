@@ -15,7 +15,7 @@
         {% endif %}
         <div class="suggestion" suggestionID="{{ suggestion.id }}">
             <img src="{{ STATIC_URL }}/media/images/locations/{{ suggestion.image }}" />
-            <p>{{ suggestion.name|truncatecharacters:numChars }}</p>
+            <p>{{ suggestion.name|truncate_characters:numChars }}</p>
         </div>
         {% if queryType == "search" %}
             </a>

@@ -106,10 +106,6 @@ class Member(User):
         """Returns the URL for the current member's member page."""
         return "/member/%i/" % (self.id)
 
-    def get_full_name(self):
-        """Returns the current member's full name."""
-        return "%s %s" % (self.first_name, self.last_name)
-    
     def get_formatted_phone(self):
         """Returns the current member's formatted phone number."""
         return "(%s) %s-%s" % (self.phone[0:3], self.phone[3:6], self.phone[6:10])
