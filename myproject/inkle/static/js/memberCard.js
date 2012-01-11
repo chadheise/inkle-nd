@@ -314,8 +314,14 @@ $(document).ready(function() {
             data: { "toMemberID" : toMemberID },
             success: function(title) {
                 thisElement.text("Revoke request").addClass("revokeRequest").removeClass("requestToFollow").attr("title", title);
+                
+                // Send the request to follow email
+                $.ajax({
+                    url: "/sendRequestToFollowEmail/" + toMemberID + "/",
+                    error: function (a, b, error) { alert("memberCard.js (4.2): " + error); }
+                });
             },
-            error: function(a, b, error) { alert("memberCard.js (4): " + error); }
+            error: function(a, b, error) { alert("memberCard.js (4.1): " + error); }
         });
     });
     

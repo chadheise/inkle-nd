@@ -71,8 +71,14 @@ $(document).ready(function() {
                         }
                     });
                 });
+                
+                // Send the accepted request email
+                $.ajax({
+                    url: "/sendAcceptRequestEmail/" + fromMemberID + "/",
+                    error: function (a, b, error) { alert("requests.js (1.2): " + error); }
+                });
             },
-            error: function (a, b, error) { alert("requests.js (1): " + error); }
+            error: function (a, b, error) { alert("requests.js (1.1): " + error); }
         });
     });
     
