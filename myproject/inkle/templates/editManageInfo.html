@@ -1,3 +1,5 @@
+{% load days months years states from extraTags %}
+
 <!-- Member name -->
 <label for="firstNameInput" class="infoLabel">First name:</label>
 </br>
@@ -18,7 +20,7 @@
 <br />
 <select id="stateSelect" class="formSelect">
     <option value="" {% if member.state == "" %}selected="selected"{% endif %}>State</option>
-    {% for state, abbreviation in states %}
+    {% for state, abbreviation in null|states %}
         <option value="{{ abbreviation }}" {% if member.state == abbreviation %}selected="selected"{% endif %}>{{ state }} {{ abbreviation }}</option>
     {% endfor %}
 </select>
@@ -43,7 +45,7 @@
 <br />
 <select id="monthSelect" class="formSelect monthSelect grid_2 alpha">
     <option value="" {% if not member.month %}selected{% endif %}>Month</option>
-    {% for month, abbreviation in months %}
+    {% for month, abbreviation in null|months %}
         <option value="{{ forloop.counter }}" {% if member.month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
     {% endfor %}
 </select>
@@ -51,7 +53,7 @@
 <!-- Member birth day -->
 <select id="daySelect" class="formSelect daySelect grid_2" day="{{ day }}">
     <option value="" {% if not member.day %}selected{% endif %}>Day</option>
-    {% for day in member.day_range %}
+    {% for day in member.month|days:member.year %}
         <option value="{{ day }}" {% if member.day == day %}selected{% endif %}>{{ day }}</option>
     {% endfor %}
 </select>
@@ -59,7 +61,7 @@
 <!-- Member birth year -->
 <select id="yearSelect" class="formSelect yearSelect grid_2 omega" year="{{ year }}">
     <option value="" {% if not member.year %}selected{% endif %}>Year</option>
-    {% for year in member.year_range reversed %}
+    {% for year in 100|years %}
         <option value="{{ year }}" {% if member.year == year %}selected{% endif %}>{{ year }}</option>
     {% endfor %}
 </select>

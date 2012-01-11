@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 from myproject.inkle.models import *
-from myproject.inkle.choices import *
 
 from myproject.inkle.emails import *
 
@@ -174,7 +173,7 @@ def get_edit_location_html_view(request):
         raise Http404()
   
     return render_to_response( "editLocationInfo.html",
-        {"member" : member, "location" : location, "states" : STATES, "categories" : LOCATION_CATEGORIES},
+        { "member" : member, "location" : location },
         context_instance = RequestContext(request) )
 
 
@@ -221,7 +220,7 @@ def get_edit_manage_html_view(request):
     member.year_range = range(1900, today.year + 1)
 
     return render_to_response( "editManageInfo.html",
-        {"member" : member, "states" : STATES, "months" : MONTHS},
+        { "member" : member },
         context_instance = RequestContext(request) )
  
 
@@ -573,11 +572,10 @@ def circles_view(request, circle_id = None):
         return HttpResponseRedirect("/login/?next=/manage/circles/")
 
     # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
-    if (circle_id):
+    try:
         circle = Circle.objects.get(pk = circle_id)
         members = circle.members.all()
-    else:
-        circle = []
+    except Circle.DoesNotExist:
         members = member.accepted.all()
 
     # Get the necessary information for each member's member card
@@ -599,7 +597,7 @@ def circles_view(request, circle_id = None):
         html = "circles.html"
 
     return render_to_response( html, 
-        { "member" : member, "members" : members, "circle" : circle },
+        { "member" : member, "members" : members },
         context_instance = RequestContext(request) )
 
 
@@ -760,7 +758,7 @@ def login_view(request):
             invalid_login_message = "Invalid email/password combination"
         
     return render_to_response( "login.html",
-        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "months" : MONTHS, "next" : next_location },
+        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "year" : 0, "month" : 0, "next" : next_location },
         context_instance = RequestContext(request) )
 
 
@@ -852,23 +850,23 @@ def register_view(request):
             invalid_registration = True
         
         try:
-            month = request.POST["month"]
+            month = int(request.POST["month"])
         except KeyError:
-            month = ""
+            month = 0
             invalid_month = True
             invalid_registration = True
         
         try:
-            day = request.POST["day"]
+            day = int(request.POST["day"])
         except KeyError:
-            day = ""
+            day = 0
             invalid_day = True
             invalid_registration = True
         
         try:
-            year = request.POST["year"]
+            year = int(request.POST["year"])
         except KeyError:
-            year = ""
+            year = 0
             invalid_year = True
             invalid_registration = True
             
@@ -879,31 +877,31 @@ def register_view(request):
             invalid_registration = True
 
         # If any of the POST data is empty, set the appropriate flags
-        if (first_name == ""):
+        if (not first_name):
             invalid_first_name = True
             invalid_registration = True
-        if (last_name == ""):
+        if (not last_name):
             invalid_last_name = True
             invalid_registration = True
-        if (email == ""):
+        if (not email):
             invalid_email = True
             invalid_registration = True
-        if (confirm_email == ""):
+        if (not confirm_email):
             invalid_confirm_email = True
             invalid_registration = True
-        if (password == ""):
+        if (not password):
             invalid_password = True
             invalid_registration = True
-        if (confirm_password == ""):
+        if (not confirm_password):
             invalid_confirm_password = True
             invalid_registration = True
-        if (month == ""):
+        if (not month):
             invalid_month = True
             invalid_registration = True
-        if (day == ""):
+        if (not day):
             invalid_day = True
             invalid_registration = True
-        if (year == ""):
+        if (not year):
             invalid_year = True
             invalid_registration = True
         if ((gender != "Male") and (gender != "Female")):
@@ -987,38 +985,8 @@ def register_view(request):
                 { "email" : email },
                 context_instance = RequestContext(request) )
 
-    # Parse the birthday data
-    if month:
-        month = int(month)
-    else:
-        month = 0
-    if day:
-        day = int(day)
-    else:
-        day = 0
-
-    if year:
-        year = int(year)
-    else:
-        year = 0
-
-    if (month == 2):
-        if (not year):
-            day_range = range(1, 30)
-        elif ((year % 4 != 0) or (year == 1900)):
-            day_range = range(1, 29)
-        else:
-            day_range = range(1, 30)
-    elif month in [4, 6, 9, 11]:
-        day_range = range(1, 31)
-    else:
-        day_range = range(1, 32)
-
-    today = datetime.date.today()
-    year_range = range(1900, today.year + 1)
-    
     return render_to_response( "registrationForm.html",
-        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
+        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "invalidDay" : invalid_day, "day" : day, "invalidYear" : invalid_year, "year" : year, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance = RequestContext(request) )
 
 

@@ -51,7 +51,7 @@ class Sphere(models.Model):
 class Circle(models.Model):
     """Circle class definition."""
     name = models.CharField(max_length = 50)
-    members = models.ManyToManyField("Member", symmetrical = False)
+    members = models.ManyToManyField("Member")
     
     def __unicode__(self):
         """String representation for the current circle."""
@@ -71,8 +71,8 @@ class Inkling(models.Model):
 
 class Member(User):
     """Member class definition. Inherits from built-in Django User class."""
-    circles = models.ManyToManyField(Circle, symmetrical = False)
-    spheres = models.ManyToManyField(Sphere, symmetrical = False)
+    circles = models.ManyToManyField(Circle)
+    spheres = models.ManyToManyField(Sphere)
     inklings = models.ManyToManyField(Inkling)
 
     # Member lists
