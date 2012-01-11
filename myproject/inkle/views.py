@@ -48,7 +48,7 @@ def manage_view(request, default_content_type = "circles"):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        return HttpResponseRedirect("/login/?next=/manage/")
 
     return render_to_response( "manage.html",
         {"member" : member, "defaultContentType" : default_content_type},
@@ -61,7 +61,10 @@ def member_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        if (other_member_id):
+            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        else:
+            return HttpResponseRedirect("/login/?next=/manage/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
@@ -84,7 +87,10 @@ def location_view(request, location_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        if (location_id):
+            return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
+        else:
+            return HttpResponseRedirect("/login/")
     
     # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
@@ -155,7 +161,7 @@ def get_edit_location_html_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        raise Http404()
     
     # Make sure the logged in member can update the location
     if (not member.is_staff):
@@ -178,7 +184,7 @@ def get_edit_manage_html_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        raise Http404()
     
     # Parse the birthday information
     member.month = member.birthday.split("/")[0]
@@ -257,7 +263,10 @@ def search_view(request, query = ""):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        if (query):
+            return HttpResponseRedirect("/login/?next=/search/" + query + "/")
+        else:
+            return HttpResponseRedirect("/login/")
     
     # Strip the whitespace off the ends of the query
     query = query.strip()
@@ -417,7 +426,7 @@ def requests_view(request):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        return HttpResponseRedirect("/login/?next=/manage/requests/")
 
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
@@ -451,8 +460,11 @@ def followers_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
-   
+        if (other_member_id):
+            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        else:
+            return HttpResponseRedirect("/login/?next=/manage/followers/")
+            
     # If we are viewing another member's page, get the members who are following them
     if (other_member_id):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
@@ -508,7 +520,10 @@ def following_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        if (other_member_id):
+            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        else:
+            return HttpResponseRedirect("/login/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
@@ -555,7 +570,7 @@ def circles_view(request, circle_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
+        return HttpResponseRedirect("/login/?next=/manage/circles/")
 
     # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
     if (circle_id):
@@ -594,8 +609,11 @@ def spheres_view(request, other_member_id = None):
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/")
-   
+        if (other_member_id):
+            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        else:
+            return HttpResponseRedirect("/login/?next=/manage/spheres/")
+
     # If we are viewing another member's page, get the members who are following them
     if (other_member_id):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
@@ -700,67 +718,49 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     return locations
 
 def login_view(request):
-    """User login."""
-    # If a user is already logged in, go to the main page
+    """Either logs in a member or returns the login errors."""
+    # If a member is already logged in, redirect them to the home page
     if ("member_id" in request.session):
         return HttpResponseRedirect("/")
-        
-    # Initially say the login is valid
+
+    # Initially say the login is valid and the email and password are empty
     invalid_login = False
     email = ""
     password = ""
 
-    # Log the user in if they provided a valid username and password
+    # Get the next location after the login is successful (or set it to the home page if it is not set)
+    try:
+        next_location = request.GET["next"]
+    except:
+        next_location = "/"
+
+    # If POST data is present, see if the username/password combination is valid
     if (request.POST):
-        # Get the POST data (and set the appropriate flag if the necessary POST data is not there)
+        # Get the member with the provided username (or set the login as invalid if the member or POST data does not exist)
         try:
             email = request.POST["email"]
-        except KeyError:
+            member = Member.objects.get(username = email)
+        except (Member.DoesNotExist, KeyError) as e:
             invalid_login = True
+            invalid_login_message = "No email specified"
 
+        # Get the provided password (or set the login as invalid if the POST data does not exist)
         try:
             password = request.POST["password"]
         except KeyError:
             invalid_login = True
-
-        # Get the member with the provided username (or set the appropriate flag if it does not exist)
-        if (not invalid_login):
-            try:
-                member = Member.objects.get(username = email)
-            except Member.DoesNotExist:
-                invalid_login = True
-        
-        # If the provided username exists and their password is correct, log them in (or set the appropriate flag if the password is incorrect)
-        if ((not invalid_login) and (auth.authenticate(username = email, password = password)) and (member.verified)):
+            invalid_login_message = "No username specified"
+            
+        # If an email and password are provided, the member is verified, and their password is correct, log them in (or set the login as invalid)
+        if ((not invalid_login) and (member.verified) and (member.check_password(password))):
             request.session["member_id"] = member.id
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(next_location)
         else:
             invalid_login = True
-    
-    # Create the year range
-    today = datetime.date.today()
-    year_range = range(1900, today.year + 1)
-
+            invalid_login_message = "Invalid email/password combination"
+        
     return render_to_response( "login.html",
-        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "dayRange" : range(1, 32), "yearRange" : year_range, "months" : MONTHS},
-        context_instance = RequestContext(request) )
-
-
-def request_password_reset_view(request):
-    """Sends the HTML which enables a member to request a password reset email."""
-    return render_to_response( "requestPasswordReset.html",
-        {},
-        context_instance = RequestContext(request) )
-
-
-def password_reset_confirmation_view(request, email = None):
-    """Returns a confirmation message saying an email has been sent to the inputted email so that the corresponding user can reset their password."""
-    # If no email is provided, raise a 404 error
-    if (not email):
-        raise Http404()
-   
-    return render_to_response( "passwordResetConfirmation.html",
-        { "email" : email },
+        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "months" : MONTHS, "next" : next_location },
         context_instance = RequestContext(request) )
 
 
@@ -1016,7 +1016,7 @@ def register_view(request):
 
     today = datetime.date.today()
     year_range = range(1900, today.year + 1)
-
+    
     return render_to_response( "registrationForm.html",
         {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "months" : MONTHS, "invalidDay" : invalid_day, "day" : day, "dayRange" : day_range, "invalidYear" : invalid_year, "year" : year, "yearRange" : year_range, "invalidGender" : invalid_gender, "gender" : gender},
         context_instance = RequestContext(request) )
