@@ -1,6 +1,12 @@
 $(document).ready(function() {
-    /* Set the focus to the login email input */
+    // Set the focus to the login email input
     $("#loginEmail").focus();
+
+    // Set the registration selects to their defaults
+    $(".daySelect option:first").attr("selected", "selected");
+    $(".monthSelect option:first").attr("selected", "selected");
+    $(".yearSelect option:first").attr("selected", "selected");
+    $("#registrationGender option:first").attr("selected", "selected");
 
     /* Update the login/registration content when one of their links is clicked */
     $("#loginContentLinks p").click(function() {

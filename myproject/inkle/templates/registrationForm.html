@@ -1,4 +1,4 @@
-{% load extraTags %}
+{% load days months years from extraTags %}
 
 <div id="registrationForm">
     {% csrf_token %}
@@ -46,20 +46,20 @@
             <th><label for="registrationMonth">Birthday:</label></th>
             <td>
                 <select id="registrationMonth" class="monthSelect {% if invalidMonth %}invalid{% endif %}">
-                    <option value="" {% if not month %}selected{% endif %}>Month</option>
-                    {% for m, abbreviation in months %}
+                    <option value="0" {% if not month %}selected{% endif %}>Month</option>
+                    {% for m, abbreviation in null|months %}
                         <option value="{{ forloop.counter }}" {% if month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
                     {% endfor %}
                 </select>
                 <select id="registrationDay" class="daySelect {% if invalidDay %}invalid{% endif %}">
-                    <option value="" {% if not day %}selected{% endif %}>Day</option>
-                    {% for i in null|day_range %}
+                    <option value="0" {% if not day %}selected{% endif %}>Day</option>
+                    {% for i in month|days:year %}
                         <option value="{{ i }}" {% if day == i %}selected{% endif %}>{{ i }}</option>
                     {% endfor %}
                 </select>
                 <select id="registrationYear" class="yearSelect {% if invalidYear %}invalid{% endif %}">
-                    <option value="" {% if not year %}selected{% endif %}>Year</option>
-                    {% for i in null|year_range %}
+                    <option value="0" {% if not year %}selected{% endif %}>Year</option>
+                    {% for i in 100|years %}
                         <option value="{{ i }}" {% if year == i %}selected{% endif %}>{{ i }}</option>
                     {% endfor %}
                 </select>
