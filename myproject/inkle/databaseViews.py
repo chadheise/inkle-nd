@@ -154,9 +154,6 @@ def request_to_follow_view(request):
     from_member.pending.add(to_member)
     to_member.requested.add(from_member)
 
-    # Email the to_member to let them know from_member has requested to follow them
-    send_request_to_follow_email(from_member, to_member)
-
     # Return the updated tooltip
     return HttpResponse(buttonDictionary["revoke"][2])
 
@@ -204,9 +201,6 @@ def accept_request_view(request):
     from_member.following.add(to_member)
     from_member.accepted.add(to_member)
     
-    # Email the from_member to let them know to_member has accepted their request to follow them
-    send_accept_request_email(from_member, to_member)
-
     return HttpResponse()
 
 
@@ -641,6 +635,52 @@ def send_password_reset_email_view(request, email = None):
         send_password_reset_email(member)
     except Member.DoesNotExist:
         pass
+
+    return HttpResponse()
+
+
+def send_request_to_follow_email_view(request, to_member_id = None):
+    """Sends an email to the provided email allowing the corresponding to reset their password."""
+    # Get the member who is sending the follow request (or raise a 404 error if the member ID is invalid)
+    try:
+        from_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    # Get the member to whom the follow request is being sent (or raise a 404 error if the member ID is invalid)
+    try:
+        to_member = Member.objects.get(pk = to_member_id)
+    except member.DoesNotExist:
+        raise Http404()
+
+    # If the from_member has actually requested to follow the to_member, send the request to follow email
+    if (from_member in to_member.requested.all()):
+        send_request_to_follow_email(from_member, to_member)
+    else:
+        raise Http404()
+
+    return HttpResponse()
+
+
+def send_accept_request_email_view(request, from_member_id = None):
+    """Sends an email to the provided email allowing the corresponding to reset their password."""
+    # Get the member who is accepting the follow request (or raise a 404 error if the member ID is invalid)
+    try:
+        to_member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    # Get the member to who sent the follow request (or raise a 404 error if the member ID is invalid)
+    try:
+        from_member = Member.objects.get(pk = from_member_id)
+    except member.DoesNotExist:
+        raise Http404()
+
+    # If the from_member is actually following the to_member, send the request accepted email
+    if (from_member in to_member.followers.all()):
+        send_accept_request_email(from_member, to_member)
+    else:
+        raise Http404()
 
     return HttpResponse()
 

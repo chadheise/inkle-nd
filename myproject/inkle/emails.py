@@ -120,7 +120,7 @@ def send_request_to_follow_email(from_member, to_member):
     # Specify the text body
     body_text = """Hi %s,
 
-        %s %s has requested to follow you on Inkle! To respond to %s request, head on over to Inkle:
+        %s %s has requested to follow you on Inkle! Click on the following link to respond to %s request:
 
         http://www.inkleit.com/manage/requests/
 
@@ -135,7 +135,7 @@ def send_request_to_follow_email(from_member, to_member):
 
             <p>Hi %s,</p>
 
-            <p>%s %s has requested to follow you on Inkle! To respond to %s request, head on over to <a href="http://www.inkleit.com/manage/requests/">Inkle</a>.</p>
+            <p>%s %s has requested to follow you on Inkle! Click <a href="http://www.inkleit.com/manage/requests/">here</a> to respond to %s request.</p>
     
             <p>Thanks,<br />
             The Inkle team</p>
@@ -151,7 +151,6 @@ def send_accept_request_email(from_member, to_member):
     # Specify the from address and to addresses
     from_address = "support@inkleit.com"
     to_addresses = [from_member.email]
-    print "1"
 
     # Determine whether to use his or her and him or her
     his_her = "his"
@@ -159,22 +158,19 @@ def send_accept_request_email(from_member, to_member):
     if (to_member.gender == "Female"):
         his_her = "her"
         him_her = "her"
-    print "2"
 
     # Specify the subject
     subject = "%s %s has accepted your request to follow %s" % (to_member.first_name, to_member.last_name, him_her)
-    print "3"
     
     # Specify the text body
     body_text = """Hi %s,
 
-        %s %s has accpted your request to follow %s on Inkle! To check out %s profile, head on over to Inkle:
+        %s %s has accpted your request to follow %s on Inkle! Click on the following link to check out %s profile:
 
         http://www.inkleit.com/member/%d/
 
     Thanks,
     The Inkle team""" % (from_member.first_name, to_member.first_name, to_member.last_name, him_her, his_her, to_member.id)
-    print "4"
     
     # Specify the HTML body
     body_html = """<html>
@@ -184,13 +180,12 @@ def send_accept_request_email(from_member, to_member):
 
             <p>Hi %s,</p>
 
-            <p>%s %s has accpted your request to follow %s on Inkle! To check out %s profile, head on over to <a href="http://www.inkleit.com/member/%d/">Inkle</a>.</p>
+            <p>%s %s has accpted your request to follow %s on Inkle! Click <a href="http://www.inkleit.com/member/%d/">here</a> to check out %s profile.</p>
     
             <p>Thanks,<br />
             The Inkle team</p>
         </body>
-    </html>""" % (from_member.first_name, to_member.first_name, to_member.last_name, him_her, his_her, to_member.id)
-    print "5"
+    </html>""" % (from_member.first_name, to_member.first_name, to_member.last_name, him_her, to_member.id, his_her)
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)

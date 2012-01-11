@@ -41,16 +41,16 @@ def home_view(request):
         context_instance = RequestContext(request) )
 
 
-def manage_view(request, default_content_type = "circles"):
+def manage_view(request, content_type = "circles"):
     """Returns the HTML for the manage page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/?next=/manage/")
+        return HttpResponseRedirect("/login/?next=/manage/" + content_type + "/")
 
     return render_to_response( "manage.html",
-        {"member" : member, "defaultContentType" : default_content_type},
+        {"member" : member, "defaultContentType" : content_type},
         context_instance = RequestContext(request) )
 
 
