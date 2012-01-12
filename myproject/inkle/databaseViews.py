@@ -177,7 +177,7 @@ def revoke_request_view(request):
     to_member.requested.remove(from_member)
 
     return render_to_response( "revokeRequestConfirmation.html",
-        { "member" : from_member },
+        { "member" : to_member },
         context_instance = RequestContext(request) )
 
 
@@ -267,7 +267,9 @@ def prevent_following_view(request):
     # Make the from_member stop following the to_member
     remove_following(from_member, to_member)
 
-    return HttpResponse()
+    return render_to_response( "preventFollowingConfirmation.html",
+        { "member" : from_member },
+        context_instance = RequestContext(request) )
 
 
 def remove_following(from_member, to_member):
