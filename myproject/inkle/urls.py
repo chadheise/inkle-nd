@@ -67,4 +67,9 @@ urlpatterns = patterns(
     (r"^resetAccountPassword/$", "reset_account_password_view"),
     (r"^updateAccountEmail/$", "update_account_email_view"),
     (r"^deactivateAccount/$", "deactivate_account_view"),
+
+    (r"^editProfile/(?P<content_type>information|picture|privacy)/$", "edit_profile_view"),
+    (r"^editProfileInformation/$", "edit_profile_information_view"),
+    (r"^editProfilePicture/$", "edit_profile_picture_view"),
+    (r"^editProfilePrivacy/$", "edit_profile_privacy_view"),
 )

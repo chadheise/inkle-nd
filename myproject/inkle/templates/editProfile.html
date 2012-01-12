@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Edit profile | {{ member.first_name }} {{ member.last_name }}</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/editProfile.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/editProfile.js"></script>
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <div class="grid_24 alpha omega">
+            <!-- Member name -->
+            <div class="grid_24">
+                <p class="pageTitle">Edit Profile</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Manage content links -->
+            <div id="editProfileContentLinks" class="contentLinks grid_24">
+                <p {% if contentType == "information" %}class="selectedContentLink"{% endif %} contentType="editProfileInformation">Information</p>
+                <p {% if contentType == "picture" %}class="selectedContentLink"{% endif %} contentType="editProfilePicture">Picture</p>
+                <p {% if contentType == "privacy" %}class="selectedContentLink"{% endif %} contentType="editProfilePrivacy">Privacy</p>
+            </div>
+            <div class="clear"></div>
+            
+            <div id="editProfileContent" class="grid_24">
+            </div>
+       </div>
+        
+    </div>
+{% endblock mainContent%}
