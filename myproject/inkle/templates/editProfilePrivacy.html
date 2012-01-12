@@ -1,0 +1,121 @@
+<div id="editProfilePrivacyContent">
+    <!-- Edit profile privacy message -->
+    <p style="margin-bottom: 15px;">Inkle makes it easy to control who can see your information. You can allow everyone, your followers and following, or just your following to see your information.</p>
+
+    <!-- Edit profile form -->
+    <table id="editProfilePrivacyForm">
+        <!-- Name -->
+        <tr>
+            <th><label for="namePrivacy">Name:</label></th>
+            <td>
+                <select id="namePrivacy">
+                    <option value="0" selected>Everyone</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Location -->
+        <tr>
+            <th><label for="locationPrivacy">Location:</label></th>
+            <td>
+                <select id="locationPrivacy">
+                    <option value="0" {% if member.location_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.location_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.location_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Email -->
+        <tr>
+            <th><label for="emailPrivacy">Email address:</label></th>
+            <td>
+                <select id="emailPrivacy">
+                    <option value="0" {% if member.email_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.email_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.email_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Phone -->
+        <tr>
+            <th><label for="phonePrivacy">Phone number:</label></th>
+            <td>
+                <select id="phonePrivacy">
+                    <option value="0" {% if member.phone_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.phone_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.phone_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Birthday -->
+        <tr>
+            <th><label for="birthdayPrivacy">Birthday:</label></th>
+            <td>
+                <select id="birthdayPrivacy">
+                    <option value="0" {% if member.birthday_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.birthday_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.birthday_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Followers -->
+        <tr>
+            <th><label for="followersPrivacy">Followers:</label></th>
+            <td>
+                <select id="followersPrivacy">
+                    <option value="0" {% if member.followers_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.followers_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.followers_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Followings -->
+        <tr>
+            <th><label for="followingsPrivacy">Followings:</label></th>
+            <td>
+                <select id="followingsPrivacy">
+                    <option value="0" {% if member.followings_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.followings_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.followings_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Spheres -->
+        <tr>
+            <th><label for="spheresPrivacy">Spheres:</label></th>
+            <td>
+                <select id="spheresPrivacy">
+                    <option value="0" {% if member.spheres_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.spheres_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.spheres_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Inklings -->
+        <tr>
+            <th><label for="inklingsPrivacy">Inklings:</label></th>
+            <td>
+                <select id="inklingsPrivacy">
+                    <option value="0" {% if member.inklings_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.inklings_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.inklings_privacy == 2 %}selected{% endif %}>Followers</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Edit profile privacy button -->
+    <button id="editProfilePrivacyButton">Edit profile privacy</button>
+</div>
+
+<div id="editProfilePrivacyConfirmation">
+    <p>Your profile privacy settings have been updated.</p>
+</div>
+

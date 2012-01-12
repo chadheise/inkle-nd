@@ -257,6 +257,70 @@ def deactivate_account_view(request):
         context_instance = RequestContext(request) )
 
 
+def edit_profile_view(request, content_type = "information"):
+    """Returns the HTML for the edit profile page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/?next=/editProfile/" + content_type + "/")
+
+    return render_to_response( "editProfile.html",
+        { "member" : member, "contentType" : content_type },
+        context_instance = RequestContext(request) )
+
+
+def edit_profile_information_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    return render_to_response( "editProfileInformation.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
+def edit_profile_picture_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    return render_to_response( "editProfilePicture.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
+def edit_profile_privacy_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    try:
+        location_privacy = int(request.POST["locationPrivacy"])
+        email_privacy = int(request.POST["emailPrivacy"])
+        phone_privacy = int(request.POST["phonePrivacy"])
+        birthday_privacy = int(request.POST["birthdayPrivacy"])
+        followers_privacy = int(request.POST["followersPrivacy"])
+        followings_privacy = int(request.POST["followingsPrivacy"])
+        spheres_privacy = int(request.POST["spheresPrivacy"])
+        inklings_privacy = int(request.POST["inklingsPrivacy"])
+    
+        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, followings_privacy, spheres_privacy, inklings_privacy)
+        member.save()
+    except KeyError:
+        pass
+
+    return render_to_response( "editProfilePrivacy.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
 def location_view(request, location_id = None):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
@@ -1130,10 +1194,11 @@ def register_view(request):
                 last_name = last_name,
                 username = email,
                 email = email,
-                birthday = month + "/" + day + "/" + year,
+                birthday = str(month) + "/" + str(day) + "/" + str(year),
                 gender = gender
             )
             
+            print "in"
             # Set the new member's password
             member.set_password(password)
 

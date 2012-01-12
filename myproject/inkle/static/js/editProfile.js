@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // Populate the main content with the initially selected main content link
-    var contentType = $("#accountContentLinks .selectedContentLink").attr("contentType");
+    var contentType = $("#editProfileContentLinks .selectedContentLink").attr("contentType");
     loadContent(contentType, true);
 
     /* Loads the content for the inputted content type and populates the main content with it */
@@ -11,31 +11,31 @@ $(document).ready(function() {
             url: "/" + contentType + "/",
             data: {},
             success: function(html) {
-                // If this is the first load, simply load the account content
+                // If this is the first load, simply load the edit profile content
                 if (firstLoad)
                 {
                     loadContentHelper(html, contentType);
                 }
 
-                // Otherwise, fade out the current account content and fade the new account content back in
+                // Otherwise, fade out the current edit profile content and fade the new edit profile content back in
                 else
                 {
-                    $("#accountContent").fadeOut("medium", function () {
+                    $("#editProfileContent").fadeOut("medium", function () {
                         loadContentHelper(html, contentType, function() {
-                            $("#accountContent").fadeIn("medium");
+                            $("#editProfileContent").fadeIn("medium");
                         });
                     });
                 }
             },
-            error: function(a, b, error) { alert("account.js (1): " + error); }
+            error: function(a, b, error) { alert("editProfile.js (1): " + error); }
         });
     }
  
-    /* Helper function for loadContent() which replaces the account content HTML*/
+    /* Helper function for loadContent() which replaces the edit profile content HTML*/
     function loadContentHelper(html, contentType, callback)
     {
         // Update the main content with the HTML returned from the AJAX call
-        $("#accountContent").html(html);
+        $("#editProfileContent").html(html);
 
         // Execute the callback function if there is one
         if (callback)
@@ -45,12 +45,12 @@ $(document).ready(function() {
     }
 
     /* Updates the main content when one of the main content links is clicked */
-    $("#accountContentLinks p").click(function() {
+    $("#editProfileContentLinks p").click(function() {
         // Only update the content if the main content link which is clicked is not the currently selected one
         if (!$(this).hasClass("selectedContentLink"))
         {
             // Update the selected main content link
-            $("#accountContentLinks .selectedContentLink").removeClass("selectedContentLink");
+            $("#editProfileContentLinks .selectedContentLink").removeClass("selectedContentLink");
             $(this).addClass("selectedContentLink");
 
             // Load the content for the clicked main content link
@@ -66,28 +66,26 @@ $(document).ready(function() {
         }
     }
     
-    $("#resetPasswordButton").live("click", function() {
-        var currentPassword = $("#currentPassword").val(); 
-        var newPassword = $("#newPassword").val(); 
-        var confirmNewPassword = $("#confirmNewPassword").val(); 
+    $("#editProfilePrivacyButton").live("click", function() {
+        var locationPrivacy = $("#locationPrivacy option:selected").val(); 
+        var emailPrivacy = $("#emailPrivacy option:selected").val(); 
+        var phonePrivacy = $("#phonePrivacy option:selected").val(); 
+        var birthdayPrivacy = $("#birthdayPrivacy option:selected").val(); 
+        var followersPrivacy = $("#followersPrivacy option:selected").val(); 
+        var followingsPrivacy = $("#followingsPrivacy option:selected").val(); 
+        var spheresPrivacy = $("#spheresPrivacy option:selected").val(); 
+        var inklingsPrivacy = $("#inklingsPrivacy option:selected").val(); 
 
         $.ajax({
             type: "POST",
-            url: "/resetAccountPassword/",
-            data: { "currentPassword" : currentPassword, "newPassword" : newPassword, "confirmNewPassword" : confirmNewPassword },
+            url: "/editProfilePrivacy/",
+            data: { "locationPrivacy" : locationPrivacy, "emailPrivacy" : emailPrivacy, "phonePrivacy" : phonePrivacy, "birthdayPrivacy" : birthdayPrivacy, "followersPrivacy" : followersPrivacy, "followingsPrivacy" : followingsPrivacy, "spheresPrivacy" : spheresPrivacy, "inklingsPrivacy" : inklingsPrivacy },
             success: function(html) {
-                if (html.startsWith("<div"))
-                {
-                    $("#accountContent").html(html);
-                }
-                else
-                {
-                    $("#resetAccountPasswordContainer").fadeOut("medium", function() {
-                        $("#resetAccountPasswordConfirmationContainer").fadeIn("medium");
-                    });
-                }
+                $("#editProfilePrivacyContent").fadeOut("medium", function() {
+                    $("#editProfilePrivacyConfirmation").fadeIn("medium");
+                });
             },
-            error: function(a, b, error) { alert("account.js (2): " + error); }
+            error: function(a, b, error) { alert("editProfile.js (3): " + error); }
         });
     });
 

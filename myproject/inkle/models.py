@@ -95,6 +95,16 @@ class Member(User):
     verification_hash = models.CharField(max_length = 32, default = md5(str(randint(1000, 9999))).hexdigest())
     verified = models.BooleanField(default = False)
 
+    # Privacy settings
+    location_privacy = models.IntegerField(max_length = 1, default = 0)
+    email_privacy = models.IntegerField(max_length = 1, default = 1)
+    phone_privacy = models.IntegerField(max_length = 1, default = 1)
+    birthday_privacy = models.IntegerField(max_length = 1, default = 1)
+    followers_privacy = models.IntegerField(max_length = 1, default = 2)
+    followings_privacy = models.IntegerField(max_length = 1, default = 2)
+    spheres_privacy = models.IntegerField(max_length = 1, default = 0)
+    inklings_privacy = models.IntegerField(max_length = 1, default = 2)
+
     # Note: inherits from built-in Django User class which contains:
     #       id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
    
@@ -113,3 +123,14 @@ class Member(User):
     def update_verification_hash(self):
         """Updates the current member's verification hash."""
         self.verification_hash = md5(str(randint(1000, 9999))).hexdigest()
+
+    def update_privacy_settings(self, location, email, phone, birthday, followers, followings, spheres, inklings):
+        """Updates the current member's privacy settings."""
+        self.location_privacy = location
+        self.email_privacy = email
+        self.phone_privacy = phone
+        self.birthday_privacy = birthday
+        self.followers_privacy = followers
+        self.followings_privacy = followings
+        self.spheres_privacy = spheres
+        self.inklings_privacy = inklings
