@@ -3,7 +3,7 @@ table tr
     height: 30px;
 }
 
-#resetPasswordForm th
+#resetPasswordForm th, #updateEmailForm th
 {
     text-align: right;
     width: 180px;
@@ -33,10 +33,10 @@ table td .invalid
     border: solid 2px #FF0000;
 }
 
-#resetPasswordButton
+#resetPasswordButton, #updateEmailButton
 {
     padding: 5px 0px 5px 0px;
-    width: 125px;
+    width: 150px;
     font-weight: bold;
     font-size: 12px;
     color: white;
@@ -46,10 +46,9 @@ table td .invalid
     background-color: #288D42;
     border-color: #336E34;
     cursor: pointer;
-    margin-left: 145px;
 }
 
-#resetPasswordButton:hover
+#resetPasswordButton:hover, #updateEmailButton:hover
 {
     border-color: #1A492B;
     cursor: pointer;
@@ -58,7 +57,7 @@ table td .invalid
 #deactivateAccountButton, #confirmDeactivateAccountButton
 {
     padding: 5px 0px 5px 0px;
-    width: 125px;
+    width: 150px;
     font-weight: bold;
     font-size: 12px;
     color: white;
@@ -76,7 +75,7 @@ table td .invalid
     cursor: pointer;
 }
 
-#resetAccountPasswordConfirmationContainer, #confirmDeactivateAccountContainer, #accountDeactivatedContainer
+#resetAccountPasswordConfirmationContainer, #confirmDeactivateAccountContainer, #updateAccountEmailConfirmationContainer, #accountDeactivatedContainer
 {
     display: none;
 }

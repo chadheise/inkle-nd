@@ -90,6 +90,40 @@ $(document).ready(function() {
             error: function(a, b, error) { alert("account.js (2): " + error); }
         });
     });
+
+    $("#updateEmailButton").live("click", function() {
+        var currentPassword = $("#currentPassword").val(); 
+        var newEmail = $("#newEmail").val(); 
+        var confirmNewEmail = $("#confirmNewEmail").val(); 
+
+        $.ajax({
+            type: "POST",
+            url: "/updateAccountEmail/",
+            data: { "currentPassword" : currentPassword, "newEmail" : newEmail, "confirmNewEmail" : confirmNewEmail },
+            success: function(html) {
+                if (html.startsWith("<div"))
+                {
+                    $("#accountContent").html(html);
+                }
+                else
+                {
+                    $("#updateAccountEmailContainer").fadeOut("medium", function() {
+                        $("#updateAccountEmailConfirmationContainer").fadeIn("medium");
+                    
+                        // Send the email verification email
+                        $.ajax({
+                            url: "/sendUpdateEmailVerificationEmail/" + newEmail + "/",
+                            success: function() {
+                                window.location.href = "/logout/";
+                            },
+                            error: function (a, b, error) { alert("account.js (3.2): " + error); }
+                        });
+                    });
+                }
+            },
+            error: function(a, b, error) { alert("account.js (3): " + error); }
+        });
+    });
     
     $("#deactivateAccountButton").live("click", function() {
         var password = $("#password").val();
@@ -109,7 +143,7 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("account.js (3): " + error); }
+            error: function(a, b, error) { alert("account.js (4): " + error); }
         });
     });
 

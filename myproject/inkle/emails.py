@@ -61,6 +61,44 @@ def send_email_verification_email(member):
     send_email(from_address, to_addresses, subject, body_text, body_html)
 
 
+def send_update_email_verification_email(member):
+    """Sends update email verification email."""
+    # Specify the from address and to addresses
+    from_address = "support@inkleit.com"
+    to_addresses = [member.email]
+
+    # Specify the subject
+    subject = "Confirm your new Inkle email address"
+    
+    # Specify the text body
+    body_text = """Hi %s,
+
+        Looks like you've changed the email address associated with your account. Click on the following link to verify this email address and get back to using Inkle:
+
+        http://www.inkleit.com/verifyEmail/%s/%s/
+    
+    Welcome aboard,
+    The Inkle team""" % (member.first_name, member.username, member.verification_hash)
+    
+    # Specify the HTML body
+    body_html = """<html>
+        <head></head>
+        <body>
+            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
+
+            <p>Hi %s,</p>
+
+            <p>Looks like you've changed the email address associated with your account. Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify this email address and get back to using <a href="http://www.inkleit.com">Inkle</a>.</p>
+    
+            <p>Welcome aboard,<br />
+            The Inkle team</p>
+        </body>
+    </html>""" % (member.first_name, member.username, member.verification_hash)
+    
+    # Send the email
+    send_email(from_address, to_addresses, subject, body_text, body_html)
+
+
 def send_password_reset_email(member):
     """Sends an email which allows member to reset their password."""
     # Specify the from address and to addresses
