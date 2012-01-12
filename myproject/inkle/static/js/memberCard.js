@@ -327,34 +327,36 @@ $(document).ready(function() {
     
     /* Revoke a request to follow a member when a "Revoke request" button is clicked */
     $(".revokeRequest").live("click", function() {
-        var thisElement = $(this);
+        var memberCard = $(this).parents(".memberCard");
         var toMemberID = parseInt($(this).attr("memberID"));
-        // Send friend request to database
+
+        // Revoke request from database
         $.ajax({
             type: "POST",
             url: "/revokeRequest/",
             data: { "toMemberID" : toMemberID },
-            success: function(title) {
-                if (thisElement.parents("#requestsContent").length != 0)
-                {
-                    // Alert the user that they revoked the request
-                    var memberCard = thisElement.parents(".memberCard");
-                    var memberCardName = memberCard.find(".cardName").text();
-                    memberCard.fadeOut(function() {
-                        memberCard.html("You revoked your request to follow " + memberCardName + ".");
-                        memberCard.css("padding", "10px");
-                        memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                            if ($("#pendingContent").has(".memberCard:visible").length == 0)
+            success: function(html) {
+                // Alert the user that they revoked the request
+                memberCard.fadeOut(function() {
+                    // Insert the revoke request message
+                    memberCard.after(html);
+                    
+                    // Fade in the member message and then fade it out after a set time
+                    var memberMessage = memberCard.next(".memberMessage");
+                    memberMessage
+                        .fadeIn("medium")
+                        .delay(2000)
+                        .fadeOut("medium", function() {
+                            // Remove the member card and message
+                            memberCard.remove();
+                            memberMessage.remove();
+                        
+                            if ($("#pendingContent .memberCard").length == 0)
                             {
-                                $("#pendingContentMembers").html("<p>You have no pending requests to follow anyone.</p>");
+                                $("#pendingContentMembers").html("You have no pending requests to follow anyone.");
                             }
                         });
-                    });
-                }
-                else
-                {
-                    thisElement.text("Request to follow").removeClass("revokeRequest").addClass("requestToFollow").attr("title", title);
-                }
+                });
             },
             error: function(a, b, error) { alert("memberCard.js (5): " + error); }
         });
