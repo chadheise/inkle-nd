@@ -176,8 +176,9 @@ def revoke_request_view(request):
     from_member.pending.remove(to_member)
     to_member.requested.remove(from_member)
 
-    # Return the updated tooltip
-    return HttpResponse(buttonDictionary["request"][2])
+    return render_to_response( "revokeRequestConfirmation.html",
+        { "member" : from_member },
+        context_instance = RequestContext(request) )
 
 
 def accept_request_view(request):
