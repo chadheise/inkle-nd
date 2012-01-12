@@ -61,4 +61,9 @@ urlpatterns = patterns(
     (r"^getOthersInklings/$", "get_others_inklings_view"),
     (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
     (r"^uploadImage/$", "upload_image_view"),
+
+    (r"^account/(?P<content_type>password|email|deactivate)/$", "account_view"),
+    (r"^resetAccountPassword/$", "reset_account_password_view"),
+    (r"^changeAccountEmail/$", "change_account_email_view"),
+    (r"^deactivateAccount/$", "deactivate_account_view"),
 )
