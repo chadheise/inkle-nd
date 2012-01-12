@@ -1,0 +1,32 @@
+<div id="updateAccountEmailContainer">
+    <!-- Reset password message -->
+    <p style="margin-bottom: 15px;">Fill out the form below to change the email address associated with your account. Note that you will be logged out as soon as you click the button below. We will send an email to your new email address in order to confirm it. You will not be able to log back in until your email in confirmed.</p>
+
+    <!-- Update email form -->
+    <table id="updateEmailForm">
+        <!-- Old password -->
+        <tr>
+            <th><label for="currentPassword">Current password:</label></th>
+            <td><input id="currentPassword" {% if invalidCurrentPassword %}class="invalid"{% endif %} type="password" maxlength="100" value="{{ currentPassword }}" /></td>
+        </tr>
+
+        <!-- New email -->
+        <tr>
+            <th><label for="newEmail">New email:</label></th>
+            <td><input id="newEmail" {% if invalidNewEmail %}class="invalid"{% endif %} type="text" maxlength="50" value="{{ newEmail }}" /></td>
+        </tr>
+
+        <!-- Confirm new email -->
+        <tr>
+            <th><label for="confirmNewEmail">Confirm new email:</label></th>
+            <td><input id="confirmNewEmail" {% if invalidConfirmNewEmail %}class="invalid"{% endif %} type="text" maxlength="50" value="{{ confirmNewEmail }}" /></td>
+        </tr>
+    </table>
+    
+    <!-- Update email button -->
+    <button id="updateEmailButton">Change email address</button>
+</div>
+
+<div id="updateAccountEmailConfirmationContainer">
+    <p>The email address associated with your account has been changed.</p>
+</div>

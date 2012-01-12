@@ -16,6 +16,7 @@ urlpatterns = patterns(
     (r"^passwordResetConfirmation/(?P<email>.+)/$", direct_to_template, { "template" : "passwordResetConfirmation.html" }),
 
     (r"^sendEmailVerificationEmail/(?P<email>.+)/$", "send_email_verification_email_view"),
+    (r"^sendUpdateEmailVerificationEmail/(?P<email>.+)/$", "send_update_email_verification_email_view"),
     (r"^sendPasswordResetEmail/(?P<email>.+)/$", "send_password_reset_email_view"),
     (r"^sendRequestToFollowEmail/(?P<to_member_id>\w+)/$", "send_request_to_follow_email_view"),
     (r"^sendAcceptRequestEmail/(?P<from_member_id>\w+)/$", "send_accept_request_email_view"),
@@ -64,6 +65,6 @@ urlpatterns = patterns(
 
     (r"^account/(?P<content_type>password|email|deactivate)/$", "account_view"),
     (r"^resetAccountPassword/$", "reset_account_password_view"),
-    (r"^changeAccountEmail/$", "change_account_email_view"),
+    (r"^updateAccountEmail/$", "update_account_email_view"),
     (r"^deactivateAccount/$", "deactivate_account_view"),
 )
