@@ -204,21 +204,6 @@ def get_edit_manage_html_view(request):
     else:
         member.year = 0
 
-    if (member.month == 2):
-        if (member.year == 0):
-            member.day_range = range(1, 30)
-        elif ((member.year % 4 != 0) or (member.year == 1900)):
-            member.day_range = range(1, 29)
-        else:
-            member.day_range = range(1, 30)
-    elif member.month in [4, 6, 9, 11]:
-        member.day_range = range(1, 31)
-    else:
-        member.day_range = range(1, 32)
-
-    today = datetime.date.today()
-    member.year_range = range(1900, today.year + 1)
-
     return render_to_response( "editManageInfo.html",
         { "member" : member },
         context_instance = RequestContext(request) )
@@ -752,6 +737,8 @@ def login_view(request):
         # If an email and password are provided, the member is verified, and their password is correct, log them in (or set the login as invalid)
         if ((not invalid_login) and (member.verified) and (member.check_password(password))):
             request.session["member_id"] = member.id
+            member.last_login = datetime.datetime.now()
+            member.save()
             return HttpResponseRedirect(next_location)
         else:
             invalid_login = True
