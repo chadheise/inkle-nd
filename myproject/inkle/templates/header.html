@@ -44,7 +44,7 @@
                     </a>
                     <a href="/manage/requests/">
                         {% if member.requested.all|length %}
-                            <p class="headerDropdownOption">Requests ({{ member.requested.all|length }})</p>
+                            <p class="headerDropdownOption">Requests <span id="requestsCount">({{ member.requested.all|length }})</span></p>
                         {% else %}
                             <p class="headerDropdownOption">Requests</p>
                         {% endif %}
