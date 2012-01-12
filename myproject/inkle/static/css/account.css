@@ -3,10 +3,17 @@ table tr
     height: 30px;
 }
 
-table th
+#resetPasswordForm th
 {
     text-align: right;
     width: 180px;
+    padding-right: 5px;
+}
+
+#deactivateAccountForm th
+{
+    text-align: right;
+    width: 80px;
     padding-right: 5px;
 }
 
@@ -60,6 +67,7 @@ table td .invalid
     background-color: #CD1A26;
     border-color: #914044;
     cursor: pointer;
+    margin-top: 15px;
 }
 
 #deactivateAccountButton:hover, #confirmDeactivateAccountButton:hover

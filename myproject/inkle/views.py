@@ -169,18 +169,33 @@ def deactivate_account_view(request):
     except:
         raise Http404()
 
+    invalid_password = False
+    password = ""
+
     if (request.POST):
+        # Get the POST data
         try:
-            if (request.POST["deactivate"]):
-                member.is_active = False
-                member.save()
-                # TODO: remove member from all other member's circles/followers/following/etc
-                return HttpResponse()
+            password = request.POST["password"]
         except KeyError:
-            pass
+            invalid_password = True
+
+        # Make sure the current password is correct
+        if (not member.check_password(password)):
+            invalid_password = True
+       
+        if (not invalid_password):
+            try:
+                deactivate = request.POST["deactivate"]
+                if (deactivate):
+                    member.is_active = False
+                    member.save()
+                    # TODO: remove member from all other member's circles/followers/following/etc
+                    return HttpResponse()
+            except KeyError:
+                return HttpResponse()
 
     return render_to_response( "deactivateAccount.html",
-        { "member" : member },
+        { "member" : member, "password" : password, "invalidPassword" : invalid_password },
         context_instance = RequestContext(request) )
 
 
