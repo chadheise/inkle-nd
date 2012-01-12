@@ -80,6 +80,110 @@ def member_view(request, other_member_id = None):
         context_instance = RequestContext(request) )
     
 
+def account_view(request, content_type = "password"):
+    """Returns the HTML for the manage account page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        return HttpResponseRedirect("/login/?next=/account/" + content_type + "/")
+
+    return render_to_response( "account.html",
+        { "member" : member, "contentType" : content_type },
+        context_instance = RequestContext(request) )
+
+
+def reset_account_password_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+   
+    # Initialize variables
+    invalid_current_password = False
+    invalid_new_password = False
+    invalid_confirm_new_password = False
+    current_password = ""
+    new_password = ""
+    confirm_new_password = ""
+
+    # If there is POST data, validate it
+    if (request.POST):
+        # Get the POST data
+        try:
+            current_password = request.POST["currentPassword"]
+        except KeyError:
+            invalid_current_password = True
+        try:
+            new_password = request.POST["newPassword"]
+        except KeyError:
+            invalid_new_password = True
+        try:
+            confirm_new_password = request.POST["confirmNewPassword"]
+        except KeyError:
+            invalid_confirm_new_password = True
+        
+        # Make sure the current password is correct
+        if (not member.check_password(current_password)):
+            invalid_current_password = True
+        
+        # Make sure new password and confirm new password are long enough
+        if (len(new_password) < 8):
+            invalid_new_password = True
+        if (len(confirm_new_password) < 8):
+            invalid_confirm_new_password = True
+
+        # Make sure the new and confirm new passwords match
+        if (new_password != confirm_new_password):
+            invalid_new_password = True
+            invalid_confirm_new_password = True
+
+        # If all the POST data is valid, reset the logged in member's password
+        if (not invalid_current_password and not invalid_new_password and not invalid_confirm_new_password):
+            member.set_password(new_password)
+            member.save()
+            return HttpResponse()
+
+    return render_to_response( "resetAccountPassword.html",
+        { "member" : member, "currentPassword" : current_password, "invalidCurrentPassword" : invalid_current_password, "newPassword" : new_password, "invalidNewPassword" : invalid_new_password, "confirmNewPassword" : confirm_new_password, "invalidConfirmNewPassword" : invalid_confirm_new_password },
+        context_instance = RequestContext(request) )
+
+
+def change_account_email_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    return render_to_response( "changeAccountEmail.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
+def deactivate_account_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    if (request.POST):
+        try:
+            if (request.POST["deactivate"]):
+                member.is_active = False
+                member.save()
+                # TODO: remove member from all other member's circles/followers/following/etc
+                return HttpResponse()
+        except KeyError:
+            pass
+
+    return render_to_response( "deactivateAccount.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
 def location_view(request, location_id = None):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
@@ -177,7 +281,7 @@ def get_edit_location_html_view(request):
         context_instance = RequestContext(request) )
 
 
-def get_edit_manage_html_view(request):
+def get_edit_content_type(request):
     """Returns the edit manage HTML."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -734,8 +838,8 @@ def login_view(request):
             invalid_login = True
             invalid_login_message = "No username specified"
             
-        # If an email and password are provided, the member is verified, and their password is correct, log them in (or set the login as invalid)
-        if ((not invalid_login) and (member.verified) and (member.check_password(password))):
+        # If an email and password are provided, the member is verified and active, and their password is correct, log them in (or set the login as invalid)
+        if ((not invalid_login) and (member.verified) and (member.is_active) and (member.check_password(password))):
             request.session["member_id"] = member.id
             member.last_login = datetime.datetime.now()
             member.save()

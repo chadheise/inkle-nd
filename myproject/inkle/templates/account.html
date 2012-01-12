@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Manage account | {{ member.first_name }} {{ member.last_name }}</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/account.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/account.js"></script>
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <div class="grid_24 alpha omega">
+            <!-- Member name -->
+            <div class="grid_24">
+                <p class="pageTitle">Manage account</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Manage content links -->
+            <div id="accountContentLinks" class="contentLinks grid_24">
+                <p {% if contentType == "password" %}class="selectedContentLink"{% endif %} contentType="resetAccountPassword">Password</p>
+                <p {% if contentType == "email" %}class="selectedContentLink"{% endif %} contentType="changeAccountEmail">Email</p>
+                <p {% if contentType == "deactivate" %}class="selectedContentLink"{% endif %} contentType="deactivateAccount">Deactivate account</p>
+            </div>
+            <div class="clear"></div>
+            
+            <div id="accountContent" class="grid_24">
+                <!-- Main manage content -->
+                <!--<div id="mainAccountContent" class="grid_17 alpha omega">
+                </div>-->
+            </div>
+       </div>
+        
+    </div>
+{% endblock mainContent%}
