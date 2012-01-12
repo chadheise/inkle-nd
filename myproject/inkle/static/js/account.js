@@ -92,16 +92,33 @@ $(document).ready(function() {
     });
     
     $("#deactivateAccountButton").live("click", function() {
-        $("#deactivateAccountContainer").fadeOut("medium", function() {
-            $("#confirmDeactivateAccountContainer").fadeIn("medium");
+        var password = $("#password").val();
+        $.ajax({
+            type: "POST",
+            url: "/deactivateAccount/",
+            data: { "password" : password },
+            success: function(html) {
+                if (html.startsWith("<div"))
+                {
+                    $("#accountContent").html(html);
+                }
+                else
+                {
+                    $("#deactivateAccountContainer").fadeOut("medium", function() {
+                        $("#confirmDeactivateAccountContainer").fadeIn("medium");
+                    });
+                }
+            },
+            error: function(a, b, error) { alert("account.js (3): " + error); }
         });
     });
 
     $("#confirmDeactivateAccountButton").live("click", function() {
+        var password = $("#password").val();
         $.ajax({
             type: "POST",
             url: "/deactivateAccount/",
-            data: { "deactivate" : "deactivate" },
+            data: { "password" : password, "deactivate" : "deactivate" },
             success: function() {
                 $("#confirmDeactivateAccountContainer").fadeOut("medium", function() {
                     $("#accountDeactivatedContainer").fadeIn("medium");
