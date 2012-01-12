@@ -106,12 +106,12 @@ $(document).ready(function() {
     }
     
     /* Shows a message when the logged in member prevents a member from following them */
-    function showPreventFollowingMessage(memberCard, memberName, pageContext)
+    function showPreventFollowingMessage(memberCard, html, pageContext)
     {
         // Fade out the member card
         memberCard.fadeOut("medium", function() {
             // Create the member message
-            memberCard.after("<p class='memberMessage'><span class='memberMessageName'>" + memberName + "</span> is no longer following you.</p>");
+            memberCard.after(html);
 
             // Fade in the member message and then fade it out after a set time
             var memberMessageElement = memberCard.next(".memberMessage");
@@ -129,7 +129,7 @@ $(document).ready(function() {
                         memberCard.remove();
 
                         // If no more member cards are present, fade in a message saying no members are following the logged in member
-                        if ($(".memberCard").length == 0)
+                        if ($("#followersContent .memberCard").length == 0)
                         {
                             $("#followersContent").hide(function() {
                                 $("#followersContent").html("<p>No one is following you.</p>");
@@ -138,20 +138,14 @@ $(document).ready(function() {
                         }
                     }
 
-                    // TODO:
-                    /*if ((pageContext == "location") && ($(".follower").length == 0))
-                    {
-                        $("#noPeopleResultsMessage").fadeIn("medium");
-                    }*/
-
                     // If we are on the search page and there are no more followers or member messages, fade in the no people results message
-                    else if (pageContext == "search")
+                    /*else if (pageContext == "search")
                     {
                         if ($(".follower").add(".memberMessage").length == 0)
                         {
                             $("#noPeopleResultsMessage").fadeIn("medium");
                         }
-                    }
+                    }*/
                 });
         });
     }
@@ -169,7 +163,7 @@ $(document).ready(function() {
             type: "POST",
             url: "/preventFollowing/",
             data: { "fromMemberID" : fromMemberID },
-            success: function() {
+            success: function(html) {
                 // Get the context of the current page
                 var pageContext = $(".peopleContent").attr("context");
                 
@@ -185,7 +179,7 @@ $(document).ready(function() {
                 // Otherwise, if any of the following are true, fade out the member card and update it
                 else if ((pageContext == "myFollowers") || (searchContentType = "followers"))
                 {
-                    showPreventFollowingMessage(memberCard, fromMemberName, pageContext);
+                    showPreventFollowingMessage(memberCard, html, pageContext);
                     preventFollowingHelper(memberCard);
                 }
             },
