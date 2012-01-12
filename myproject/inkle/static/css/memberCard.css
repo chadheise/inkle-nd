@@ -18,6 +18,7 @@
 .memberMessageName
 {
     color: #288D42;
+    text-decoration: none;
 }
 
 .requestToFollow, .revokeRequest, .acceptRequest, .circlesCardButton

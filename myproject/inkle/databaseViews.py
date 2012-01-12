@@ -201,7 +201,9 @@ def accept_request_view(request):
     from_member.following.add(to_member)
     from_member.accepted.add(to_member)
     
-    return HttpResponse()
+    return render_to_response( "requestConfirmation.html",
+        { "member" : from_member, "acceptedOrRejected" : "accepted" },
+        context_instance = RequestContext(request) )
 
 
 def reject_request_view(request):
@@ -222,7 +224,9 @@ def reject_request_view(request):
     from_member.pending.remove(to_member)
     to_member.requested.remove(from_member)
 
-    return HttpResponse()
+    return render_to_response( "requestConfirmation.html",
+        { "member" : from_member, "acceptedOrRejected" : "rejected" },
+        context_instance = RequestContext(request) )
 
 
 def stop_following_view(request):

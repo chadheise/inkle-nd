@@ -36,9 +36,49 @@ $(document).ready(function() {
         }
     });
     
-    // Accept request button
+
+    /* Helper function for accept/reject request success which updates the requests count and displays the accept/reject message */
+    function acceptRejectSuccessHelper(memberCard, html)
+    {
+        // Decrement the requests counter and hide it if it reaches zero
+        var numRequests = parseInt($("#requestsCount").text().replace("(", "").replace(")", ""));
+        if (numRequests == 1)
+        {
+            $("#requestsCount").text("");
+        }
+        else
+        {
+            $("#requestsCount").text("(" + (numRequests - 1) + ")");
+        }
+
+        // Alert the user that they accepted or rejected the request
+        memberCard.fadeOut(function() {
+            // Insert the accept/reject message
+            memberCard.after(html);
+                    
+            // Fade in the member message and then fade it out after a set time
+            var memberMessage = memberCard.next(".memberMessage");
+            memberMessage
+                .fadeIn("medium")
+                .delay(2000)
+                .fadeOut("medium", function() {
+                    // Remove the member card and message
+                    memberCard.remove();
+                    memberMessage.remove();
+                        
+                    if ($("#requestedContent .memberCard").length == 0)
+                    {
+                        $("#requestedContentMembers").html("<p style='margin-bottom: 15px;'>No one has requested to follow you.</p>");
+                    }
+                });
+        });
+                
+    }
+
+
+    /* Updates the requests count, send an accept request email, and displays the accept message when the "Accept request" button is pressed */
     $(".acceptRequest").live("click", function() {
-        var thisElement = $(this);
+        var memberCard = $(this).parents(".memberCard");
         var fromMemberID = parseInt($(this).attr("memberID"));
 
         // Send friend request to database
@@ -46,32 +86,10 @@ $(document).ready(function() {
             type: "POST",
             url: "/acceptRequest/",
             data: { "fromMemberID" : fromMemberID },
-            success: function() {
-                // Decrement the notification counter and hide it if it reaches zero
-                var numNotifications = parseInt($("#requestNotification").text());
-                if (numNotifications == 1)
-                {
-                    $("#requestNotification").parent().html("<p class='grid_1'>&nbsp;</p>");
-                }
-                else
-                {
-                    $("#requestNotification").text(numNotifications - 1);
-                }
-
-                // Alert the user that they accepted the request
-                var memberCard = thisElement.parents(".memberCard");
-                var memberCardName = memberCard.find(".cardName").text();
-                memberCard.fadeOut(function() {
-                    memberCard.html("You accepted " + memberCardName + "'s request to follow you.");
-                    memberCard.css("padding", "10px");
-                    memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                        if ($("#requestedContent").has(".memberCard:visible").length == 0)
-                        {
-                            $("#requestedContentMembers").html("<p style='margin-bottom: 15px;'>No one has requested to follow you.</p>");
-                        }
-                    });
-                });
-                
+            success: function(html) {
+                // Update the request count and display the accept request message
+                acceptRejectSuccessHelper(memberCard, html);
+        
                 // Send the accepted request email
                 $.ajax({
                     url: "/sendAcceptRequestEmail/" + fromMemberID + "/",
@@ -82,9 +100,10 @@ $(document).ready(function() {
         });
     });
     
-    // Reject request button
+
+    /* Updates the requests count and displays the reject message when the "Reject request" button is pressed */
     $(".rejectRequest").live("click", function() {
-        var thisElement = $(this);
+        var memberCard = $(this).parents(".memberCard");
         var fromMemberID = parseInt($(this).attr("memberID"));
 
         // Send friend request to database
@@ -92,31 +111,9 @@ $(document).ready(function() {
             type: "POST",
             url: "/rejectRequest/",
             data: { "fromMemberID" : fromMemberID },
-            success: function() {
-                // Decrement the notification counter and hide it if it reaches zero
-                var numNotifications = parseInt($("#requestNotification").text());
-                if (numNotifications == 1)
-                {
-                    $("#requestNotification").parent().html("<p class='grid_1'>&nbsp;</p>");
-                }
-                else
-                {
-                    $("#requestNotification").text(numNotifications - 1);
-                }
-
-                // Alert the user that they rejected the request
-                var memberCard = thisElement.parents(".memberCard");
-                var memberCardName = memberCard.find(".cardName").text();
-                memberCard.fadeOut(function() {
-                    memberCard.html("You rejected " + memberCardName + "'s request to follow you.");
-                    memberCard.css("padding", "10px");
-                    memberCard.fadeIn("medium").delay(2000).fadeOut("medium", function() {
-                        if ($("#requestedContent").has(".memberCard:visible").length == 0)
-                        {
-                            $("#requestedContentMembers").html("<p style='margin-bottom: 15px;'>No one has requested to follow you.</p>");
-                        }
-                    });
-                });
+            success: function(html) {
+                // Update the request count and display the reject request message
+                acceptRejectSuccessHelper(memberCard, html);
             },
             error: function (a, b, error) { alert("requests.js (2): " + error); }
         });
