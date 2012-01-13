@@ -1371,12 +1371,11 @@ def register_view(request):
             # Set the new member's password
             member.set_password(password)
 
-            # Create default image for the new member
-            shutil.copyfile('static/media/images/members/default.jpg', 'static/media/images/members/' + str(member.id) + '.jpg')
-            member.image = str(member.id) + ".jpg"
-
             # Save the new member
             member.save()
+
+            # Create default image for the new member
+            shutil.copyfile("static/media/images/members/default.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
 
             # Send the member to the successful account creation page
             return render_to_response( "registrationConfirmation.html",

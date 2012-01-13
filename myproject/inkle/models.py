@@ -86,13 +86,10 @@ class Member(User):
     gender = models.CharField(max_length = 6)
     birthday = models.CharField(max_length = 10)
     phone = models.CharField(max_length = 10, default = "")
-    image = models.CharField(max_length = 100, default = "default.jpg") # TODO: change default to ""?
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
     zip_code = models.CharField(max_length = 5, default = "")
 
-    image2 = models.ImageField(null = True, upload_to = "/images/members/aaaaa.jpg")
-    
     # Email verification
     verification_hash = models.CharField(max_length = 32, default = md5(str(randint(1000, 9999))).hexdigest())
     verified = models.BooleanField(default = False)
