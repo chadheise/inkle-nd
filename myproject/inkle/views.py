@@ -277,8 +277,154 @@ def edit_profile_information_view(request):
     except:
         raise Http404()
 
+    # Initialize the variables
+    first_name = member.first_name
+    last_name = member.last_name
+    phone1 = member.phone[0:3]
+    phone2 = member.phone[3:6]
+    phone3 = member.phone[6:10]
+    city = member.city
+    state = member.state
+    zip_code = member.zip_code
+    month = int(member.birthday.split("/")[0])
+    day = int(member.birthday.split("/")[1])
+    year = int(member.birthday.split("/")[2])
+    gender = member.gender
+    invalid_first_name = False
+    invalid_last_name = False
+    invalid_phone1 = False
+    invalid_phone2 = False
+    invalid_phone3 = False
+    invalid_city = False
+    invalid_state = False
+    invalid_zip_code = False
+    invalid_month = False
+    invalid_day = False
+    invalid_year = False
+    invalid_gender = False
+
+    if (request.POST):
+        # First name
+        try:
+            first_name = request.POST["firstName"]
+            if (not first_name):
+                invalid_first_name = True
+        except KeyError:
+            invalid_first_name = True
+
+        # Last name
+        try:
+            last_name = request.POST["lastName"]
+            if (not last_name):
+                invalid_last_name = True
+        except KeyError:
+            invalid_last_name = True
+
+        # Phone
+        try:
+            phone1 = request.POST["phone1"]
+            if (phone1 and len(phone1) != 3):
+                invalid_phone1 = True
+            for digit in phone1:
+                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    invalid_phone1 = True
+        except KeyError:
+            invalid_phone1 = True
+        try:
+            phone2 = request.POST["phone2"]
+            if (phone2 and len(phone2) != 3):
+                invalid_phone2 = True
+            for digit in phone2:
+                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    invalid_phone2 = True
+        except KeyError:
+            invalid_phone2 = True
+        try:
+            phone3 = request.POST["phone3"]
+            if (phone3 and len(phone3) != 4):
+                invalid_phone3 = True
+            for digit in phone3:
+                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    invalid_phone3 = True
+        except KeyError:
+            invalid_phone3 = True
+
+        # City
+        try:
+            city = request.POST["city"]
+        except KeyError:
+            invalid_city = True
+
+        # State
+        try:
+            state = request.POST["state"]
+            if (state and not city):
+                invalid_city = True
+            if (city and not state):
+                invalid_state = True
+        except KeyError:
+            invalid_state = True
+    
+        # Zip code
+        try:
+            zip_code = request.POST["zipCode"]
+            if (zip_code and len(zip_code) != 5):
+                invalid_zip_code = True
+            if (not zip_code and (city or state)):
+                invalid_zip_code = True
+            if (not city and (state or zip_code)):
+                invalid_city = True
+            if (not state and (city or zip_code)):
+                invalid_state = True
+            for digit in zip_code:
+                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    invalid_zip_code = True
+        except KeyError:
+            invalid_zip_code = True
+
+        # Birthday
+        try:
+            month = request.POST["month"]
+            if (not month):
+                invalid_month = True
+            else:
+                month = int(month)
+        except KeyError:
+            invalid_month = True
+        try:
+            day = request.POST["day"]
+            if (not day):
+                invalid_day = True
+            else:
+                day = int(day)
+        except KeyError:
+            invalid_day = True
+        try:
+            year = request.POST["year"]
+            if (not year):
+                invalid_year = True
+            else:
+                year = int(year)
+        except KeyError:
+            invalid_year = True
+
+        # Gender
+        try:
+            gender = request.POST["gender"]
+            if ((gender != "Male") and (gender != "Female")):
+                invalid_gender = True
+        except KeyError:
+            invalid_gender = True
+
+        if ((not invalid_first_name) and (not invalid_last_name) and (not invalid_phone1) and (not invalid_phone2) and (not invalid_phone3) and (not invalid_city) and (not invalid_state) and (not invalid_zip_code) and (not invalid_month) and (not invalid_day) and (not invalid_year) and (not invalid_gender)):
+            phone = phone1 + phone2 + phone3
+            birthday = str(month) + "/" + str(day) + "/" + str(year)
+            member.update_profile_information(first_name, last_name, phone, city, state, zip_code, birthday, gender)
+            member.save()
+            return HttpResponse()
+
     return render_to_response( "editProfileInformation.html",
-        { "member" : member },
+        { "firstName" : first_name, "invalidFirstName" : invalid_first_name, "lastName" : last_name, "invalidLastName" : invalid_last_name, "phone1" : phone1, "invalidPhone1" : invalid_phone1, "phone2" : phone2, "invalidPhone2" : invalid_phone2, "phone3" : phone3, "invalidPhone3" : invalid_phone3, "city" : city, "invalidCity" : invalid_city, "state" : state, "invalidState" : invalid_state, "zipCode" : zip_code, "invalidZipCode" : invalid_zip_code, "month" : month, "invalidMonth" : invalid_month, "day" : day, "invalidDay" : invalid_day, "year" : year, "invalidYear" : invalid_year, "gender" : gender, "invalidGender" : invalid_gender },
         context_instance = RequestContext(request) )
 
 
@@ -1198,7 +1344,6 @@ def register_view(request):
                 gender = gender
             )
             
-            print "in"
             # Set the new member's password
             member.set_password(password)
 

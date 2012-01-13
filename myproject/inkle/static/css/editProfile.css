@@ -3,22 +3,34 @@ table tr
     height: 30px;
 }
 
-#editProfilePrivacyForm th
+table th
 {
     text-align: right;
-    width: 120px;
+    width: 85px;
     padding-right: 5px;
 }
 
-table td
+table td input
 {
     width: 200px;
+    border: inset 2px #BBB;
 }
 
 table td select
 {
-    width: 100%;
+    width: 204px;
     border: inset 2px #BBB;
+}
+
+.birthdaySelect
+{
+    width: 62px;
+    margin-right: 5px;
+}
+
+.phoneInput
+{
+    width: 55px;
 }
 
 table td .invalid
@@ -26,7 +38,7 @@ table td .invalid
     border: solid 2px #FF0000;
 }
 
-#editProfilePrivacyButton
+#editProfileInformationButton, #editProfilePrivacyButton
 {
     padding: 5px 0px 5px 0px;
     width: 150px;
@@ -41,13 +53,13 @@ table td .invalid
     cursor: pointer;
 }
 
-#editProfilePrivacyButton:hover
+#editProfileInformationButton:hover, #editProfilePrivacyButton:hover
 {
     border-color: #1A492B;
     cursor: pointer;
 }
 
-#editProfilePrivacyConfirmation
+#editProfileInformationConfirmation, #editProfilePrivacyConfirmation
 {
     display: none;
 }
