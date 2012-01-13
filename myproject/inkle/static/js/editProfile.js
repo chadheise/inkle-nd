@@ -146,8 +146,9 @@ $(document).ready(function() {
             // Fade out the profile picture content, fade in the confirmation message and update the profile picture, and fade back in the profile picture content after a delay
             $("#editProfilePictureContent").fadeOut("medium", function() {
                 // Reload the member images
-                var imageSource = $("#headerMemberImage").attr("src");
-                $("#memberImage").attr("src", imageSource);
+                var date = new Date()
+                var imageSource = $("#headerMemberImage").attr("src") + "?" + date.getTime();
+                $("#currentMemberImage").attr("src", imageSource);
                 $("#headerMemberImage").attr("src", imageSource);
 
 
