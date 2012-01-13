@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 from myproject.inkle.models import *
-
 from myproject.inkle.emails import *
 
 import re
@@ -427,6 +426,18 @@ def edit_profile_information_view(request):
         { "firstName" : first_name, "invalidFirstName" : invalid_first_name, "lastName" : last_name, "invalidLastName" : invalid_last_name, "phone1" : phone1, "invalidPhone1" : invalid_phone1, "phone2" : phone2, "invalidPhone2" : invalid_phone2, "phone3" : phone3, "invalidPhone3" : invalid_phone3, "city" : city, "invalidCity" : invalid_city, "state" : state, "invalidState" : invalid_state, "zipCode" : zip_code, "invalidZipCode" : invalid_zip_code, "month" : month, "invalidMonth" : invalid_month, "day" : day, "invalidDay" : invalid_day, "year" : year, "invalidYear" : invalid_year, "gender" : gender, "invalidGender" : invalid_gender },
         context_instance = RequestContext(request) )
 
+def get_new_profile_picture_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+    
+    return render_to_response( "newProfilePicture.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
 
 def edit_profile_picture_view(request):
     # Get the member who is logged in (or raise a 404 error)
@@ -435,9 +446,22 @@ def edit_profile_picture_view(request):
     except:
         raise Http404()
 
-    return render_to_response( "editProfilePicture.html",
-        { "member" : member },
-        context_instance = RequestContext(request) )
+    if (request.FILES):
+        fileName = "inkle/static/media/images/members/" + str(member.id) + ".jpg"
+        destination = open(fileName, "wb+")
+        for chunk in request.FILES["newProfilePicture"].chunks():
+            destination.write(chunk)
+            destination.close()
+        return render_to_response( "editProfilePicture.html",
+            { "member" : member },
+            context_instance = RequestContext(request) )
+    else:
+        if (request.POST):
+            return HttpResponseRedirect("/editProfile/picture/")
+        else:
+            return render_to_response( "editProfilePicture.html",
+                { "member" : member },
+                context_instance = RequestContext(request) )
 
 
 def edit_profile_privacy_view(request):

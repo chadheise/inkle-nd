@@ -120,11 +120,15 @@
     padding: 7px 5px 7px 5px;
 }
 
-
-#headerMemberImage
+#headerMemberImageContainer
 {
     float: right;
     padding: 5px;
+}
+
+#headerMemberImage
+{
+    padding: 0px;
     height: 28px;
     width: 28px;
 }

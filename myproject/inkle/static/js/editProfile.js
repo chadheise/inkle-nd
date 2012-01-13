@@ -102,8 +102,10 @@ $(document).ready(function() {
             error: function(a, b, error) { alert("editProfile.js (2): " + error); }
         });
     });
-    
+   
+    /* Edit the logged in member's profile privacy settings when the "Edit profile privacy" button is clicked */
     $("#editProfilePrivacyButton").live("click", function() {
+        // Get the privacy settings
         var locationPrivacy = $("#locationPrivacy option:selected").val(); 
         var emailPrivacy = $("#emailPrivacy option:selected").val(); 
         var phonePrivacy = $("#phonePrivacy option:selected").val(); 
@@ -113,11 +115,13 @@ $(document).ready(function() {
         var spheresPrivacy = $("#spheresPrivacy option:selected").val(); 
         var inklingsPrivacy = $("#inklingsPrivacy option:selected").val(); 
 
+        // Edit the logged in member's profile privacy settings
         $.ajax({
             type: "POST",
             url: "/editProfilePrivacy/",
             data: { "locationPrivacy" : locationPrivacy, "emailPrivacy" : emailPrivacy, "phonePrivacy" : phonePrivacy, "birthdayPrivacy" : birthdayPrivacy, "followersPrivacy" : followersPrivacy, "followingsPrivacy" : followingsPrivacy, "spheresPrivacy" : spheresPrivacy, "inklingsPrivacy" : inklingsPrivacy },
             success: function(html) {
+                // Fade out the privacy content, fade in the confirmation message, and fade back in the privacy content after a delay
                 $("#editProfilePrivacyContent").fadeOut("medium", function() {
                     $("#editProfilePrivacyConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
                         $("#editProfilePrivacyContent").fadeIn("medium");
@@ -128,75 +132,35 @@ $(document).ready(function() {
         });
     });
 
-    $("#updateEmailButton").live("click", function() {
-        var currentPassword = $("#currentPassword").val(); 
-        var newEmail = $("#newEmail").val(); 
-        var confirmNewEmail = $("#confirmNewEmail").val(); 
-
-        $.ajax({
-            type: "POST",
-            url: "/updateAccountEmail/",
-            data: { "currentPassword" : currentPassword, "newEmail" : newEmail, "confirmNewEmail" : confirmNewEmail },
-            success: function(html) {
-                if (html.startsWith("<div"))
-                {
-                    $("#accountContent").html(html);
-                }
-                else
-                {
-                    $("#updateAccountEmailContainer").fadeOut("medium", function() {
-                        $("#updateAccountEmailConfirmationContainer").fadeIn("medium");
-                    
-                        // Send the email verification email
-                        $.ajax({
-                            url: "/sendUpdateEmailVerificationEmail/" + newEmail + "/",
-                            success: function() {
-                                window.location.href = "/logout/";
-                            },
-                            error: function (a, b, error) { alert("account.js (3.2): " + error); }
-                        });
-                    });
-                }
-            },
-            error: function(a, b, error) { alert("account.js (3): " + error); }
-        });
-    });
-    
-    $("#deactivateAccountButton").live("click", function() {
-        var password = $("#password").val();
-        $.ajax({
-            type: "POST",
-            url: "/deactivateAccount/",
-            data: { "password" : password },
-            success: function(html) {
-                if (html.startsWith("<div"))
-                {
-                    $("#accountContent").html(html);
-                }
-                else
-                {
-                    $("#deactivateAccountContainer").fadeOut("medium", function() {
-                        $("#confirmDeactivateAccountContainer").fadeIn("medium");
-                    });
-                }
-            },
-            error: function(a, b, error) { alert("account.js (4): " + error); }
-        });
+    /* Make the iframe the target of the "Edit profile picture" button */
+    $("#editProfilePictureForm").live("submit", function() {
+        $("#editProfilePictureForm").attr("target", "uploadTarget");
     });
 
-    $("#confirmDeactivateAccountButton").live("click", function() {
-        var password = $("#password").val();
-        $.ajax({
-            type: "POST",
-            url: "/deactivateAccount/",
-            data: { "password" : password, "deactivate" : "deactivate" },
-            success: function() {
-                $("#confirmDeactivateAccountContainer").fadeOut("medium", function() {
-                    $("#accountDeactivatedContainer").fadeIn("medium");
-                    window.location.href = "/logout/";
+    /* Edit the logged in member's profile picture when the "Edit profile picture" button is clicked */
+    $("#editProfilePictureButton").live("click", function() {
+        if ($("#newProfilePicture").val())
+        {
+            $("#newProfilePicture").css("border", "solid 2px #BBB");
+
+            // Fade out the profile picture content, fade in the confirmation message and update the profile picture, and fade back in the profile picture content after a delay
+            $("#editProfilePictureContent").fadeOut("medium", function() {
+                // Reload the member images
+                var imageSource = $("#headerMemberImage").attr("src");
+                $("#memberImage").attr("src", imageSource);
+                $("#headerMemberImage").attr("src", imageSource);
+
+
+                $("#editProfilePictureConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
+                    $("#editProfilePictureContent").fadeIn("medium", function() {
                 });
-            },
-            error: function(a, b, error) { alert("account.js (3): " + error); }
-        });
+            
+                });
+            });
+        }
+        else
+        {
+            $("#newProfilePicture").css("border", "solid 2px #FF0000");
+        }
     });
 });

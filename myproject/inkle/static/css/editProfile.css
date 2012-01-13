@@ -38,7 +38,7 @@ table td .invalid
     border: solid 2px #FF0000;
 }
 
-#editProfileInformationButton, #editProfilePrivacyButton
+#editProfileInformationButton, #editProfilePictureButton, #editProfilePrivacyButton
 {
     padding: 5px 0px 5px 0px;
     width: 150px;
@@ -53,13 +53,33 @@ table td .invalid
     cursor: pointer;
 }
 
-#editProfileInformationButton:hover, #editProfilePrivacyButton:hover
+#editProfileInformationButton:hover, #editProfilePictureButton:hover, #editProfilePrivacyButton:hover
 {
     border-color: #1A492B;
     cursor: pointer;
 }
 
-#editProfileInformationConfirmation, #editProfilePrivacyConfirmation
+#editProfileInformationConfirmation, #editProfilePictureConfirmation, #editProfilePrivacyConfirmation
 {
     display: none;
+}
+
+#uploadTarget
+{
+    height: 0px;
+    width: 0px;
+    border: none;
+    display: none;
+}
+
+#currentMemberImage
+{
+    height: 250px;
+    width: 250px;
+}
+
+#newProfilePicture
+{
+    width: 200px;
+    border: inset 2px #BBB;
 }

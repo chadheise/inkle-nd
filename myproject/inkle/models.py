@@ -90,6 +90,8 @@ class Member(User):
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
     zip_code = models.CharField(max_length = 5, default = "")
+
+    image2 = models.ImageField(null = True, upload_to = "/images/members/aaaaa.jpg")
     
     # Email verification
     verification_hash = models.CharField(max_length = 32, default = md5(str(randint(1000, 9999))).hexdigest())

@@ -74,4 +74,5 @@ urlpatterns = patterns(
     (r"^editProfileInformation/$", "edit_profile_information_view"),
     (r"^editProfilePicture/$", "edit_profile_picture_view"),
     (r"^editProfilePrivacy/$", "edit_profile_privacy_view"),
+    (r"^getNewProfilePicture/$", "get_new_profile_picture_view"),
 )

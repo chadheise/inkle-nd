@@ -31,7 +31,9 @@
                     <div id="headerMemberContainer">
                         <a href="/manage/circles/" title="Profile">
                             <p id="headerMemberName">{{ member.get_full_name|truncate_characters:25 }}</p>
-                            <img id="headerMemberImage" src="{{ STATIC_URL }}/media/images/members/{{ member.id }}.jpg" />
+                            <div id="headerMemberImageContainer">
+                                <img id="headerMemberImage" src="{{ STATIC_URL }}/media/images/members/{{ member.id }}.jpg" />
+                            </div>
                         </a>
                     </div>
                 </div>
