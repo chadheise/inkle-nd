@@ -9,13 +9,13 @@
         <!-- First name -->
         <tr>
             <th><label for="firstName">First name:</label></th>
-            <td><input id="firstName" {% if invalidFirstName %}class="invalid"{% endif %} value="{{ firstName }}" /></td>
+            <td><input id="firstName" {% if invalidFirstName %}class="invalid"{% endif %} maxlength="30" value="{{ firstName }}" /></td>
         </tr>
 
         <!-- Last name -->
         <tr>
             <th><label for="lastName">Last name:</label></th>
-            <td><input id="lastName" {% if invalidLastName %}class="invalid"{% endif %} value="{{ lastName }}" /></td>
+            <td><input id="lastName" {% if invalidLastName %}class="invalid"{% endif %} maxlength="30" value="{{ lastName }}" /></td>
         </tr>
 
         <!-- Phone -->
@@ -31,7 +31,7 @@
         <!-- City -->
         <tr>
             <th><label for="city">City:</label></th>
-            <td><input id="city" {% if invalidCity %}class="invalid"{% endif %} value="{{ city }}" /></td>
+            <td><input id="city" {% if invalidCity %}class="invalid"{% endif %} maxlength="50" value="{{ city }}" /></td>
         </tr>
 
         <!-- State -->
