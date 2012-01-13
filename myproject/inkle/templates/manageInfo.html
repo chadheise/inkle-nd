@@ -1,17 +1,8 @@
-<!-- Member location -->
-{% if member.city and member.state and member.zip_code %}
-    <div class="infoSection">
-        <p class="infoLabel">Location:</p>
-            <p><span id="manageCity">{{ member.city }}</span>, <span id="manageState">{{ member.state }}</span> <span id="manageZipCode">({{ member.zip_code }})</span></p>
-    </div>
-{% endif %}
-
-
 <!-- Member email -->
 {% if member.email %}
     <div class="infoSection">
         <p class="infoLabel">Email:</p>
-        <a id="manageEmail">{{ member.email }}</a>
+        <p>{{ member.email }}</p>
     </div>
 {% endif %}
 
@@ -19,7 +10,15 @@
 {% if member.phone %}
     <div class="infoSection">
         <p class="infoLabel">Phone:</p>
-        <p id="managePhone">{{ member.get_formatted_phone }}</p>
+        <p>{{ member.get_formatted_phone }}</p>
+    </div>
+{% endif %}
+
+<!-- Member location -->
+{% if member.city and member.state and member.zip_code %}
+    <div class="infoSection">
+        <p class="infoLabel">Location:</p>
+        <p>{{ member.city }}, {{ member.state }} {{ member.zip_code }}</p>
     </div>
 {% endif %}
 
@@ -27,7 +26,7 @@
 {% if member.birthday %}
     <div class="infoSection">
         <p class="infoLabel">Birthday:</p>
-        <p id="manageBirthday">{{ member.birthday }}</p>
+        <p>{{ member.get_formatted_birthday }}</p>
     </div>
 {% endif %}
 
@@ -35,6 +34,6 @@
 {% if member.gender %}
     <div class="infoSection">
         <p class="infoLabel">Gender:</p>
-        <p id="manageGender">{{ member.gender }}</p>
+        <p>{{ member.gender }}</p>
     </div>
 {% endif %}

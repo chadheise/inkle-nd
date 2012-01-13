@@ -119,6 +119,12 @@ class Member(User):
         """Returns the current member's formatted phone number."""
         return "(%s) %s-%s" % (self.phone[0:3], self.phone[3:6], self.phone[6:10])
 
+    def get_formatted_birthday(self):
+        """Returns the current member's formatted birthday."""
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        birthday = self.birthday.split("/")
+        return "%s %s, %s" % (months[int(birthday[0]) - 1], birthday[1], birthday[2])
+
     def update_verification_hash(self):
         """Updates the current member's verification hash."""
         self.verification_hash = md5(str(randint(1000, 9999))).hexdigest()
