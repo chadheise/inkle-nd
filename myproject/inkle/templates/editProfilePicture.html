@@ -1,1 +1,30 @@
-<p>Profile picture</p>
+<div id="editProfilePictureContent">
+    <!-- Edit profile picture message -->
+    <p style="margin-bottom: 15px;">Upload a file below to change you profile picture. Note that square images are the best.</p>
+
+    <!-- Current profile picture -->
+    <p>Current profile picture:</p>
+    <img id="currentMemberImage" src="{{ STATIC_URL }}/media/images/members/{{ member.id }}.jpg" />
+
+    <br />
+    <br />
+
+    <!-- New profile picture -->
+    <label>New profile picture:</p>
+    <form id="editProfilePictureForm" action="/editProfilePicture/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input id="newProfilePicture" name="newProfilePicture" type="file" />
+        <br />
+        <!-- Edit profile picture button -->
+        <input id="editProfilePictureButton" type="submit" value="Edit profile picture" />
+
+    </form>
+   
+    <!-- iframe which will be target for new profile picture form in order to allow upload without page reload -->
+    <iframe id="uploadTarget" name="uploadTarget"></iframe>
+</div>
+
+<!-- Edit profile picture confirmation -->
+<div id="editProfilePictureConfirmation">
+    <p>Your profile picture has been changed.</p>
+</div>
