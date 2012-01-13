@@ -65,6 +65,43 @@ $(document).ready(function() {
             return !this.indexOf(str);
         }
     }
+
+    $("#editProfileInformationButton").live("click", function() {
+        var firstName = $("#firstName").val();
+        var lastName = $("#lastName").val();
+        var phone1 = $("#phone1").val();
+        var phone2 = $("#phone2").val();
+        var phone3 = $("#phone3").val();
+        var city = $("#city").val();
+        var state = $("#state option:selected").val(); 
+        var zipCode = $("#zipCode").val();
+        var month = $("#month option:selected").val(); 
+        var day = $("#day option:selected").val(); 
+        var year = $("#year option:selected").val(); 
+        var gender = $("#gender option:selected").val(); 
+
+        $.ajax({
+            type: "POST",
+            url: "/editProfileInformation/",
+            data: { "firstName" : firstName, "lastName" : lastName, "phone1" : phone1, "phone2" : phone2, "phone3" : phone3, "city" : city, "state" : state, "zipCode" : zipCode, "month" : month, "day" : day, "year" : year, "gender" : gender },
+            success: function(html) {
+                if (html.startsWith("\n"))
+                {
+                    $("#editProfileContent").html(html);
+                }
+                else
+                {
+                    $(".invalid").removeClass("invalid");
+                    $("#editProfileInformationContent").fadeOut("medium", function() {
+                        $("#editProfileInformationConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
+                            $("#editProfileInformationContent").fadeIn("medium");
+                        });
+                    });
+                }
+            },
+            error: function(a, b, error) { alert("editProfile.js (2): " + error); }
+        });
+    });
     
     $("#editProfilePrivacyButton").live("click", function() {
         var locationPrivacy = $("#locationPrivacy option:selected").val(); 
@@ -82,7 +119,9 @@ $(document).ready(function() {
             data: { "locationPrivacy" : locationPrivacy, "emailPrivacy" : emailPrivacy, "phonePrivacy" : phonePrivacy, "birthdayPrivacy" : birthdayPrivacy, "followersPrivacy" : followersPrivacy, "followingsPrivacy" : followingsPrivacy, "spheresPrivacy" : spheresPrivacy, "inklingsPrivacy" : inklingsPrivacy },
             success: function(html) {
                 $("#editProfilePrivacyContent").fadeOut("medium", function() {
-                    $("#editProfilePrivacyConfirmation").fadeIn("medium");
+                    $("#editProfilePrivacyConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
+                        $("#editProfilePrivacyContent").fadeIn("medium");
+                    });
                 });
             },
             error: function(a, b, error) { alert("editProfile.js (3): " + error); }

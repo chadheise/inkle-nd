@@ -63,11 +63,13 @@ urlpatterns = patterns(
     (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
     (r"^uploadImage/$", "upload_image_view"),
 
+    (r"^account/$", "account_view"),
     (r"^account/(?P<content_type>password|email|deactivate)/$", "account_view"),
     (r"^resetAccountPassword/$", "reset_account_password_view"),
     (r"^updateAccountEmail/$", "update_account_email_view"),
     (r"^deactivateAccount/$", "deactivate_account_view"),
 
+    (r"^editProfile/$", "edit_profile_view"),
     (r"^editProfile/(?P<content_type>information|picture|privacy)/$", "edit_profile_view"),
     (r"^editProfileInformation/$", "edit_profile_information_view"),
     (r"^editProfilePicture/$", "edit_profile_picture_view"),
