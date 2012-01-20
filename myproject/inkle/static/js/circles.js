@@ -135,7 +135,11 @@ $(document).ready(function() {
                     $("#newCircle").fadeOut("medium", function() {
                         $("#newCircleInput").val("")
                         $("#newCircle").before("<button class='circle' circleID='" + circleID + "'>" + name + "</button>");
-                        $(".circlesMenu").append("<div><input type='checkbox' circleID='" +  circleID + "' /><label>" + name + "</label></div>");
+                        $(".circlesMenu").each( function() {
+                            memberID = $(this).siblings(".cardButton").attr("memberID")
+                            $(this).append("<div><input id='m" + memberID + "_c" + circleID + "' type='checkbox' circleID='" +  circleID + "' /> <label for='m" + memberID + "_c" + circleID + "'>" + name + "</label></div>");
+                            $(".noCircles").remove()
+                        });
                         $("#createCircleButton").fadeIn("medium");
                     });
                 },

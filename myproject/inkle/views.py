@@ -972,6 +972,7 @@ def circles_view(request, circle_id = None):
         circle = Circle.objects.get(pk = circle_id)
         members = circle.members.all()
     except Circle.DoesNotExist:
+        circle = None
         members = member.accepted.all()
 
     # Get the necessary information for each member's member card
@@ -993,7 +994,7 @@ def circles_view(request, circle_id = None):
         html = "circles.html"
 
     return render_to_response( html, 
-        { "member" : member, "members" : members },
+        { "member" : member, "members" : members, "circle" : circle},
         context_instance = RequestContext(request) )
 
 
