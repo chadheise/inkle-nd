@@ -149,6 +149,11 @@
     background-color: #ABD4B0;
 }
 
+.headerDropdownButtonHighlighted
+{
+    background-color: #E5736F;
+}
+
 #headerDropdown
 {
     display: none;
@@ -175,4 +180,12 @@
 .headerDropdownOption:hover
 {
     background-color: #ABD4B0;
+}
+
+.headerDropdownOptionHighlighted
+{
+    color: #CD1A26;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 7px 0px 7px 10px;
 }

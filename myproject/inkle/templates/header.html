@@ -27,7 +27,11 @@
             <!-- Member name and header dropdown -->
             <div id="headerMemberSection" class="grid_7 alpha omega">
                 <div>
-                    <img id="headerDropdownButton" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
+                    {% if member.requested.all|length %}
+                        <img id="headerDropdownButton" class="headerDropdownButtonHighlighted" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
+                    {% else %}
+                        <img id="headerDropdownButton" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
+                    {% endif %}
                     <div id="headerMemberContainer">
                         <a href="/manage/circles/" title="Profile">
                             <p id="headerMemberName">{{ member.get_full_name|truncate_characters:25 }}</p>
@@ -46,7 +50,7 @@
                     </a>
                     <a href="/manage/requests/">
                         {% if member.requested.all|length %}
-                            <p class="headerDropdownOption">Requests <span id="requestsCount">({{ member.requested.all|length }})</span></p>
+                            <p class="headerDropdownOption headerDropdownOptionHighlighted">Requests <span id="requestsCount">({{ member.requested.all|length }})</span></p>
                         {% else %}
                             <p class="headerDropdownOption">Requests</p>
                         {% endif %}
