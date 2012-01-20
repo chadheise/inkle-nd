@@ -45,6 +45,9 @@ $(document).ready(function() {
         if (numRequests == 1)
         {
             $("#requestsCount").text("");
+            //Remove highlighting from header dropdown
+            $("#headerDropdownButton").removeClass("headerDropdownButtonHighlighted")
+            $(".headerDropdownOption").removeClass("headerDropdownOptionHighlighted")
         }
         else
         {

@@ -1,4 +1,4 @@
-from smtplib import SMTP
+from smtplib import SMTP_SSL
 from email.mime.text import MIMEText
 
 live = False
@@ -10,12 +10,14 @@ def send_email(from_address, to_addresses, subject, body_text, body_html):
     message["Subject"] = subject
 
     # Connect to the server, send the email, and disconnect from the server
-    server = SMTP()
-    server.connect("smtp.webfaction.com")
+    server = SMTP_SSL("smtp.webfaction.com", 465)
+    
     server.login("inkle", "AmiTabh-2012")
+
     if (not live):
         to_addresses = ["test@inkleit.com"]
     server.sendmail(from_address, to_addresses, message.as_string())
+
     server.quit()
 
 
@@ -56,7 +58,7 @@ def send_email_verification_email(member):
             The Inkle team</p>
         </body>
     </html>""" % (member.first_name, member.username, member.verification_hash)
-    
+
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
 
