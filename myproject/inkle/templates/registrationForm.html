@@ -1,5 +1,15 @@
 {% load days months years from extraTags %}
 
+<!--  Errors -->
+{% if invalid.errors %}
+    <div class="errors">
+        {% for error in invalid.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Registration form -->
 <div id="registrationForm">
     {% csrf_token %}
 

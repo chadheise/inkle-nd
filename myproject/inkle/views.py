@@ -184,9 +184,9 @@ def update_account_email_view(request):
             invalid_current_password = True
         
         # Make sure the provided emails are valid email addresses
-        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", new_email)):
+        if (not is_email(new_email)):
             invalid_new_email = True
-        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", confirm_new_email)):
+        if (not is_email(confirm_new_email)):
             invalid_confirm_new_email = True
 
         # Make sure the new and confirm new emails match
@@ -1111,16 +1111,24 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
 
     return locations
 
+
+def is_email(email):
+    """Returns True if the inputted email is a valid email address format; otherwise, returns False."""
+    if (re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][\.-0-9a-zA-Z]*\.[a-zA-Z]+", email)):
+        return True
+    else:
+        return False
+
+
 def login_view(request):
     """Either logs in a member or returns the login errors."""
     # If a member is already logged in, redirect them to the home page
     if ("member_id" in request.session):
         return HttpResponseRedirect("/")
 
-    # Initially say the login is valid and the email and password are empty
-    invalid_login = False
-    email = ""
-    password = ""
+    # Create dictionaries to hold the POST data and the invalid errors
+    data = { "email" : "", "password" : "" }
+    invalid = { "errors" : [] }
 
     # Get the next location after the login is successful (or set it to the home page if it is not set)
     try:
@@ -1128,35 +1136,51 @@ def login_view(request):
     except:
         next_location = "/"
 
-    # If POST data is present, see if the username/password combination is valid
+    # If POST data is present, validate the username and password combination
     if (request.POST):
-        # Get the member with the provided username (or set the login as invalid if the member or POST data does not exist)
+        # Get the POST data
         try:
-            email = request.POST["email"]
-            member = Member.objects.get(username = email)
-        except (Member.DoesNotExist, KeyError) as e:
-            invalid_login = True
-            invalid_login_message = "No email specified"
-
-        # Get the provided password (or set the login as invalid if the POST data does not exist)
-        try:
-            password = request.POST["password"]
+            data["email"] = request.POST["email"]
+            data["password"] = request.POST["password"]
         except KeyError:
-            invalid_login = True
-            invalid_login_message = "No username specified"
+            pass
+
+        # Make sure a valid email and password are specified
+        if (not data["email"]):
+            invalid["email"] = True
+            invalid["errors"].append("No email specified")
+
+        if ((not invalid["errors"]) and (not is_email(data["email"]))):
+            invalid["email"] = True
+            invalid["errors"].append("Invalid email format")
+
+        if (not data["password"]):
+            invalid["password"] = True
+            invalid["errors"].append("No password specified")
             
         # If an email and password are provided, the member is verified and active, and their password is correct, log them in (or set the login as invalid)
-        if ((not invalid_login) and (member.verified) and (member.is_active) and (member.check_password(password))):
-            request.session["member_id"] = member.id
-            member.last_login = datetime.datetime.now()
-            member.save()
-            return HttpResponseRedirect(next_location)
-        else:
-            invalid_login = True
-            invalid_login_message = "Invalid email/password combination"
+        if (not invalid["errors"]):
+            # Get the member according to the provided email
+            try:
+                member = Member.objects.get(username = data["email"])
+            except:
+                member = []
+
+            # Confirm the username and password combination
+            if (member and (member.verified) and (member.is_active) and (member.check_password(data["password"]))):
+                request.session["member_id"] = member.id
+                member.last_login = datetime.datetime.now()
+                member.save()
+                return HttpResponseRedirect(next_location)
+            
+            # Otherwise, set the invalid dictionary
+            else:
+                invalid["email"] = True
+                invalid["password"] = True
+                invalid["errors"].append("Invalid email/password combination")
         
     return render_to_response( "login.html",
-        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "year" : 0, "month" : 0, "next" : next_location },
+        {"selectedContentLink" : "login", "data" : data, "invalid" : invalid, "year" : 0, "month" : 0, "next" : next_location },
         context_instance = RequestContext(request) )
 
 
@@ -1316,7 +1340,7 @@ def register_view(request):
             invalid_registration = True
 
         # Check if the provided email is a valid email address
-        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", email)):
+        if (not is_email(email)):
             invalid_email = True
             invalid_registration = True
     
