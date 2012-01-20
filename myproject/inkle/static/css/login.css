@@ -22,9 +22,9 @@
 
 .errors
 {
-    border: solid 2px #F00;
+    border: solid 2px #CD1A26;
     padding: 5px 10px 5px 10px;
-    background-color: #EEE;
+    background-color: #E5736F;
     margin-bottom: 10px;
     width: 361px;
 }
@@ -59,7 +59,7 @@ table td input
 
 table td .invalid
 {
-    border: solid 2px #FF0000;
+    border: solid 2px #CD1A26;
 }
 
 #registrationMonth, #registrationDay, #registrationYear, #registrationGender
