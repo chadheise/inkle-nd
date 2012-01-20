@@ -1,9 +1,9 @@
 {% load days months years from extraTags %}
 
 <!--  Errors -->
-{% if invalid.errors %}
+{% if registrationInvalid.errors %}
     <div class="errors">
-        {% for error in invalid.errors %}
+        {% for error in registrationInvalid.errors %}
             <p>{{ error }}</p>
         {% endfor %}
     </div>
@@ -18,59 +18,59 @@
         <!-- First name -->
         <tr>
             <th><label for="registrationFirstName">First name:</label></th>
-            <td><input id="registrationFirstName" class="{% if invalidFirstName %}invalid{% endif %}" type="text" maxlength="30" value="{{ firstName }}" /></td>
+            <td><input id="registrationFirstName" class="{% if registrationInvalid.first_name %}invalid{% endif %}" type="text" maxlength="30" value="{{ registrationData.first_name }}" /></td>
         </tr>
 
         <!-- Last name -->
         <tr>
             <th><label for="registrationLastName">Last name:</label></th>
-            <td><input id="registrationLastName" class="{% if invalidLastName %}invalid{% endif %}" type="text" maxlength="30" value="{{ lastName }}" /></td>
+            <td><input id="registrationLastName" class="{% if registrationInvalid.last_name %}invalid{% endif %}" type="text" maxlength="30" value="{{ registrationData.last_name }}" /></td>
         </tr>
 
         <!-- Email -->
         <tr>
             <th><label for="registrationEmail">Email:</label></th>
-            <td><input id="registrationEmail" class="{% if invalidEmail %}invalid{% endif %}" type="text" maxlength="50" value="{{ email }}" /></td>
+            <td><input id="registrationEmail" class="{% if registrationInvalid.email %}invalid{% endif %}" type="text" maxlength="50" value="{{ registrationData.email }}" /></td>
         </tr>
 
         <!-- Confirm email -->
         <tr>
             <th><label for="registrationConfirmEmail">Confirm email:</label></th>
-            <td><input id="registrationConfirmEmail" class="{% if invalidConfirmEmail %}invalid{% endif %}" type="text" maxlength="50" value="{{ confirmEmail }}" /></td>
+            <td><input id="registrationConfirmEmail" class="{% if registrationInvalid.confirm_email %}invalid{% endif %}" type="text" maxlength="50" value="{{ registrationData.confirm_email }}" /></td>
         </tr>
 
         <!-- Password -->
         <tr>
             <th><label for="registrationPassword">Password:</label></th>
-            <td><input id="registrationPassword" class="{% if invalidPassword %}invalid{% endif %}" type="password" maxlength="100" value="{{ password }}" /></td>
+            <td><input id="registrationPassword" class="{% if registrationInvalid.password %}invalid{% endif %}" type="password" maxlength="100" value="{{ registrationData.password }}" /></td>
         </tr>
 
         <!-- Confirm password -->
         <tr>
             <th><label for="registrationConfirmPassword">Confirm password:</label></th>
-            <td><input id="registrationConfirmPassword" class="{% if invalidConfirmPassword %}invalid{% endif %}" type="password" maxlength="100" value="{{ confirmPassword }}" /></td>
+            <td><input id="registrationConfirmPassword" class="{% if registrationInvalid.confirm_password %}invalid{% endif %}" type="password" maxlength="100" value="{{ registrationData.confirm_password }}" /></td>
         </tr>
 
         <!-- Birthday -->
         <tr>
             <th><label for="registrationMonth">Birthday:</label></th>
             <td>
-                <select id="registrationMonth" class="monthSelect {% if invalidMonth %}invalid{% endif %}">
-                    <option value="0" {% if not month %}selected{% endif %}>Month</option>
-                    {% for m, abbreviation in null|months %}
-                        <option value="{{ forloop.counter }}" {% if month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
+                <select id="registrationMonth" class="monthSelect {% if registrationInvalid.month %}invalid{% endif %}">
+                    <option value="0" {% if not registrationData.month %}selected{% endif %}>Month</option>
+                    {% for month, abbreviation in null|months %}
+                        <option value="{{ forloop.counter }}" {% if registrationData.month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
                     {% endfor %}
                 </select>
-                <select id="registrationDay" class="daySelect {% if invalidDay %}invalid{% endif %}">
-                    <option value="0" {% if not day %}selected{% endif %}>Day</option>
-                    {% for i in month|days:year %}
-                        <option value="{{ i }}" {% if day == i %}selected{% endif %}>{{ i }}</option>
+                <select id="registrationDay" class="daySelect {% if registrationInvalid.day %}invalid{% endif %}">
+                    <option value="0" {% if not registrationData.day %}selected{% endif %}>Day</option>
+                    {% for day in registrationData.month|days:registrationData.year %}
+                        <option value="{{ day }}" {% if registrationData.day == day %}selected{% endif %}>{{ day }}</option>
                     {% endfor %}
                 </select>
-                <select id="registrationYear" class="yearSelect {% if invalidYear %}invalid{% endif %}">
-                    <option value="0" {% if not year %}selected{% endif %}>Year</option>
-                    {% for i in 100|years %}
-                        <option value="{{ i }}" {% if year == i %}selected{% endif %}>{{ i }}</option>
+                <select id="registrationYear" class="yearSelect {% if registrationInvalid.year %}invalid{% endif %}">
+                    <option value="0" {% if not registrationData.year %}selected{% endif %}>Year</option>
+                    {% for year in 100|years %}
+                        <option value="{{ year }}" {% if registrationData.year == year %}selected{% endif %}>{{ year }}</option>
                     {% endfor %}
                 </select>
             </td>
@@ -80,10 +80,10 @@
         <tr>
             <th><label for="registrationGender">Gender:</label></th>
             <td>
-                <select id="registrationGender" class="{% if invalidGender %}invalid{% endif %}">
-                    <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
-                    <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
-                    <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
+                <select id="registrationGender" class="{% if registrationInvalid.gender %}invalid{% endif %}">
+                    <option value="" {% if registrationData.gender == "" %}selected{% endif %}>Gender</option>
+                    <option value="Male" {% if registrationData.gender == "Male" %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if registrationData.gender == "Female" %}selected{% endif %}>Female</option>
                 </select>
             </td>
         </tr>
