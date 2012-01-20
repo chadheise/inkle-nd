@@ -1,3 +1,13 @@
+<!--  Errors -->
+{% if invalid.errors %}
+    <div class="errors">
+        {% for error in invalid.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Login form -->
 <form id="loginForm" action="/login/?next={{ next }}" method="POST">
     {% csrf_token %}
 
@@ -6,13 +16,13 @@
         <!-- Email -->
         <tr>
             <th><label for="loginEmail">Email:</label></th>
-            <td><input id="loginEmail" class="{% if invalidLogin %}invalid{% endif %}" type="text" name="email" maxlength="50" value="{{ loginEmail }}" /></td>
+            <td><input id="loginEmail" class="{% if invalid.email %}invalid{% endif %}" type="text" name="email" maxlength="50" value="{{ data.email }}" /></td>
         </tr>
 
         <!-- Password -->
         <tr>
             <th><label for="loginPassword">Password:</label></th>
-            <td><input id="loginPassword" class="{% if invalidLogin %}invalid{% endif %}" type="password" name="password" maxlength="100" value="{{ loginPassword }}"/></td>
+            <td><input id="loginPassword" class="{% if invalid.password %}invalid{% endif %}" type="password" name="password" maxlength="100" value="{{ data.password }}"/></td>
         </tr>
     </table>
 

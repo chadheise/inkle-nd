@@ -20,6 +20,15 @@
     margin-top: 20px;
 }
 
+.errors
+{
+    border: solid 2px #F00;
+    padding: 5px 10px 5px 10px;
+    background-color: #EEE;
+    margin-bottom: 10px;
+    width: 361px;
+}
+
 .unselectedContent
 {
     display: none;
