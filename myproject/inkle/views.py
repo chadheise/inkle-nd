@@ -184,9 +184,9 @@ def update_account_email_view(request):
             invalid_current_password = True
         
         # Make sure the provided emails are valid email addresses
-        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", new_email)):
+        if (not is_email(new_email)):
             invalid_new_email = True
-        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", confirm_new_email)):
+        if (not is_email(confirm_new_email)):
             invalid_confirm_new_email = True
 
         # Make sure the new and confirm new emails match
@@ -1111,16 +1111,24 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
 
     return locations
 
+
+def is_email(email):
+    """Returns True if the inputted email is a valid email address format; otherwise, returns False."""
+    if (re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][\.-0-9a-zA-Z]*\.[a-zA-Z]+", email)):
+        return True
+    else:
+        return False
+
+
 def login_view(request):
     """Either logs in a member or returns the login errors."""
     # If a member is already logged in, redirect them to the home page
     if ("member_id" in request.session):
         return HttpResponseRedirect("/")
 
-    # Initially say the login is valid and the email and password are empty
-    invalid_login = False
-    email = ""
-    password = ""
+    # Create dictionaries to hold the POST data and the invalid errors
+    data = { "email" : "", "password" : "", "month" : 0, "year" : 0 }
+    invalid = { "errors" : [] }
 
     # Get the next location after the login is successful (or set it to the home page if it is not set)
     try:
@@ -1128,35 +1136,52 @@ def login_view(request):
     except:
         next_location = "/"
 
-    # If POST data is present, see if the username/password combination is valid
+    # If POST data is present, validate the username and password combination
     if (request.POST):
-        # Get the member with the provided username (or set the login as invalid if the member or POST data does not exist)
+        # Get the POST data
         try:
-            email = request.POST["email"]
-            member = Member.objects.get(username = email)
-        except (Member.DoesNotExist, KeyError) as e:
-            invalid_login = True
-            invalid_login_message = "No email specified"
-
-        # Get the provided password (or set the login as invalid if the POST data does not exist)
-        try:
-            password = request.POST["password"]
+            data["email"] = request.POST["email"]
+            data["password"] = request.POST["password"]
         except KeyError:
-            invalid_login = True
-            invalid_login_message = "No username specified"
+            pass
+
+        # Validate the email
+        if (not data["email"]):
+            invalid["email"] = True
+            invalid["errors"].append("Email not specified")
+
+        elif (not is_email(data["email"])):
+            invalid["email"] = True
+            invalid["errors"].append("Invalid email format")
+
+        # Validate the password
+        if (not data["password"]):
+            invalid["password"] = True
+            invalid["errors"].append("Password not specified")
             
         # If an email and password are provided, the member is verified and active, and their password is correct, log them in (or set the login as invalid)
-        if ((not invalid_login) and (member.verified) and (member.is_active) and (member.check_password(password))):
-            request.session["member_id"] = member.id
-            member.last_login = datetime.datetime.now()
-            member.save()
-            return HttpResponseRedirect(next_location)
-        else:
-            invalid_login = True
-            invalid_login_message = "Invalid email/password combination"
-        
+        if (not invalid["errors"]):
+            # Get the member according to the provided email
+            try:
+                member = Member.objects.get(username = data["email"])
+            except:
+                member = []
+
+            # Confirm the username and password combination
+            if (member and (member.verified) and (member.is_active) and (member.check_password(data["password"]))):
+                request.session["member_id"] = member.id
+                member.last_login = datetime.datetime.now()
+                member.save()
+                return HttpResponseRedirect(next_location)
+            
+            # Otherwise, set the invalid dictionary
+            else:
+                invalid["email"] = True
+                invalid["password"] = True
+                invalid["errors"].append("Invalid email/password combination")
+
     return render_to_response( "login.html",
-        {"selectedContentLink" : "login", "invalidLogin" : invalid_login, "loginEmail" : email, "loginPassword" : password, "year" : 0, "month" : 0, "next" : next_location },
+        {"selectedContentLink" : "login", "loginData" : data, "loginInvalid" : invalid, "next" : next_location },
         context_instance = RequestContext(request) )
 
 
@@ -1179,6 +1204,27 @@ def reset_password_view(request, email = None, verification_hash = None):
         { "selectedContentLink" : "login", "loginContent" : "resetPassword", "m" : member },
         context_instance = RequestContext(request) )
 
+def is_sixteen(month, day, year):
+    """Returns true if the inputted date represents a birthday of someone who is at least sixteen; otherwise, returns False."""
+    born = datetime.date(day = int(day), month = int(month), year = int(year))
+    today = datetime.date.today()
+    
+    try:
+        birthday = born.replace(year = today.year)
+    except ValueError:
+        birthday = born.replace(year = today.year, day = born.day - 1)
+    
+    if birthday > today:
+        age = today.year - born.year - 1
+    else:
+        age = today.year - born.year
+
+    if (age < 16):
+        return False
+    else:
+        return True
+
+
 def register_view(request):
     """User login."""
     # If a member is already logged in, redirect them to the home page
@@ -1191,185 +1237,128 @@ def register_view(request):
     
     # Create a new user and log them in if they provided valid form data
     else:
-        # Initially say the form data is valid
-        invalid_first_name = False
-        invalid_last_name = False
-        invalid_email = False
-        invalid_confirm_email = False
-        invalid_password = False
-        invalid_confirm_password = False
-        invalid_month = False
-        invalid_day = False
-        invalid_year = False
-        invalid_gender = False
-        invalid_registration = False
+        # Create dictionaries to hold the POST data and the invalid errors
+        data = { "first_name" : "", "last_name" : "", "email" : "", "confirm_email" : "", "password" : "", "confirm_password" : "", "month" : 0, "day" : 0, "year" : 0, "gender" : "" }
+        invalid = { "errors" : [] }
 
-        # Get the POST data (and set the appropriate flags if the necessary POST data is not there)
+        # Get the POST data
         try:
-            first_name = request.POST["firstName"]
+            data["first_name"] = request.POST["firstName"]
+            data["last_name"] = request.POST["lastName"]
+            data["email"] = request.POST["email"]
+            data["confirm_email"] = request.POST["confirmEmail"]
+            data["password"] = request.POST["password"]
+            data["confirm_password"] = request.POST["confirmPassword"]
+            data["month"] = int(request.POST["month"])
+            data["day"] = int(request.POST["day"])
+            data["year"] = int(request.POST["year"])
+            data["gender"] = request.POST["gender"]
         except KeyError:
-            first_name = ""
-            invalid_first_name = True
-            invalid_registration = True
+            pass
 
-        try:
-            last_name = request.POST["lastName"]
-        except KeyError:
-            last_name = ""
-            invalid_last_name = True
-            invalid_registration = True
+        # Validate the first name
+        if (not data["first_name"]):
+            invalid["first_name"] = True
+            invalid["errors"].append("First name not specified")
 
-        try:
-            email = request.POST["email"]
-        except KeyError:
-            email = ""
-            invalid_email = True
-            invalid_registration = True
-            
-        try:
-            confirm_email = request.POST["confirmEmail"]
-        except KeyError:
-            confirm_email = ""
-            invalid_confirm_email = True
-            invalid_registration = True
-            
-        try:
-            password = request.POST["password"]
-        except KeyError:
-            password = ""
-            invalid_password = True
-            invalid_registration = True
-            
-        try:
-            confirm_password = request.POST["confirmPassword"]
-        except KeyError:
-            confirm_password = ""
-            invalid_confirm_password = True
-            invalid_registration = True
-        
-        try:
-            month = int(request.POST["month"])
-        except KeyError:
-            month = 0
-            invalid_month = True
-            invalid_registration = True
-        
-        try:
-            day = int(request.POST["day"])
-        except KeyError:
-            day = 0
-            invalid_day = True
-            invalid_registration = True
-        
-        try:
-            year = int(request.POST["year"])
-        except KeyError:
-            year = 0
-            invalid_year = True
-            invalid_registration = True
-            
-        try:
-            gender = request.POST["gender"]
-        except KeyError:
-            gender = ""
-            invalid_registration = True
+        # Validate the last name
+        if (not data["last_name"]):
+            invalid["last_name"] = True
+            invalid["errors"].append("Last name not specified")
 
-        # If any of the POST data is empty, set the appropriate flags
-        if (not first_name):
-            invalid_first_name = True
-            invalid_registration = True
-        if (not last_name):
-            invalid_last_name = True
-            invalid_registration = True
-        if (not email):
-            invalid_email = True
-            invalid_registration = True
-        if (not confirm_email):
-            invalid_confirm_email = True
-            invalid_registration = True
-        if (not password):
-            invalid_password = True
-            invalid_registration = True
-        if (not confirm_password):
-            invalid_confirm_password = True
-            invalid_registration = True
-        if (not month):
-            invalid_month = True
-            invalid_registration = True
-        if (not day):
-            invalid_day = True
-            invalid_registration = True
-        if (not year):
-            invalid_year = True
-            invalid_registration = True
-        if ((gender != "Male") and (gender != "Female")):
-            invalid_gender = True
-            invalid_registration = True
+        # Validate the email
+        if (not data["email"]):
+            invalid["email"] = True
+            invalid["errors"].append("Email not specified")
 
-        # Check if the provided email already exists
-        try:
-            member = Member.objects.get(username = email)
-        except Member.DoesNotExist:
-            member = None
-        if (member):
-            invalid_email = True
-            invalid_registration = True
+        elif (not is_email(data["email"])):
+            invalid["email"] = True
+            invalid["errors"].append("Invalid email format")
 
-        # Check if the provided email is a valid email address
-        if (not re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+", email)):
-            invalid_email = True
-            invalid_registration = True
-    
-        # Check if the provided email matches the provided confirm email
-        if (email != confirm_email):
-            invalid_confirm_email = True
-            invalid_registration = True
-       
-        # Check if the provided password is long enough (at least 8 characters)
-        if (len(password) < 8):
-            invalid_password = True
-            invalid_confirm_password = True
-            invalid_registration = True
+        elif (Member.objects.filter(username = data["email"])):
+            invalid["email"] = True
+            invalid["confirm_email"] = True
+            invalid["errors"].append("An account already exists for the provided email")
 
-        # Check if the provided password matches the provided confirm password
-        if (password != confirm_password):
-            invalid_confirm_password = True
-            invalid_registration = True
-    
-        # Check if the user is at least sixteen years old
-        if (day and month and year):
-            born = datetime.date(day = int(day), month = int(month), year = int(year))
-            today = datetime.date.today()
-    
-            try:
-                birthday = born.replace(year = today.year)
-            except ValueError:
-                birthday = born.replace(year = today.year, day = born.day - 1)
-            if birthday > today:
-                age = today.year - born.year - 1
-            else:
-                age = today.year - born.year
+        # Validate the confirm email
+        if (not data["confirm_email"]):
+            invalid["confirm_email"] = True
+            invalid["errors"].append("Confirm email not specified")
 
-            if (age < 16):
-                invalid_day = True
-                invalid_month = True
-                invalid_year = True
-                invalid_registration = True
+        elif (not is_email(data["confirm_email"])):
+            invalid["confirm_email"] = True
+            invalid["errors"].append("Invalid confirm email format")
+
+        elif (data["email"] != data["confirm_email"]):
+            invalid["email"] = True
+            invalid["confirm_email"] = True
+            invalid["errors"].append("Email and confirm email do not match")
+
+        # Validate the password and confirm password
+        if ((not data["password"]) and (not data["confirm_password"])):
+            invalid["password"] = True
+            invalid["confirm_password"] = True
+            data["password"] = ""
+            data["confirm_password"] = ""
+            invalid["errors"].append("Password not specified")
+            invalid["errors"].append("Confirm password not specified")
+
+        elif (len(data["password"]) < 8):
+            invalid["password"] = True
+            invalid["confirm_password"] = True
+            data["password"] = ""
+            data["confirm_password"] = ""
+            invalid["errors"].append("Password must contain at least eight characters")
+
+        elif (data["password"] != data["confirm_password"]):
+            invalid["password"] = True
+            invalid["confirm_password"] = True
+            data["password"] = ""
+            data["confirm_password"] = ""
+            invalid["errors"].append("Password and confirm password do not match")
+
+        # Validate the birthday month
+        if (not data["month"]):
+            invalid["month"] = True
+            invalid["errors"].append("Birthday month not specified")
+
+        # Validate the birthday day
+        if (not data["day"]):
+            invalid["day"] = True
+            invalid["errors"].append("Birthday day not specified")
+
+        # Validate the birthday year
+        if (not data["year"]):
+            invalid["year"] = True
+            invalid["errors"].append("Birthday year not specified")
+
+        # Validate the member is at least sixteen years old
+        if (("month" not in invalid) and ("day" not in invalid) and ("year" not in invalid)):
+            if (not is_sixteen(data["month"], data["day"], data["year"])):
+                invalid["month"] = True
+                invalid["day"] = True
+                invalid["year"] = True
+                invalid["errors"].append("You must be at least sixteen years old to use Inkle")
+
+        # Validate the gender
+        if (data["gender"] not in ["Male", "Female"]):
+            invalid["gender"] = True
+            invalid["errors"].append("Gender not specified")
 
         # If the registration form is valid, create a new member with the provided POST data
-        if (not invalid_registration):
+        if (not invalid["errors"]):
             # Create the new member
             member = Member(
-                first_name = first_name,
-                last_name = last_name,
-                username = email,
-                email = email,
-                birthday = str(month) + "/" + str(day) + "/" + str(year),
-                gender = gender
+                first_name = data["first_name"],
+                last_name = data["last_name"],
+                username = data["email"],
+                email = data["email"],
+                birthday = str(data["month"]) + "/" + str(data["day"]) + "/" + str(data["year"]),
+                gender = data["gender"]
             )
             
             # Set the new member's password
-            member.set_password(password)
+            member.set_password(data["password"])
 
             # Save the new member
             member.save()
@@ -1379,11 +1368,11 @@ def register_view(request):
 
             # Send the member to the successful account creation page
             return render_to_response( "registrationConfirmation.html",
-                { "email" : email },
+                { "email" : data["email"] },
                 context_instance = RequestContext(request) )
 
     return render_to_response( "registrationForm.html",
-        {"selectedContentLink" : "registration", "invalidFirstName" : invalid_first_name, "firstName" : first_name, "invalidLastName" : invalid_last_name, "lastName" : last_name, "invalidEmail" : invalid_email, "email" : email, "invalidConfirmEmail" : invalid_confirm_email, "confirmEmail" : confirm_email, "invalidPassword" : invalid_password, "password" : password, "invalidConfirmPassword" : invalid_confirm_password, "confirmPassword" : confirm_password, "invalidMonth" : invalid_month, "month" : month, "invalidDay" : invalid_day, "day" : day, "invalidYear" : invalid_year, "year" : year, "invalidGender" : invalid_gender, "gender" : gender},
+        { "selectedContentLink" : "registration", "registrationData" : data, "registrationInvalid" : invalid },
         context_instance = RequestContext(request) )
 
 
