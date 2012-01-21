@@ -1,0 +1,32 @@
+<!-- Calendar -->
+<div id="calendar" class="grid_3">
+    <!-- Up button -->
+    <div id="calendarArrowUp" class="grid_3 calendarArrow">
+        <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/upArrow.png" />
+    </div>
+    <div class="grid_3">
+        <div id="date1" class="dateContainer" day="{{ date1|date:"j" }}" month="{{ date1|date:"n" }}" year="{{ date1|date:"Y" }}">
+            <p class="weekday">{{ date1|date:"l" }}</p>
+            <p class="date">{{ date1|date:"j" }}</p>
+            <p class="month">{{ date1|date:"F" }}</p>
+        </div>
+    </div>
+    <div class="grid_3">
+        <div id="date2" class="dateContainer selectedDateContainer" day="{{ date2|date:"j" }}" month="{{ date2|date:"n" }}" year="{{ date2|date:"Y" }}">
+            <p class="weekday">{{ date2|date:"l" }}</p>
+            <p class="date">{{ date2|date:"j" }}</p>
+            <p class="month">{{ date2|date:"F" }}</p>
+        </div>
+    </div>
+    <div class="grid_3">
+        <div id="date3" class="dateContainer" day="{{ date3|date:"j" }}" month="{{ date3|date:"n" }}" year="{{ date3|date:"Y" }}">
+            <p class="weekday">{{ date3|date:"l" }}</p>
+            <p class="date">{{ date3|date:"j" }}</p>
+            <p class="month">{{ date3|date:"F" }}</p>
+        </div>
+    </div>
+    <!-- Down button -->
+    <div id="calendarArrowDown" class="grid_3 calendarArrow">
+        <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
+    </div>
+</div>
