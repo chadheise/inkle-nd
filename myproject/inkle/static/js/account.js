@@ -82,8 +82,13 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    $("#resetAccountPasswordContainer").fadeOut("medium", function() {
-                        $("#resetAccountPasswordConfirmationContainer").fadeIn("medium");
+                    $(".invalid").removeClass("invalid");
+                    $(".errors").remove();
+                    $("#resetAccountPasswordContent").fadeOut("medium", function() {
+                        $("#resetPasswordForm input").val("");
+                        $("#resetAccountPasswordConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
+                            $("#resetAccountPasswordContent").fadeIn("medium");
+                        });
                     });
                 }
             },
@@ -107,8 +112,10 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    $("#updateAccountEmailContainer").fadeOut("medium", function() {
-                        $("#updateAccountEmailConfirmationContainer").fadeIn("medium");
+                    $(".invalid").removeClass("invalid");
+                    $(".errors").remove();
+                    $("#updateAccountEmailContent").fadeOut("medium", function() {
+                        $("#updateAccountEmailConfirmation").fadeIn("medium");
                     
                         // Send the email verification email
                         $.ajax({

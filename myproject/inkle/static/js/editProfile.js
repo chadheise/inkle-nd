@@ -92,6 +92,7 @@ $(document).ready(function() {
                 else
                 {
                     $(".invalid").removeClass("invalid");
+                    $(".errors").remove();
                     $("#editProfileInformationContent").fadeOut("medium", function() {
                         $("#editProfileInformationConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
                             $("#editProfileInformationContent").fadeIn("medium");
