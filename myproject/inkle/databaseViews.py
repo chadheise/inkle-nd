@@ -270,7 +270,7 @@ def add_to_circle_view(request):
         from_member.accepted.remove(to_member)
     
     # Get the to_member's info for their member card
-    to_member.mutual_followings = from_member.following.all() & to_member.following.all()
+    to_member.mutual_followings = from_member.following.filter(is_active = True) & to_member.following.filter(is_active = True)
     to_member.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
     to_member.show_contact_info = True
    
@@ -311,7 +311,7 @@ def remove_from_circle(from_member, to_member, circle):
     circle.members.remove(to_member)
 
     # Get the number of from_member's circles which to_member is in
-    count = len([c for c in from_member.circles.all().select_related("members") if (to_member in c.members.all())])
+    count = len([c for c in from_member.circles.all().select_related("members") if (to_member in c.members.filter(is_active = True))])
 
     # Add the to_member to the from_member's accepted list if the to_member no longer belongs to any of from_member's circles
     if (count == 0):
