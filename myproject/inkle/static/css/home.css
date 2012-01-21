@@ -1,46 +1,3 @@
-.dateContainer
-{
-    text-align: center;
-    border: solid 2px #288D42;
-    height: 95px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.weekday
-{
-    font-size: 18px;
-    padding: 2px 0px 2px 0px;
-    background-color: #DDD;
-}
-
-.month
-{
-    margin-top: -5px;
-}
-
-.date
-{
-    font-size: 40px;
-}
-
-.selectedDateContainer
-{
-    background-color: #DDD;
-}
-
-.selectedDateContainer .weekday
-{
-    background-color: #CD1A26;
-    color: #FFF;
-    font-weight: bold;
-}
-
-.selectedDateContainer .date, .selectedDateContainer .month
-{
-    color: #CD1A26;
-}
-
 .inkling
 {
     padding: 3px 10px 10px 10px;
@@ -122,33 +79,4 @@ select, select option
     font-size: 36px;
     color: #288D42;
     text-decoration: none;
-}
-
-#calendar {
-    margin-top: 50px;
-}
-
-.calendarArrow {
-    cursor: pointer;
-    background-color: #ABD4B0;
-    height: 20px;
-    margin-bottom: 10px;
-    text-align: center;
-    padding-top: 5px;
-}
-
-.calendarArrow:hover {
-    background-color: #288D42;
-}
-
-#calendarArrowUp {
-    border-radius: 7px 7px 0px 0px;
-}
-
-#calendarArrowDown {
-    border-radius: 0px 0px 7px 7px;
-}
-
-.calendarArrowImg {
-    height: 15px;
 }
