@@ -84,7 +84,7 @@ table td .invalid
     cursor: pointer;
 }
 
-#resetAccountPasswordConfirmation, #confirmDeactivateAccountContainer, #updateAccountEmailConfirmation, #accountDeactivatedContainer
+#resetAccountPasswordConfirmation, #updateAccountEmailConfirmation, #confirmDeactivateAccountContent, #deactivateAccountConfirmation
 {
     display: none;
 }

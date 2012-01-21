@@ -145,8 +145,10 @@ $(document).ready(function() {
                 }
                 else
                 {
-                    $("#deactivateAccountContainer").fadeOut("medium", function() {
-                        $("#confirmDeactivateAccountContainer").fadeIn("medium");
+                    $(".invalid").removeClass("invalid");
+                    $(".errors").remove();
+                    $("#deactivateAccountContent").fadeOut("medium", function() {
+                        $("#confirmDeactivateAccountContent").fadeIn("medium");
                     });
                 }
             },
@@ -161,8 +163,8 @@ $(document).ready(function() {
             url: "/deactivateAccount/",
             data: { "password" : password, "deactivate" : "deactivate" },
             success: function() {
-                $("#confirmDeactivateAccountContainer").fadeOut("medium", function() {
-                    $("#accountDeactivatedContainer").fadeIn("medium");
+                $("#confirmDeactivateAccountContent").fadeOut("medium", function() {
+                    $("#deactivateAccountConfirmation").fadeIn("medium");
                     window.location.href = "/logout/";
                 });
             },
