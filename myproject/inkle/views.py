@@ -22,7 +22,7 @@ def home_view(request):
     """Gets dates objects and others' inkling locations and returns the HTML for the home page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except (Member.DoesNotExist, KeyError) as e:
         return HttpResponseRedirect("/login/")
     
@@ -44,7 +44,7 @@ def manage_view(request, content_type = "circles"):
     """Returns the HTML for the manage page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/?next=/manage/" + content_type + "/")
 
@@ -57,7 +57,7 @@ def member_view(request, other_member_id = None):
     """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         if (other_member_id):
             return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
@@ -66,7 +66,7 @@ def member_view(request, other_member_id = None):
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
-        other_member = Member.objects.get(pk = other_member_id)
+        other_member = Member.active.get(pk = other_member_id)
     except:
         raise Http404()
 
@@ -83,7 +83,7 @@ def account_view(request, content_type = "password"):
     """Returns the HTML for the manage account page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/?next=/account/" + content_type + "/")
 
@@ -96,7 +96,7 @@ def reset_account_password_view(request):
     """Resets the logged in member's password."""
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
    
@@ -160,7 +160,7 @@ def reset_account_password_view(request):
 def update_account_email_view(request):
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
@@ -231,7 +231,7 @@ def update_account_email_view(request):
 def deactivate_account_view(request):
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
@@ -277,7 +277,7 @@ def edit_profile_view(request, content_type = "information"):
     """Returns the HTML for the edit profile page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/?next=/editProfile/" + content_type + "/")
 
@@ -290,7 +290,7 @@ def edit_profile_information_view(request):
     """Updates the logged in member's profile information."""
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
@@ -434,7 +434,7 @@ def edit_profile_information_view(request):
 def get_new_profile_picture_view(request):
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
     
@@ -447,7 +447,7 @@ def get_new_profile_picture_view(request):
 def edit_profile_picture_view(request):
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
@@ -472,7 +472,7 @@ def edit_profile_picture_view(request):
 def edit_profile_privacy_view(request):
     # Get the member who is logged in (or raise a 404 error)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
@@ -500,7 +500,7 @@ def location_view(request, location_id = None):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         if (location_id):
             return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
@@ -574,7 +574,7 @@ def get_edit_location_html_view(request):
     """Returns the edit location HTML."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
     
@@ -597,7 +597,7 @@ def get_edit_content_type(request):
     """Returns the edit manage HTML."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
     
@@ -632,11 +632,11 @@ def members_search_query(query):
     
     # If the query is only one word long, match the members' first or last names alone
     if (len(query_split) == 1):
-        members = Member.objects.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
+        members = Member.active.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
 
     # If the query is two words long, match the members' first and last names
     elif (len(query_split) == 2):
-        members = Member.objects.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
+        members = Member.active.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
     
     # if the query is more than two words long, return no results
     else:
@@ -661,7 +661,7 @@ def search_view(request, query = ""):
     """Gets the members, locations, and spheres which match the inputted query and returns the HTML for the search page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         if (query):
             return HttpResponseRedirect("/login/?next=/search/" + query + "/")
@@ -753,7 +753,7 @@ def suggestions_view(request):
     """Returns suggestions for the inputted query."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/")
     
@@ -831,7 +831,7 @@ def requests_view(request):
     """Gets the logged in member's request and returns the HTML for the requests page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/?next=/manage/requests/")
 
@@ -865,7 +865,7 @@ def followers_view(request, other_member_id = None):
     """Gets the logged in member's or other member's followers and returns the HTML for the followers page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         if (other_member_id):
             return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
@@ -876,7 +876,7 @@ def followers_view(request, other_member_id = None):
     if (other_member_id):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
-            other_member = Member.objects.get(pk = other_member_id)
+            other_member = Member.active.get(pk = other_member_id)
         except Member.DoesNotExist:
             raise Http404()
 
@@ -925,7 +925,7 @@ def following_view(request, other_member_id = None):
     """Gets the logged in member's or other member's following and returns the HTML for the following page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         if (other_member_id):
             return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
@@ -934,7 +934,7 @@ def following_view(request, other_member_id = None):
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
-        other_member = Member.objects.get(pk = other_member_id)
+        other_member = Member.active.get(pk = other_member_id)
     except Member.DoesNotExist:
         raise Http404()
 
@@ -975,7 +975,7 @@ def circles_view(request, circle_id = None):
     """Gets the logged in member's circles returns the HTML for the circles page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         return HttpResponseRedirect("/login/?next=/manage/circles/")
 
@@ -1014,7 +1014,7 @@ def spheres_view(request, other_member_id = None):
     """Gets the logged in member's or other member's spheres and returns the HTML for the sphere page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.objects.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = request.session["member_id"])
     except:
         if (other_member_id):
             return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
@@ -1025,7 +1025,7 @@ def spheres_view(request, other_member_id = None):
     if (other_member_id):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
-            other_member = Member.objects.get(pk = other_member_id)
+            other_member = Member.active.get(pk = other_member_id)
         except Member.DoesNotExist:
             raise Http404()
 
@@ -1071,20 +1071,20 @@ def get_others_inklings_view(request):
            return HttpResponseRedirect("/login")
      
     # Get the logged in member
-    member = Member.objects.get(pk = request.session["member_id"])
+    member = Member.active.get(pk = request.session["member_id"])
 
     # Get the POST data
-    date = request.POST["date"]
-    people_type = request.POST["peopleType"]
-    people_id = request.POST["peopleID"]
-    inkling_type = request.POST["inklingType"]
-    include_member = request.POST["includeMember"]
+    try:
+        date = request.POST["date"]
+        people_type = request.POST["peopleType"]
+        people_id = request.POST["peopleID"]
+        inkling_type = request.POST["inklingType"]
+        include_member = request.POST["includeMember"]
+    except KeyError:
+        raise Http404()
 
     # Get others' inklings
     locations = get_others_inklings(member, date, people_type, people_id, inkling_type)
-
-    member.spheres2 = member.spheres.all()
-    member.circles2 = member.circles.all()
 
     if (include_member == "true"):
         return render_to_response( "othersInklings.html",
@@ -1176,7 +1176,7 @@ def login_view(request):
         if (not invalid["errors"]):
             # Get the member according to the provided email
             try:
-                member = Member.objects.get(username = data["email"])
+                member = Member.active.get(username = data["email"])
             except:
                 member = []
 
@@ -1202,7 +1202,7 @@ def reset_password_view(request, email = None, verification_hash = None):
     """Verifies a member's email address using the inputted verification hash."""
     # Get the member corresponding to the provided email (or raise a 404 error)
     try:
-        member = Member.objects.get(username = email)
+        member = Member.active.get(username = email)
     except Member.DoesNotExist:
         raise Http404()
 
@@ -1393,7 +1393,7 @@ def verify_email_view(request, email = None, verification_hash = None):
     """Verifies a member's email address using the inputted verification hash."""
     # Get the member corresponding to the provided email (otherwise, throw a 404 error)
     try:
-        member = Member.objects.get(username = email)
+        member = Member.active.get(username = email)
     except Member.DoesNotExist:
         raise Http404()
 
