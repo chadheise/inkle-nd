@@ -60,7 +60,12 @@ $(document).ready(function() {
             url: "/renameCircle/",
             data: { "circleID" : circleID, "circleName" : circleName },
             success: function(html) {
-                $("#renameCircleInput").parent(".circle").html(circleName);
+                var circle = $("#renameCircleInput").parent(".circle");
+                circle.html("<p>" + circleName + "</p>");
+                var circleP = circle.find("p");
+                var marginTop = (circle.height() - circleP.height()) / 2;
+                circle.find("p").css("margin-top", marginTop + "px");
+
             },
             error: function(a, b, error) { alert("circles.js (1): " + error); }
         });

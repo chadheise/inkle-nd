@@ -1,17 +1,17 @@
 <div class="grid_17 alpha omega">
     <!-- Accepted circle -->
-    <button class="circle selectedCircle" circleID="-1">Accepted</button>
+    <div class="circle selectedCircle" circleID="-1"><p>Accepted</p></div>
 
     <!-- User-created circles -->
     {% for circle in member.circles.all %}
-        <button class="circle" circleID="{{ circle.id }}">{{ circle.name }}</button>
+        <div class="circle" circleID="{{ circle.id }}"><p>{{ circle.name }}</p></div>
     {% endfor %}
 
     <!-- New circle -->
-    <button id="newCircle" class="circle"><input id="newCircleInput" type="text" /></button>
+    <div id="newCircle" class="circle"><input id="newCircleInput" type="text" /></div>
     
     <!-- Create circle button -->
-    <button id="createCircleButton">+</button>
+    <div id="createCircleButton"><p>+</p></div>
     
     <!-- Circle content -->
     <div id="circleContent">

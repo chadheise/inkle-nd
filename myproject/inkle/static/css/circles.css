@@ -1,15 +1,22 @@
 .circle
 {
-    height: 150px;
-    width: 150px;
+    height: 142px;
+    width: 142px;
     border-radius: 75px;
     color: #FFF;
     background-color: #288D42;
     font-size: 14px;
     font-weight: bold;
-    margin: 0px 14px 15px 0px;
+    margin: 0px 15px 15px 0px;
     border: solid 5px #DDD;
     cursor: pointer;
+    float: left;
+    text-align: center;
+}
+
+.circle p
+{
+    margin-top: 62px;
 }
 
 .circle:hover
@@ -24,8 +31,9 @@
 
 #createCircleButton
 {
-    height: 80px;
-    width: 80px;
+    margin-top: 35px;
+    height: 70px;
+    width: 70px;
     border-radius: 40px;
     color: #FFF;
     background-color: #288D42;
@@ -34,11 +42,18 @@
     margin-bottom: 15px;
     border: solid 5px #DDD;
     cursor: pointer;
+    float: left;
+    text-align: center;
 }
 
 #createCircleButton:hover
 {
     border-color: #ABC2E5;
+}
+
+#createCircleButton p
+{
+    margin-top: 17px;
 }
 
 #newCircle
@@ -48,8 +63,10 @@
 
 #newCircleInput, #renameCircleInput
 {
+    margin-top: 60px;
     width: 90%;
     text-align: center;
+    border: inset 2px #BBB;
 }
 
 #circleButtonsContainer
@@ -89,4 +106,9 @@
 #addToCircleSuggestions
 {
     width: 260px;
+}
+
+#circleContent
+{
+    clear: both;
 }

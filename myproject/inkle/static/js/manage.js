@@ -15,6 +15,11 @@ $(document).ready(function() {
                 if (firstLoad)
                 {
                     loadContentHelper(html, contentType);
+                    $(".circle").each(function() {
+                        var circleP = $(this).find("p");
+                        var marginTop = ($(this).height() - circleP.height()) / 2;
+                        circleP.css("margin-top", marginTop + "px");
+                        });
                 }
 
                 // Otherwise, fade out the current manage content and fade the new manage content back in
@@ -22,7 +27,13 @@ $(document).ready(function() {
                 {
                     $("#manageContent").fadeOut("medium", function () {
                         loadContentHelper(html, contentType, function() {
-                            $("#manageContent").fadeIn("medium");
+                            $("#manageContent").fadeIn("medium", function() {
+                                $(".circle").each(function() {
+                                    var circleP = $(this).find("p");
+                                    var marginTop = ($(this).height() - circleP.height()) / 2;
+                                    circleP.css("margin-top", marginTop + "px");
+                                });
+                            });
                         });
                     });
                 }
