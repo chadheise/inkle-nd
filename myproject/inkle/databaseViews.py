@@ -9,6 +9,8 @@ from django.contrib import auth
 from myproject.inkle.models import *
 from myproject.inkle.emails import *
 
+import datetime
+
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
     "prevent" : ("preventFollowing", "Block", "No longer allow this person to follow me"),
@@ -21,6 +23,22 @@ buttonDictionary = {
     "leave" : ("leaveSphere", "Leave sphere", "I no longer wish to be a part of this sphere"),
 }
 
+def date_selected_view(request):
+    """Updates the calendar once a date is clicked."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.objects.get(pk = request.session["member_id"])
+    except (Member.DoesNotExist, KeyError) as e:
+        return HttpResponseRedirect("/login/")
+    
+    # Get date objects for today, tomorrow, and the day after tomorrow 
+    date2 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
+    date3 = date2 + datetime.timedelta(days = 1)
+    date1 = date2 - datetime.timedelta(days = 1)
+
+    return render_to_response( "calendar.html",
+        {"date1" : date1, "date2" : date2, "date3" : date3 },
+        context_instance = RequestContext(request) )
 
 def edit_location_view(request):
     """Edits a location's Location object."""
