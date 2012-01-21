@@ -270,160 +270,148 @@ def edit_profile_view(request, content_type = "information"):
 
 
 def edit_profile_information_view(request):
+    """Updates the logged in member's profile information."""
     # Get the member who is logged in (or raise a 404 error)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
-    # Initialize the variables
-    first_name = member.first_name
-    last_name = member.last_name
-    phone1 = member.phone[0:3]
-    phone2 = member.phone[3:6]
-    phone3 = member.phone[6:10]
-    city = member.city
-    state = member.state
-    zip_code = member.zip_code
-    month = int(member.birthday.split("/")[0])
-    day = int(member.birthday.split("/")[1])
-    year = int(member.birthday.split("/")[2])
-    gender = member.gender
-    invalid_first_name = False
-    invalid_last_name = False
-    invalid_phone1 = False
-    invalid_phone2 = False
-    invalid_phone3 = False
-    invalid_city = False
-    invalid_state = False
-    invalid_zip_code = False
-    invalid_month = False
-    invalid_day = False
-    invalid_year = False
-    invalid_gender = False
+    # Create dictionaries to hold the POST data and the invalid errors
+    data = { "first_name" : member.first_name, "last_name" : member.last_name, "phone1" : member.phone[0:3], "phone2" : member.phone[3:6], "phone3" : member.phone[6:10], "city" : member.city, "state" : member.state, "zip_code" : member.zip_code, "month" : int(member.birthday.split("/")[0]), "day" : int(member.birthday.split("/")[1]), "year" : int(member.birthday.split("/")[2]), "gender" : member.gender }
+    invalid = { "errors" : [] }
 
     if (request.POST):
-        # First name
+        # Get the POST data
         try:
-            first_name = request.POST["firstName"]
-            if (not first_name):
-                invalid_first_name = True
+            data["first_name"] = request.POST["firstName"]
+            data["last_name"] = request.POST["lastName"]
+            data["phone1"] = request.POST["phone1"]
+            data["phone2"] = request.POST["phone2"]
+            data["phone3"] = request.POST["phone3"]
+            data["city"] = request.POST["city"]
+            data["state"] = request.POST["state"]
+            data["zip_code"] = request.POST["zipCode"]
+            data["month"] = request.POST["month"]
+            data["day"] = request.POST["day"]
+            data["year"] = request.POST["year"]
+            data["gender"] = request.POST["gender"]
         except KeyError:
-            invalid_first_name = True
+            pass
 
-        # Last name
-        try:
-            last_name = request.POST["lastName"]
-            if (not last_name):
-                invalid_last_name = True
-        except KeyError:
-            invalid_last_name = True
+        # Validate the first name
+        if (not data["first_name"]):
+            invalid["first_name"] = True
+            invalid["errors"].append("First name not specified")
 
-        # Phone
-        try:
-            phone1 = request.POST["phone1"]
-            if (phone1 and len(phone1) != 3):
-                invalid_phone1 = True
-            for digit in phone1:
-                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                    invalid_phone1 = True
-        except KeyError:
-            invalid_phone1 = True
-        try:
-            phone2 = request.POST["phone2"]
-            if (phone2 and len(phone2) != 3):
-                invalid_phone2 = True
-            for digit in phone2:
-                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                    invalid_phone2 = True
-        except KeyError:
-            invalid_phone2 = True
-        try:
-            phone3 = request.POST["phone3"]
-            if (phone3 and len(phone3) != 4):
-                invalid_phone3 = True
-            for digit in phone3:
-                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                    invalid_phone3 = True
-        except KeyError:
-            invalid_phone3 = True
+        # Validate the last name
+        if (not data["last_name"]):
+            invalid["last_name"] = True
+            invalid["errors"].append("Last name not specified")
 
-        # City
-        try:
-            city = request.POST["city"]
-        except KeyError:
-            invalid_city = True
+        # Validate the phone number
+        if (data["phone1"]):
+            if (len(data["phone1"]) != 3):
+                invalid["phone1"] = True
+                invalid["errors"].append("Phone number section one must contain three digits")
+            elif ([x for x in data["phone1"] if x not in "0123456789"]):
+                invalid["phone1"] = True
+                invalid["errors"].append("Phone number section one can only contain digits")
 
-        # State
-        try:
-            state = request.POST["state"]
-            if (state and not city):
-                invalid_city = True
-            if (city and not state):
-                invalid_state = True
-        except KeyError:
-            invalid_state = True
-    
-        # Zip code
-        try:
-            zip_code = request.POST["zipCode"]
-            if (zip_code and len(zip_code) != 5):
-                invalid_zip_code = True
-            if (not zip_code and (city or state)):
-                invalid_zip_code = True
-            if (not city and (state or zip_code)):
-                invalid_city = True
-            if (not state and (city or zip_code)):
-                invalid_state = True
-            for digit in zip_code:
-                if digit not in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                    invalid_zip_code = True
-        except KeyError:
-            invalid_zip_code = True
+        if (data["phone2"]):
+            if (len(data["phone2"]) != 3):
+                invalid["phone2"] = True
+                invalid["errors"].append("Phone number section two must contain three digits")
+            elif ([x for x in data["phone2"] if x not in "0123456789"]):
+                invalid["phone2"] = True
+                invalid["errors"].append("Phone number section two can only contain digits")
+        
+        if (data["phone3"]):
+            if (len(data["phone3"]) != 4):
+                invalid["phone3"] = True
+                invalid["errors"].append("Phone number section three must contain four digits")
+            elif ([x for x in data["phone3"] if x not in "0123456789"]):
+                invalid["phone3"] = True
+                invalid["errors"].append("Phone number section three can only contain digits")
 
-        # Birthday
-        try:
-            month = request.POST["month"]
-            if (not month):
-                invalid_month = True
-            else:
-                month = int(month)
-        except KeyError:
-            invalid_month = True
-        try:
-            day = request.POST["day"]
-            if (not day):
-                invalid_day = True
-            else:
-                day = int(day)
-        except KeyError:
-            invalid_day = True
-        try:
-            year = request.POST["year"]
-            if (not year):
-                invalid_year = True
-            else:
-                year = int(year)
-        except KeyError:
-            invalid_year = True
+        if (data["phone1"] or data["phone2"] or data["phone3"]):
+            if (not data["phone1"]):
+                invalid["phone1"] = True
+                invalid["errors"].append("Phone number section one not specified")
+            if (not data["phone2"]):
+                invalid["phone2"] = True
+                invalid["errors"].append("Phone number section two not specified")
+            if (not data["phone3"]):
+                invalid["phone3"] = True
+                invalid["errors"].append("Phone number section three not specified")
 
-        # Gender
-        try:
-            gender = request.POST["gender"]
-            if ((gender != "Male") and (gender != "Female")):
-                invalid_gender = True
-        except KeyError:
-            invalid_gender = True
+        # Validate the address
+        if (data["city"] or data["state"] or data["zip_code"]):
+            if (not data["city"]):
+                invalid["city"] = True
+                invalid["errors"].append("City not specified")
+            if (not data["state"]):
+                invalid["state"] = True
+                invalid["errors"].append("State not specified")
+            if (not data["zip_code"]):
+                invalid["zip_code"] = True
+                invalid["errors"].append("Zip code not specified")
 
-        if ((not invalid_first_name) and (not invalid_last_name) and (not invalid_phone1) and (not invalid_phone2) and (not invalid_phone3) and (not invalid_city) and (not invalid_state) and (not invalid_zip_code) and (not invalid_month) and (not invalid_day) and (not invalid_year) and (not invalid_gender)):
-            phone = phone1 + phone2 + phone3
-            birthday = str(month) + "/" + str(day) + "/" + str(year)
-            member.update_profile_information(first_name, last_name, phone, city, state, zip_code, birthday, gender)
+        if (data["zip_code"]):
+            if (len(data["zip_code"]) != 5):
+                invalid["zip_code"] = True
+                invalid["errors"].append("Zip code must contain five digits")
+            elif ([x for x in data["zip_code"] if x not in "0123456789"]):
+                invalid["zip_code"] = True
+                invalid["errors"].append("Zip code can only contain digits")
+
+        # Validate the birthday month
+        if (not data["month"]):
+            data["month"] = 0
+            invalid["month"] = True
+            invalid["errors"].append("Birthday month not specified")
+        else:
+            data["month"] = int(data["month"])
+
+        # Validate the birthday day
+        if (not data["day"]):
+            data["day"] = 0
+            invalid["day"] = True
+            invalid["errors"].append("Birthday day not specified")
+        else:
+            data["day"] = int(data["day"])
+
+        # Validate the birthday year
+        if (not data["year"]):
+            data["year"] = 0
+            invalid["year"] = True
+            invalid["errors"].append("Birthday year not specified")
+        else:
+            data["year"] = int(data["year"])
+
+        # Validate the member is at least sixteen years old
+        if (("month" not in invalid) and ("day" not in invalid) and ("year" not in invalid)):
+            if (not is_sixteen(data["month"], data["day"], data["year"])):
+                invalid["month"] = True
+                invalid["day"] = True
+                invalid["year"] = True
+                invalid["errors"].append("You must be at least sixteen years old to use Inkle")
+
+        # Validate the gender
+        if (data["gender"] not in ["Male", "Female"]):
+            invalid["gender"] = True
+            invalid["errors"].append("Gender not specified")
+
+        # If there are no errors, update the logged in member's profile information
+        if (not invalid["errors"]):
+            phone = data["phone1"] + data["phone2"] + data["phone3"]
+            birthday = str(data["month"]) + "/" + str(data["day"]) + "/" + str(data["year"])
+            member.update_profile_information(data["first_name"], data["last_name"], phone, data["city"], data["state"], data["zip_code"], birthday, data["gender"])
             member.save()
             return HttpResponse()
 
     return render_to_response( "editProfileInformation.html",
-        { "firstName" : first_name, "invalidFirstName" : invalid_first_name, "lastName" : last_name, "invalidLastName" : invalid_last_name, "phone1" : phone1, "invalidPhone1" : invalid_phone1, "phone2" : phone2, "invalidPhone2" : invalid_phone2, "phone3" : phone3, "invalidPhone3" : invalid_phone3, "city" : city, "invalidCity" : invalid_city, "state" : state, "invalidState" : invalid_state, "zipCode" : zip_code, "invalidZipCode" : invalid_zip_code, "month" : month, "invalidMonth" : invalid_month, "day" : day, "invalidDay" : invalid_day, "year" : year, "invalidYear" : invalid_year, "gender" : gender, "invalidGender" : invalid_gender },
+        { "data" : data, "invalid" : invalid },
         context_instance = RequestContext(request) )
 
 def get_new_profile_picture_view(request):
