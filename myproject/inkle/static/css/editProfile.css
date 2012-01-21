@@ -1,3 +1,12 @@
+.errors
+{
+    border: solid 2px #CD1A26;
+    padding: 5px 10px 5px 10px;
+    background-color: #E5736F;
+    margin-bottom: 10px;
+    width: 400px;
+}
+
 table tr
 {
     height: 30px;
