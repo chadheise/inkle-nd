@@ -1,13 +1,22 @@
-<div id="deactivateAccountContainer">
+<div id="deactivateAccountContent">
     <!-- Deactivate account message -->
-    <p style="margin-bottom: 15px;">Confirm your password and click the button below the deactivate your account.</p>
+    <p style="margin-bottom: 15px;">Confirm your password and click the button below the deactivate your account. Note that this is permanent!</p>
+
+    <!--  Errors -->
+    {% if invalid.errors %}
+        <div class="errors">
+            {% for error in invalid.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <!-- Deactivate account form -->
     <table id="deactivateAccountForm">
         <!-- Old password -->
         <tr>
             <th><label for="password">Password:</label></th>
-            <td><input id="password" {% if invalidPassword %}class="invalid"{% endif %} type="password" maxlength="100" value="{{ password }}" /></td>
+            <td><input id="password" {% if invalid.password %}class="invalid"{% endif %} type="password" maxlength="100" value="{{ data.password }}" /></td>
         </tr>
     </table>
 
@@ -15,7 +24,7 @@
     <button id="deactivateAccountButton">Deactivate Account</button>
 </div>
 
-<div id="confirmDeactivateAccountContainer">
+<div id="confirmDeactivateAccountContent">
     <!-- Confirm deactivate account message -->
     <p style="margin-bottom: 15px;">Are you sure you want to deactivate your account?</p>
     <p>Note that this is permanent! If you click the button below, you will be logged out immediately and you will never be able to log back in.</p>
@@ -24,7 +33,7 @@
     <button id="confirmDeactivateAccountButton">Deactivate Account</button>
 </div>
 
-<div id="accountDeactivatedContainer">
+<div id="deactivateAccountConfirmation">
     <!-- Confirm deactivate account message -->
     <p>Your account has been deactivated.</p>
 </div>

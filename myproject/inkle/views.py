@@ -153,7 +153,7 @@ def reset_account_password_view(request):
             return HttpResponse()
 
     return render_to_response( "resetAccountPassword.html",
-        { "member" : member, "data" : data, "invalid" : invalid },
+        { "data" : data, "invalid" : invalid },
         context_instance = RequestContext(request) )
 
 
@@ -224,7 +224,7 @@ def update_account_email_view(request):
             return HttpResponse()
 
     return render_to_response( "updateAccountEmail.html",
-        { "member" : member, "data" : data, "invalid" : invalid },
+        { "data" : data, "invalid" : invalid },
         context_instance = RequestContext(request) )
 
 
@@ -235,33 +235,41 @@ def deactivate_account_view(request):
     except:
         raise Http404()
 
-    invalid_password = False
-    password = ""
+    # Create dictionaries to hold the POST data and the invalid errors
+    data = { "password" : "" }
+    invalid = { "errors" : [] }
 
     if (request.POST):
         # Get the POST data
         try:
-            password = request.POST["password"]
+            data["password"] = request.POST["password"]
         except KeyError:
             invalid_password = True
 
-        # Make sure the current password is correct
-        if (not member.check_password(password)):
-            invalid_password = True
-       
-        if (not invalid_password):
+        # Validate the password
+        if (not data["password"]):
+            invalid["password"] = True
+            invalid["errors"].append("Password not specified")
+
+        elif (not member.check_password(data["password"])):
+            invalid["password"] = True
+            invalid["errors"].append("Password is incorrect")
+
+        # If the password is correct, deactivate the logged in member's account
+        if (not invalid["errors"]):
+            # If the deactivate flag is set, deactivate the logged in member's account
             try:
-                deactivate = request.POST["deactivate"]
-                if (deactivate):
+                if (request.POST["deactivate"]):
                     member.is_active = False
                     member.save()
-                    # TODO: remove member from all other member's circles/followers/following/etc
                     return HttpResponse()
+
+            # Otherwise, do nothing
             except KeyError:
                 return HttpResponse()
 
     return render_to_response( "deactivateAccount.html",
-        { "member" : member, "password" : password, "invalidPassword" : invalid_password },
+        { "data" : data, "invalid" : invalid },
         context_instance = RequestContext(request) )
 
 
