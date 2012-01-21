@@ -764,16 +764,22 @@ def suggestions_view(request):
         # Get the location suggestions (and add them to the categories list if there are any)
         locations = locations_search_query(query)[0:5]
         if (locations):
+            locations.suggestionType = "locations"
             categories.append((locations,))
         
         # Set the number of characters to show for each suggestion
-        num_chars = 15
+        num_chars = 17
+
+        return render_to_response( "inklingSuggestions.html",
+            { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
+            context_instance = RequestContext(request) )
        
     # Case 2: Member, location, and sphere suggestions for the main header search
     elif (query_type == "search"):
         # Get the member suggestions (and add them to the categories list if there are any)
         members = members_search_query(query)[0:5]
         if (members):
+            members.suggestionType = "members"
             for m in members:
                 m.name = m.first_name + " " + m.last_name
             categories.append((members, "People"))
@@ -786,6 +792,7 @@ def suggestions_view(request):
         # Get the sphere suggestions (and add them to the categories list if there are any)
         spheres = Sphere.objects.filter(Q(name__contains = query))[0:5]
         if (spheres):
+            spheres.suggestionType = "spheres"
             categories.append((spheres, "Spheres"))
 
         # Set the number of characters to show for each suggestion
