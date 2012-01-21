@@ -123,3 +123,32 @@ select, select option
     color: #288D42;
     text-decoration: none;
 }
+
+#calendar {
+    margin-top: 50px;
+}
+
+.calendarArrow {
+    cursor: pointer;
+    background-color: #ABD4B0;
+    height: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.calendarArrow:hover {
+    background-color: #288D42;
+}
+
+#calendarArrowUp {
+    border-radius: 7px 7px 0px 0px;
+}
+
+#calendarArrowDown {
+    border-radius: 0px 0px 7px 7px;
+}
+
+.calendarArrowImg {
+    height: 15px;
+}

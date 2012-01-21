@@ -15,7 +15,11 @@
 {% block mainContent %}
     <div id="mainContent" class="container_24">
         <!-- Calendar -->
-        <div class="grid_3">
+        <div id="calendar" class="grid_3">
+            <!-- Up button -->
+            <div id="calendarArrowUp" class="grid_3 calendarArrow">
+                <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/upArrow.png" />
+            </div>
             <div class="grid_3">
                 <div id="today" class="dateContainer selectedDateContainer" date="{{ today|date:"j" }}" month="{{ today|date:"n" }}" year="{{ today|date:"Y" }}">
                     <p class="weekday">{{ today|date:"l" }}</p>
@@ -36,6 +40,10 @@
                     <p class="date">{{ dayAfterTomorrow|date:"j" }}</p>
                     <p class="month">{{ dayAfterTomorrow|date:"F" }}</p>
                 </div>
+            </div>
+            <!-- Down button -->
+            <div id="calendarArrowDown" class="grid_3 calendarArrow">
+                <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
             </div>
         </div>
 
