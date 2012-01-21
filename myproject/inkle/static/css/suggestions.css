@@ -17,6 +17,17 @@
     padding: 5px;
 }
 
+.inklingSuggestions .suggestion p
+{
+    margin-top: -5px;
+}
+
+.inklingSuggestions .suggestion .cityState
+{
+    margin-top: -15px;
+    font-size: 12px;
+}
+
 .suggestionCategory p
 {
     margin-top: -3px;

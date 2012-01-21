@@ -1,0 +1,16 @@
+{% load truncate_characters from extraTags %}
+
+{% for category, categoryTitle in categories %}
+    {% for suggestion in category %}
+        <div class="suggestion" suggestionID="{{ suggestion.id }}">
+            <img src="{{ STATIC_URL }}/media/images/{{ category.suggestionType }}/{{ suggestion.id }}.jpg" />
+            <div>
+                <p>{{ suggestion.name|truncate_characters:numChars }}</p>
+                <p class="cityState">{{ suggestion.city }}, {{ suggestion.state }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% empty %}
+    <!-- No suggestions -->
+    <div id="noSuggestions">No results</div>
+{% endfor %}

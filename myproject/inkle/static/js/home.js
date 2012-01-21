@@ -114,7 +114,6 @@ $(document).ready(function() {
         }
     });
     
-    /* Updates either my inklings or others' inklings when their content link is clicked */
     $("#inklingsContentLinks p").click(function() {
         // Only update the content if the content link that is clicked is not the currently selected content link
         if (!$(this).hasClass("selectedContentLink"))
@@ -148,37 +147,6 @@ $(document).ready(function() {
         
         // Update others' inklings for the selected date
         updateOthersInklings(date);
-    });
-   
-    /* Updates the inkling suggestions when a key is pressed in an inkling input */
-    $(".inkling input").live("keyup", function(e) {
-        // Store the suggestions element
-        var suggestionsElement = $(this).parent().next();
-        
-        // If the value of the of the inkling input is not empty, show/update the suggestions
-        var query = $(this).val();
-        if (query != "")
-        {
-            $.ajax({
-                type: "POST",
-                url: "/suggestions/",
-                data: {"type" : "inkling", "query" : query},
-                success: function(html) {
-                    // Update the HTML of the suggestions element
-                    suggestionsElement.html(html);
-
-                    // Fade in the suggestions element
-                    suggestionsElement.fadeIn("medium");
-                },
-                error: function(a, b, error) { alert("home.js (2): " + error); }
-            });
-        }
-
-        // If the query is empty, fade out the suggestions
-        else
-        {
-            suggestionsElement.fadeOut("medium");
-        }
     });
    
     /* Remove the inkling when it's input is empty and it loses focus */
@@ -255,5 +223,100 @@ $(document).ready(function() {
             },
             error: function(a, b, error) { alert("home.js (4): " + error); }
         });
+    });
+
+    $(".inklingSuggestions .suggestion").live("hover", function() {
+        // If there is a selected item, remove it
+        if ($(".selectedSuggestion").length != 0)
+        {
+            $(".selectedSuggestion").removeClass("selectedSuggestion");
+        }
+
+        // Set the suggestion which was hovered over as selected
+        $(this).addClass("selectedSuggestion");
+    });
+
+    $(".inkling input").live("keyup", function(e) {
+        // Store the suggestions element
+        var suggestionsElement = $(this).parent().next();
+
+        // Get the current search query and strip its whitespace
+        var query = $(this).val().replace(/^\s+|\s+$/g, "");
+
+        // Make sure the search query is not empty
+        if (query != "")
+        {
+            // If the "Enter" button is pressed, redirect to the search page or trigger the selected item's click event
+            if ((e.keyCode == 10) || (e.keyCode == 13))
+            {
+                // Otherwise, trigger the selected item's click event
+                if ($(".selectedSuggestion").length != 0)
+                {
+                    $(".selectedSuggestion").trigger("click");
+                }
+            }
+
+            // If the up arrow key is pressed, scroll through the suggestions
+            else if (e.keyCode == 38)
+            {
+                // If there is no selected suggestion, set the last suggestion as selected
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    $(".suggestion:last").addClass("selectedSuggestion");
+                }
+
+                // Otherwise, set the previous suggestion as selected
+                else
+                {
+                    var selectedSuggestionElement = $(".selectedSuggestion");
+                    var nextSuggestionElement = selectedSuggestionElement.prev();
+                    selectedSuggestionElement.removeClass("selectedSuggestion");
+                    nextSuggestionElement.addClass("selectedSuggestion");
+                }
+            }
+       
+            // If the down arrow key is pressed, scroll through the suggestions
+            else if (e.keyCode == 40)
+            {
+                // If there is no selected suggestion, set the first suggestion as selected
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    $(".suggestion:first").addClass("selectedSuggestion");
+                }
+
+                // Otherwise, set the next suggestion as selected
+                else
+                {
+                    var selectedSuggestionElement = $(".selectedSuggestion");
+                    var nextSuggestionElement = selectedSuggestionElement.next();
+                    selectedSuggestionElement.removeClass("selectedSuggestion");
+                    nextSuggestionElement.addClass("selectedSuggestion");
+                }
+            }
+
+            // Otherwise, if the left or right arrow keys are not pressed, update the search suggestions
+            else if ((e.keyCode != 37) && (e.keyCode != 39))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "/suggestions/",
+                    data: {"type" : "inkling", "query" : query},
+                    success: function(html) {
+                        // Update the HTML of the suggestions element
+                        suggestionsElement.html(html);
+
+                        // Fade in the suggestions element
+                        suggestionsElement.fadeIn("medium");
+                    },
+                    error: function(a, b, error) { alert("home.js (2): " + error); }
+                });
+            }
+        }
+
+        // If the search query is empty, fade out the inkling suggestions
+        else
+        {
+            $(".inklingSuggestions").fadeOut("medium");
+        }
     });
 });
