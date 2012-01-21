@@ -93,58 +93,67 @@ def account_view(request, content_type = "password"):
 
 
 def reset_account_password_view(request):
+    """Resets the logged in member's password."""
     # Get the member who is logged in (or raise a 404 error)
     try:
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         raise Http404()
    
-    # Initialize variables
-    invalid_current_password = False
-    invalid_new_password = False
-    invalid_confirm_new_password = False
-    current_password = ""
-    new_password = ""
-    confirm_new_password = ""
+    # Create dictionaries to hold the POST data and the invalid errors
+    data = { "current_password" : "", "new_password" : "", "confirm_new_password" : "" }
+    invalid = { "errors" : [] }
 
-    # If there is POST data, validate it
+    # Validate the POST data, if there is any
     if (request.POST):
         # Get the POST data
         try:
-            current_password = request.POST["currentPassword"]
+            data["current_password"] = request.POST["currentPassword"]
+            data["new_password"] = request.POST["newPassword"]
+            data["confirm_new_password"] = request.POST["confirmNewPassword"]
         except KeyError:
-            invalid_current_password = True
-        try:
-            new_password = request.POST["newPassword"]
-        except KeyError:
-            invalid_new_password = True
-        try:
-            confirm_new_password = request.POST["confirmNewPassword"]
-        except KeyError:
-            invalid_confirm_new_password = True
-        
-        # Make sure the current password is correct
-        if (not member.check_password(current_password)):
-            invalid_current_password = True
-        
-        # Make sure new password and confirm new password are long enough
-        if (len(new_password) < 8):
-            invalid_new_password = True
-        if (len(confirm_new_password) < 8):
-            invalid_confirm_new_password = True
+            pass
 
-        # Make sure the new and confirm new passwords match
-        if (new_password != confirm_new_password):
-            invalid_confirm_new_password = True
+        # Validate the current password
+        if (not data["current_password"]):
+            invalid["current_password"] = True
+            invalid["errors"].append("Current password not specified")
 
+        elif (not member.check_password(data["current_password"])):
+            invalid["current_password"] = True
+            invalid["errors"].append("Current password is incorrect")
+
+        # Validate the new password and confirm new password
+        if ((not data["new_password"]) and (not data["confirm_new_password"])):
+            invalid["new_password"] = True
+            invalid["confirm_new_password"] = True
+            data["new_password"] = ""
+            data["confirm_new_password"] = ""
+            invalid["errors"].append("New password not specified")
+            invalid["errors"].append("Confirm new password not specified")
+
+        elif (len(data["new_password"]) < 8):
+            invalid["new_password"] = True
+            invalid["confirm_new_password"] = True
+            data["new_password"] = ""
+            data["confirm_new_password"] = ""
+            invalid["errors"].append("New password must contain at least eight characters")
+
+        elif (data["new_password"] != data["confirm_new_password"]):
+            invalid["new_password"] = True
+            invalid["confirm_new_password"] = True
+            data["new_password"] = ""
+            data["confirm_new_password"] = ""
+            invalid["errors"].append("New password and confirm new password do not match")
+        
         # If all the POST data is valid, reset the logged in member's password
-        if (not invalid_current_password and not invalid_new_password and not invalid_confirm_new_password):
-            member.set_password(new_password)
+        if (not invalid["errors"]):
+            member.set_password(data["new_password"])
             member.save()
             return HttpResponse()
 
     return render_to_response( "resetAccountPassword.html",
-        { "member" : member, "currentPassword" : current_password, "invalidCurrentPassword" : invalid_current_password, "newPassword" : new_password, "invalidNewPassword" : invalid_new_password, "confirmNewPassword" : confirm_new_password, "invalidConfirmNewPassword" : invalid_confirm_new_password },
+        { "member" : member, "data" : data, "invalid" : invalid },
         context_instance = RequestContext(request) )
 
 
@@ -154,68 +163,68 @@ def update_account_email_view(request):
         member = Member.objects.get(pk = request.session["member_id"])
     except:
         raise Http404()
-    # Initialize variables
 
-    invalid_current_password = False
-    invalid_new_email = False
-    invalid_confirm_new_email = False
-    current_password = ""
-    new_email = ""
-    confirm_new_email = ""
+    # Create dictionaries to hold the POST data and the invalid errors
+    data = { "current_password" : "", "new_email" : "", "confirm_new_email" : "" }
+    invalid = { "errors" : [] }
 
     # If there is POST data, validate it
     if (request.POST):
         # Get the POST data
         try:
-            current_password = request.POST["currentPassword"]
-        except KeyError:
-            invalid_current_password = True
-        try:
-            new_email = request.POST["newEmail"]
-        except KeyError:
-            invalid_new_email = True
-        try:
-            confirm_new_email = request.POST["confirmNewEmail"]
+            data["current_password"] = request.POST["currentPassword"]
+            data["new_email"] = request.POST["newEmail"]
+            data["confirm_new_email"] = request.POST["confirmNewEmail"]
         except KeyError:
             invalid_confirm_new_email = True
         
-        # Make sure the current password is correct
-        if (not member.check_password(current_password)):
-            invalid_current_password = True
-        
-        # Make sure the provided emails are valid email addresses
-        if (not is_email(new_email)):
-            invalid_new_email = True
-        if (not is_email(confirm_new_email)):
-            invalid_confirm_new_email = True
+        # Validate the current password
+        if (not data["current_password"]):
+            invalid["current_password"] = True
+            invalid["errors"].append("Current password not specified")
 
-        # Make sure the new and confirm new emails match
-        if (new_email != confirm_new_email):
-            invalid_confirm_new_email = True
+        elif (not member.check_password(data["current_password"])):
+            invalid["current_password"] = True
+            invalid["errors"].append("Current password is incorrect")
 
-        # Make sure the email has changed
-        if (new_email == member.email):
-            invalid_new_email = True
-            invalid_confirm_new_email = True
+        # Validate the new email
+        if (not data["new_email"]):
+            invalid["new_email"] = True
+            invalid["errors"].append("New email not specified")
 
-        # Make sure the new email is not already taken by another user
-        try:
-            other_member = Member.objects.get(username = new_email)
-            invalid_new_email = True
-            invalid_confirm_new_email = True
-        except Member.DoesNotExist:
-            pass
+        elif (not is_email(data["new_email"])):
+            invalid["new_email"] = True
+            invalid["errors"].append("Invalid new email format")
 
-        # If all the POST data is valid, reset the logged in member's password
-        if (not invalid_current_password and not invalid_new_email and not invalid_confirm_new_email):
-            member.email = new_email
-            member.username = new_email
+        elif (Member.objects.filter(username = data["new_email"])):
+            invalid["new_email"] = True
+            invalid["confirm_new_email"] = True
+            invalid["errors"].append("An account already exists for the provided new email")
+
+        # Validate the confirm new email
+        if (not data["confirm_new_email"]):
+            invalid["confirm_new_email"] = True
+            invalid["errors"].append("Confirm new email not specified")
+
+        elif (not is_email(data["confirm_new_email"])):
+            invalid["confirm_new_email"] = True
+            invalid["errors"].append("Invalid confirm new email format")
+
+        elif (data["new_email"] != data["confirm_new_email"]):
+            invalid["new_email"] = True
+            invalid["confirm_new_email"] = True
+            invalid["errors"].append("New email and confirm new email do not match")
+
+        # If all the POST data is valid, update the logged in member's email
+        if (not invalid["errors"]):
+            member.email = data["new_email"]
+            member.username = data["new_email"]
             member.verified = False
             member.save()
             return HttpResponse()
 
     return render_to_response( "updateAccountEmail.html",
-        { "member" : member, "currentPassword" : current_password, "invalidCurrentPassword" : invalid_current_password, "newEmail" : new_email, "invalidNewEmail" : invalid_new_email, "confirmNewEmail" : confirm_new_email, "invalidConfirmNewEmail" : invalid_confirm_new_email },
+        { "member" : member, "data" : data, "invalid" : invalid },
         context_instance = RequestContext(request) )
 
 

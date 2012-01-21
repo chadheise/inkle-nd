@@ -103,11 +103,6 @@ table td .invalid
     cursor: pointer;
 }
 
-.loginMessage, .registrationMessage
-{
-    text-align: justify;
-}
-
 .boldFont
 {
     font-weight: bold;
