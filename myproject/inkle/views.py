@@ -516,8 +516,8 @@ def location_view(request, location_id = None):
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     
-    # Get the people who the logged in member is following
-    following = member.following.all()
+    # Get the people whom the logged in member is following
+    following = member.following.filter(is_active = True)
 
     # Get all of the specified date's inklings at the provided location
     location_inklings = Inkling.objects.filter(date = date, location = location)
@@ -530,7 +530,7 @@ def location_view(request, location_id = None):
         member.num_dinner_others = len(all_dinner_members) - len(member.dinner_members)
         for m in member.dinner_members:
             m.show_contact_info = True
-            m.mutual_followings = member.following.all() & m.following.all()
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
             m.button_list = [buttonDictionary["circles"]]
     except Inkling.DoesNotExist:
         member.dinner_members = []
@@ -544,7 +544,7 @@ def location_view(request, location_id = None):
         member.num_pregame_others = len(all_pregame_members) - len(member.pregame_members)
         for m in member.pregame_members:
             m.show_contact_info = True
-            m.mutual_followings = member.following.all() & m.following.all()
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
             m.button_list = [buttonDictionary["circles"]]
     except Inkling.DoesNotExist:
         member.pregame_members = []
@@ -558,7 +558,7 @@ def location_view(request, location_id = None):
         member.num_main_event_others = len(all_main_event_members) - len(member.main_event_members)
         for m in member.main_event_members:
             m.show_contact_info = True
-            m.mutual_followings = member.following.all() & m.following.all()
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
             m.button_list = [buttonDictionary["circles"]]
     except Inkling.DoesNotExist:
         member.main_event_members = []
@@ -681,7 +681,7 @@ def search_view(request, query = ""):
     # Determine each member's people type and button list
     for m in members:
         # Case 1: The logged in member is following and is being followed by the current member
-        if ((m in member.following.all()) and (member in m.following.all())):
+        if ((m in member.following.filter(is_active = True)) and (member in m.following.filter(is_active = True))):
             m.people_type = "following follower"
             member.num_following += 1
             member.num_followers += 1
@@ -690,7 +690,7 @@ def search_view(request, query = ""):
             m.button_list = [buttonDictionary["circles"]]
 
         # Case 2: The logged member is following the current member
-        elif (m in member.following.all()):
+        elif (m in member.following.filter(is_active = True)):
             m.people_type = "following"
             member.num_following += 1
             m.show_contact_info = True
@@ -698,7 +698,7 @@ def search_view(request, query = ""):
             m.button_list = [buttonDictionary["circles"]]
 
         # Case 3: The logged member is being followed by the current member
-        elif (member in m.following.all()):
+        elif (member in m.following.filter(is_active = True)):
             m.people_type = "follower"
             member.num_followers += 1
             m.show_contact_info = False
@@ -720,7 +720,7 @@ def search_view(request, query = ""):
                 m.button_list = [buttonDictionary["request"]]
 
         # Determine the members who are being followed by both the logged in member and the current member
-        m.mutual_followings = member.following.all() & m.following.all()
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
     # Get the locations which match the search query
     locations = Location.objects.filter(Q(name__contains = query))
@@ -812,7 +812,7 @@ def suggestions_view(request):
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
         members = members_search_query(query)
-        members = list(set(members) - set(circle.members.all()))[0:5]
+        members = list(set(members) - set(circle.members.filter(is_active = True)))[0:5]
         if (members):
             for m in members:
                 m.name = m.first_name + " " + m.last_name
@@ -839,9 +839,9 @@ def requests_view(request):
     
     # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in requested_members:
-        m.mutual_followings = member.following.all() & m.following.all()
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
-        if (m in member.following.all()):
+        if (m in member.following.filter(is_active = True)):
             m.show_contact_info = True
         else:
             m.show_contact_info = False
@@ -851,7 +851,7 @@ def requests_view(request):
 
     # For each pending member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in pending_members:
-        m.mutual_followings = member.following.all() & m.following.all()
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         m.button_list = [buttonDictionary["revoke"]]
         m.show_contact_info = False
 
@@ -880,13 +880,13 @@ def followers_view(request, other_member_id = None):
             raise Http404()
 
         # Get the members who are following the member whose page we are on and set the appropriate page context and no followers text
-        members = other_member.followers.all()
+        members = other_member.followers.filter(is_active = True)
         page_context = "otherFollowers"
         no_followers_text = other_member.first_name + " " + other_member.last_name
 
     # Otherwise, get the members who are following the logged in member and set the appropriate page context and no followers text
     else:
-        members = member.followers.all()
+        members = member.followers.filter(is_active = True)
         page_context = "myFollowers"
         no_followers_text = "you"
 
@@ -903,7 +903,7 @@ def followers_view(request, other_member_id = None):
             m.show_contact_info = False
 
         # Case 3: The logged in member is following the current member
-        elif (m in member.following.all()):
+        elif (m in member.following.filter(is_active = True)):
             m.button_list = [buttonDictionary["prevent"], buttonDictionary["circles"]]
             m.show_contact_info = True
 
@@ -913,7 +913,7 @@ def followers_view(request, other_member_id = None):
             m.show_contact_info = False
             
         # Determine the members who are being followed by both the logged in member and the current member
-        m.mutual_followings = member.following.all() & m.following.all()
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
     return render_to_response( "followers.html",
         { "member" : member, "members" : members, "pageContext" : page_context, "noFollowersText" : no_followers_text },
@@ -938,7 +938,7 @@ def following_view(request, other_member_id = None):
         raise Http404()
 
     # Get the members whom the other member is following
-    members = [m for m in other_member.following.all()]
+    members = [m for m in other_member.following.filter(is_active = True)]
 
     # Get the necessary information for each member's member card
     for m in members:
@@ -953,7 +953,7 @@ def following_view(request, other_member_id = None):
             m.show_contact_info = False
 
         # Case 3: The logged in member is following the current member
-        elif (m in member.following.all()):
+        elif (m in member.following.filter(is_active = True)):
             m.button_list = [buttonDictionary["prevent"], buttonDictionary["circles"]]
             m.show_contact_info = True
 
@@ -963,7 +963,7 @@ def following_view(request, other_member_id = None):
             m.show_contact_info = False
             
         # Determine the members who are being followed by both the logged in member and the current member
-        m.mutual_followings = member.following.all() & m.following.all()
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
     return render_to_response( "following.html",
         { "member" : member, "otherMember" : other_member, "members" : members },
@@ -981,10 +981,10 @@ def circles_view(request, circle_id = None):
     # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
     try:
         circle = Circle.objects.get(pk = circle_id)
-        members = circle.members.all()
+        members = circle.members.filter(is_active = True)
     except Circle.DoesNotExist:
         circle = None
-        members = member.accepted.all()
+        members = member.accepted.filter(is_active = True)
 
     # Get the necessary information for each member's member card
     for m in members:
@@ -995,7 +995,7 @@ def circles_view(request, circle_id = None):
         m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
 
         # Determine the members who are being followed by both the logged in member and the current member
-        m.mutual_followings = member.following.all() & m.following.all()
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
     # If a circle ID is specified, return only the circle content (otherwise, return the entire HTML for the circles page)
     try:
@@ -1096,15 +1096,15 @@ def get_others_inklings_view(request):
 
 def get_others_inklings(member, date, people_type, people_id, inkling_type):
     if (people_type == "other"):
-        people = member.following.all()
+        people = member.following.filter(is_active = True)
 
     elif (people_type == "sphere"):
         sphere = Sphere.objects.get(pk = people_id)
-        people = sphere.member_set.all()
+        people = sphere.member_set.filter(is_active = True)
     
     elif (people_type == "circle"):
         circle = Circle.objects.get(pk = people_id)
-        people = circle.members.all()
+        people = circle.members.filter(is_active = True)
 
     locations = []
     for p in people:
