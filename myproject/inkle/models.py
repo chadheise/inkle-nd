@@ -69,6 +69,12 @@ class Inkling(models.Model):
         return "%s (%s, %s)" % (self.location.name, self.date, self.category)
 
 
+class ActiveMemberManager(models.Manager):
+    """Manager which returns active member objects."""
+    def get_query_set(self):
+        return Member.objects.filter(is_active = True)
+
+
 class Member(User):
     """Member class definition. Inherits from built-in Django User class."""
     circles = models.ManyToManyField(Circle)
@@ -103,6 +109,10 @@ class Member(User):
     followings_privacy = models.IntegerField(max_length = 1, default = 2)
     spheres_privacy = models.IntegerField(max_length = 1, default = 0)
     inklings_privacy = models.IntegerField(max_length = 1, default = 2)
+
+    # Custom manager
+    objects = models.Manager()
+    active = ActiveMemberManager()
 
     # Note: inherits from built-in Django User class which contains:
     #       id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
