@@ -21,6 +21,8 @@ urlpatterns = patterns(
     (r"^sendRequestToFollowEmail/(?P<to_member_id>\w+)/$", "send_request_to_follow_email_view"),
     (r"^sendAcceptRequestEmail/(?P<from_member_id>\w+)/$", "send_accept_request_email_view"),
     
+    (r"^dateSelect/$", "date_selected_view"),
+    
     (r"^resetPassword/(?P<email>.+)/(?P<verification_hash>\w+)/$", "reset_password_view"),
     (r"^resetPassword/$", "set_password_view"),
     (r"^logout/$", "logout_view"),

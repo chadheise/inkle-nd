@@ -29,16 +29,15 @@ def home_view(request):
     # Get date objects for today, tomorrow, and the day after tomorrow 
     today = datetime.date.today()
     tomorrow = today + datetime.timedelta(days = 1)
-    day_after_tomorrow = today + datetime.timedelta(days = 2)
+    yesterday = today - datetime.timedelta(days = 1)
 
     # Get others' dinner inklings for today
     date = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
     locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
     return render_to_response( "home.html",
-        { "member" : member, "locations" : locations, "today" : today, "tomorrow" : tomorrow, "dayAfterTomorrow" : day_after_tomorrow },
+        { "member" : member, "locations" : locations, "date1" : yesterday, "date2" : today, "date3" : tomorrow },
         context_instance = RequestContext(request) )
-
 
 def manage_view(request, content_type = "circles"):
     """Returns the HTML for the manage page."""
