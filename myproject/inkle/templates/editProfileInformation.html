@@ -4,44 +4,53 @@
     <!-- Edit profile information message -->
     <p style="margin-bottom: 15px;">Edit your profile information using the form below.</p>
 
+    <!--  Errors -->
+    {% if invalid.errors %}
+        <div class="errors">
+            {% for error in invalid.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <!-- Edit profile information form -->
     <table id="editProfileInformationForm">
         <!-- First name -->
         <tr>
             <th><label for="firstName">First name:</label></th>
-            <td><input id="firstName" {% if invalidFirstName %}class="invalid"{% endif %} maxlength="30" value="{{ firstName }}" /></td>
+            <td><input id="firstName" {% if invalid.first_name %}class="invalid"{% endif %} maxlength="30" value="{{ data.first_name }}" /></td>
         </tr>
 
         <!-- Last name -->
         <tr>
             <th><label for="lastName">Last name:</label></th>
-            <td><input id="lastName" {% if invalidLastName %}class="invalid"{% endif %} maxlength="30" value="{{ lastName }}" /></td>
+            <td><input id="lastName" {% if invalid.last_name %}class="invalid"{% endif %} maxlength="30" value="{{ data.last_name }}" /></td>
         </tr>
 
         <!-- Phone -->
         <tr>
             <th><label for="phone1">Phone:</label></th>
             <td>
-                (<input id="phone1" class="phoneInput {% if invalidPhone1 %}invalid{% endif %}" maxlength="3" value="{{ phone1 }}" />) 
-                <input id="phone2" class="phoneInput {% if invalidPhone2 %}invalid{% endif %}" maxlength="3" value="{{ phone2 }}" /> - 
-                <input id="phone3" class="phoneInput {% if invalidPhone3 %}invalid{% endif %}" maxlength="4" value="{{ phone3 }}" />
+                (<input id="phone1" class="phoneInput {% if invalid.phone1 %}invalid{% endif %}" maxlength="3" value="{{ data.phone1 }}" />) 
+                <input id="phone2" class="phoneInput {% if invalid.phone2 %}invalid{% endif %}" maxlength="3" value="{{ data.phone2 }}" /> - 
+                <input id="phone3" class="phoneInput {% if invalid.phone3 %}invalid{% endif %}" maxlength="4" value="{{ data.phone3 }}" />
             </td>
         </tr>
 
         <!-- City -->
         <tr>
             <th><label for="city">City:</label></th>
-            <td><input id="city" {% if invalidCity %}class="invalid"{% endif %} maxlength="50" value="{{ city }}" /></td>
+            <td><input id="city" {% if invalid.city %}class="invalid"{% endif %} maxlength="50" value="{{ data.city }}" /></td>
         </tr>
 
         <!-- State -->
         <tr>
             <th><label for="state">State:</label></th>
             <td>
-                <select id="state" {% if invalidState %}class="invalid"{% endif %}>
-                    <option value="" {% if state == "" %}selected="selected"{% endif %}>State</option>
-                    {% for s, abbreviation in null|states %}
-                        <option value="{{ abbreviation }}" {% if state == abbreviation %}selected="selected"{% endif %}>{{ s }} ({{ abbreviation }})</option>
+                <select id="state" {% if invalid.state %}class="invalid"{% endif %}>
+                    <option value="" {% if data.state == "" %}selected="selected"{% endif %}>State</option>
+                    {% for state, abbreviation in null|states %}
+                        <option value="{{ abbreviation }}" {% if data.state == abbreviation %}selected="selected"{% endif %}>{{ state }} ({{ abbreviation }})</option>
                     {% endfor %}
                 </select>
             </td>
@@ -50,7 +59,7 @@
         <!-- Zip code -->
         <tr>
             <th><label for="zipCode">Zip code:</label></th>
-            <td><input id="zipCode" {% if invalidZipCode %}class="invalid"{% endif %} maxlength="5" value="{{ zipCode }}" /></td>
+            <td><input id="zipCode" {% if invalid.zip_code %}class="invalid"{% endif %} maxlength="5" value="{{ data.zip_code }}" /></td>
         </tr>
 
         <!-- Birthday -->
@@ -58,26 +67,26 @@
             <th><label for="month">Birthday:</label></th>
             <td>
                 <!-- Birthday month -->
-                <select id="month" class="birthdaySelect {% if invalidMonth %}invalid{% endif %}">
-                    <option value="" {% if not month %}selected{% endif %}>Month</option>
-                    {% for m, abbreviation in null|months %}
-                        <option value="{{ forloop.counter }}" {% if month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
+                <select id="month" class="birthdaySelect {% if invalid.month %}invalid{% endif %}">
+                    <option value="" {% if not data.month %}selected{% endif %}>Month</option>
+                    {% for month, abbreviation in null|months %}
+                        <option value="{{ forloop.counter }}" {% if data.month == forloop.counter %}selected{% endif %}>{{ abbreviation }}</option>
                     {% endfor %}
                 </select>
 
                 <!-- Birthday day -->
-                <select id="day" class="birthdaySelect {% if invalidDay %}invalid{% endif %}" day="{{ day }}">
-                    <option value="" {% if not day %}selected{% endif %}>Day</option>
-                    {% for d in month|days:year %}
-                        <option value="{{ d }}" {% if d == day %}selected{% endif %}>{{ d }}</option>
+                <select id="day" class="birthdaySelect {% if invalid.day %}invalid{% endif %}" day="{{ data.day }}">
+                    <option value="" {% if not data.day %}selected{% endif %}>Day</option>
+                    {% for day in data.month|days:data.year %}
+                        <option value="{{ day }}" {% if day == data.day %}selected{% endif %}>{{ day }}</option>
                     {% endfor %}
                 </select>
 
                 <!-- Birthday year -->
-                <select id="year" class="birthdaySelect {% if invalidYear %}invalid{% endif %}" year="{{ year }}">
-                    <option value="" {% if not year %}selected{% endif %}>Year</option>
-                    {% for y in 100|years %}
-                        <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+                <select id="year" class="birthdaySelect {% if invalid.year %}invalid{% endif %}" year="{{ data.year }}">
+                    <option value="" {% if not data.year %}selected{% endif %}>Year</option>
+                    {% for year in 100|years %}
+                        <option value="{{ year }}" {% if year == data.year %}selected{% endif %}>{{ year }}</option>
                     {% endfor %}
                 </select>
             </td>
@@ -87,10 +96,10 @@
         <tr>
             <th><label for="gender">Gender:</label></th>
             <td>
-                <select id="gender" {% if invalidGender %}class="invalid"{% endif %}>
-                    <option value="" {% if gender == "" %}selected{% endif %}>Gender</option>
-                    <option value="Male" {% if gender == "Male" %}selected="selected"{% endif %}>Male</option>
-                    <option value="Female" {% if gender == "Female" %}selected="selected"{% endif %}>Female</option>
+                <select id="gender" {% if invalid.gender %}class="invalid"{% endif %}>
+                    <option value="" {% if data.gender == "" %}selected{% endif %}>Gender</option>
+                    <option value="Male" {% if data.gender == "Male" %}selected="selected"{% endif %}>Male</option>
+                    <option value="Female" {% if data.gender == "Female" %}selected="selected"{% endif %}>Female</option>
                 </select>
             </td>
         </tr>
