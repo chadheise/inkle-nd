@@ -339,16 +339,17 @@ $(document).ready(function() {
     
     $("#todayButton").live("click", function() {
         var today = "true"
+        
         //Update calendar
         $.ajax({
             type: "POST",
             url: "/dateSelect/",
             data: {"today" : today},
-            success: function(html) {
-                
+            success: function(html) {            
                 $("#calendarContainer").html(html); // Update the HTML of the calendar
                 styleSelectedDate();
                 
+                var date = $("#selectedDate").attr("month") + "/" + $("#selectedDate").attr("day") + "/" + $("#selectedDate").attr("year");
                 // Update my inklings if it is visible
                 var contentType = ($(".selectedContentLink").attr("contentType"))
                 if (contentType == "myInklings")
@@ -360,11 +361,11 @@ $(document).ready(function() {
                 else if (contentType == "othersInklings")
                 {
                     updateOthersInklings(date);
-                }
-                           
+                }                          
             },
             error: function(a, b, error) { alert("home.js (6): " + error); }
         });
+         
     });
     
     $(".calendarArrow").live("click", function() {
