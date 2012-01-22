@@ -30,14 +30,21 @@ def date_selected_view(request):
         member = Member.objects.get(pk = request.session["member_id"])
     except (Member.DoesNotExist, KeyError) as e:
         return HttpResponseRedirect("/login/")
-    
-    # Get date objects for today, tomorrow, and the day after tomorrow 
-    date2 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
-    date3 = date2 + datetime.timedelta(days = 1)
-    date1 = date2 - datetime.timedelta(days = 1)
+    if request.POST["today"] == "true":
+        # Get date objects for today, tomorrow, and the day after tomorrow 
+        date2 = datetime.date.today()
+        date3 = date2 + datetime.timedelta(days = 1)
+        date1 = date2 - datetime.timedelta(days = 1)
+        selectedDate = date2
+    else:
+        # Get date objects for the three dates to display and the selected date
+        date2 = datetime.date(int(request.POST["date2Year"]), int(request.POST["date2Month"]), int(request.POST["date2Day"]))
+        date3 = date2 + datetime.timedelta(days = 1)
+        date1 = date2 - datetime.timedelta(days = 1)
+        selectedDate = datetime.date(int(request.POST["selectedYear"]), int(request.POST["selectedMonth"]), int(request.POST["selectedDay"]))
 
     return render_to_response( "calendar.html",
-        {"date1" : date1, "date2" : date2, "date3" : date3 },
+        {"date1" : date1, "date2" : date2, "date3" : date3, "selectedDate" : selectedDate },
         context_instance = RequestContext(request) )
 
 def edit_location_view(request):

@@ -36,7 +36,7 @@ def home_view(request):
     locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
     return render_to_response( "home.html",
-        { "member" : member, "locations" : locations, "date1" : yesterday, "date2" : today, "date3" : tomorrow },
+        { "member" : member, "locations" : locations, "date1" : yesterday, "date2" : today, "date3" : tomorrow, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
 def manage_view(request, content_type = "circles"):

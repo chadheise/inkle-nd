@@ -45,6 +45,22 @@
     margin-top: 50px;
 }
 
+#todayButton {
+    cursor: pointer;
+    font-weight: bold;
+    color: #FFF;
+    background-color: #ABD4B0;
+    height: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    padding-top: 5px;
+    border-radius: 7px;
+}
+
+#todayButton:hover {
+    background-color: #288D42;
+}
+
 .calendarArrow {
     cursor: pointer;
     background-color: #ABD4B0;
