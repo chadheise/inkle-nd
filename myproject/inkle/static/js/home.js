@@ -295,35 +295,32 @@ $(document).ready(function() {
     
     // THE FUNCTIONS BELOW SHOULD BE MOVED TO CALENDAR.JS
     
+    styleSelectedDate();
+    
+    //Adds styling to selected date if it is one of the visible date containers
+    function styleSelectedDate() {
+        $(".dateContainer").each(function() {
+            if ($(this).attr("date") == $("#selectedDate").attr("date") && $(this).attr("id") != "selectedDate") {
+                $(this).addClass("selectedDateContainer")
+            }
+        });
+    }
+    
     /* Updates either my inklings or others' inklings (depending on which is visible) when a date container is clicked */
     $(".dateContainer").live("click", function() {
         // Only update the content if the date container that is clicked is not the currently selected date container
         if (!$(this).hasClass("selectedDateContainer"))
         {
             // Change the selected date container
-            /*$(".selectedDateContainer").removeClass("selectedDateContainer");
-            $(this).addClass("selectedDateContainer"); */
+            $(".selectedDateContainer").removeClass("selectedDateContainer");
+            $(this).addClass("selectedDateContainer");
     
-            // Get the selected date
-            var date = $(this).attr("month") + "/" + $(this).attr("date") + "/" + $(this).attr("year");
-            var year = $(this).attr("year");
-            var month = $(this).attr("month");
-            var day = $(this).attr("day");
-   
-            //Update calendar
-            $.ajax({
-                type: "POST",
-                url: "/dateSelect/",
-                data: {"year" : year, "month" : month, "day" : day},
-                success: function(html) {
-                    // Update the HTML of the calendar
-                    $("#calendarContainer").html(html);
-                    
-                    // Fade in the calendar
-                    //$("#calendarContainer").slideUp("medium");
-                },
-                error: function(a, b, error) { alert("home.js (6): " + error); }
-            });
+            // Get the selected date and update hidden dateContainer
+            var date = $(this).attr("month") + "/" + $(this).attr("day") + "/" + $(this).attr("year");
+            $("#selectedDate").attr("month", $(this).attr("month"));
+            $("#selectedDate").attr("day", $(this).attr("day"));
+            $("#selectedDate").attr("year", $(this).attr("year"));
+            $("#selectedDate").attr("date", $(this).attr("date"));
             
             // Update my inklings if it is visible
             var contentType = ($(".selectedContentLink").attr("contentType"))
@@ -340,4 +337,66 @@ $(document).ready(function() {
         }
     });
     
+    $("#todayButton").live("click", function() {
+        var today = "true"
+        //Update calendar
+        $.ajax({
+            type: "POST",
+            url: "/dateSelect/",
+            data: {"today" : today},
+            success: function(html) {
+                
+                $("#calendarContainer").html(html); // Update the HTML of the calendar
+                styleSelectedDate();
+                
+                // Update my inklings if it is visible
+                var contentType = ($(".selectedContentLink").attr("contentType"))
+                if (contentType == "myInklings")
+                {
+                    updateMyInklings(date);
+                }
+
+                // Othwerise, if others' inklings is visible, update others inklings
+                else if (contentType == "othersInklings")
+                {
+                    updateOthersInklings(date);
+                }
+                           
+            },
+            error: function(a, b, error) { alert("home.js (6): " + error); }
+        });
+    });
+    
+    $(".calendarArrow").live("click", function() {
+        var newDate = "#date1" //Default to upArrow
+        if ($(this).attr("id") == "calendarArrowDown") {
+            newDate = "#date3" //Change if downArrow clicked
+        }
+
+        // Get the new date
+        var today = "false"
+        var date = $(newDate).attr("month") + "/" + $(this).attr("day") + "/" + $(this).attr("year");
+        var year = $(newDate).attr("year");
+        var month = $(newDate).attr("month");
+        var day = $(newDate).attr("day");
+        
+        //Get the selected date
+        var selectedYear = $("#selectedDate").attr("year");
+        var selectedMonth = $("#selectedDate").attr("month");
+        var selectedDay = $("#selectedDate").attr("day");
+
+        //Update calendar
+        $.ajax({
+            type: "POST",
+            url: "/dateSelect/",
+            data: {"today" : today, "date2Year" : year, "date2Month" : month, "date2Day" : day, "selectedYear" : selectedYear, "selectedMonth" : selectedMonth, "selectedDay" : selectedDay},
+            success: function(html) {
+                
+                $("#calendarContainer").html(html); // Update the HTML of the calendar
+                styleSelectedDate();
+            },
+            error: function(a, b, error) { alert("home.js (6): " + error); }
+        });
+    });
+       
 });
