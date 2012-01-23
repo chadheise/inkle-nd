@@ -516,6 +516,11 @@ def location_view(request, location_id = None):
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     
+    # Get date objects for today, tomorrow, and the day after tomorrow 
+    today = datetime.date.today()
+    tomorrow = today + datetime.timedelta(days = 1)
+    yesterday = today - datetime.timedelta(days = 1)
+    
     # Get the people whom the logged in member is following
     following = member.following.filter(is_active = True)
 
@@ -565,7 +570,7 @@ def location_view(request, location_id = None):
         member.num_main_event_others = 0
 
     return render_to_response( "location.html",
-        { "member" : member, "location" : location },
+        { "member" : member, "location" : location, "date1" : yesterday, "date2" : today, "date3" : tomorrow, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
 
