@@ -41,6 +41,10 @@
     color: #CD1A26;
 }
 
+#calendar {
+    margin-bottom: 50px;
+}
+
 .buttonContainer
 {
     text-align: center;
