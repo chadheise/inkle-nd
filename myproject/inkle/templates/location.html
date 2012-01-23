@@ -7,11 +7,14 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/location.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/calendar.css" />
 {% endblock css %}
 
 {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}/js/location.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/calendar.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/home.js"></script> <!-- This can be removed once functions are moved to calendar.js -->
 {% endblock js %}
 
 {% block mainContent %}
@@ -25,17 +28,20 @@
                 {% include "locationInfo.html" %}
             </div>
         </div>
-
+        <!-- Calendar -->
+        <div id="calendarContainer">
+            {% include "calendar.html" %}
+        </div>
         <!-- Location inklings members -->
-        <div class="grid_17 push_1 alpha omega">
+        <div class="grid_15 push_1 alpha omega">
             <!-- Location name -->
-            <div class="grid_17">
+            <div class="grid_15">
                 <p id="locationName" class="pageTitle">{{ location.name }}</p>
             </div>
             <div class="clear"></div>
                 
             <!-- Location inklings content links -->
-            <div id="locationInklingsContentLinks" class="contentLinks grid_17">
+            <div id="locationInklingsContentLinks" class="contentLinks grid_15">
                 <p class="selectedContentLink" contentType="all">All</p>
                 <p contentType="dinner">Dinner</p>
                 <p contentType="pregame">Pregame</p>
@@ -44,7 +50,7 @@
             <div class="clear"></div>
 
             <!-- Location inklings content -->
-            <div id="locationInklingsContent" class="peopleContent grid_17" context="location">
+            <div id="locationInklingsContent" class="peopleContent grid_15" context="location">
                 <!-- Dinner inkling members -->
                 <div id="dinnerContent">
                     <p class="subsectionTitle">Dinner</p>
