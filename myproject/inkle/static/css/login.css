@@ -9,6 +9,7 @@
 
 #welcomeImage
 {
+    border: solid 1px #000;
     height: 300px;
     width: 470px;
 }
