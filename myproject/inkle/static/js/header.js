@@ -45,6 +45,7 @@ $(document).ready(function() {
                 // If there is no selected item, redirect to the search page with the current query
                 if ($(".selectedSuggestion").length == 0)
                 {
+                    alert("Here1");
                     window.location.href = "/search/" + query;
                 }
 
