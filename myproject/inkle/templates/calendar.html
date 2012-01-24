@@ -2,7 +2,7 @@
 <div id="calendar" class="grid_20 push_1">
     <!-- Left button -->
     <div id="calendarArrowLeft" class="calendarArrow">
-        <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/upArrow.png" />
+        <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/leftArrow.png" />
     </div>
     <!-- Date Icons -->
     <div id="date1" class="dateContainer" day="{{ date1|date:"j" }}" month="{{ date1|date:"n" }}" year="{{ date1|date:"Y" }}" date="{{date1|date}}">
@@ -20,19 +20,19 @@
         <p class="date">{{ date3|date:"j" }}</p>
         <p class="month">{{ date3|date:"F" }}</p>
     </div>
-    <div id="date3" class="dateContainer" day="{{ date3|date:"j" }}" month="{{ date3|date:"n" }}" year="{{ date3|date:"Y" }}" date="{{date3|date}}">
-        <p class="weekday">{{ date3|date:"l" }}</p>
-        <p class="date">{{ date3|date:"j" }}</p>
-        <p class="month">{{ date3|date:"F" }}</p>
+    <div id="date4" class="dateContainer" day="{{ date4|date:"j" }}" month="{{ date4|date:"n" }}" year="{{ date4|date:"Y" }}" date="{{date4|date}}">
+        <p class="weekday">{{ date4|date:"l" }}</p>
+        <p class="date">{{ date4|date:"j" }}</p>
+        <p class="month">{{ date4|date:"F" }}</p>
     </div>
-    <div id="date3" class="dateContainer" day="{{ date3|date:"j" }}" month="{{ date3|date:"n" }}" year="{{ date3|date:"Y" }}" date="{{date3|date}}">
-        <p class="weekday">{{ date3|date:"l" }}</p>
-        <p class="date">{{ date3|date:"j" }}</p>
-        <p class="month">{{ date3|date:"F" }}</p>
+    <div id="date5" class="dateContainer" day="{{ date5|date:"j" }}" month="{{ date5|date:"n" }}" year="{{ date5|date:"Y" }}" date="{{date3|date}}">
+        <p class="weekday">{{ date5|date:"l" }}</p>
+        <p class="date">{{ date5|date:"j" }}</p>
+        <p class="month">{{ date5|date:"F" }}</p>
     </div>
     <!-- Right button -->
     <div id="calendarArrowRight" class="calendarArrow">
-        <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
+        <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/rightArrow.png" />
     </div>
     <!-- Hidden dateContainer for selected date -->
     <div class="grid_3" style="display:none;" >
