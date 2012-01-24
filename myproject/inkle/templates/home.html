@@ -16,27 +16,25 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <div id="calendarContainer">
-            {% include "calendar.html" %}
-        </div>
-
         <!-- My inklings -->
-        <div class="grid_20 push_1">
+        <div class="grid_24 push_1">
             <!-- Member name -->
-            <div class="grid_20">
+            <div class="grid_24">
                 <p class="pageTitle">Inklings</p>
             </div>
             <div class="clear"></div>
-
             <!-- Content links -->
-            <div id="inklingsContentLinks" class="contentLinks grid_20">
+            <div id="inklingsContentLinks" class="contentLinks grid_24">
                 <p class="selectedContentLink" contentType="othersInklings">Others'</p>
                 <p contentType="myInklings">Mine</p>
             </div>
             <div class="clear"></div>
-            
+            <div id="calendarContainer" class="grid_24">
+                {% include "calendar.html" %}
+            </div>
+            <div class="clear"></div>
             <!-- Others' inklings -->
-            <div id="homeContent" class="grid_20">
+            <div id="homeContent" class="grid_24">
                 {% include "othersInklings.html" %}
             </div>
         </div>
