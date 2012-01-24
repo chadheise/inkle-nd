@@ -369,9 +369,9 @@ $(document).ready(function() {
     });
     
     $(".calendarArrow").live("click", function() {
-        var newDate = "#date1" //Default to upArrow
-        if ($(this).attr("id") == "calendarArrowDown") {
-            newDate = "#date3" //Change if downArrow clicked
+        var newDate = "#date1" //Default to leftArrow
+        if ($(this).attr("id") == "calendarArrowRight") {
+            newDate = "#date3" //Change if rightArrow clicked
         }
 
         // Get the new date

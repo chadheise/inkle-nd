@@ -1,35 +1,37 @@
-<!-- People filter -->
-<div class="grid_2 push_1">
-    <p class="subheader">People:</p>
-</div>
+<div class="grid_20 push_1 alpha">    
+    <!-- People filter -->
+    <div class="grid_2 push_1">
+        <p class="subheader">People:</p>
+    </div>
 
-<select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_1">
-    <optgroup label="Circles">
-        <option people="circles" selected="selected">All circles</option>
-        {% for circle in member.circles.all %}
-            <option circleID="{{ circle.id }}">{{ circle.name }}</option>
-        {% endfor %}
-    </optgroup>
-
-    {% if member.spheres.all %}
-        <optgroup label="Spheres">
-            {% for sphere in member.spheres.all %}
-                <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
+    <select id="locationBoardPeopleSelect" class="locationBoardSelect grid_6 push_1">
+        <optgroup label="Circles">
+            <option people="circles" selected="selected">All circles</option>
+            {% for circle in member.circles.all %}
+                <option circleID="{{ circle.id }}">{{ circle.name }}</option>
             {% endfor %}
         </optgroup>
-    {% endif %}
-</select>
 
-<!-- Inkling filter -->
-<div class="grid_2 push_2">
-    <p class="subheader" style="margin-left: -5px;">Inkling:</p>
+        {% if member.spheres.all %}
+            <optgroup label="Spheres">
+                {% for sphere in member.spheres.all %}
+                    <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
+                {% endfor %}
+            </optgroup>
+        {% endif %}
+    </select>
+
+    <!-- Inkling filter -->
+    <div class="grid_2 push_2">
+        <p class="subheader" style="margin-left: -5px;">Inkling:</p>
+    </div>
+
+    <select id="locationBoardInklingSelect" class="locationBoardSelect grid_6 push_2">
+        <option inklingType="dinner" selected="selected">Dinner</option>
+        <option inklingType="pregame">Pregame</option>
+        <option inklingType="mainEvent">Main event</option>
+    </select>
 </div>
-
-<select id="locationBoardInklingSelect" class="locationBoardSelect grid_6 push_2">
-    <option inklingType="dinner" selected="selected">Dinner</option>
-    <option inklingType="pregame">Pregame</option>
-    <option inklingType="mainEvent">Main event</option>
-</select>
 
 <div class="clear"></div>
 
