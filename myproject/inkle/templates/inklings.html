@@ -1,34 +1,43 @@
-<div class="grid_17">
+<div class="grid_17 alpha omega">
     <!-- Dinner inkling -->
-    <div class="grid_6">
-        <div class="inkling">
-            <div>
-                <p class="inklingTitle">Dinner</p>
+    <div id="dinnerInkling" class="inkling">
+        <div>
+            <p class="inklingTitle">Dinner</p>
+            {% if inklings.dinner %}
                 <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.dinner.location.id }}.jpg" />
                 <p class="locationName">{{ inklings.dinner.location.name }}</p>
-            </div>
+            {% else %}
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/default.jpg" />
+                <p class="locationName">&nbsp;</p>
+            {% endif %}
         </div>
     </div>
 
     <!-- Pregame inkling -->
-    <div class="grid_6">
-        <div class="inkling">
-            <div>
-                <p class="inklingTitle">Pregame</p>
+    <div id="pregameInkling" class="inkling">
+        <div>
+            <p class="inklingTitle">Pregame</p>
+            {% if inklings.pregame %}
                 <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.pregame.location.id }}.jpg" />
                 <p class="locationName">{{ inklings.pregame.location.name }}</p>
-            </div>
+            {% else %}
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/default.jpg" />
+                <p class="locationName">&nbsp;</p>
+            {% endif %}
         </div>
     </div>
 
     <!-- Main event inkling -->
-    <div class="grid_6">
-        <div class="inkling">
-            <div>
-                <p class="inklingTitle">Main Event</p>
+    <div id="mainEventInkling" class="inkling">
+        <div>
+            <p class="inklingTitle">Main Event</p>
+            {% if inklings.mainEvent %}
                 <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.mainEvent.location.id }}.jpg" />
                 <p class="locationName">{{ inklings.mainEvent.location.name }}</p>
-            </div>
+            {% else %}
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/default.jpg" />
+                <p class="locationName">&nbsp;</p>
+            {% endif %}
         </div>
     </div>
 </div>

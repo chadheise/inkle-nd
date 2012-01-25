@@ -18,15 +18,22 @@
 
 .inkling
 {
+    width: 192px;
     padding: 3px 10px 10px 10px;
     border: solid 2px #288D42;
     background-color: #ABD4B0;
+    float: left;
+    text-align: center;
+}
+
+#dinnerInkling, #pregameInkling
+{
+    margin-right: 10px;
 }
 
 .inklingTitle
 {
     margin-top: 2px;
-    text-align: center;
     font-size: 22px;
     font-weight: bold;
     color: #288D42;
@@ -36,14 +43,12 @@
 {
     margin-top: 5px;
     border: solid 1px #000;
-    height: 204px;
-    width: 204px;
+    height: 189px;
+    width: 189px;
 }
 
 .inkling .locationName
 {
-    text-align: center;
     margin-top: 5px;
     font-size: 18px;
-    width: 100%;
 }
