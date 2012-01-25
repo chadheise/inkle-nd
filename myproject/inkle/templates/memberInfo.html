@@ -1,34 +1,42 @@
 <!-- Member location -->
-{% if other_member.city or other_member.state or other_member.zip_code %}
-    <div class="infoSection">
-        <p class="infoLabel">Location:</p>
-            <p><span id="memberCity">{{ other_member.city }}</span>, <span id="memberState">{{ other_member.state }}</span> <span id="memberZipCode">({{ other_member.zip_code }})</span></p>
-    </div>
+{% if other_member.privacy >= other_member.location_privacy %}
+    {% if other_member.city and other_member.state and other_member.zip_code %}
+        <div class="infoSection">
+            <p class="infoLabel">Location:</p>
+                <p><span id="memberCity">{{ other_member.city }}</span>, <span id="memberState">{{ other_member.state }}</span> <span id="memberZipCode">{{ other_member.zip_code }}</span></p>
+        </div>
+    {% endif %}
 {% endif %}
 
 
 <!-- Member email -->
-{% if other_member.email %}
-    <div class="infoSection">
-        <p class="infoLabel">Email:</p>
-        <a id="memberEmail">{{ other_member.email }}</a>
-    </div>
+{% if other_member.privacy >= other_member.email_privacy %}
+    {% if other_member.email %}
+        <div class="infoSection">
+            <p class="infoLabel">Email:</p>
+            <a id="memberEmail">{{ other_member.email }}</a>
+        </div>
+    {% endif %}
 {% endif %}
 
 <!-- Member phone -->
-{% if other_member.phone  and other_member.phone|length_is:"10" %}
-    <div class="infoSection">
-        <p class="infoLabel">Phone:</p>
-        <p id="memberPhone">{{ other_member.get_formatted_phone }}</p>
-    </div>
+{% if other_member.privacy >= other_member.phone_privacy %}
+    {% if other_member.phone %}
+        <div class="infoSection">
+            <p class="infoLabel">Phone:</p>
+            <p id="memberPhone">{{ other_member.get_formatted_phone }}</p>
+        </div>
+    {% endif %}
 {% endif %}
 
 <!-- Member birthday -->
-{% if other_member.birthday %}
-    <div class="infoSection">
-        <p class="infoLabel">Birthday:</p>
-        <p id="memberBirthday">{{ other_member.birthday }}</p>
-    </div>
+{% if other_member.privacy >= other_member.birthday_privacy %}
+    {% if other_member.birthday %}
+        <div class="infoSection">
+            <p class="infoLabel">Birthday:</p>
+            <p id="memberBirthday">{{ other_member.birthday }}</p>
+        </div>
+    {% endif %}
 {% endif %}
 
 <!-- Member gender -->

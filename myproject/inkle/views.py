@@ -75,6 +75,14 @@ def member_view(request, other_member_id = None):
     if (member == other_member):
         return HttpResponseRedirect("/manage/")
 
+    # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+    if (member in other_member.followers.all()):
+        other_member.privacy = 2
+    elif (member in other_member.following.all()):
+        other_member.privacy = 1
+    else:
+        other_member.privacy = 0
+
     return render_to_response( "member.html",
         { "member" : member, "other_member" : other_member },
         context_instance = RequestContext(request) )
@@ -1039,11 +1047,11 @@ def spheres_view(request, other_member_id = None):
         spheres = other_member.spheres.all()
 
         # Determine the button list for each sphere
-        for s in spheres:
-            if (s in member.spheres.all()):
-                s.button_list = [buttonDictionary["leave"]]
-            else:
-                s.button_list = [buttonDictionary["join"]]
+        #for s in spheres:
+        #    if (s in member.spheres.all()):
+        #        s.button_list = [buttonDictionary["leave"]]
+        #    else:
+        #        s.button_list = [buttonDictionary["join"]]
 
         # Specify the page context
         page_context = "member"
