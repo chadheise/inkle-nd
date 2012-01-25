@@ -1,1 +1,34 @@
-<div class="grid_17">You have permission to view this information: {{inklings}}.</div>
+<div class="grid_17">
+    <!-- Dinner inkling -->
+    <div class="grid_6">
+        <div class="inkling">
+            <div>
+                <p class="inklingTitle">Dinner</p>
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.dinner.location.id }}.jpg" />
+                <p class="locationName">{{ inklings.dinner.location.name }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pregame inkling -->
+    <div class="grid_6">
+        <div class="inkling">
+            <div>
+                <p class="inklingTitle">Pregame</p>
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.pregame.location.id }}.jpg" />
+                <p class="locationName">{{ inklings.pregame.location.name }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main event inkling -->
+    <div class="grid_6">
+        <div class="inkling">
+            <div>
+                <p class="inklingTitle">Main Event</p>
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.mainEvent.location.id }}.jpg" />
+                <p class="locationName">{{ inklings.mainEvent.location.name }}</p>
+            </div>
+        </div>
+    </div>
+</div>

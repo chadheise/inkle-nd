@@ -1152,7 +1152,7 @@ def inklings_view(request, other_member_id = None):
         date = request.POST["date"]
     except KeyError:
         raise Http404()
-
+    
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
     if (member in other_member.followers.all()):
         other_member.privacy = 2
@@ -1161,9 +1161,20 @@ def inklings_view(request, other_member_id = None):
     else:
         other_member.privacy = 0
 
+    inklings = {}
     if (other_member.privacy >= other_member.inklings_privacy):
-        inklings = other_member.inklings.filter(date = date)
-        print inklings
+        try:
+            inklings["dinner"] = other_member.inklings.get(date = date, category = "dinner")
+        except:
+            pass
+        try:
+            inklings["pregame"] = other_member.inklings.get(date = date, category = "pregame")
+        except:
+            pass
+        try:
+            inklings["mainEvent"] = other_member.inklings.get(date = date, category = "mainEvent")
+        except:
+            pass
         return render_to_response( "inklings.html",
             { "inklings" : inklings },
             context_instance = RequestContext(request) )

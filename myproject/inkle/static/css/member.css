@@ -15,3 +15,35 @@
 {
     font-weight: bold;
 }
+
+.inkling
+{
+    padding: 3px 10px 10px 10px;
+    border: solid 2px #288D42;
+    background-color: #ABD4B0;
+}
+
+.inklingTitle
+{
+    margin-top: 2px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #288D42;
+}
+
+.inklingImage
+{
+    margin-top: 5px;
+    border: solid 1px #000;
+    height: 204px;
+    width: 204px;
+}
+
+.inkling .locationName
+{
+    text-align: center;
+    margin-top: 5px;
+    font-size: 18px;
+    width: 100%;
+}
