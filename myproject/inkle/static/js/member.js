@@ -1,7 +1,7 @@
 $(document).ready(function() {
     // Populate the main content with the initially selected main content link
     var contentType = $("#memberContentLinks .selectedContentLink").attr("contentType");
-    //loadContent(contentType, true);
+    loadContent(contentType, true);
 
     /* Loads the content for the inputted content type and populates the main content with it */
     function loadContent(contentType, firstLoad)
@@ -9,7 +9,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "/" + contentType + "/",
-            data: {},
+            data: { "date" : "1/24/12" },
             success: function(html) {
                 // If this is the first load, simply load the member content
                 if (firstLoad)
