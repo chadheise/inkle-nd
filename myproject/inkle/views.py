@@ -26,19 +26,16 @@ def home_view(request):
     except (Member.DoesNotExist, KeyError) as e:
         return HttpResponseRedirect("/login/")
     
-    # Get date objects for today, tomorrow, and the day after tomorrow 
+    # Get date objects
     today = datetime.date.today()
-    tomorrow = today + datetime.timedelta(days = 1)
-    yesterday = today - datetime.timedelta(days = 1)
-    date4 = today + datetime.timedelta(days = 2)
-    date5 = today + datetime.timedelta(days = 3)
+    dates = [today + datetime.timedelta(days = x) for x in range(5)] 
 
     # Get others' dinner inklings for today
     date = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
     locations = get_others_inklings(member, date, "other", "circles", "dinner")
 
     return render_to_response( "home.html",
-        { "member" : member, "locations" : locations, "date1" : yesterday, "date2" : today, "date3" : tomorrow, "date4" : date4, "date5" : date5,"selectedDate" : today },
+        { "member" : member, "locations" : locations, "dates" : dates, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
 def manage_view(request, content_type = "circles"):
@@ -526,10 +523,9 @@ def location_view(request, location_id = None):
     now = datetime.datetime.now()
     date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
     
-    # Get date objects for today, tomorrow, and the day after tomorrow 
+    # Get date objects
     today = datetime.date.today()
-    tomorrow = today + datetime.timedelta(days = 1)
-    yesterday = today - datetime.timedelta(days = 1)
+    dates = [today + datetime.timedelta(days = x) for x in range(3)]
     
     # Get the people whom the logged in member is following
     following = member.following.filter(is_active = True)
@@ -580,7 +576,7 @@ def location_view(request, location_id = None):
         member.num_main_event_others = 0
 
     return render_to_response( "location.html",
-        { "member" : member, "location" : location, "date1" : yesterday, "date2" : today, "date3" : tomorrow, "selectedDate" : today },
+        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
 

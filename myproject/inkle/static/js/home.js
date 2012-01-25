@@ -338,13 +338,14 @@ $(document).ready(function() {
     });
     
     $("#todayButton").live("click", function() {
-        var today = "true"
+        var arrow = "today"
+        numDates = $(".dateContainer").size() - 1; //Get the number of calendar dates to display, subtract 1 for hidden selected field
         
         //Update calendar
         $.ajax({
             type: "POST",
             url: "/dateSelect/",
-            data: {"today" : today},
+            data: {"arrow" : arrow, "numDates" : numDates},
             success: function(html) {            
                 $("#calendarContainer").html(html); // Update the HTML of the calendar
                 styleSelectedDate();
@@ -369,34 +370,34 @@ $(document).ready(function() {
     });
     
     $(".calendarArrow").live("click", function() {
-        var newDate = "#date1" //Default to leftArrow
+        var arrow = "left" //Default to leftArrow
         if ($(this).attr("id") == "calendarArrowRight") {
-            newDate = "#date3" //Change if rightArrow clicked
+            arrow = "right" //Change if rightArrow clicked
         }
-
-        // Get the new date
-        var today = "false"
-        var date = $(newDate).attr("month") + "/" + $(this).attr("day") + "/" + $(this).attr("year");
-        var year = $(newDate).attr("year");
-        var month = $(newDate).attr("month");
-        var day = $(newDate).attr("day");
+        
+        // Get the first
+        var year = $("#date1").attr("year");
+        var month = $("#date1").attr("month");
+        var day = $("#date1").attr("day");
         
         //Get the selected date
         var selectedYear = $("#selectedDate").attr("year");
         var selectedMonth = $("#selectedDate").attr("month");
         var selectedDay = $("#selectedDate").attr("day");
+        
+        numDates = $(".dateContainer").size() - 1; //Get the number of calendar dates to display, subtract 1 for hidden selected field
 
         //Update calendar
         $.ajax({
             type: "POST",
             url: "/dateSelect/",
-            data: {"today" : today, "date2Year" : year, "date2Month" : month, "date2Day" : day, "selectedYear" : selectedYear, "selectedMonth" : selectedMonth, "selectedDay" : selectedDay},
+            data: {"arrow" : arrow, "numDates" : numDates, "firstYear" : year, "firstMonth" : month, "firstDay" : day, "selectedYear" : selectedYear, "selectedMonth" : selectedMonth, "selectedDay" : selectedDay},
             success: function(html) {
                 
                 $("#calendarContainer").html(html); // Update the HTML of the calendar
                 styleSelectedDate();
             },
-            error: function(a, b, error) { alert("home.js (6): " + error); }
+            error: function(a, b, error) { alert("home.js (7): " + error); }
         });
     });
        

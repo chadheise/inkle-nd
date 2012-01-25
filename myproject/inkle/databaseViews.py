@@ -30,22 +30,21 @@ def date_selected_view(request):
         member = Member.objects.get(pk = request.session["member_id"])
     except (Member.DoesNotExist, KeyError) as e:
         return HttpResponseRedirect("/login/")
-    if request.POST["today"] == "true":
-        # Get date objects for today, tomorrow, and the day after tomorrow 
-        date2 = datetime.date.today()
-        date3 = date2 + datetime.timedelta(days = 1)
-        date4 = date2 + datetime.timedelta(days = 2)
-        date5 = date2 + datetime.timedelta(days = 3)
-        date1 = date2 - datetime.timedelta(days = 1)
-    else:
-        # Get date objects for the three dates to display and the selected date
-        date2 = datetime.date(int(request.POST["date2Year"]), int(request.POST["date2Month"]), int(request.POST["date2Day"]))
-        date3 = date2 + datetime.timedelta(days = 1)
-        date1 = date2 - datetime.timedelta(days = 1)
+    
+    if request.POST["arrow"] == "today":
+        date1 = datetime.date.today()
+        selectedDate = date1
+    elif request.POST["arrow"] == "left":
+        date1 = datetime.date(int(request.POST["firstYear"]), int(request.POST["firstMonth"]), int(request.POST["firstDay"])) - datetime.timedelta(days = 1)
         selectedDate = datetime.date(int(request.POST["selectedYear"]), int(request.POST["selectedMonth"]), int(request.POST["selectedDay"]))
-
+    elif request.POST["arrow"] == "right":
+        date1 = datetime.date(int(request.POST["firstYear"]), int(request.POST["firstMonth"]), int(request.POST["firstDay"])) + datetime.timedelta(days = 1)
+        selectedDate = datetime.date(int(request.POST["selectedYear"]), int(request.POST["selectedMonth"]), int(request.POST["selectedDay"]))
+    
+    dates = [date1 + datetime.timedelta(days = x) for x in range(int(request.POST["numDates"]))]
+    
     return render_to_response( "calendar.html",
-        {"date1" : date1, "date2" : date2, "date3" : date3, "date4" : date4, "date5" : date5, "selectedDate" : date2 },
+        {"dates" : dates, "selectedDate" : selectedDate },
         context_instance = RequestContext(request) )
 
 def edit_location_view(request):
