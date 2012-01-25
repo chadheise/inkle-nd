@@ -1139,6 +1139,44 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     return locations
 
 
+def inklings_view(request, other_member_id = None):
+    # Get the member who is logged in (or throw a 404 error if their member ID is invalid)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
+    try:
+        other_member = Member.active.get(pk = other_member_id)
+    except Member.DoesNotExist:
+        raise Http404()
+
+    try:
+        date = request.POST["date"]
+    except KeyError:
+        raise Http404()
+
+    # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+    if (member in other_member.followers.all()):
+        other_member.privacy = 2
+    elif (member in other_member.following.all()):
+        other_member.privacy = 1
+    else:
+        other_member.privacy = 0
+
+    if (other_member.privacy >= other_member.inklings_privacy):
+        inklings = other_member.inklings.filter(date = date)
+        print inklings
+        return render_to_response( "inklings.html",
+            { "inklings" : inklings },
+            context_instance = RequestContext(request) )
+    else:
+        return render_to_response( "noPermission.html",
+            {},
+            context_instance = RequestContext(request) )
+
+
 def is_email(email):
     """Returns True if the inputted email is a valid email address format; otherwise, returns False."""
     if (re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][\.-0-9a-zA-Z]*\.[a-zA-Z]+", email)):
