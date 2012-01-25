@@ -96,7 +96,7 @@ $(document).ready(function() {
             $(this).addClass("selectedContentLink");
         
             // Get the selected date
-            var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
+            var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("day") + "/" + $(".selectedDateContainer").attr("year");
 
             // Update and show others' inklings if my inklings is visible
             var contentType = $(this).attr("contentType");
@@ -116,7 +116,7 @@ $(document).ready(function() {
     /* Updates others' inklings when a location board select is changed */
     $(".locationBoardSelect").live("change", function () {
         // Get the selected date
-        var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
+        var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("day") + "/" + $(".selectedDateContainer").attr("year");
         
         // Update others' inklings for the selected date
         updateOthersInklings(date);
@@ -133,7 +133,7 @@ $(document).ready(function() {
             var inklingType = inklingElement.attr("inklingType");
 
             // Get the selected date
-            var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
+            var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("day") + "/" + $(".selectedDateContainer").attr("year");
 
             // Remove the inkling (and its corresponding image)
             $.ajax({
@@ -165,7 +165,7 @@ $(document).ready(function() {
         var inklingType = inklingElement.attr("inklingType");
 
         // Get the selected date
-        var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("date") + "/" + $(".selectedDateContainer").attr("year");
+        var date = $(".selectedDateContainer").attr("month") + "/" + $(".selectedDateContainer").attr("day") + "/" + $(".selectedDateContainer").attr("year");
 
         // Create the selected inkling and update its corresponding content
         $.ajax({

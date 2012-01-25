@@ -9,7 +9,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "/" + contentType + "/",
-            data: { "date" : "1/24/12" },
+            data: { "date" : "1/25/2012" },
             success: function(html) {
                 // If this is the first load, simply load the member content
                 if (firstLoad)
