@@ -24,12 +24,16 @@
             </div>
             <div class="clear"></div>
             <!-- Content links -->
-            <div id="inklingsContentLinks" class="contentLinks grid_24">
+            <div id="inklingsContentLinks" class="contentLinks grid_16">
                 <p class="selectedContentLink" contentType="othersInklings">Others'</p>
                 <p contentType="myInklings">Mine</p>
             </div>
+            <!-- Today button -->
+            <div class="grid_3 buttonContainer">
+                <input id="todayButton" type="submit" name="submit" value="Today" />
+            </div>
             <div class="clear"></div>
-            <div id="calendarContainer" class="grid_24">
+            <div id="calendarContainer" class="grid_22 push_1">
                 {% include "calendar.html" %}
             </div>
             <div class="clear"></div>

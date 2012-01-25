@@ -1,35 +1,17 @@
 <!-- Calendar -->
-<div id="calendar" class="grid_20 push_1">
+<div id="calendar">
     <!-- Left button -->
     <div id="calendarArrowLeft" class="calendarArrow">
         <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/leftArrow.png" />
     </div>
     <!-- Date Icons -->
-    <div id="date1" class="dateContainer" day="{{ date1|date:"j" }}" month="{{ date1|date:"n" }}" year="{{ date1|date:"Y" }}" date="{{date1|date}}">
-        <p class="weekday">{{ date1|date:"l" }}</p>
-        <p class="date">{{ date1|date:"j" }}</p>
-        <p class="month">{{ date1|date:"F" }}</p>
-    </div>
-    <div id="date2" class="dateContainer" day="{{ date2|date:"j" }}" month="{{ date2|date:"n" }}" year="{{ date2|date:"Y" }}" date="{{date2|date}}">
-        <p class="weekday">{{ date2|date:"l" }}</p>
-        <p class="date">{{ date2|date:"j" }}</p>
-        <p class="month">{{ date2|date:"F" }}</p>
-    </div>
-    <div id="date3" class="dateContainer" day="{{ date3|date:"j" }}" month="{{ date3|date:"n" }}" year="{{ date3|date:"Y" }}" date="{{date3|date}}">
-        <p class="weekday">{{ date3|date:"l" }}</p>
-        <p class="date">{{ date3|date:"j" }}</p>
-        <p class="month">{{ date3|date:"F" }}</p>
-    </div>
-    <div id="date4" class="dateContainer" day="{{ date4|date:"j" }}" month="{{ date4|date:"n" }}" year="{{ date4|date:"Y" }}" date="{{date4|date}}">
-        <p class="weekday">{{ date4|date:"l" }}</p>
-        <p class="date">{{ date4|date:"j" }}</p>
-        <p class="month">{{ date4|date:"F" }}</p>
-    </div>
-    <div id="date5" class="dateContainer" day="{{ date5|date:"j" }}" month="{{ date5|date:"n" }}" year="{{ date5|date:"Y" }}" date="{{date3|date}}">
-        <p class="weekday">{{ date5|date:"l" }}</p>
-        <p class="date">{{ date5|date:"j" }}</p>
-        <p class="month">{{ date5|date:"F" }}</p>
-    </div>
+    {% for d in dates %}
+        <div id="date{{forloop.counter}}" class="dateContainer" day="{{ d|date:"j" }}" month="{{ d|date:"n" }}" year="{{ d|date:"Y" }}" date="{{d|date}}">
+            <p class="weekday">{{ d|date:"l" }}</p>
+            <p class="date">{{ d|date:"j" }}</p>
+            <p class="month">{{ d|date:"F" }}</p>
+        </div>
+    {% endfor %}
     <!-- Right button -->
     <div id="calendarArrowRight" class="calendarArrow">
         <img class="calendarArrowImg" src="{{ STATIC_URL }}/media/images/main/rightArrow.png" />
