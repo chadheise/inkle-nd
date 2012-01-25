@@ -895,6 +895,19 @@ def followers_view(request, other_member_id = None):
         page_context = "otherFollowers"
         no_followers_text = other_member.first_name + " " + other_member.last_name
 
+        # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+        if (member in other_member.followers.all()):
+            other_member.privacy = 2
+        elif (member in other_member.following.all()):
+            other_member.privacy = 1
+        else:
+            other_member.privacy = 0
+
+        if (other_member.privacy < other_member.followers_privacy):
+            return render_to_response( "noPermission.html",
+                {},
+                context_instance = RequestContext(request) )
+
     # Otherwise, get the members who are following the logged in member and set the appropriate page context and no followers text
     else:
         members = member.followers.filter(is_active = True)
@@ -903,8 +916,8 @@ def followers_view(request, other_member_id = None):
 
     # Get the necessary information for each member's member card
     for m in members:
-        # Case 1: The logged in member is the current member
-        if (m == member):
+        # Case 1: The logged in member is the current member (or we are on someone else's profile page)
+        if ((m == member) or (other_member)):
             m.button_list = []
             m.show_contact_info = True
 
@@ -954,7 +967,7 @@ def following_view(request, other_member_id = None):
     # Get the necessary information for each member's member card
     for m in members:
         # Case 1: The logged in member is the current member
-        if (m == member):
+        if ((m == member) or (other_member)):
             m.button_list = []
             m.show_contact_info = True
 
@@ -975,10 +988,23 @@ def following_view(request, other_member_id = None):
             
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+        
+    # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+    if (member in other_member.followers.all()):
+        other_member.privacy = 2
+    elif (member in other_member.following.all()):
+        other_member.privacy = 1
+    else:
+        other_member.privacy = 0
 
-    return render_to_response( "following.html",
-        { "member" : member, "otherMember" : other_member, "members" : members },
-        context_instance = RequestContext(request) )
+    if (other_member.privacy < other_member.followers_privacy):
+        return render_to_response( "noPermission.html",
+            {},
+            context_instance = RequestContext(request) )
+    else:
+        return render_to_response( "following.html",
+            { "member" : member, "otherMember" : other_member, "members" : members },
+            context_instance = RequestContext(request) )
 
     
 def circles_view(request, circle_id = None):
@@ -1054,6 +1080,19 @@ def spheres_view(request, other_member_id = None):
 
         # Specify the text if the other member is not in any spheres
         no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
+    
+        # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+        if (member in other_member.followers.all()):
+            other_member.privacy = 2
+        elif (member in other_member.following.all()):
+            other_member.privacy = 1
+        else:
+            other_member.privacy = 0
+
+        if (other_member.privacy < other_member.spheres_privacy):
+            return render_to_response( "noPermission.html",
+                {},
+                context_instance = RequestContext(request) )
     
     # Otherwise, if no member ID is inputted, get the spheres corresponding to the logged in member
     else:
