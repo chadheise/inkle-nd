@@ -185,22 +185,85 @@ $(document).ready(function() {
         });
     });
 
+    $("#addToCircleSuggestions .suggestion").live("hover", function() {
+        // If there is a selected item, remove it
+        if ($(".selectedSuggestion").length != 0)
+        {
+            $(".selectedSuggestion").removeClass("selectedSuggestion");
+        }
+
+        // Set the suggestion which was hovered over as selected
+        $(this).addClass("selectedSuggestion");
+    });
+
     $("#addToCircleInput").live("keyup", function(e) {
         var query = $("#addToCircleInput").val();
         var circleID = parseInt($(this).attr("circleID"));
 
         if (query != "")
         {
-            $.ajax({
-                type: "POST",
-                url: "/suggestions/",
-                data: { "type" : "addToCircle", "circleID" : circleID, "query" : query },
-                success: function(html) {
-                    $("#addToCircleSuggestions").html(html);
-                    $("#addToCircleSuggestions").fadeIn("medium");
-                },
-                error: function(a, b, error) { alert("circles.js (5): " + error); }
-            });
+            // If the "Enter" button is pressed, redirect to the search page or trigger the selected item's click event
+            if ((e.keyCode == 10) || (e.keyCode == 13))
+            {
+                // Otherwise, trigger the selected item's click event
+                if ($(".selectedSuggestion").length != 0)
+                {
+                    $(".selectedSuggestion").trigger("click");
+                }
+            }
+
+            // If the up arrow key is pressed, scroll through the suggestions
+            else if (e.keyCode == 38)
+            {
+                // If there is no selected suggestion, set the last suggestion as selected
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    $(".suggestion:last").addClass("selectedSuggestion");
+                }
+
+                // Otherwise, set the previous suggestion as selected
+                else
+                {
+                    var selectedSuggestionElement = $(".selectedSuggestion");
+                    var nextSuggestionElement = selectedSuggestionElement.prev();
+                    selectedSuggestionElement.removeClass("selectedSuggestion");
+                    nextSuggestionElement.addClass("selectedSuggestion");
+                }
+            }
+       
+            // If the down arrow key is pressed, scroll through the suggestions
+            else if (e.keyCode == 40)
+            {
+                // If there is no selected suggestion, set the first suggestion as selected
+                if ($(".selectedSuggestion").length == 0)
+                {
+                    $(".suggestion:first").addClass("selectedSuggestion");
+                }
+
+                // Otherwise, set the next suggestion as selected
+                else
+                {
+                    var selectedSuggestionElement = $(".selectedSuggestion");
+                    var nextSuggestionElement = selectedSuggestionElement.next();
+                    selectedSuggestionElement.removeClass("selectedSuggestion");
+                    nextSuggestionElement.addClass("selectedSuggestion");
+                }
+            }
+
+            // Otherwise, if the left or right arrow keys are not pressed, update the search suggestions
+            else if ((e.keyCode != 37) && (e.keyCode != 39))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "/suggestions/",
+                    data: { "type" : "addToCircle", "circleID" : circleID, "query" : query },
+                    success: function(html) {
+                        $("#addToCircleSuggestions").html(html);
+                        $("#addToCircleSuggestions").fadeIn("medium");
+                    },
+                    error: function(a, b, error) { alert("circles.js (5): " + error); }
+                });
+            }
         }
         else
         {
@@ -217,6 +280,10 @@ $(document).ready(function() {
             url: "/addToCircle/",
             data: {"circleID" : circleID, "toMemberID" : toMemberID},
             success: function(html) {
+                if ($("#circleMembers .memberCard").length == 0)
+                {
+                    $("#circleMembers").html("");
+                }
                 $("#circleMembers").prepend(html);
                 $(".circlesMenu").each( function() {
                     memberID = $(this).siblings(".cardButton").attr("memberID")
