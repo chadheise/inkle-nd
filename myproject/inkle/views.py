@@ -539,6 +539,11 @@ def sphere_view(request, sphere_id = None):
     for m in sphere.members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
+    if (member in sphere.members):
+        sphere.button_list = [buttonDictionary["leave"]]
+    else:
+        sphere.button_list = [buttonDictionary["join"]]
+
     return render_to_response( "sphere.html",
         { "member" : member, "sphere" : sphere },
         context_instance = RequestContext(request) )
