@@ -13,15 +13,15 @@
                 <a class="cardName" href="{{ m.get_absolute_url }}">{{ m.get_full_name }}</a>
                 
                 <!-- Contact information -->
-                {% if m.show_contact_info %}
+                {% if m.privacy >= m.email_privacy or m.privacy >= m.phone_privacy %}
                     <div class="contactInfo">
                         <!-- Email -->
-                        {% if m.email %}
+                        {% if m.email and m.privacy >= m.email_privacy %}
                             <p>{{ m.email }}</p>
                         {% endif %}
 
                         <!-- Phone -->
-                        {% if m.phone and m.phone|length_is:"10" %}
+                        {% if m.phone and m.privacy >= m.email_privacy %}
                             <p>{{ m.get_formatted_phone }}</p>
                         {% endif %}
                     </div>
