@@ -766,6 +766,9 @@ def search_view(request, query = ""):
             member.num_other_spheres += 1
             sphere.button_list = [buttonDictionary["join"]]
 
+        # Determine the number of members in the current sphere
+        sphere.num_members = len(sphere.member_set.filter(is_active = True))
+
     return render_to_response( "search.html",
         {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
         context_instance = RequestContext(request) )
@@ -1097,12 +1100,9 @@ def spheres_view(request, other_member_id = None):
         # Get the other member's spheres
         spheres = other_member.spheres.all()
 
-        # Determine the button list for each sphere
-        #for s in spheres:
-        #    if (s in member.spheres.all()):
-        #        s.button_list = [buttonDictionary["leave"]]
-        #    else:
-        #        s.button_list = [buttonDictionary["join"]]
+        # Determine the number of members in the current sphere
+        for sphere in spheres:
+            sphere.num_members = len(sphere.member_set.filter(is_active = True))
 
         # Specify the page context
         page_context = "member"
@@ -1129,8 +1129,11 @@ def spheres_view(request, other_member_id = None):
         spheres = member.spheres.all()
 
         # Give each sphere the "Leave sphere" button
-        for s in spheres:
-            s.button_list = [buttonDictionary["leave"]]
+        for sphere in spheres:
+            sphere.button_list = [buttonDictionary["leave"]]
+
+            # Determine the number of members in the current sphere
+            sphere.num_members = len(sphere.member_set.filter(is_active = True))
 
         # Specify the page context
         page_context = "manage"

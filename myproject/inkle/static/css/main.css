@@ -110,8 +110,8 @@ input
 
 .memberCard, .locationCard, .sphereCard
 {
-    border: 2px solid #444;
-    background-color: #BBB;
+    border: 2px solid #777;
+    background-color: #CCC;
     border-radius: 5px;
     margin-bottom: 10px;
 }
@@ -127,6 +127,7 @@ input
 
 .cardName
 {
+    color: #1B5898;
     font-family: helvetica;
     font-size: 28px;
     font-weight: bold;
@@ -165,7 +166,7 @@ input
     text-decoration: none;
 }
 
-.memberCard .info, .locationCard .info
+.memberCard .info, .locationCard .info, .sphereCard .info
 {
     float: left;
     width: 542px;
