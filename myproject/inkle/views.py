@@ -79,6 +79,18 @@ def member_view(request, other_member_id = None):
         other_member.privacy = 1
     else:
         other_member.privacy = 0
+    
+    # Create the button lists
+    other_member.button_list = []
+
+    if (member in other_member.followers.all()):
+        other_member.button_list.append(buttonDictionary["circles"])
+        other_member.button_list.append(buttonDictionary["stop"])
+    else:
+        other_member.button_list.append(buttonDictionary["request"])
+
+    if (member in other_member.following.all()):
+        other_member.button_list.append(buttonDictionary["prevent"])
 
     return render_to_response( "member.html",
         { "member" : member, "other_member" : other_member },
@@ -1214,8 +1226,17 @@ def inklings_view(request, other_member_id = None):
             inklings["mainEvent"] = other_member.inklings.get(date = date, category = "mainEvent")
         except:
             pass
+    
+        # Get today's date
+        now = datetime.datetime.now()
+        date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
+    
+        # Get date objects
+        today = datetime.date.today()
+        dates = [today + datetime.timedelta(days = x) for x in range(3)]
+        
         return render_to_response( "inklings.html",
-            { "inklings" : inklings },
+            { "inklings" : inklings, "dates" : dates, "selectedDate" : today },
             context_instance = RequestContext(request) )
     else:
         return render_to_response( "noPermission.html",
