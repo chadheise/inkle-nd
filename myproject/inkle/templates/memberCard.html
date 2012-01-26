@@ -30,14 +30,16 @@
 
             <!-- Spheres -->
             <div class="memberSpheres infoRow">
-                {% for sphere in m.spheres.all %}
-                    {% if sphere != m.spheres.all|first %}
-                        <span>&middot;</span>
-                    {% endif %}
-                    {% for word in sphere.name|split %}
-                        <span>{{ word }}</span>
+                {% if m.privacy >= m.sphere_privacy %}
+                    {% for sphere in m.spheres.all %}
+                        {% if sphere != m.spheres.all|first %}
+                            <span>&middot;</span>
+                        {% endif %}
+                        {% for word in sphere.name|split %}
+                            <span>{{ word }}</span>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                {% endif %}
             </div>
 
             <!-- Mutual followings -->
