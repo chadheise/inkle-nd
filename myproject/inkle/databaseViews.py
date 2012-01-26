@@ -47,6 +47,94 @@ def date_selected_view(request):
         {"dates" : dates, "selectedDate" : selectedDate },
         context_instance = RequestContext(request) )
 
+def get_location_inklings_view(request, location_id = None):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        if (location_id):
+            return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
+        else:
+            return HttpResponseRedirect("/login/")
+    
+    # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
+    try:
+        location = Location.objects.get(pk = location_id)
+    except:
+        raise Http404()
+
+    # Get date objects
+    date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+
+    member = get_location_inklings(location_id, date1)
+    
+    return render_to_response( "locationInklings.html",
+        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },
+        context_instance = RequestContext(request) )
+
+def get_location_inklings(location_id = None, date = datetime.date.today()):
+    """Returns a member object with additional fields indicating inklings at the input location for the input datetime date object"""
+    
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        if (location_id):
+            return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
+        else:
+            return HttpResponseRedirect("/login/")
+    
+    # Get the people whom the logged in member is following
+    following = member.following.filter(is_active = True)
+
+    # Get all of the specified date's inklings at the provided location
+    dateReformat = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
+    location_inklings = Inkling.objects.filter(date = dateReformat, location = location)
+
+    # Get the logged in member's dinner inkling and the members who are attending
+    try:
+        dinner_inkling = location_inklings.get(category = "dinner")
+        all_dinner_members = dinner_inkling.member_set.all()
+        member.dinner_members = [m for m in all_dinner_members if (m in following)]
+        member.num_dinner_others = len(all_dinner_members) - len(member.dinner_members)
+        for m in member.dinner_members:
+            m.show_contact_info = True
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+            m.button_list = [buttonDictionary["circles"]]
+    except Inkling.DoesNotExist:
+        member.dinner_members = []
+        member.num_dinner_others = 0
+
+    # Get the logged in member's pregame inkling and the members who are attending
+    try:
+        pregame_inkling = location_inklings.get(category = "pregame")
+        all_pregame_members = pregame_inkling.member_set.all()
+        member.pregame_members = [m for m in all_pregame_members if (m in following)]
+        member.num_pregame_others = len(all_pregame_members) - len(member.pregame_members)
+        for m in member.pregame_members:
+            m.show_contact_info = True
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+            m.button_list = [buttonDictionary["circles"]]
+    except Inkling.DoesNotExist:
+        member.pregame_members = []
+        member.num_pregame_others = 0
+
+    # Get the logged in member's main event inkling and the members who are attending
+    try:
+        main_event_inkling = location_inklings.get(category = "mainEvent")
+        all_main_event_members = main_event_inkling.member_set.all()
+        member.main_event_members = [m for m in all_main_event_members if (m in following)]
+        member.num_main_event_others = len(all_main_event_members) - len(member.main_event_members)
+        for m in member.main_event_members:
+            m.show_contact_info = True
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+            m.button_list = [buttonDictionary["circles"]]
+    except Inkling.DoesNotExist:
+        member.main_event_members = []
+        member.num_main_event_others = 0
+    return member 
+
 def edit_location_view(request):
     """Edits a location's Location object."""
     # Get the member who is logged in (or raise a 404 error if the member ID is invalid)
