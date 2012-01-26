@@ -53,38 +53,7 @@
 
             <!-- Location inklings content -->
             <div id="locationInklingsContent" class="peopleContent grid_15" context="location">
-                <!-- Dinner inkling members -->
-                <div id="dinnerContent">
-                    <p class="subsectionTitle">Dinner</p>
-                    {% for m in member.dinner_members %}
-                        {% include "memberCard.html" %}
-                    {% empty %}
-                        <p>None of the people you are following are going here for dinner.</p>
-                    {% endfor %}
-                    <p>There are {{ member.num_dinner_others }} other member{{ member.num_dinner_others|pluralize }} who you aren't following attending this inkling.</p>
-                </div>
-
-                <!-- Pregame inkling members -->
-                <div id="pregameContent">
-                    <p class="subsectionTitle">Pregame</p>
-                    {% for m in member.pregame_members %}
-                        {% include "memberCard.html" %}
-                    {% empty %}
-                        <p>None of the people you are following are going here for pregame.</p>
-                    {% endfor %}
-                    <p>There are {{ member.num_pregame_others }} other member{{ member.num_pregame_others|pluralize }} who you aren't following attending this inkling.</p>
-                </div>
-
-                <!-- Main event inkling members -->
-                <div id="mainEventContent">
-                    <p class="subsectionTitle">Main event</p>
-                    {% for m in member.main_event_members %}
-                        {% include "memberCard.html" %}
-                    {% empty %}
-                        <p>None of the people you are following are going here for the main event.</p>
-                    {% endfor %}
-                    <p>There are {{ member.num_main_event_others }} other member{{ member.num_main_event_others|pluralize }} who you aren't following attending this inkling.</p>
-                </div>
+                {% include "locationInklings.html" %}
             </div>
             <div class="clear"></div>
         </div>
