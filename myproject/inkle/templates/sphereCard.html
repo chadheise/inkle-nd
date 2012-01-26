@@ -1,13 +1,28 @@
 <div class="grid_17 alpha omega">
     <div class="sphereCard {{ sphere.sphere_type }}">
-        <div class="grid_13">
-            <a href="/sphere/{{ sphere.id }}/" class="cardName">{{ sphere.name }}</a>
-        </div>
+        <!-- Image -->
+        <img src="{{ STATIC_URL }}/media/images/spheres/{{ sphere.id }}.jpg" />
+
+        <!-- Sphere info -->
+        <div class="info">
+            <!-- Name -->
+            <div class="infoRow">
+                <a class="cardName" href="{{ sphere.get_absolute_url }}">{{ sphere.name }}</a>
+            </div>
+
+            <!-- Number of members -->
+            <div class="memberSpheres infoRow">
+                <div class="infoRow">
+                    <p class="numMembers">{{ sphere.num_members }} member{{ sphere.num_members|pluralize }}</p>
+                </div>
+            </div>
  
-        <div class="buttons grid_3">
-            {% for buttonClass, buttonText in sphere.button_list %}
-                <button class="cardButton {{buttonClass}}" sphereID="{{ sphere.id }}" >{{ buttonText }}</button>
-            {% endfor %}
+            <!-- Button list -->
+            <div class="infoRow">
+                {% for buttonClass, buttonText in sphere.button_list %}
+                    <button class="cardButton {{buttonClass}}" sphereID="{{ sphere.id }}" >{{ buttonText }}</button>
+                {% endfor %}
+            </div>
         </div>
         <div class="clear"></div>
     </div>
