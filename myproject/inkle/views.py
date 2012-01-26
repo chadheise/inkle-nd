@@ -923,6 +923,7 @@ def followers_view(request, other_member_id = None):
     # Otherwise, get the members who are following the logged in member and set the appropriate page context and no followers text
     else:
         members = member.followers.filter(is_active = True)
+        other_member = None
         page_context = "myFollowers"
         no_followers_text = "you"
 
