@@ -835,7 +835,7 @@ def suggestions_view(request):
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
         members = members_search_query(query)
-        members = list(set(members) - set(circle.members.filter(is_active = True)))[0:5]
+        members = list(set(members) - set(circle.members.filter(is_active = True)) - set([member]))[0:5]
         if (members):
             for m in members:
                 m.name = m.first_name + " " + m.last_name
