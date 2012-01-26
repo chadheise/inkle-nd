@@ -951,6 +951,14 @@ def followers_view(request, other_member_id = None):
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
+        # Determine the privacy rating for the logged in member and the current member card
+        if ((member in m.followers.all()) or (member == m)):
+            m.privacy = 2
+        elif (member in m.following.all()):
+            m.privacy = 1
+        else:
+            m.privacy = 0
+
     return render_to_response( "followers.html",
         { "member" : member, "members" : members, "pageContext" : page_context, "noFollowersText" : no_followers_text },
         context_instance = RequestContext(request) )
@@ -1001,6 +1009,14 @@ def following_view(request, other_member_id = None):
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         
+        # Determine the privacy rating for the logged in member and the current member card
+        if ((member in m.followers.all()) or (member == m)):
+            m.privacy = 2
+        elif (member in m.following.all()):
+            m.privacy = 1
+        else:
+            m.privacy = 0
+
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
     if (member in other_member.followers.all()):
         other_member.privacy = 2
