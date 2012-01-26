@@ -30,7 +30,7 @@
 
             <!-- Spheres -->
             <div class="memberSpheres infoRow">
-                {% if m.privacy >= m.sphere_privacy %}
+                {% if m.privacy >= m.spheres_privacy %}
                     {% for sphere in m.spheres.all %}
                         {% if sphere != m.spheres.all|first %}
                             <span>&middot;</span>
