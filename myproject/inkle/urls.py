@@ -27,7 +27,6 @@ urlpatterns = patterns(
     (r"^resetPassword/$", "set_password_view"),
     (r"^logout/$", "logout_view"),
     (r"^editMember/$", "edit_member_view"),
-    (r"^location/(?P<location_id>\d+)/$", "location_view"),
     (r"^editLocation/$", "edit_location_view"),
     (r"^getEditLocationHtml/$", "get_edit_location_html_view"),
     (r"^manage/$", "manage_view"),
@@ -62,9 +61,12 @@ urlpatterns = patterns(
     (r"^createSphere/$", "create_sphere_view"),
     (r"^createLocation/$", "create_location_view"),
     (r"^getOthersInklings/$", "get_others_inklings_view"),
-    (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
     (r"^uploadImage/$", "upload_image_view"),
     (r"^inklings/(?P<other_member_id>\d+)/$", "inklings_view"),
+
+    (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
+    (r"^location/(?P<location_id>\d+)/$", "location_view"),
+    (r"^sphere/(?P<sphere_id>\d+)/$", "sphere_view"),
 
     (r"^account/$", "account_view"),
     (r"^account/(?P<content_type>password|email|deactivate)/$", "account_view"),
