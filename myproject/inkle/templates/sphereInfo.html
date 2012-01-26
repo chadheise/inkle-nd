@@ -1,0 +1,10 @@
+<!-- Number of members in sphere -->
+<div class="infoSection">
+    <p class="infoLabel">Number of members:</p>
+    <p>{{ sphere.num_members }}</p>
+</div>
+
+<!-- Edit sphere button -->
+{% if member.is_staff %}
+    <button id="sphereEditButton" sphereID="{{ sphere.id }}">Edit sphere</button>
+{% endif %}

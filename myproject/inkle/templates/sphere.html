@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Sphere | {{ sphere.name }}</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphere.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <!-- Sphere info -->
+        <div class="grid_6">
+            <!-- Sphere image -->
+            <img id="sphereImage" src="{{ STATIC_URL }}/media/images/spheres/{{ sphere.id }}.jpg" image="{{ sphere.image }}" />
+
+            <div id="sphereInfo">
+                {% include "sphereInfo.html" %}
+            </div>
+        </div>
+
+        <!-- Sphere page content -->
+        <div class="grid_15 push_1 alpha omega">
+            <!-- Sphere name -->
+            <div class="grid_15">
+                <p id="sphereName" class="pageTitle">{{ sphere.name }}</p>
+            </div>
+            <div class="clear"></div>
+                
+            <!-- Sphere content links -->
+            <div id="sphereContentLinks" class="contentLinks grid_15">
+                <p class="selectedContentLink" contentType="members">Members</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Sphere members -->
+            <div id="sphereContent" class="grid_15">
+                {% for m in sphere.members %}
+                    {% include "memberCard.html" %}
+                {% empty %}
+                    <p>There are no members in this sphere.</p>
+                {% endfor %}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{% endblock mainContent%}

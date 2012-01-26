@@ -514,6 +514,36 @@ def edit_profile_privacy_view(request):
         context_instance = RequestContext(request) )
 
 
+def sphere_view(request, sphere_id = None):
+    """Returns the HTML for the sphere page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        if (location_id):
+            return HttpResponseRedirect("/login/?next=/sphere/" + sphere_id + "/")
+        else:
+            return HttpResponseRedirect("/login/")
+    
+    # Get the sphere corresponding to the inputted ID (or throw a 404 error if it is invalid)
+    try:
+        sphere = Sphere.objects.get(pk = sphere_id)
+    except:
+        raise Http404()
+
+    # Get the sphere's members
+    sphere.members = sphere.member_set.filter(is_active = True)
+    sphere.num_members = len(sphere.members)
+
+    # Determine the mutual following for each member in the sphere
+    for m in sphere.members:
+        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+
+    return render_to_response( "sphere.html",
+        { "member" : member, "sphere" : sphere },
+        context_instance = RequestContext(request) )
+
+
 def location_view(request, location_id = None):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
