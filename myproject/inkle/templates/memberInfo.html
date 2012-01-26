@@ -49,16 +49,16 @@
 
 {% for buttonClass, buttonText, toolTip in other_member.button_list %}
     <button class="cardButton {{ buttonClass }}" memberID="{{ other_member.id }}" title="{{ toolTip }}" style="float: left; margin: 0px 1px 0px 0px;">{{ buttonText }}</button>
-                    {% if buttonClass == "circlesCardButton" %}
-                            <div class="circlesMenu">
-                                {% for circle in member.circles.all %}
-                                    <div>
-                                        <input id="m{{ m.id }}_c{{ circle.id }}" type="checkbox" {% if m in circle.members.all %}checked="checked"{% endif %} circleID="{{ circle.id }}" />
-                                        <label for="m{{ m.id }}_c{{ circle.id }}">{{ circle.name }}</label>
-                                    </div>
-                                {% empty %}
-                                    <div class="noCircles">You have no circles.</div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+    {% if buttonClass == "circlesCardButton" %}
+        <div class="circlesMenu">
+            {% for circle in member.circles.all %}
+                <div>
+                    <input id="m{{ m.id }}_c{{ circle.id }}" type="checkbox" {% if m in circle.members.all %}checked="checked"{% endif %} circleID="{{ circle.id }}" />
+                    <label for="m{{ m.id }}_c{{ circle.id }}">{{ circle.name }}</label>
+                </div>
+            {% empty %}
+                <div class="noCircles">You have no circles.</div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endfor %}
