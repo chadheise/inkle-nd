@@ -570,7 +570,7 @@ def location_view(request, location_id = None):
     today = datetime.date.today()
     dates = [today + datetime.timedelta(days = x) for x in range(3)]
     
-    member = get_location_inklings(location_id, today)
+    member = get_location_inklings(request.session["member_id"], location_id, today)
 
     return render_to_response( "location.html",
         { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },

@@ -73,23 +73,29 @@ def get_location_inklings_view(request, location_id = None):
         { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
-def get_location_inklings(location_id = None, date = datetime.date.today()):
+def get_location_inklings(member_id = None, location_id = None, date = datetime.date.today()):
     """Returns a member object with additional fields indicating inklings at the input location for the input datetime date object"""
-    
+
     # Get the member who is logged in (or redirect them to the login page)
     try:
-        member = Member.active.get(pk = request.session["member_id"])
+        member = Member.active.get(pk = member_id)
+        print str(member)
     except:
         if (location_id):
             return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
         else:
             return HttpResponseRedirect("/login/")
+    # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
+    try:
+        location = Location.objects.get(pk = location_id)
+    except:
+        raise Http404()
     
     # Get the people whom the logged in member is following
     following = member.following.filter(is_active = True)
 
     # Get all of the specified date's inklings at the provided location
-    dateReformat = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
+    dateReformat = str(date.month) + "/" + str(date.day) + "/" + str(date.year)
     location_inklings = Inkling.objects.filter(date = dateReformat, location = location)
 
     # Get the logged in member's dinner inkling and the members who are attending
@@ -133,6 +139,7 @@ def get_location_inklings(location_id = None, date = datetime.date.today()):
     except Inkling.DoesNotExist:
         member.main_event_members = []
         member.num_main_event_others = 0
+        
     return member 
 
 def edit_location_view(request):
