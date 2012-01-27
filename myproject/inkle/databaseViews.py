@@ -61,7 +61,7 @@ def get_location_inklings_view(request):
 
     print "dateObjects"
     # Get date objects
-    date1 = date1 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
+    date1 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
     print "member call"
@@ -600,11 +600,28 @@ def get_my_inklings_view(request):
     # Get the POST data
     date = request.POST["date"]
     
+    print "here0"
+    #Get the date to be viewed
+    day = int(date.split('/')[0])
+    print day
+    month = int(date.split('/')[1])
+    print month
+    year = int(date.split('/')[2])
+    print year
+    #viewDate = datetime.date(int(year), int(month), int(day))
+    #print viewDate
+    #if viewDate < datetime.today():
+    #    pastDate = True
+    #else:
+    #    pastDate = False
+    pastDate = True
+    print "here2"
+    
     # Get the names and images for the logged in member's inkling locations
     member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
 
     return render_to_response( "myInklings.html",
-        { "member" : member },
+        { "member" : member, "pastDate" : pastDate },
         context_instance = RequestContext(request) )
 
 
