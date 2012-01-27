@@ -1,3 +1,11 @@
+#calendarContainer {
+    text-align: center;
+}
+
+#calendar {
+    display: inline-block;
+}
+
 .dateContainer
 {
     text-align: center;
@@ -43,17 +51,12 @@
     color: #CD1A26;
 }
 
-#calendar {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
 .buttonContainer
 {
     text-align: center;
 }
 
-#todayButton {
+/*#todayButton {
     padding: 5px 0px 5px 0px;
     height: 30px;
     width: 105px;
@@ -69,6 +72,26 @@
 
 #todayButton:hover {
     border-color: #002C45;
+}*/
+
+#todayButton {
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+    border-radius: 7px;
+    cursor: pointer;
+    background-color: #70A9DB;
+    border: 2px solid #70A9DB;
+    height: 95px;
+    width: 25px;
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+    float: left;
+}
+
+#todayButton:hover {
+    background-color: #1B5898;
+    border: 2px solid #1B5898;
 }
 
 .calendarArrow {
@@ -77,7 +100,8 @@
     border: 2px solid #ABD4B0;
     height: 95px;
     width: 25px;
-    margin: 10px 10px 10px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
     float: left;
 }
@@ -89,10 +113,12 @@
 
 #calendarArrowLeft {
     border-radius: 7px 0px 0px 7px;
+    margin-right: 10px;
 }
 
 #calendarArrowRight {
     border-radius: 0px 7px 7px 0px;
+    margin-left: 10px;
 }
 
 .calendarArrowImg {
