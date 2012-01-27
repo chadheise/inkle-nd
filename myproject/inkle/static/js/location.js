@@ -8,42 +8,46 @@ $(document).ready(function() {
             $("#locationInklingsContentLinks .selectedContentLink").removeClass("selectedContentLink");
             $(this).addClass("selectedContentLink");
 
-            // Depending on which content link was clicked, hide and show the appropriate results
-            var contentType = $(this).attr("contentType");
-            $("#locationInklingsContent").fadeOut(function() {
-                if (contentType == "all")
-                {
-                    $("#dinnerContent").show();
-                    $("#pregameContent").show();
-                    $("#mainEventContent").show();
-                    $(".subsectionTitle").show();
-                }
-                else if (contentType == "dinner")
-                {
-                    $("#dinnerContent").show();
-                    $("#pregameContent").hide();
-                    $("#mainEventContent").hide();
-                    $(".subsectionTitle").hide();
-                }
-                else if (contentType == "pregame")
-                {
-                    $("#dinnerContent").hide();
-                    $("#pregameContent").show();
-                    $("#mainEventContent").hide();
-                    $(".subsectionTitle").hide();
-                }
-                else if (contentType == "mainEvent")
-                {
-                    $("#dinnerContent").hide();
-                    $("#pregameContent").hide();
-                    $("#mainEventContent").show();
-                    $(".subsectionTitle").hide();
-                }
+            showHideContent($(this).attr("contentType"));
 
-                $("#locationInklingsContent").fadeIn();
-            });
         }
     });
+
+    function showHideContent(contentType) {
+        // Depending on which content link was clicked, hide and show the appropriate results
+        $("#locationInklingsContent").fadeOut(function() {
+            if (contentType == "all")
+            {
+                $("#dinnerContent").show();
+                $("#pregameContent").show();
+                $("#mainEventContent").show();
+                $(".subsectionTitle").show();
+            }
+            else if (contentType == "dinner")
+            {
+                $("#dinnerContent").show();
+                $("#pregameContent").hide();
+                $("#mainEventContent").hide();
+                $(".subsectionTitle").hide();
+            }
+            else if (contentType == "pregame")
+            {
+                $("#dinnerContent").hide();
+                $("#pregameContent").show();
+                $("#mainEventContent").hide();
+                $(".subsectionTitle").hide();
+            }
+            else if (contentType == "mainEvent")
+            {
+                $("#dinnerContent").hide();
+                $("#pregameContent").hide();
+                $("#mainEventContent").show();
+                $(".subsectionTitle").hide();
+            }
+
+            $("#locationInklingsContent").fadeIn();
+        });
+    }
 
     // Show the edit location content when the edit location button is clicked
     $("#locationEditButton").live("click", function() {
@@ -182,8 +186,8 @@ $(document).ready(function() {
                   data: {"location_id" : location_id, "year" : year, "month" : month, "day": day},
                   success: function(html) {
                       $("#locationInklingsContent").fadeOut("medium", function() {
-                          $("#locationInklingsContent").html(html); 
-                          $("#locationInklingsContent").fadeIn("medium"); 
+                          $("#locationInklingsContent").html(html);
+                          showHideContent( $(".selectedContentLink").attr("contentType") );
                       });
                   },
                   error: function(a, b, error) { alert("calendar.js (1): " + error); }
@@ -215,10 +219,10 @@ $(document).ready(function() {
                        url: "/getLocationInklings/",
                        data: {"location_id" : location_id, "year" : year, "month" : month, "day" : day},
                        success: function(html) {
-                                $("#locationInklingsContent").fadeOut("medium", function() {
-                               $("#locationInklingsContent").html(html); 
-                               $("#locationInklingsContent").fadeIn("medium"); 
-                           });
+                           $("#locationInklingsContent").fadeOut("medium", function() {
+                                 $("#locationInklingsContent").html(html);
+                                 showHideContent( $(".selectedContentLink").attr("contentType") );
+                             });
                        },
                        error: function(a, b, error) { alert("calendar.js (1): " + error); }
                    });                          
