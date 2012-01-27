@@ -1,9 +1,15 @@
 {% if locations %}
-    {% for location in locations %}
-        {% include "locationBoardCard.html" %}
-    {% endfor %}
+        {% for location in locations %}
+            {% include "locationBoardCard.html" %}
+        {% endfor %}
+        {% for location in locations %}
+            {% include "locationBoardCard.html" %}
+        {% endfor %}
+        {% for location in locations %}
+            {% include "locationBoardCard.html" %}
+        {% endfor %}
 {% else %}
-    <div class="grid_20 alpha omega" style="text-align: center;">
+    <div class="grid_24 alpha omega" style="text-align: center;">
         <p>There are no inklings which match your query.</p>
     </div>
 {% endif %}

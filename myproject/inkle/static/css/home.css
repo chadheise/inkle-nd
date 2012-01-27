@@ -63,15 +63,24 @@ select, select option
     margin-top: 20px;
 }
 
-.locationBoardCard
+/*.locationBoardCard
 {
     border: solid 2px #288D42;
     background-color: #DDD;
-    /*padding: 10px;*/
     padding: 10px 10px 10px 0px;
-    /*height: 75px;*/
     height: 130px;
     margin-bottom: 10px;
+} */
+
+.locationBoardCard
+{
+    height: 130px;
+    border-radius: 7px;
+}
+
+.locationBoardCard:hover
+{
+    background: lightgrey;
 }
 
 .locationBoardCardCount
@@ -113,7 +122,12 @@ select, select option
 .locationBoardCardName
 {
     margin-top: 3px;
-    font-size: 36px;
+    font-size: 32px;
     color: #288D42;
     text-decoration: none;
+} 
+
+.locationBoardCardText
+{
+    margin-top: 20px;
 }

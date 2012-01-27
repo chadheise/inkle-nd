@@ -74,7 +74,7 @@
     border-color: #002C45;
 }*/
 
-#todayButton {
+.todayButton {
     font-weight: bold;
     font-size: 15px;
     color: white;
@@ -89,7 +89,7 @@
     float: left;
 }
 
-#todayButton:hover {
+.todayButton:hover {
     background-color: #1B5898;
     border: 2px solid #1B5898;
 }
