@@ -28,7 +28,7 @@ urlpatterns = patterns(
     (r"^logout/$", "logout_view"),
     (r"^editMember/$", "edit_member_view"),
 
-    (r"^getLocationInklings/(?P<location_id>\d+)/$", "get_location_inklings_view"),
+    (r"^getLocationInklings/$", "get_location_inklings_view"),
 
     (r"^editLocation/$", "edit_location_view"),
     (r"^getEditLocationHtml/$", "get_edit_location_html_view"),

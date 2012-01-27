@@ -365,7 +365,7 @@ $(document).ready(function() {
                        updateOthersInklings(date);
                    }                          
                },
-               error: function(a, b, error) { alert("home.js (6): " + error); }
+               error: function(a, b, error) { alert("calendar.js (6): " + error); }
            });
 
        });
@@ -398,7 +398,7 @@ $(document).ready(function() {
                    $("#calendarContainer").html(html); // Update the HTML of the calendar
                    styleSelectedDate();
                },
-               error: function(a, b, error) { alert("home.js (7): " + error); }
+               error: function(a, b, error) { alert("calendar.js (7): " + error); }
            });
        });
           

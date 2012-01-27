@@ -47,30 +47,29 @@ def date_selected_view(request):
         {"dates" : dates, "selectedDate" : selectedDate },
         context_instance = RequestContext(request) )
 
-def get_location_inklings_view(request, location_id = None):
+def get_location_inklings_view(request):
     # Get the member who is logged in (or redirect them to the login page)
+    print "---------------"
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (location_id):
-            return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
+        print "except"
+        if (request.POST["location_id"]):
+            return HttpResponseRedirect("/login/?next=/location/" + request.POST["location_id"] + "/")
         else:
             return HttpResponseRedirect("/login/")
-    
-    # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
-    try:
-        location = Location.objects.get(pk = location_id)
-    except:
-        raise Http404()
 
+    print "dateObjects"
     # Get date objects
-    date1 = datetime.date.today()
+    date1 = date1 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
-    member = get_location_inklings(location_id, date1)
+    print "member call"
+    member = get_location_inklings(request.session["member_id"], request.POST["location_id"], date1)
+    print "member return"
     
     return render_to_response( "locationInklings.html",
-        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },
+        { "member" : member},
         context_instance = RequestContext(request) )
 
 def get_location_inklings(member_id = None, location_id = None, date = datetime.date.today()):
@@ -79,7 +78,6 @@ def get_location_inklings(member_id = None, location_id = None, date = datetime.
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = member_id)
-        print str(member)
     except:
         if (location_id):
             return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
@@ -87,7 +85,7 @@ def get_location_inklings(member_id = None, location_id = None, date = datetime.
             return HttpResponseRedirect("/login/")
     # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
-        location = Location.objects.get(pk = location_id)
+        location = Location.objects.get(pk = int(location_id))
     except:
         raise Http404()
     
