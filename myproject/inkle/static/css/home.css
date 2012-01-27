@@ -31,6 +31,17 @@
     border: inset 2px #BBB;
 }
 
+.pastInklingText
+{
+    margin-top: 5px;
+    font-size: 18px;
+    padding: 5px;
+    width: 192px;
+    height: 25px;
+    color: #1B5898;
+    text-align: center;
+}
+
 .inklingSuggestions
 {
     width: 202px;

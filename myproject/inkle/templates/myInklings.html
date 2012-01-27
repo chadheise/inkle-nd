@@ -4,7 +4,11 @@
         <div>
             <p class="inklingTitle">Dinner</p>
             <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
-            <input type="text" location="{{ member.dinnerName }}" />
+            {% if pastDate == True %}
+                <input type="text" location="{{ member.dinnerName }}" />
+            {% else %}
+                <p class="pastInklingText">{{ member.dinnerName }}</p>
+            {% endif %}
         </div>
     
         <div class="suggestions inklingSuggestions"></div>
@@ -17,7 +21,11 @@
         <div>
             <p class="inklingTitle">Pregame</p>
             <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
-            <input type="text" location="{{ member.pregameName }}" />
+            {% if pastDate == True %}
+                <input type="text" location="{{ member.pregameName }}" />
+            {% else %}
+                <p class="pastInklingText">{{ member.pregameName }}</p>
+            {% endif %}
         </div>
 
         <div class="suggestions inklingSuggestions"></div>
@@ -30,7 +38,11 @@
         <div>
             <p class="inklingTitle">Main Event</p>
             <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
-            <input type="text" location="{{ member.mainEventName }}" />
+            {% if pastDate == True %}
+                <input type="text" location="{{ member.mainEventName }}" />
+            {% else %}
+                <p class="pastInklingText">{{ member.mainEventName }}</p>
+            {% endif %}
         </div>
 
         <div class="suggestions inklingSuggestions"></div>
