@@ -1,50 +1,60 @@
-<!-- Dinner inkling -->
-<div class="grid_6">
-    <div id="dinnerInkling" class="inkling" inklingType="dinner">
-        <div>
-            <p class="inklingTitle">Dinner</p>
-            <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
-            {% if not pastDate %}
-                <input type="text" location="{{ member.dinnerName }}" />
-            {% else %}
-                <p class="pastInklingText">{{ member.dinnerName }}</p>
-            {% endif %}
+<div id="myInklings" style="text-align: center;">
+    <div style="display: inline-block;">
+        <!-- Dinner inkling -->
+        <div id="dinnerInkling" class="inkling" inklingType="dinner">
+            <div>
+                <p class="inklingTitle">Dinner</p>
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
+                {% if not pastDate %}
+                    <input type="text" location="{{ member.dinnerName }}" />
+                {% else %}
+                    {% if member.dinnerName %}    
+                        <p class="pastInklingText">{{ member.dinnerName }}</p>
+                    {% else %}
+                        <p class="pastInklingText">&nbsp;</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="suggestions inklingSuggestions"></div>
         </div>
-    
-        <div class="suggestions inklingSuggestions"></div>
-    </div>
+
+        <!-- Pregame inkling -->
+        <div id="pregameInkling" class="inkling" inklingType="pregame">
+            <div>
+                <p class="inklingTitle">Pregame</p>
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
+                {% if not pastDate %}
+                    <input type="text" location="{{ member.pregameName }}" />
+                {% else %}
+                    {% if member.pregameName %}
+                        <p class="pastInklingText">{{ member.pregameName }}</p>
+                    {% else %}
+                        <p class="pastInklingText">&nbsp;</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="suggestions inklingSuggestions"></div>
+        </div>
+
+        <!-- Main event inkling -->
+        <div id="mainEventInkling" class="inkling" inklingType="mainEvent">
+            <div>
+                <p class="inklingTitle">Main Event</p>
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
+                {% if not pastDate %}
+                    <input type="text" location="{{ member.mainEventName }}" />
+                {% else %}
+                    {% if member.pregameName %}
+                        <p class="pastInklingText">{{ member.mainEventName }}</p>
+                    {% else %}
+                        <p class="pastInklingText">&nbsp;</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="suggestions inklingSuggestions"></div>
+        </div>
 </div>
-
-<!-- Pregame inkling -->
-<div class="grid_6 push_1">
-    <div id="pregameInkling" class="inkling" inklingType="pregame">
-        <div>
-            <p class="inklingTitle">Pregame</p>
-            <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
-            {% if not pastDate %}
-                <input type="text" location="{{ member.pregameName }}" />
-            {% else %}
-                <p class="pastInklingText">{{ member.pregameName }}</p>
-            {% endif %}
-        </div>
-
-        <div class="suggestions inklingSuggestions"></div>
-    </div>
-</div>
-
-<!-- Main event inkling -->
-<div class="grid_6 push_2">
-    <div id="mainEventInkling" class="inkling" inklingType="mainEvent">
-        <div>
-            <p class="inklingTitle">Main Event</p>
-            <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
-            {% if not pastDate %}
-                <input type="text" location="{{ member.mainEventName }}" />
-            {% else %}
-                <p class="pastInklingText">{{ member.mainEventName }}</p>
-            {% endif %}
-        </div>
-
-        <div class="suggestions inklingSuggestions"></div>
-    </div>
 </div>

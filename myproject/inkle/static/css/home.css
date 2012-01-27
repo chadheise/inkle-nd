@@ -3,6 +3,10 @@
     padding: 3px 10px 10px 10px;
     border: solid 2px #288D42;
     background-color: #ABD4B0;
+    width: 230px;
+    height: 285px;
+    display: inline-block;
+    margin: 20px;
 }
 
 .inklingTitle
@@ -36,7 +40,6 @@
     margin-top: 5px;
     font-size: 18px;
     padding: 5px;
-    width: 192px;
     height: 25px;
     color: #1B5898;
     text-align: center;
