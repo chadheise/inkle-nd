@@ -294,6 +294,10 @@ $(document).ready(function() {
         }
     });
     
+    $(".locationBoardCard").live("click", function() {
+        window.location = $(this).attr("url");
+    });
+    
     // THE FUNCTIONS BELOW SHOULD BE MOVED TO CALENDAR.JS
     
     styleSelectedDate();
