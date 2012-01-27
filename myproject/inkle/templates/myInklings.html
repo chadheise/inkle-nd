@@ -4,7 +4,7 @@
         <div>
             <p class="inklingTitle">Dinner</p>
             <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinnerImage }}" />
-            {% if pastDate == True %}
+            {% if not pastDate %}
                 <input type="text" location="{{ member.dinnerName }}" />
             {% else %}
                 <p class="pastInklingText">{{ member.dinnerName }}</p>
@@ -21,7 +21,7 @@
         <div>
             <p class="inklingTitle">Pregame</p>
             <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregameImage }}" />
-            {% if pastDate == True %}
+            {% if not pastDate %}
                 <input type="text" location="{{ member.pregameName }}" />
             {% else %}
                 <p class="pastInklingText">{{ member.pregameName }}</p>
@@ -38,7 +38,7 @@
         <div>
             <p class="inklingTitle">Main Event</p>
             <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.mainEventImage }}" />
-            {% if pastDate == True %}
+            {% if not pastDate %}
                 <input type="text" location="{{ member.mainEventName }}" />
             {% else %}
                 <p class="pastInklingText">{{ member.mainEventName }}</p>

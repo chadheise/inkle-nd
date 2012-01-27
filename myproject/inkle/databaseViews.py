@@ -600,22 +600,15 @@ def get_my_inklings_view(request):
     # Get the POST data
     date = request.POST["date"]
     
-    print "here0"
     #Get the date to be viewed
-    day = int(date.split('/')[0])
-    print day
-    month = int(date.split('/')[1])
-    print month
-    year = int(date.split('/')[2])
-    print year
-    #viewDate = datetime.date(int(year), int(month), int(day))
-    #print viewDate
-    #if viewDate < datetime.today():
-    #    pastDate = True
-    #else:
-    #    pastDate = False
-    pastDate = True
-    print "here2"
+    month = int(request.POST["date"].split('/')[0])
+    day = int(request.POST["date"].split('/')[1])
+    year = int(request.POST["date"].split('/')[2])
+    viewDate = datetime.date(year, month, day)
+    
+    pastDate = False
+    if viewDate < datetime.date.today():
+        pastDate = True
     
     # Get the names and images for the logged in member's inkling locations
     member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
