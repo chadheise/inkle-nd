@@ -568,7 +568,7 @@ def location_view(request, location_id = None):
 
     # Get date objects
     today = datetime.date.today()
-    dates = [today + datetime.timedelta(days = x) for x in range(3)]
+    dates = [today + datetime.timedelta(days = x) for x in range(4)]
     
     member = get_location_inklings(request.session["member_id"], location_id, today)
 
