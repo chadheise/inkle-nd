@@ -195,7 +195,7 @@ $(document).ready(function() {
            }
        });
 
-       $("#todayButton").live("click", function() {
+       $(".todayButton").live("click", function() {
            var arrow = "today"
            numDates = $(".dateContainer").size() - 1; //Get the number of calendar dates to display, subtract 1 for hidden selected field
 
