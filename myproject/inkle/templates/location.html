@@ -41,16 +41,16 @@
                 <p contentType="dinner">Dinner</p>
                 <p contentType="pregame">Pregame</p>
                 <p contentType="mainEvent">Main event</p>
+                
+                <!-- Today button -->
+                <div class="grid_2buttonContainer" style="padding-left: 50px;">
+                    <input id="todayButton" type="submit" name="submit" value="Today" />
+                </div>   
             </div>
             <div class="clear"></div>
-
-            <!-- Today button -->
-            <div class="grid_3 push_12 buttonContainer">
-                <input id="todayButton" type="submit" name="submit" value="Today" />
-            </div>
-            <div class="clear"></div>
+            
             <!-- Calendar -->
-            <div id="calendarContainer" class="grid_14 push_2 omega">
+            <div id="calendarContainer" class="grid_17" style="padding-left: 27px;">
                 {% include "calendar.html" %}
             </div>
             <div class="clear"></div>
