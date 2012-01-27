@@ -81,6 +81,7 @@ select, select option
 .locationBoardCard:hover
 {
     background: lightgrey;
+    cursor: pointer;
 }
 
 .locationBoardCardCount
@@ -130,4 +131,9 @@ select, select option
 .locationBoardCardText
 {
     margin-top: 20px;
+}
+
+#homeContent 
+{
+    /*overflow: scroll;*/
 }
