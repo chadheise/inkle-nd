@@ -56,21 +56,47 @@ select, select option
 {
     border: solid 2px #288D42;
     background-color: #DDD;
-    padding: 10px;
-    height: 75px;
+    /*padding: 10px;*/
+    padding: 10px 10px 10px 0px;
+    /*height: 75px;*/
+    height: 130px;
     margin-bottom: 10px;
 }
 
 .locationBoardCardCount
 {
-    border: solid 1px black;
-    text-align: center;
-    height: 57px;
+    /*border: solid 1px black;
+    padding-top: 15px; */
     font-size: 32px;
-    padding-top: 15px;
+    position: relative;
+    height: 115px;
+    text-align: center;
     font-weight: bold;
     color: #FFF;
-    background-color: #1B5898;
+    margin: 0px;
+    /*background-color: #1B5898; */
+    /*background-image:url('/static/media/images/main/blotblue.png');
+    background:url(/static/media/images/main/blotblue.png);
+    background-size:115px 115px;
+    background-repeat:no-repeat;*/
+}
+
+.locationBoardCardCount img
+{
+    height: 130px;
+    width: 130px;
+}
+
+.locationBoardCardCount .text
+{
+    position: absolute;
+    top: 40%;
+    width: 100%;
+}
+
+.locationBoardCardCount .text p
+{
+    text-align: center;
 }
 
 .locationBoardCardName
