@@ -51,7 +51,7 @@ def manage_view(request, content_type = "circles"):
         context_instance = RequestContext(request) )
 
 
-def member_view(request, other_member_id = None):
+def member_view(request, other_member_id = None, content_type = "inklings", date = "today"):
     """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -92,8 +92,18 @@ def member_view(request, other_member_id = None):
     if (member in other_member.following.all()):
         other_member.button_list.append(buttonDictionary["prevent"])
 
+    # Get date objects
+    if date == "today":
+        date1 = datetime.date.today()
+    else:
+        try:
+            date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
+        except:
+            date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+
     return render_to_response( "member.html",
-        { "member" : member, "other_member" : other_member },
+        { "member" : member, "other_member" : other_member, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
         context_instance = RequestContext(request) )
     
 
@@ -1214,7 +1224,7 @@ def inklings_view(request, other_member_id = None):
         date = request.POST["date"]
     except KeyError:
         raise Http404()
-    
+
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
     if (member in other_member.followers.all()):
         other_member.privacy = 2
@@ -1237,17 +1247,16 @@ def inklings_view(request, other_member_id = None):
             inklings["mainEvent"] = other_member.inklings.get(date = date, category = "mainEvent")
         except:
             pass
-    
-        # Get today's date
-        now = datetime.datetime.now()
-        date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
-    
+
         # Get date objects
-        today = datetime.date.today()
-        dates = [today + datetime.timedelta(days = x) for x in range(3)]
+        month = int(request.POST["date"].split("/")[0])
+        day = int(request.POST["date"].split("/")[1])
+        year = int(request.POST["date"].split("/")[2])
+        date1 = datetime.date(year, month, day)
+        dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
         
         return render_to_response( "inklings.html",
-            { "inklings" : inklings, "dates" : dates, "selectedDate" : today },
+            { "inklings" : inklings, "dates" : dates, "selectedDate" : date1 },
             context_instance = RequestContext(request) )
     else:
         return render_to_response( "noPermission.html",
