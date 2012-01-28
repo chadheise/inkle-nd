@@ -1,5 +1,5 @@
 <!-- Dinner inkling members -->
-    <div id="dinnerContent">
+    <div id="dinnerContent" style="display:none;"> <!--Required content will load via javascript -->
         <p class="subsectionTitle">Dinner</p>
         {% for m in member.dinner_members %}
             {% include "memberCard.html" %}
@@ -10,7 +10,7 @@
     </div>
 
     <!-- Pregame inkling members -->
-    <div id="pregameContent">
+    <div id="pregameContent" style="display:none;"> <!--Required content will load via javascript -->
         <p class="subsectionTitle">Pregame</p>
         {% for m in member.pregame_members %}
             {% include "memberCard.html" %}
@@ -21,7 +21,7 @@
     </div>
 
     <!-- Main event inkling members -->
-    <div id="mainEventContent">
+    <div id="mainEventContent" style="display:none;"> <!--Required content will load via javascript -->
         <p class="subsectionTitle">Main event</p>
         {% for m in member.main_event_members %}
             {% include "memberCard.html" %}
