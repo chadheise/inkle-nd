@@ -32,19 +32,36 @@
         
         <div class="grid_17 push_1 alpha omega">
             <!-- Member name -->
-            <div class="grid_17">
+            <div class="grid_17 alpha omega">
                 <p id="memberName" class="pageTitle">{{ other_member.first_name }} {{ other_member.last_name }}</p>
             </div>
             <div class="clear"></div>
 
             <!-- Member content links -->
-            <div id="memberContentLinks" class="contentLinks grid_17">
-                <p class="selectedContentLink" contentType="inklings/{{ other_member.id }}">Inklings</p>
-                <p contentType="spheres/{{ other_member.id }}">Spheres</p>
-                <p contentType="following/{{ other_member.id }}">Following</p>
-                <p contentType="followers/{{ other_member.id }}">Followers</p>
+            <div id="memberContentLinks" class="contentLinks grid_17 alpha omega">
+                {% if content_type == "inklings" %}
+                    <p class="selectedContentLink" contentType="inklings/{{ other_member.id }}">Inklings</p>
+                {% else %}
+                    <p contentType="inklings/{{ other_member.id }}">Inklings</p>
+                {% endif %}
+                {% if content_type == "spheres" %}
+                    <p class="selectedContentLink" contentType="spheres/{{ other_member.id }}">Spheres</p>
+                {% else %}
+                    <p contentType="spheres/{{ other_member.id }}">Spheres</p>
+                {% endif %}
+                {% if content_type == "following" %}
+                    <p class="selectedContentLink" contentType="following/{{ other_member.id }}">Following</p>
+                {% else %}
+                    <p contentType="following/{{ other_member.id }}">Following</p>
+                {% endif %}
+                {% if content_type == "followers" %}
+                    <p class="selectedContentLink" contentType="followers/{{ other_member.id }}">Followers</p>
+                {% else %}
+                    <p contentType="followers/{{ other_member.id }}">Followers</p>
+                {% endif %}
             </div>
             <div class="clear"></div>
+            <div id="hiddenDate" day="{{ selectedDate|date:"j" }}" month="{{ selectedDate|date:"n" }}" year="{{ selectedDate|date:"Y" }}" style="display:none;"></div>
                 
             <div id="memberContent" class="grid_17 alpha omega">
                 <!-- Main manage content -->
