@@ -70,8 +70,8 @@ urlpatterns = patterns(
     (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
     (r"^location/(?P<location_id>\d+)/$", "location_view"),
     (r"^location/(?P<location_id>\d+)/(?P<content_type>all|dinner|pregame|mainEvent)/$", "location_view"),
-    (r"^location/(?P<location_id>\d+)/(?P<content_type>all|dinner|pregame|mainEvent)/(?P<date>\d\d?_\d\d?_(\d\d)?\d\d)/$", "location_view"),
-    (r"^location/(?P<location_id>\d+)/(?P<date>\d\d?_\d\d?_(\d\d)?\d\d)/$", "location_view"),
+    (r"^location/(?P<location_id>\d+)/(?P<content_type>all|dinner|pregame|mainEvent)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "location_view"),
+    (r"^location/(?P<location_id>\d+)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "location_view"),
     (r"^sphere/(?P<sphere_id>\d+)/$", "sphere_view"),
 
     (r"^account/$", "account_view"),

@@ -574,7 +574,7 @@ def location_view(request, location_id = None, content_type = "all", date = "tod
             date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
         except:
             date1 = datetime.date.today()
-    dates = [date1 + datetime.timedelta(days = x) for x in range(4)]
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
     
     member = get_location_inklings(request.session["member_id"], location_id, date1)
 

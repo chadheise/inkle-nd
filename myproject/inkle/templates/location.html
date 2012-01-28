@@ -28,15 +28,15 @@
             </div>
         </div>
         <!-- Location inklings members -->
-        <div class="grid_15 push_1 alpha omega">
+        <div class="grid_17 push_1 alpha omega">
             <!-- Location name -->
-            <div class="grid_15">
+            <div class="grid_17 alpha omega">
                 <p id="locationName" class="pageTitle">{{ location.name }}</p>
             </div>
             <div class="clear"></div>
                 
             <!-- Location inklings content links -->
-            <div id="locationInklingsContentLinks" class="contentLinks grid_15">
+            <div id="locationInklingsContentLinks" class="contentLinks grid_17 alpha omega">
                 {% if content_type == "all" %}
                     <p class="selectedContentLink" contentType="all">All</p>
                 {% else %}
@@ -61,13 +61,13 @@
             <div class="clear"></div>
             
             <!-- Calendar -->
-            <div id="calendarContainer" class="grid_17" style="padding-left: 27px;">
+            <div id="calendarContainer" class="grid_17 alpha omega">
                 {% include "calendar.html" %}
             </div>
             <div class="clear"></div>
 
             <!-- Location inklings content -->
-            <div id="locationInklingsContent" class="peopleContent grid_15" context="location">
+            <div id="locationInklingsContent" class="peopleContent grid_17 alpha omega" context="location">
                 {% include "locationInklings.html" %}
             </div>
             <div class="clear"></div>
