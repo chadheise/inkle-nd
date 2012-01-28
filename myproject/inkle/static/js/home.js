@@ -295,7 +295,14 @@ $(document).ready(function() {
     });
     
     $(".locationBoardCard").live("click", function() {
-        window.location = $(this).attr("url");
+        var date = $(".selectedDateContainer").attr("month") + "_" + $(".selectedDateContainer").attr("day") + "_" + $(".selectedDateContainer").attr("year");
+        var contentType ="all"
+        $("#locationBoardInklingSelect").children().each(function() {
+            if ($(this).attr("selected") == "selected") {
+                contentType = $(this).attr("inklingtype")
+            }
+        });
+        window.location = $(this).attr("url") + contentType + "/" + date + "/";
     });
     
     // THE FUNCTIONS BELOW SHOULD BE MOVED TO CALENDAR.JS

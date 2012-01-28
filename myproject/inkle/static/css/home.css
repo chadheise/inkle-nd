@@ -83,7 +83,7 @@ select, select option
 
 .locationBoardCard:hover
 {
-    background: lightgrey;
+    background: #ABC2E5;
     cursor: pointer;
 }
 

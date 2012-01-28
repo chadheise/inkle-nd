@@ -549,7 +549,7 @@ def sphere_view(request, sphere_id = None):
         context_instance = RequestContext(request) )
 
 
-def location_view(request, location_id = None):
+def location_view(request, location_id = None, content_type = "all", date = "today"):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -567,13 +567,19 @@ def location_view(request, location_id = None):
         raise Http404()
 
     # Get date objects
-    today = datetime.date.today()
-    dates = [today + datetime.timedelta(days = x) for x in range(4)]
+    if date == "today":
+        date1 = datetime.date.today()
+    else:
+        try:
+            date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
+        except:
+            date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(4)]
     
-    member = get_location_inklings(request.session["member_id"], location_id, today)
+    member = get_location_inklings(request.session["member_id"], location_id, date1)
 
     return render_to_response( "location.html",
-        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },
+        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
         context_instance = RequestContext(request) )
 
 
