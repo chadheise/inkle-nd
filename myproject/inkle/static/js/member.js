@@ -1,24 +1,31 @@
 $(document).ready(function() {
     // Populate the main content with the initially selected main content link
     var contentType = $("#memberContentLinks .selectedContentLink").attr("contentType");
-    var date = $("#hiddenDate").attr("month") + "/" + $("#hiddenDate").attr("day") + "/" + $("#hiddenDate").attr("year");
+    var date = $("#selectedDate").attr("month") + "/" + $("#selectedDate").attr("day") + "/" + $("#selectedDate").attr("year");
     loadContent(contentType, date, true);
 
     /* Loads the content for the inputted content type and populates the main content with it */
     function loadContent(contentType, date, firstLoad)
     {
+        var other_member_id = $("#memberName").attr("memberID");
 
         $.ajax({
             type: "POST",
-            url: "/" + contentType + "/",
-            data: { "date" : date },
+            url: "/" + "getMember" + contentType + "/",
+            data: { "date" : date, "other_member_id" : other_member_id},
             success: function(html) {
+                if (contentType == "Inklings") {
+                    $("#calendarContainer").slideDown("medium");
+                }
+                else {
+                   $("#calendarContainer").slideUp("medium"); 
+                }
+                
                 // If this is the first load, simply load the member content
                 if (firstLoad)
                 {
                     loadContentHelper(html, styleSelectedDate);
                 }
-
                 // Otherwise, fade out the current member content and fade the new member content back in
                 else
                 {
@@ -65,7 +72,7 @@ $(document).ready(function() {
     
     // THE FUNCTIONS BELOW SHOULD BE MOVED TO CALENDAR.JS
 
-    
+    styleSelectedDate();
 
        //Adds styling to selected date if it is one of the visible date containers
        function styleSelectedDate() {

@@ -27,7 +27,7 @@ urlpatterns = patterns(
     (r"^resetPassword/$", "set_password_view"),
     (r"^logout/$", "logout_view"),
     (r"^editMember/$", "edit_member_view"),
-    (r"^getLocationInklings/$", "get_location_inklings_view"),
+    
     (r"^editLocation/$", "edit_location_view"),
     (r"^getEditLocationHtml/$", "get_edit_location_html_view"),
     (r"^manage/$", "manage_view"),
@@ -66,11 +66,11 @@ urlpatterns = patterns(
     #urls to load default member content
     (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|spheres|following|followers)/$", "member_view"),
     (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "member_view"),
-    #Database view content loading urls for member page
-    (r"^inklings/(?P<other_member_id>\d+)/$", "inklings_view"),
-    (r"^spheres/(?P<other_member_id>\d+)/$", "spheres_view"),
-    (r"^following/(?P<other_member_id>\d+)/$", "following_view"),
-    (r"^followers/(?P<other_member_id>\d+)/$", "followers_view"),
+    #Database view content loading for member page
+    (r"^getMemberInklings/$", "get_member_inklings_view"),
+    (r"^getMemberSpheres/$", "spheres_view"),
+    (r"^getMemberFollowing/$", "get_member_following_view"),
+    (r"^getMemberFollowers/$", "followers_view"),
     
     #Location page
     (r"^location/(?P<location_id>\d+)/$", "location_view"),
@@ -78,6 +78,8 @@ urlpatterns = patterns(
     (r"^location/(?P<location_id>\d+)/(?P<content_type>all|dinner|pregame|mainEvent)/$", "location_view"),
     (r"^location/(?P<location_id>\d+)/(?P<content_type>all|dinner|pregame|mainEvent)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "location_view"),
     (r"^location/(?P<location_id>\d+)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "location_view"),
+    #Database view content loading for location page
+    (r"^getLocationInklings/$", "get_location_inklings_view"),
     
     (r"^sphere/(?P<sphere_id>\d+)/$", "sphere_view"),
 
