@@ -679,6 +679,11 @@ def spheres_search_query(query):
     spheres = Sphere.objects.filter(Q(name__icontains = query))
     return spheres
 
+def circles_search_query(query, member):
+    """Returns the circles which match the inputted query."""
+    spheres = member.circles.filter(Q(name__icontains = query))
+    return spheres
+
 
 def search_view(request, query = ""):
     """Gets the members, locations, and spheres which match the inputted query and returns the HTML for the search page."""
@@ -849,6 +854,25 @@ def suggestions_view(request):
 
         # Set the number of characters to show for each suggestion
         num_chars = 20
+
+    # Case 4: Member and circle suggestions for inkling invites
+    elif (query_type == "inklingInvite"):
+        # Get the member suggestions (and add them to the categories list if there are any)
+        members = members_search_query(query, member.following.all())[0:5]
+        if (members):
+            members.suggestionType = "members"
+            for m in members:
+                m.name = m.first_name + " " + m.last_name
+            categories.append((members, "People"))
+
+        # Get the circles suggestions (and add them to the categories list if there are any)
+        circles = circles_search_query(query, member)[0:5]
+        if (circles):
+            circles.suggestionType = "members"
+            categories.append((circles, "Circles"))
+        
+        # Set the number of characters to show for each suggestion
+        num_chars = 17
 
     return render_to_response( "suggestions.html",
         { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
