@@ -69,6 +69,17 @@ class Inkling(models.Model):
         return "%s (%s, %s)" % (self.location.name, self.date, self.category)
 
 
+class Invitation(models.Model):
+    """Invitation class definition."""
+    description = models.CharField(max_length = 200)
+    inkling = models.ForeignKey(Inkling)
+    from_member = models.ForeignKey("Member")
+    
+    def __unicode__(self):
+        """String representation for the current invitation."""
+        return "%s - %s (%s)" % (self.inkling, self.from_member.name, self.description)
+
+
 class ActiveMemberManager(models.Manager):
     """Manager which returns active member objects."""
     def get_query_set(self):
@@ -95,6 +106,9 @@ class Member(User):
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
     zip_code = models.CharField(max_length = 5, default = "")
+
+    # Inviations
+    invitations = models.ManyToManyField(Invitation)
 
     # Email verification
     verification_hash = models.CharField(max_length = 32, default = md5(str(randint(1000, 9999))).hexdigest())
