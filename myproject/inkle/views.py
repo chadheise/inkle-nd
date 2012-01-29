@@ -1512,6 +1512,9 @@ def register_view(request):
             
             # Set the new member's password
             member.set_password(data["password"])
+        
+            # Set the new member's verification hash
+            member.update_verification_hash()
 
             # Save the new member
             member.save()
