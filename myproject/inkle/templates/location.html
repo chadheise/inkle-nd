@@ -28,35 +28,46 @@
             </div>
         </div>
         <!-- Location inklings members -->
-        <div class="grid_15 push_1 alpha omega">
+        <div class="grid_17 push_1 alpha omega">
             <!-- Location name -->
-            <div class="grid_15">
+            <div class="grid_17 alpha omega">
                 <p id="locationName" class="pageTitle">{{ location.name }}</p>
             </div>
             <div class="clear"></div>
                 
             <!-- Location inklings content links -->
-            <div id="locationInklingsContentLinks" class="contentLinks grid_15">
-                <p class="selectedContentLink" contentType="all">All</p>
-                <p contentType="dinner">Dinner</p>
-                <p contentType="pregame">Pregame</p>
-                <p contentType="mainEvent">Main event</p>
-                
-                <!-- Today button -->
-                <div class="grid_2buttonContainer" style="padding-left: 50px;">
-                    <input id="todayButton" type="submit" name="submit" value="Today" />
-                </div>   
+            <div id="locationInklingsContentLinks" class="contentLinks grid_17 alpha omega">
+                {% if content_type == "all" %}
+                    <p class="selectedContentLink" contentType="all">All</p>
+                {% else %}
+                    <p contentType="all">All</p>
+                {% endif %}
+                {% if content_type == "dinner" %}
+                    <p class="selectedContentLink" contentType="dinner">Dinner</p>
+                {% else %}
+                    <p contentType="dinner">Dinner</p>
+                {% endif %}
+                {% if content_type == "pregame" %}
+                    <p class="selectedContentLink" contentType="pregame">Pregame</p>
+                {% else %}
+                    <p contentType="pregame">Pregame</p>
+                {% endif %}
+                {% if content_type == "mainEvent" %}
+                    <p class="selectedContentLink" contentType="mainEvent">Main Event</p>
+                {% else %}
+                    <p contentType="mainEvent">Main event</p>
+                {% endif %}
             </div>
             <div class="clear"></div>
             
             <!-- Calendar -->
-            <div id="calendarContainer" class="grid_17" style="padding-left: 27px;">
+            <div id="calendarContainer" class="grid_17 alpha omega">
                 {% include "calendar.html" %}
             </div>
             <div class="clear"></div>
 
             <!-- Location inklings content -->
-            <div id="locationInklingsContent" class="peopleContent grid_15" context="location">
+            <div id="locationInklingsContent" class="peopleContent grid_17 alpha omega" context="location">
                 {% include "locationInklings.html" %}
             </div>
             <div class="clear"></div>

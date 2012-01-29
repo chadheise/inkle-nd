@@ -2,7 +2,7 @@ $(document).ready(function() {
     
     // Set the "All circles" and "Dinner" options as the selected options
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
-    $("#locationBoardInklingSelect option:first").attr("selected", "selected");
+    $("#locationBoardInklingSelect option:last").attr("selected", "selected");
 
     /* Updates my inklings with the logged in user's inklings for the inputted date */
     function updateMyInklings(date)
@@ -294,6 +294,17 @@ $(document).ready(function() {
         }
     });
     
+    $(".locationBoardCard").live("click", function() {
+        var date = $(".selectedDateContainer").attr("month") + "_" + $(".selectedDateContainer").attr("day") + "_" + $(".selectedDateContainer").attr("year");
+        var contentType ="all"
+        $("#locationBoardInklingSelect").children().each(function() {
+            if ($(this).attr("selected") == "selected") {
+                contentType = $(this).attr("inklingtype")
+            }
+        });
+        window.location = $(this).attr("url") + contentType + "/" + date + "/";
+    });
+    
     // THE FUNCTIONS BELOW SHOULD BE MOVED TO CALENDAR.JS
     
     styleSelectedDate();
@@ -338,7 +349,7 @@ $(document).ready(function() {
            }
        });
 
-       $("#todayButton").live("click", function() {
+       $(".todayButton").live("click", function() {
            var arrow = "today"
            numDates = $(".dateContainer").size() - 1; //Get the number of calendar dates to display, subtract 1 for hidden selected field
 

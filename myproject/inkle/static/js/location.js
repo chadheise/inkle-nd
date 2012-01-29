@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    showHideContent( $(".selectedContentLink").attr("contentType") ); //Show and hide appropriate content on page load
+    
     // Update the location inklings when one of the main content links is clicked
     $("#locationInklingsContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected
@@ -195,7 +197,7 @@ $(document).ready(function() {
            }
        });
 
-       $("#todayButton").live("click", function() {
+       $(".todayButton").live("click", function() {
            var arrow = "today"
            numDates = $(".dateContainer").size() - 1; //Get the number of calendar dates to display, subtract 1 for hidden selected field
 

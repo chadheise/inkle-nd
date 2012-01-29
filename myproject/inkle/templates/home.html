@@ -16,31 +16,28 @@
 
 {% block mainContent %}
     <div id="mainContent" class="container_24">
-        <!-- My inklings -->
-        <div class="grid_24 push_1">
-            <!-- Member name -->
-            <div class="grid_24">
-                <p class="pageTitle">Inklings</p>
-            </div>
-            <div class="clear"></div>
-            <!-- Content links -->
-            <div id="inklingsContentLinks" class="contentLinks grid_16">
-                <p class="selectedContentLink" contentType="othersInklings">Others'</p>
-                <p contentType="myInklings">Mine</p>
-            </div>
-            <!-- Today button -->
-            <div class="grid_3 buttonContainer">
-                <input id="todayButton" type="submit" name="submit" value="Today" />
-            </div>
-            <div class="clear"></div>
-            <div id="calendarContainer" class="grid_22 push_1">
-                {% include "calendar.html" %}
-            </div>
-            <div class="clear"></div>
-            <!-- Others' inklings -->
-            <div id="homeContent" class="grid_24">
-                {% include "othersInklings.html" %}
-            </div>
+        <!-- Title -->
+        <div class="grid_24">
+            <p class="pageTitle">Inklings</p>
+        </div>
+        <div class="clear"></div>
+        <!-- Content links -->
+        <div id="inklingsContentLinks" class="contentLinks grid_24">
+            <p class="selectedContentLink" contentType="othersInklings">Others'</p>
+            <p contentType="myInklings">Mine</p>
+        </div>
+        <!-- Today button -->
+        <!-- <div class="grid_3 buttonContainer">
+            <input id="todayButton" type="submit" name="submit" value="Today" />
+        </div>-->
+        <div class="clear"></div> 
+        <div id="calendarContainer" class="grid_24">
+            {% include "calendar.html" %}
+        </div>
+        <div class="clear"></div>
+        <!-- Others' inklings -->
+        <div id="homeContent" class="grid_24">
+            {% include "othersInklings.html" %}
         </div>
     </div>
 {% endblock mainContent%}
