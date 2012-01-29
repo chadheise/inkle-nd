@@ -10,6 +10,7 @@ from myproject.inkle.models import *
 from myproject.inkle.emails import *
 
 import datetime
+import shutil
 
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
@@ -552,7 +553,7 @@ def create_inkling_view(request):
     member.inklings.add(inkling)
 
     # Return the location's name and image
-    return HttpResponse(location.name + "&&&" + location.image)
+    return HttpResponse(location.name + "|<|>|" + str(location.id))
 
 
 def remove_inkling_view(request):
@@ -611,7 +612,7 @@ def get_my_inklings_view(request):
         pastDate = True
     
     # Get the names and images for the logged in member's inkling locations
-    member.dinnerName, member.dinnerImage, member.pregameName, member.pregameImage, member.mainEventName, member.mainEventImage = get_inklings(member, date)
+    member.dinner_location, member.pregame_location, member.main_event_location = get_inklings(member, date)
 
     return render_to_response( "myInklings.html",
         { "member" : member, "pastDate" : pastDate },
@@ -623,33 +624,26 @@ def get_inklings(member, date):
     # Get the name and image for the logged in member's dinner inkling location
     try:
         inkling = member.inklings.get(date = date, category = "dinner")
-        dinnerName = inkling.location.name
-        dinnerImage = inkling.location.image
+        dinner_location = inkling.location
     except Inkling.DoesNotExist:
-        dinnerName = ""
-        dinnerImage = "default.jpg"
+        dinner_location = None
     
     # Get the name and image for the logged in member's pregame inkling location
     try:
         inkling = member.inklings.get(date = date, category = "pregame")
-        pregameName = inkling.location.name
-        pregameImage = inkling.location.image
+        pregame_location = inkling.location
     except Inkling.DoesNotExist:
-        pregameName = ""
-        pregameImage = "default.jpg"
+        pregame_location = None
 
     # Get the name and image for the logged in member's main event inkling location
     try:
         inkling =  member.inklings.get(date = date, category = "mainEvent")
-        mainEventName = inkling.location.name
-        mainEventImage = inkling.location.image
+        main_event_location = inkling.location
     except Inkling.DoesNotExist:
-        mainEventName = ""
-        mainEventImage = "default.jpg"
+        main_event_location = None
 
-
-    # Return the names and images for the logged in member's inkling locations
-    return (dinnerName, dinnerImage, pregameName, pregameImage, mainEventName, mainEventImage)
+    # Return the dinner, pregame, and main event locations
+    return (dinner_location, pregame_location, main_event_location)
 
 
 def create_sphere_view(request):
@@ -657,6 +651,9 @@ def create_sphere_view(request):
     # Create a new sphere using the POST data and save it
     sphere = Sphere(name = request.POST["sphereName"])
     sphere.save()
+
+    # Copy the default sphere image
+    shutil.copyfile("static/media/images/main/sphere.jpg", "static/media/images/spheres/" + str(sphere.id) + ".jpg")
 
     return HttpResponse()
     
@@ -674,6 +671,9 @@ def create_location_view(request):
         phone = "",
         website = "")
     location.save()
+
+    # Copy the default location image
+    shutil.copyfile("static/media/images/main/location.jpg", "static/media/images/locations/" + str(location.id) + ".jpg")
 
     # Return the new location's ID
     return HttpResponse(location.id)
