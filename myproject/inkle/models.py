@@ -111,7 +111,7 @@ class Member(User):
     invitations = models.ManyToManyField(Invitation)
 
     # Email verification
-    verification_hash = models.CharField(max_length = 32, default = md5(str(randint(1000, 9999))).hexdigest())
+    verification_hash = models.CharField(max_length = 32)
     verified = models.BooleanField(default = False)
 
     # Privacy settings
