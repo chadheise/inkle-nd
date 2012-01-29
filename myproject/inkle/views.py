@@ -648,18 +648,18 @@ def get_edit_content_type(request):
         context_instance = RequestContext(request) )
  
 
-def members_search_query(query):
+def members_search_query(query, members):
     """Returns the members who match the inputted query."""
     # Split the query into words
     query_split = query.split()
     
     # If the query is only one word long, match the members' first or last names alone
     if (len(query_split) == 1):
-        members = Member.active.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
+        members = members.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
 
     # If the query is two words long, match the members' first and last names
     elif (len(query_split) == 2):
-        members = Member.active.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
+        members = members.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
     
     # if the query is more than two words long, return no results
     else:
@@ -695,7 +695,7 @@ def search_view(request, query = ""):
     query = query.strip()
 
     # Get the members who match the search query
-    members = members_search_query(query)
+    members = members_search_query(query, Member.active.all())
 
     # Initialize member variables
     member.num_following = 0
@@ -808,7 +808,7 @@ def suggestions_view(request):
     # Case 2: Member, location, and sphere suggestions for the main header search
     elif (query_type == "search"):
         # Get the member suggestions (and add them to the categories list if there are any)
-        members = members_search_query(query)[0:5]
+        members = members_search_query(query, Member.active.all())[0:5]
         if (members):
             members.suggestionType = "members"
             for m in members:
@@ -838,7 +838,7 @@ def suggestions_view(request):
             raise Http404()
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
-        members = members_search_query(query)
+        members = members_search_query(query, member.following.all())
         members = list(set(members) - set(circle.members.filter(is_active = True)) - set([member]))[0:5]
         if (members):
             for m in members:
