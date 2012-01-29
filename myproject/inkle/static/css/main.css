@@ -135,6 +135,18 @@ input
     float: left;
 }
 
+.button
+{
+    padding: 2px 5px 2px 5px;
+    margin: 10px 0px 0px 9px;
+    color: #FFF;
+    border-style: solid;
+    font-weight: bold;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
 .cardButton
 {
     padding: 2px 5px 2px 5px;

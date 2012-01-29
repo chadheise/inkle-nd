@@ -1,6 +1,5 @@
 .inkling
 {
-    padding: 3px 10px 10px 10px;
     border: solid 2px #288D42;
     background-color: #ABD4B0;
     width: 250px;
@@ -53,8 +52,30 @@
     padding: 3px 10px 3px 10px;
 }
 
+.inklingInviteContainer
+{
+    border: solid 2px #288D42;
+    background-color: #ABD4B0;
+    width: 250px;
+    margin: 0px 16px 0px 16px;
+    padding: 5px 10px 10px 10px;
+    display: inline-block;
+    text-align: left;
+}
+
+.inklingInviteContainer input
+{
+    margin-top: 5px;
+    font-size: 18px;
+    padding: 5px;
+    width: 175px;
+    border: inset 2px #BBB;
+    float: left;
+}
+
 .inklingInviteButton
 {
+    float: left;
     background-color: #1B5898;
     border-color: #2A4360;
 }
@@ -62,6 +83,23 @@
 .inklingInviteButton:hover
 {
     border-color: #002C45;
+}
+
+.inklingInviteSuggestions
+{
+    margin-top: 43px;
+    width: 185px;
+}
+
+.invitedPeople
+{
+    float: left;
+    background-color: #1B5898;
+    border: solid 2px #2A4360;
+    margin: 5px 5px 0px 0px;
+    padding: 3px;
+    color: #FFF;
+    font-size: 12px;
 }
 
 select, select option
