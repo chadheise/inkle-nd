@@ -818,6 +818,7 @@ def suggestions_view(request):
         # Get the location suggestions (and add them to the categories list if there are any)
         locations = locations_search_query(query)[0:5]
         if (locations):
+            locations.suggestionType = "locations"
             categories.append((locations, "Locations"))
 
         # Get the sphere suggestions (and add them to the categories list if there are any)
@@ -841,6 +842,7 @@ def suggestions_view(request):
         members = members_search_query(query, member.following.all())
         members = list(set(members) - set(circle.members.filter(is_active = True)) - set([member]))[0:5]
         if (members):
+            members.suggestionType = "members"
             for m in members:
                 m.name = m.first_name + " " + m.last_name
             categories.append((members,))
@@ -1520,7 +1522,10 @@ def register_view(request):
             member.save()
 
             # Create default image for the new member
-            shutil.copyfile("static/media/images/members/default.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
+            if (member.gender == "Male"):
+                shutil.copyfile("static/media/images/main/man.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
+            else:
+                shutil.copyfile("static/media/images/main/woman.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
 
             # Send the member to the successful account creation page
             return render_to_response( "registrationConfirmation.html",

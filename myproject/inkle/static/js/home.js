@@ -142,7 +142,10 @@ $(document).ready(function() {
                 url: "/removeInkling/",
                 data: {"inklingType" : inklingType, "date" : date},
                 success: function() {
-                    inklingElement.find("img").attr("src", "/static/media/images/locations/default.jpg");
+                    inklingElement.find("img").fadeOut("medium", function() {
+                        $(this).attr("src", "/static/media/images/locations/default.jpg");
+                        $(this).fadeIn("medium");
+                    });
                 },
                 error: function(a, b, error) { alert("home.js (3): " + error); }
             });
@@ -175,12 +178,12 @@ $(document).ready(function() {
             data: {"inklingType" : inklingType, "locationID" : locationID, "date" : date},
             success: function(locationInfo) {
                 // Split the location name and image
-                locationInfo = locationInfo.split("&&&");
+                locationInfo = locationInfo.split("|<|>|");
                 locationName = locationInfo[0];
-                locationImage = "/static/media/images/locations/" + locationInfo[1];
+                locationImage = "/static/media/images/locations/" + locationInfo[1] + ".jpg";
                 
                 // Update the value of the inkling's input
-                inklingElement.find("input").val(locationInfo[0]);
+                inklingElement.find("input").val(locationName);
 
                 // Update the inkling's image (only if the location has changed)
                 var inklingImage = inklingElement.find("img");
