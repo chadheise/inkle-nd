@@ -2,7 +2,7 @@ $(document).ready(function() {
     
     // Set the "All circles" and "Dinner" options as the selected options
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
-    $("#locationBoardInklingSelect option:first").attr("selected", "selected");
+    $("#locationBoardInklingSelect option:last").attr("selected", "selected");
 
     /* Updates my inklings with the logged in user's inklings for the inputted date */
     function updateMyInklings(date)
