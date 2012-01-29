@@ -1,5 +1,4 @@
-<div class="grid_20 alpha omega">
-    <div class="locationBoardCard">
+    <div class="locationBoardCard grid_12 alpha omega" url="{{ location.get_absolute_url }}">
         <!-- Location count -->
         <div class="locationBoardCardCount grid_4 alpha">
             <img src="{{ STATIC_URL }}/media/images/main/blotblue.png"/>
@@ -9,9 +8,9 @@
         </div>
         
         <!-- Location name and city -->
-        <div class="grid_15 alpha omega">
-            <a class="locationBoardCardName" href="{{ location.get_absolute_url }}">{{ location.name }}</a>
+        <div class="grid_8 alpha omega locationBoardCardText">
+            <!-- <a class="locationBoardCardName" href="{{ location.get_absolute_url }}">{{ location.name }}</a> -->
+            <p class="locationBoardCardName">{{ location.name }}</p>
             <div class="locationBoardCardCity">{{ location.city }}, {{ location.state }}</div>
         </div>
     </div>
-</div>

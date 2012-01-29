@@ -32,7 +32,7 @@ def home_view(request):
 
     # Get others' dinner inklings for today
     date = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
-    locations = get_others_inklings(member, date, "other", "circles", "dinner")
+    locations = get_others_inklings(member, date, "other", "circles", "mainEvent")
 
     return render_to_response( "home.html",
         { "member" : member, "locations" : locations, "dates" : dates, "selectedDate" : today },
@@ -51,7 +51,7 @@ def manage_view(request, content_type = "circles"):
         context_instance = RequestContext(request) )
 
 
-def member_view(request, other_member_id = None):
+def member_view(request, other_member_id = None, content_type = "inklings", date = "today"):
     """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -92,8 +92,18 @@ def member_view(request, other_member_id = None):
     if (member in other_member.following.all()):
         other_member.button_list.append(buttonDictionary["prevent"])
 
+    # Get date objects
+    if date == "today":
+        date1 = datetime.date.today()
+    else:
+        try:
+            date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
+        except:
+            date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+
     return render_to_response( "member.html",
-        { "member" : member, "other_member" : other_member },
+        { "member" : member, "other_member" : other_member, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
         context_instance = RequestContext(request) )
     
 
@@ -549,7 +559,7 @@ def sphere_view(request, sphere_id = None):
         context_instance = RequestContext(request) )
 
 
-def location_view(request, location_id = None):
+def location_view(request, location_id = None, content_type = "all", date = "today"):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -567,13 +577,19 @@ def location_view(request, location_id = None):
         raise Http404()
 
     # Get date objects
-    today = datetime.date.today()
-    dates = [today + datetime.timedelta(days = x) for x in range(4)]
+    if date == "today":
+        date1 = datetime.date.today()
+    else:
+        try:
+            date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
+        except:
+            date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
     
-    member = get_location_inklings(request.session["member_id"], location_id, today)
+    member = get_location_inklings(request.session["member_id"], location_id, date1)
 
     return render_to_response( "location.html",
-        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : today },
+        { "member" : member, "location" : location, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
         context_instance = RequestContext(request) )
 
 
@@ -871,22 +887,22 @@ def requests_view(request):
         context_instance = RequestContext(request) )
 
 
-def followers_view(request, other_member_id = None):
+def followers_view(request):
     """Gets the logged in member's or other member's followers and returns the HTML for the followers page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (other_member_id):
-            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        if (request.POST["other_member_id"]):
+            return HttpResponseRedirect("/login/?next=/member/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/?next=/manage/followers/")
             
     # If we are viewing another member's page, get the members who are following them
-    if (other_member_id):
+    if (request.POST["other_member_id"]):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
-            other_member = Member.active.get(pk = other_member_id)
+            other_member = Member.active.get(pk = request.POST["other_member_id"])
         except Member.DoesNotExist:
             raise Http404()
 
@@ -953,20 +969,20 @@ def followers_view(request, other_member_id = None):
         context_instance = RequestContext(request) )
 
 
-def following_view(request, other_member_id = None):
+def get_member_following_view(request):
     """Gets the logged in member's or other member's following and returns the HTML for the following page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (other_member_id):
-            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        if (request.POST["other_member_id"]):
+            return HttpResponseRedirect("/login/?next=/member/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
-        other_member = Member.active.get(pk = other_member_id)
+        other_member = Member.active.get(pk = request.POST["other_member_id"])
     except Member.DoesNotExist:
         raise Http404()
 
@@ -1063,22 +1079,22 @@ def circles_view(request, circle_id = None):
         context_instance = RequestContext(request) )
 
 
-def spheres_view(request, other_member_id = None):
+def spheres_view(request):
     """Gets the logged in member's or other member's spheres and returns the HTML for the sphere page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (other_member_id):
-            return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
+        if (request.POST["other_member_id"]):
+            return HttpResponseRedirect("/login/?next=/member/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/?next=/manage/spheres/")
 
     # If we are viewing another member's page, get the members who are following them
-    if (other_member_id):
+    if (request.POST["other_member_id"]):
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
-            other_member = Member.active.get(pk = other_member_id)
+            other_member = Member.active.get(pk = request.POST["other_member_id"])
         except Member.DoesNotExist:
             raise Http404()
 
@@ -1191,7 +1207,8 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     return locations
 
 
-def inklings_view(request, other_member_id = None):
+def get_member_inklings_view(request):
+
     # Get the member who is logged in (or throw a 404 error if their member ID is invalid)
     try:
         member = Member.active.get(pk = request.session["member_id"])
@@ -1200,7 +1217,7 @@ def inklings_view(request, other_member_id = None):
 
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
-        other_member = Member.active.get(pk = other_member_id)
+        other_member = Member.active.get(pk = request.POST["other_member_id"])
     except Member.DoesNotExist:
         raise Http404()
 
@@ -1208,7 +1225,7 @@ def inklings_view(request, other_member_id = None):
         date = request.POST["date"]
     except KeyError:
         raise Http404()
-    
+
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
     if (member in other_member.followers.all()):
         other_member.privacy = 2
@@ -1231,17 +1248,16 @@ def inklings_view(request, other_member_id = None):
             inklings["mainEvent"] = other_member.inklings.get(date = date, category = "mainEvent")
         except:
             pass
-    
-        # Get today's date
-        now = datetime.datetime.now()
-        date = str(now.month) + "/" + str(now.day) + "/" + str(now.year)
-    
+
         # Get date objects
-        today = datetime.date.today()
-        dates = [today + datetime.timedelta(days = x) for x in range(3)]
+        month = int(request.POST["date"].split("/")[0])
+        day = int(request.POST["date"].split("/")[1])
+        year = int(request.POST["date"].split("/")[2])
+        date1 = datetime.date(year, month, day)
+        dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
         
-        return render_to_response( "inklings.html",
-            { "inklings" : inklings, "dates" : dates, "selectedDate" : today },
+        return render_to_response( "memberInklings.html",
+            { "inklings" : inklings, "dates" : dates, "selectedDate" : date1 },
             context_instance = RequestContext(request) )
     else:
         return render_to_response( "noPermission.html",
