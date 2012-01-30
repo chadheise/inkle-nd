@@ -811,7 +811,6 @@ def get_search_content_view(request):
             context_instance = RequestContext(request) )
             
     elif request.POST["contentType"] == "locations":
-        print "post type loactions"
         # Get the locations which match the search query
         locations = locations_search_query(query, numDisplayed)
         
@@ -869,8 +868,6 @@ def members_search_query(query, members, queryIndex = 0):
     else:
         i = 0
         returnList = []
-        print queryIndex
-        print len(members)
         while (i < 2 and (queryIndex + i) < len(members)):
             returnList.append(members[(queryIndex + i)])
             i += 1
@@ -882,8 +879,16 @@ def locations_search_query(query, queryIndex = 0):
     locations = Location.objects.filter(Q(name__icontains = query))
     if queryIndex == "all":
         return locations
+    elif len(locations) <= queryIndex: #If the number of members is <= the number of members already displayed, return nothing
+        return []
     else:
-        return locations[queryIndex*2:queryIndex*2+2]
+        i = 0
+        returnList = []
+        while (i < 2 and (queryIndex + i) < len(members)):
+            returnList.append(locations[(queryIndex + i)])
+            i += 1
+        return returnList
+    return locations
         
 
 def spheres_search_query(query, queryIndex = 0):
@@ -891,8 +896,18 @@ def spheres_search_query(query, queryIndex = 0):
     spheres = Sphere.objects.filter(Q(name__icontains = query))
     if queryIndex == "all":
         return spheres
+    elif len(spheres) <= queryIndex: #If the number of members is <= the number of members already displayed, return nothing
+        return []
     else:
-        return spheres[queryIndex*2:queryIndex*2+2]
+        i = 0
+        returnList = []
+        print queryIndex
+        print len(spheres)
+        while (i < 2 and (queryIndex + i) < len(members)):
+            returnList.append( spheres[(queryIndex + i)])
+            i += 1
+        return returnList
+    return spheres
 
 def circles_search_query(query, member):
     """Returns the circles which match the inputted query."""
