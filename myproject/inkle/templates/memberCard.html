@@ -1,7 +1,7 @@
 {% load split from extraTags %}
 
 <!-- Member card -->
-<div class="grid_17 alpha omega">
+<div id="member_{{ m.id }}" class="grid_17 alpha omega">
     <div class="memberCard {{ m.people_type }}">
         <!-- Image -->
         <img src="{{ STATIC_URL }}/media/images/members/{{ m.id }}.jpg" />

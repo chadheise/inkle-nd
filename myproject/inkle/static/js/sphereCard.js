@@ -49,24 +49,38 @@ $(document).ready(function() {
             type: "POST",
             url: "/joinSphere/",
             data: { "sphereID" : sphereID },
-            success: function() {
-                // Get the context of the current page
-                var pageContext = $("#spheresContent").attr("context");
+            success: function(html) {
                 
-                // Get the content type of the selected search subsection content link
-                var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
-
-                // If we are on the member page or we are on the search page and all spheres are showing, simply update the sphere card
-                if ((pageContext == "member") || (searchContentType == "all"))
-                {
-                    joinSphereHelper(sphereCard);
+                if ( (window.location.pathname).split('/')[1] == "sphere" ) { //If you are currently on a sphere page (not a page that display's sphere cards)
+                    // Update the sphere card's button
+                    $(".joinSphere").text("Leave sphere").removeClass("joinSphere").addClass("leaveSphere");
+                    
+                    var memberCount = parseInt($("#sphereMemberCount").text());
+                    memberCount++;
+                    
+                    $("#sphereMemberCount").text( memberCount ); //Update number of members in sphere
+                    $("#sphereContent").prepend(html);
+                    
                 }
+                else {    
+                    // Get the context of the current page
+                    var pageContext = $("#spheresContent").attr("context");
+                
+                    // Get the content type of the selected search subsection content link
+                    var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
 
-                // If only other spheres are showing, fade out the sphere card and update it
-                else if (searchContentType == "otherSpheres")
-                {
-                    showJoinSphereMessage(sphereCard, sphereName);
-                    joinSphereHelper(sphereCard);
+                    // If we are on the member page or we are on the search page and all spheres are showing, simply update the sphere card
+                    if ((pageContext == "member") || (searchContentType == "all"))
+                    {
+                        joinSphereHelper(sphereCard);
+                    }
+
+                    // If only other spheres are showing, fade out the sphere card and update it
+                    else if (searchContentType == "otherSpheres")
+                    {
+                        showJoinSphereMessage(sphereCard, sphereName);
+                        joinSphereHelper(sphereCard);
+                    }
                 }
             },
             error: function(a, b, error) { alert("sphereCard.js (1): " + error); }
@@ -142,30 +156,43 @@ $(document).ready(function() {
             type: "POST",
             url: "/leaveSphere/",
             data: { "sphereID" : sphereID },
-            success: function() {
-                // Get the context of the current page
-                var pageContext = $("#spheresContent").attr("context");
-                
-                // Get the content type of the selected search subsection content link
-                var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
-
-                // Simply hide the sphere card if we are on the manage page
-                if (pageContext == "manage")
-                {
-                    showLeaveSphereMessage(sphereCard, sphereName, pageContext);
+            success: function(html) {
+                if ( (window.location.pathname).split('/')[1] == "sphere" ) { //If you are currently on a sphere page (not a page that display's sphere cards)
+                    // Update the sphere card's button
+                    $(".leaveSphere").text("Join sphere").removeClass("leaveSphere").addClass("joinSphere");
+                    
+                    var memberCount = parseInt($("#sphereMemberCount").text());
+                    memberCount--;
+                    
+                    $("#sphereMemberCount").text( memberCount ); //Update number of members in sphere
+                    $("#member_" + html).fadeOut("medium");
+                    
                 }
-
-                // If we are on the member page or on the search page and all spheres are showing, simply update the sphere card
-                else if ((pageContext == "member") || (searchContentType == "all"))
-                {
-                    leaveSphereHelper(sphereCard);
-                }
+                else {  
+                    // Get the context of the current page
+                    var pageContext = $("#spheresContent").attr("context");
                 
-                // If only my spheres are showing, fade out the sphere card and update it
-                else if (searchContentType == "mySpheres")
-                {
-                    showLeaveSphereMessage(sphereCard, sphereName, pageContext);
-                    leaveSphereHelper(sphereCard);
+                    // Get the content type of the selected search subsection content link
+                    var searchContentType = $("#spheresContentLinks .selectedSubsectionContentLink").attr("contentType");
+
+                    // Simply hide the sphere card if we are on the manage page
+                    if (pageContext == "manage")
+                    {
+                        showLeaveSphereMessage(sphereCard, sphereName, pageContext);
+                    }
+
+                    // If we are on the member page or on the search page and all spheres are showing, simply update the sphere card
+                    else if ((pageContext == "member") || (searchContentType == "all"))
+                    {
+                        leaveSphereHelper(sphereCard);
+                    }
+                
+                    // If only my spheres are showing, fade out the sphere card and update it
+                    else if (searchContentType == "mySpheres")
+                    {
+                        showLeaveSphereMessage(sphereCard, sphereName, pageContext);
+                        leaveSphereHelper(sphereCard);
+                    }
                 }
             },
             error: function(a, b, error) { alert("sphereCard.js (2): " + error); }
