@@ -17,23 +17,22 @@ $(document).ready(function() {
     $("#searchInput").val(query).removeClass("emptySearchInput").removeAttr("empty");
     
     $(".loadContentButton").live("click", function() {
-        var loadSize = 2;
         var contentType = $(this).attr("contentType")
         if (contentType == "members") {   
-            var queryIndex = $(".memberCard").size() / loadSize;
+            var numDisplayed = $(".memberCard").size();
         }
         else if (contentType == "locations") {   
-            var queryIndex = $(".locationCard").size() / loadSize;
+            var numDisplayed = $(".locationCard").size();
         }
         else if (contentType == "spheres") {   
-            var queryIndex = $(".sphereCard").size() / loadSize;
+            var numDisplayed = $(".sphereCard").size();
         }
         
-        
+        alert(numDisplayed);
         $.ajax({
             type: "POST",
             url: "/getSearchContent/",
-            data: {"query" : query, "queryIndex" : queryIndex, "contentType" : contentType},
+            data: {"query" : query, "numDisplayed" : numDisplayed, "contentType" : contentType},
             success: function(html) {
                 var newContent = $(html).hide().fadeIn("medium");
                 if (contentType == "members") {   
