@@ -53,20 +53,16 @@ def get_location_inklings_view(request):
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        print "except"
         if (request.POST["location_id"]):
             return HttpResponseRedirect("/login/?next=/location/" + request.POST["location_id"] + "/")
         else:
             return HttpResponseRedirect("/login/")
 
-    print "dateObjects"
     # Get date objects
     date1 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
-    print "member call"
     member = get_location_inklings(request.session["member_id"], request.POST["location_id"], date1)
-    print "member return"
     
     return render_to_response( "locationInklings.html",
         { "member" : member},
@@ -219,12 +215,13 @@ def inkling_invitations_view(request):
 
     try:
         inkling = Inkling.objects.get(pk = request.POST["inklingID"])
+        invitation = Invitation(description = "", inkling = inkling, from_member = member)
+        invitation.save()
         for m in members:
-            invitation = Invitation(description = "", inkling = inkling, from_member = member)
-            invitation.save()
-            m.invitations.add(invitation)
-            if (m.invited_email_preference):
-                send_inkling_invitation_email(member, m, inkling)
+            if (not m.invitations.filter(inkling = inkling, from_member = member)):
+                m.invitations.add(invitation)
+                if (m.invited_email_preference):
+                    send_inkling_invitation_email(member, m, inkling)
     except KeyError:
         pass
 
