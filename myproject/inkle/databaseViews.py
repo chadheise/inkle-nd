@@ -415,7 +415,7 @@ def add_to_circle_view(request):
     to_member.show_contact_info = True
    
     return render_to_response( "memberCard.html",
-        { "m" : to_member },
+        { "member" : from_member, "m" : to_member },
         context_instance = RequestContext(request) )
 
 
