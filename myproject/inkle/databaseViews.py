@@ -202,16 +202,17 @@ def inkling_invitations_view(request):
         if (invites[i] == "people"):
             try:
                 m = Member.active.get(pk = int(invites[i + 1]))
-                if (m not in members):
+                if ((m in member.following.filter(is_active = True)) and (m not in members)):
                     members.append(m)
             except KeyError:
                 pass
         elif (invites[i] == "circles"):
             try:
                 circle = Circle.objects.get(pk = int(invites[i + 1]))
-                for m in circle.members.filter(is_active = True):
-                    if (m not in members):
-                        members.append(m)
+                if (circle in member.circles.all()):
+                    for m in circle.members.filter(is_active = True):
+                        if (m not in members):
+                            members.append(m)
             except KeyError:
                 pass
         i += 1
@@ -222,7 +223,8 @@ def inkling_invitations_view(request):
             invitation = Invitation(description = "", inkling = inkling, from_member = member)
             invitation.save()
             m.invitations.add(invitation)
-            send_inkling_invitation_email(member, m, inkling)
+            if (m.invited_email_preference):
+                send_inkling_invitation_email(member, m, inkling)
     except KeyError:
         pass
 
