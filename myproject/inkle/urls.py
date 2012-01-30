@@ -35,25 +35,32 @@ urlpatterns = patterns(
     (r"^manage/(?P<content_type>requests|circles|spheres|followers)/$", "manage_view"),
     (r"^getEditManageHtml/$", "get_edit_manage_html_view"),
     (r"^search/(?P<query>.+)/$", "search_view"),
-    (r"^suggestions/$", "suggestions_view"),
-    (r"^requests/$", "requests_view"),
-    (r"^spheres/$", "spheres_view"),
-    (r"^followers/$", "followers_view"),
+    (r"^suggestions/$", "suggestions_view"),   
     (r"^requestToFollow/$", "request_to_follow_view"),
     (r"^revokeRequest/$", "revoke_request_view"),
     (r"^acceptRequest/$", "accept_request_view"),
     (r"^rejectRequest/$", "reject_request_view"),
     (r"^preventFollowing/$", "prevent_following_view"),
-    (r"^removeFromCircle/$", "remove_from_circle_view"),
-    (r"^addToCircle/$", "add_to_circle_view"),
+    
     (r"^stopFollowing/$", "stop_following_view"),
+    
+    #Manage page
     (r"^circles/$", "circles_view"),
+    (r"^requests/$", "requests_view"),
+    (r"^spheres/$", "spheres_view"),
+    (r"^followers/$", "followers_view"),
+
     (r"^circles/(?P<circle_id>\w+)/$", "circles_view"),
     (r"^createCircle/$", "create_circle_view"),
     (r"^renameCircle/$", "rename_circle_view"),
     (r"^deleteCircle/$", "delete_circle_view"),
+    (r"^removeFromCircle/$", "remove_from_circle_view"),
+    (r"^addToCircle/$", "add_to_circle_view"),
+    
+    
     (r"^joinSphere/$", "join_sphere_view"),
     (r"^leaveSphere/$", "leave_sphere_view"),
+    
     (r"^createInkling/$", "create_inkling_view"),
     (r"^removeInkling/$", "remove_inkling_view"),
     (r"^getMyInklings/$", "get_my_inklings_view"),
