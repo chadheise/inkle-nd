@@ -33,7 +33,7 @@
             <!-- People -->
             <div class="searchSummarySection">
                 <p class="searchSummarySubtitle">People</p>
-                <p>All: {{ members|length }}</p>
+                <p id="numMembers" count="{{ numMembers}}">All: {{ numMembers }}</p>
                 <p>Following: {{ member.num_following }}</p>
                 <p>Followers: {{ member.num_followers }}</p>
                 <p>Other: {{ member.num_other_people }}</p>
@@ -42,13 +42,13 @@
             <!-- Locations -->
             <div class="searchSummarySection">
                 <p class="searchSummarySubtitle">Locations</p>
-                <p>All: {{ locations|length }}</p>
+                <p id="numLocations" count="{{ numLocations }}">All: {{ numLocations }}</p>
             </div>
 
             <!-- Spheres -->
             <div class="searchSummarySection">
                 <p class="searchSummarySubtitle">Spheres</p>
-                <p>All: {{ spheres|length }}</p>
+                <p id="numSpheres" count="{{ numSpheres }}">All: {{ numSpheres }}</p>
                 <p>Mine: {{ member.num_my_spheres }}</p>
                 <p>Other: {{ member.num_other_spheres }}</p>
             </div>

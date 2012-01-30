@@ -685,10 +685,10 @@ def get_search_content_view(request):
        query = request.POST["query"].strip()
     else:
         raise Http404()
-    if "queryIndex" in request.POST:
-        queryIndex = int(request.POST["queryIndex"])
+    if "numDisplayed" in request.POST:
+        numDisplayed = int(request.POST["numDisplayed"])
     else:
-        queryIndex = 0
+        numDisplayed = 0
     if ( ("contentType" not in request.POST) or (request.POST["contentType"] not in ["members", "locations", "spheres"]) ):
         if "query" in request.POST:
             return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
@@ -697,7 +697,7 @@ def get_search_content_view(request):
     elif request.POST["contentType"] == "members":
         print "Inside members"
         # Get the members who match the search query
-        members = members_search_query(query, Member.active.all(), queryIndex)
+        members = members_search_query(query, Member.active.all(), numDisplayed)
 
         # Initialize member variables
         member.num_following = 0
@@ -755,7 +755,7 @@ def get_search_content_view(request):
     elif request.POST["contentType"] == "locations":
         print "post type loactions"
         # Get the locations which match the search query
-        locations = locations_search_query(query, queryIndex)
+        locations = locations_search_query(query, numDisplayed)
         
         return render_to_response( "searchLocations.html",
             {"locations" : locations},
@@ -763,7 +763,7 @@ def get_search_content_view(request):
         
     elif request.POST["contentType"] == "spheres": 
         # Get the spheres which match the search query
-        spheres = spheres_search_query(query, queryIndex)
+        spheres = spheres_search_query(query, numDisplayed)
 
         # Initialize member variables
         member.num_my_spheres = 0
@@ -804,20 +804,37 @@ def members_search_query(query, members, queryIndex = 0):
     else:
         members = []
 
-    if len(members) >= queryIndex*2+1:
-        return members[queryIndex*2:queryIndex*2+2] 
+    if queryIndex == "all":
+        return members
+    elif len(members) <= queryIndex: #If the number of members is <= the number of members already displayed, return nothing
+        return []
+    else:
+        i = 0
+        returnList = []
+        print queryIndex
+        print len(members)
+        while (i < 2 and (queryIndex + i) < len(members)):
+            returnList.append(members[(queryIndex + i)])
+            i += 1
+        return returnList
     return members    
 
 def locations_search_query(query, queryIndex = 0):
     """Returns the locations which match the inputted query."""
     locations = Location.objects.filter(Q(name__icontains = query))
-    return locations[queryIndex*2:queryIndex*2+2]
+    if queryIndex == "all":
+        return locations
+    else:
+        return locations[queryIndex*2:queryIndex*2+2]
         
 
 def spheres_search_query(query, queryIndex = 0):
     """Returns the spheres which match the inputted query."""
     spheres = Sphere.objects.filter(Q(name__icontains = query))
-    return spheres[queryIndex*2:queryIndex*2+2]
+    if queryIndex == "all":
+        return spheres
+    else:
+        return spheres[queryIndex*2:queryIndex*2+2]
 
 def circles_search_query(query, member):
     """Returns the circles which match the inputted query."""
@@ -840,12 +857,13 @@ def search_view(request, query = ""):
     query = query.strip()
 
     # Get the members who match the search query
-    members = members_search_query(query, Member.active.all(), 0)
+    members = members_search_query(query, Member.active.all(), "all")
 
     # Initialize member variables
     member.num_following = 0
     member.num_followers = 0
     member.num_other_people = 0
+    numMembers = len(members)
 
     # Determine each member's people type and button list
     for m in members:
@@ -892,10 +910,12 @@ def search_view(request, query = ""):
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
     # Get the locations which match the search query
-    locations = locations_search_query(query, 0)
+    locations = locations_search_query(query, "all")
+    numLocations = len(locations)
     
     # Get the spheres which match the search query
-    spheres = spheres_search_query(query, 0)
+    spheres = spheres_search_query(query, "all")
+    numSpheres = len(spheres)
     
     # Initialize member variables
     member.num_my_spheres = 0
@@ -916,7 +936,7 @@ def search_view(request, query = ""):
         sphere.num_members = len(sphere.member_set.filter(is_active = True))
 
     return render_to_response( "search.html",
-        {"member" : member, "query" : query, "members" : members, "locations" : locations, "spheres" : spheres},
+        {"member" : member, "query" : query, "members" : members[0:2], "numMembers" : numMembers, "locations" : locations[0:2], "numLocations" : numLocations, "spheres" : spheres[0:2], "numSpheres" : numSpheres},
         context_instance = RequestContext(request) )
 
 
