@@ -33,23 +33,30 @@ $(document).ready(function() {
             url: "/getSearchContent/",
             data: {"query" : query, "numDisplayed" : numDisplayed, "contentType" : contentType},
             success: function(html) {
-                var newContent = $(html).hide().fadeIn("medium");
+                var newContent = $(html).hide().fadeIn("slow");
                 if (contentType == "members") {   
+                     var button = $("#peopleContent .loadContentButton")
                      $("#peopleContent .loadContentButton").remove()
                      $("#peopleContent").append(newContent);
                      if ( $(".memberCard").size() != $("#numMembers").attr("count") ) {
-                         $("#peopleContent").append('<button class="loadContentButton" contentType = "members">Load more members</button>');
+                         $("#peopleContent").append(button);
                      }
                 }
                 else if (contentType == "locations") {   
+                    var button = $("#locationsContent .loadContentButton")
                     $("#locationsContent .loadContentButton").remove()
                     $("#locationsContent").append(newContent);
-                    $("#locationsContent").append('<button class="loadContentButton" contentType = "locations">Load more members</button>');
+                    if ( $(".locationCard").size() != $("#numLocations").attr("count") ) {
+                        $("#locationsContent").append(button);
+                    }
                 }
                 else if (contentType == "spheres") {   
+                    var button = $("#spheresContent .loadContentButton")
                     $("#spheresContent .loadContentButton").remove()
                     $("#spheresContent").append(newContent);
-                    $("#spheresContent").append('<button class="loadContentButton" contentType = "spheres">Load more members</button>');
+                    if ( $(".sphereCard").size() != $("#numSpheres").attr("count") ) {
+                        $("#spheresContent").append(button);
+                    }
                 }
             },
             error: function(a, b, error) { alert("search.js (1): " + error); }

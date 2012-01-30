@@ -884,7 +884,7 @@ def locations_search_query(query, queryIndex = 0):
     else:
         i = 0
         returnList = []
-        while (i < 2 and (queryIndex + i) < len(members)):
+        while (i < 2 and (queryIndex + i) < len(locations)):
             returnList.append(locations[(queryIndex + i)])
             i += 1
         return returnList
@@ -903,7 +903,7 @@ def spheres_search_query(query, queryIndex = 0):
         returnList = []
         print queryIndex
         print len(spheres)
-        while (i < 2 and (queryIndex + i) < len(members)):
+        while (i < 2 and (queryIndex + i) < len(spheres)):
             returnList.append( spheres[(queryIndex + i)])
             i += 1
         return returnList
