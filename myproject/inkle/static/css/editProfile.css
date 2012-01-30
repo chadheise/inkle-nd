@@ -12,6 +12,16 @@ table tr
     height: 30px;
 }
 
+#editProfileEmailPreferencesForm tr
+{
+    height: 10px;
+}
+
+#editProfileEmailPreferencesForm td input
+{
+    margin: 5px 5px 0px 0px;
+}
+
 table th
 {
     text-align: right;
@@ -47,7 +57,7 @@ table td .invalid
     border: solid 2px #CD1A26;
 }
 
-#editProfileInformationButton, #editProfilePictureButton, #editProfilePrivacyButton
+#editProfileInformationButton, #editProfilePictureButton, #editProfilePrivacyButton, #editProfileEmailPreferencesButton
 {
     padding: 5px 0px 5px 0px;
     width: 150px;
@@ -62,13 +72,13 @@ table td .invalid
     cursor: pointer;
 }
 
-#editProfileInformationButton:hover, #editProfilePictureButton:hover, #editProfilePrivacyButton:hover
+#editProfileInformationButton:hover, #editProfilePictureButton:hover, #editProfilePrivacyButton:hover, #editProfileEmailPreferencesButton:hover
 {
     border-color: #1A492B;
     cursor: pointer;
 }
 
-#editProfileInformationConfirmation, #editProfilePictureConfirmation, #editProfilePrivacyConfirmation
+#editProfileInformationConfirmation, #editProfilePictureConfirmation, #editProfilePrivacyConfirmation, #editProfileEmailPreferencesConfirmation
 {
     display: none;
 }

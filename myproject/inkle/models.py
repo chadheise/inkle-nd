@@ -124,6 +124,12 @@ class Member(User):
     spheres_privacy = models.IntegerField(max_length = 1, default = 0)
     inklings_privacy = models.IntegerField(max_length = 1, default = 2)
 
+    # Email preferences
+    requested_email_preference = models.BooleanField(default = True)
+    accepted_email_preference = models.BooleanField(default = True)
+    invited_email_preference = models.BooleanField(default = True)
+    general_email_preference = models.BooleanField(default = True)
+
     # Custom manager
     objects = models.Manager()
     active = ActiveMemberManager()
@@ -174,3 +180,10 @@ class Member(User):
         self.followings_privacy = followings
         self.spheres_privacy = spheres
         self.inklings_privacy = inklings
+
+    def update_email_preferences(self, requested, accepted, invited, general):
+        """Updates the current member's email preferences."""
+        self.requested_email_preference = requested
+        self.accepted_email_preference = accepted
+        self.invited_email_preference = invited
+        self.general_email_preference = general

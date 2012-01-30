@@ -5,6 +5,7 @@
     position: absolute;
     z-index: 10;
     display: none;
+    text-align: left;
 }
 
 .suggestionCategory
