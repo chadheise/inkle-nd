@@ -671,7 +671,7 @@ def get_edit_content_type(request):
         context_instance = RequestContext(request) )
  
 
-def members_search_query(query, members):
+def members_search_query(query, members, queryIndex):
     """Returns the members who match the inputted query."""
     # Split the query into words
     query_split = query.split()
@@ -688,8 +688,22 @@ def members_search_query(query, members):
     else:
         members = []
 
+    print members[queryIndex*2:queryIndex*2+2]
     return members
 
+def get_search_members_view(request):
+    # Get the member who is logged in (or redirect them to the login page)
+       try:
+           member = Member.active.get(pk = request.session["member_id"])
+       except:
+           if "query" in request.POST:
+               return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
+           else:
+               return HttpResponseRedirect("/login/")
+        if "queryIndex" in request.POST:
+            index = int(request.POST["queryIndex"])
+        else:
+            index = 0
 
 def locations_search_query(query):
     """Returns the locations which match the inputted query."""
