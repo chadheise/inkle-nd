@@ -294,3 +294,42 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
+
+
+def send_contact_email(member, name, email, subject, message):
+    """Sends a contact email to support@inkleit.com."""
+    # Specify the from address and to addresses
+    from_address = email
+    to_addresses = ["support@inkleit.com"]
+
+    # Specify the text body
+    body_text = """Hi Jacob and Chad,
+    
+        Someone has sent a message using Inkle's contact page. Here is the information:
+
+        Name: %s
+        Message: %s
+        Logged in: %s
+
+    Thanks,
+    The Inkle bot""" % (name, message, str(member != None))
+    
+    # Specify the HTML body
+    body_html = """<html>
+        <head></head>
+        <body>
+            <p>Hi Jacob and Chad,</p>
+
+            <p>Someone has sent a message using Inkle's contact page. Here is the information:</p>
+            
+            <p>Name: %s</p>
+            <p>Message: %s</p>
+            <p>Logged in: %s</p>
+
+            <p>Thanks,<br />
+            The Inkle bot</p>
+        </body>
+    </html>""" % (name, message, str(member != None))
+    
+    # Send the email
+    send_email(from_address, to_addresses, subject, body_text, body_html)
