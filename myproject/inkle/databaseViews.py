@@ -740,7 +740,7 @@ def send_request_to_follow_email_view(request, to_member_id = None):
         raise Http404()
 
     # If the from_member has actually requested to follow the to_member, send the request to follow email
-    if (from_member in to_member.requested.all()):
+    if ((to_member.requested_email_preference) and (from_member in to_member.requested.all())):
         send_request_to_follow_email(from_member, to_member)
     else:
         raise Http404()
@@ -763,7 +763,7 @@ def send_accept_request_email_view(request, from_member_id = None):
         raise Http404()
 
     # If the from_member is actually following the to_member, send the request accepted email
-    if (from_member in to_member.followers.all()):
+    if ((from_member.accepted_email_preference) and (from_member in to_member.followers.all())):
         send_accept_request_email(from_member, to_member)
     else:
         raise Http404()

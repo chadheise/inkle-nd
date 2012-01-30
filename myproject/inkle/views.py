@@ -524,6 +524,29 @@ def edit_profile_privacy_view(request):
         context_instance = RequestContext(request) )
 
 
+def edit_profile_email_preferences_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    try:
+        requested_preference = (request.POST["requestedPreference"] == "true")
+        accepted_preference = (request.POST["acceptedPreference"] == "true")
+        invited_preference = (request.POST["invitedPreference"] == "true")
+        general_preference = (request.POST["generalPreference"] == "true")
+
+        member.update_email_preferences(requested_preference, accepted_preference, invited_preference, general_preference)
+        member.save()
+    except KeyError:
+        pass
+
+    return render_to_response( "editProfileEmailPreferences.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
+
 def sphere_view(request, sphere_id = None):
     """Returns the HTML for the sphere page."""
     # Get the member who is logged in (or redirect them to the login page)
@@ -804,7 +827,7 @@ def suggestions_view(request):
             categories.append((locations,))
         
         # Set the number of characters to show for each suggestion
-        num_chars = 17
+        num_chars = 23
 
         return render_to_response( "inklingSuggestions.html",
             { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },

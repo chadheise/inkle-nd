@@ -133,6 +133,31 @@ $(document).ready(function() {
         });
     });
 
+    /* Edit the logged in member's email preferences when the "Edit email preferences" button is clicked */
+    $("#editProfileEmailPreferencesButton").live("click", function() {
+        // Get the email preferences
+        var requestedPreference = $("#requestedPreference").is(":checked"); 
+        var acceptedPreference = $("#acceptedPreference").is(":checked"); 
+        var invitedPreference = $("#invitedPreference").is(":checked"); 
+        var generalPreference = $("#generalPreference").is(":checked"); 
+
+        // Edit the logged in member's email preferences settings
+        $.ajax({
+            type: "POST",
+            url: "/editProfileEmailPreferences/",
+            data: { "requestedPreference" : requestedPreference, "acceptedPreference" : acceptedPreference, "invitedPreference" : invitedPreference, "generalPreference" : generalPreference, }, 
+            success: function(html) {
+                // Fade out the email preferences content, fade in the confirmation message, and fade back in the email preferences content after a delay
+                $("#editProfileEmailPreferencesContent").fadeOut("medium", function() {
+                    $("#editProfileEmailPreferencesConfirmation").fadeIn("medium").delay(2000).fadeOut("medium", function() {
+                        $("#editProfileEmailPreferencesContent").fadeIn("medium");
+                    });
+                });
+            },
+            error: function(a, b, error) { alert("editProfile.js (7): " + error); }
+        });
+    });
+
     /* Make the iframe the target of the "Edit profile picture" button */
     $("#editProfilePictureForm").live("submit", function() {
         $("#editProfilePictureForm").attr("target", "uploadTarget");
