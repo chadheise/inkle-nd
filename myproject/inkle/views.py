@@ -669,30 +669,6 @@ def get_edit_content_type(request):
     return render_to_response( "editManageInfo.html",
         { "member" : member },
         context_instance = RequestContext(request) )
-<<<<<<< local
-=======
- 
-
-def members_search_query(query, members, queryIndex = 0):
-    """Returns the members who match the inputted query."""
-    # Split the query into words
-    query_split = query.split()
-    
-    # If the query is only one word long, match the members' first or last names alone
-    if (len(query_split) == 1):
-        members = members.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
-
-    # If the query is two words long, match the members' first and last names
-    elif (len(query_split) == 2):
-        members = members.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
-    
-    # if the query is more than two words long, return no results
-    else:
-        members = []
-
-    #print members[queryIndex*2:queryIndex*2+2]
-    return members
->>>>>>> other
 
 def get_search_content_view(request):
     # Get the member who is logged in (or redirect them to the login page)
