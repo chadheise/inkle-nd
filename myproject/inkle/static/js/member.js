@@ -15,10 +15,10 @@ $(document).ready(function() {
             data: { "date" : date, "other_member_id" : other_member_id},
             success: function(html) {
                 if (contentType == "Inklings") {
-                    $("#calendarContainer").slideDown("medium");
+                    $("#calendarContainer").fadeIn("medium");
                 }
                 else {
-                   $("#calendarContainer").slideUp("medium"); 
+                   $("#calendarContainer").fadeIn("medium"); 
                 }
                 
                 // If this is the first load, simply load the member content

@@ -1,0 +1,52 @@
+{% load split from extraTags %}
+
+<!-- Invitation card -->
+<div class="grid_17 alpha omega">
+    <div class="invitationCard">
+        <!-- Image -->
+        <img src="{{ STATIC_URL }}/media/images/locations/{{ invitation.inkling.location.id }}.jpg" />
+
+        <!-- Invitations info -->
+        <div class="info">
+            <div class="infoRow">
+                <!-- Name -->
+                <a class="cardName" href="{{ invitation.inkling.location.get_absolute_url }}">{{ invitation.inkling.location.name }}</a>
+                
+                <!-- Contact information -->
+                <!--{% if m.privacy >= m.email_privacy or m.privacy >= m.phone_privacy %}
+                    <div class="contactInfo">
+                        {% if m.email and m.privacy >= m.email_privacy %}
+                            <p>{{ m.email }}</p>
+                        {% endif %}
+
+                        {% if m.phone and m.privacy >= m.email_privacy %}
+                            <p>{{ m.get_formatted_phone }}</p>
+                        {% endif %}
+                    </div>
+                {% endif %}-->
+            </div>
+
+            <!-- Date and category -->
+            <div class="infoRow">
+                <p>{{ invitation.inkling.date }} - {{ invitation.inkling.get_formatted_category }}</p>
+            </div>
+
+            <!-- Invited by -->
+            <div class="infoRow">
+                <p>Invited by <a id="invitedBy" href="/member/{{ invitation.from_member.id }}/">{{ invitation.from_member.get_full_name }}</a></p>
+            </div>
+
+            <!-- Description -->
+            <div class="infoRow">
+                <p>{{ invitation.description }}</p>
+            </div>
+
+            <!-- Button list -->
+            <div class="infoRow">
+                <button class="cardButton rejectInvitation" invitationID="{{ invitation.id }}">Reject</button>
+                <button class="cardButton acceptInvitation" invitationID="{{ invitation.id }}">Accept</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

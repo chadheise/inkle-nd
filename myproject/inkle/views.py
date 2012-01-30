@@ -671,7 +671,7 @@ def get_edit_content_type(request):
         context_instance = RequestContext(request) )
  
 
-def members_search_query(query, members, queryIndex):
+def members_search_query(query, members, queryIndex = 0):
     """Returns the members who match the inputted query."""
     # Split the query into words
     query_split = query.split()
@@ -688,7 +688,7 @@ def members_search_query(query, members, queryIndex):
     else:
         members = []
 
-    print members[queryIndex*2:queryIndex*2+2]
+    #print members[queryIndex*2:queryIndex*2+2]
     return members
 
 def get_search_content_view(request):
@@ -984,20 +984,18 @@ def suggestions_view(request):
         # Set the number of characters to show for each suggestion
         num_chars = 17
 
-    print "done"
-
     return render_to_response( "suggestions.html",
         { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
         context_instance = RequestContext(request) )
 
 
-def requests_view(request):
-    """Gets the logged in member's request and returns the HTML for the requests page."""
+def notifications_view(request):
+    """Gets the logged in member's request and returns the HTML for the notifications page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/?next=/manage/requests/")
+        return HttpResponseRedirect("/login/?next=/manage/notifications/")
 
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
@@ -1010,18 +1008,9 @@ def requests_view(request):
             m.show_contact_info = True
         else:
             m.show_contact_info = False
-    
-    # Get the members whom the the logged in member has requested to follow
-    pending_members = member.pending.all()
-
-    # For each pending member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
-    for m in pending_members:
-        m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-        m.button_list = [buttonDictionary["revoke"]]
-        m.show_contact_info = False
-
-    return render_to_response( "requests.html",
-        { "requestedMembers" : requested_members, "pendingMembers" : pending_members },
+   
+    return render_to_response( "notifications.html",
+        { "member" : member, "requestedMembers" : requested_members },
         context_instance = RequestContext(request) )
 
 

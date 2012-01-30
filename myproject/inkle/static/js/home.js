@@ -196,7 +196,7 @@ $(document).ready(function() {
                     });
                 }
                 
-                $(".inklingInviteContainer [inklingType = '" + inklingElement.attr("inklingType") + "']").attr("inklingID", inkilingID);
+                $(".inklingInviteContainer[inklingType = '" + inklingElement.attr("inklingType") + "']").attr("inklingID", inklingID);
 
                 // Fade out the inkling's suggestions
                 inklingElement.find(".inklingSuggestions").fadeOut("medium");

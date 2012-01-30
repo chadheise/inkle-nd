@@ -1,0 +1,25 @@
+<div id="notificationsContent" class="grid_17 alpha omega">
+    <!-- Invitations -->
+    <div id="invitationsContent" class="grid_17">
+        <p class="subsectionTitle">Invitations</p>
+        <div id="invitationsContentMembers">
+            {% for invitation in member.invitations.all %}
+                {% include "invitationCard.html" %}
+            {% empty %}
+                <p style="margin-bottom: 15px;">No one has invited you to any inklings.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Requests -->
+    <div id="requestsContent" class="grid_17">
+        <p class="subsectionTitle">Requests</p>
+        <div id="requestsContentMembers">
+            {% for m in requestedMembers %}
+                {% include "memberCard.html" %}
+            {% empty %}
+                <p style="margin-bottom: 15px;">No one has requested to follow you.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

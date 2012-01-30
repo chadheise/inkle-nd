@@ -16,7 +16,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/profile.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/circles.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/requests.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/notifications.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/birthday.js"></script>
 {% endblock js %}
@@ -42,7 +42,7 @@
 
             <!-- Manage content links -->
             <div id="manageContentLinks" class="contentLinks grid_17">
-                <p {% if defaultContentType == "requests" %}class="selectedContentLink"{% endif %} contentType="requests">Requests</p>
+                <p {% if defaultContentType == "notifications" %}class="selectedContentLink"{% endif %} contentType="notifications">Notifications</p>
                 <p {% if defaultContentType == "circles" %}class="selectedContentLink"{% endif %} contentType="circles">Circles</p>
                 <p {% if defaultContentType == "spheres" %}class="selectedContentLink"{% endif %} contentType="spheres">Spheres</p>
                 <p {% if defaultContentType == "followers" %}class="selectedContentLink"{% endif %} contentType="followers">Followers</p>
@@ -50,11 +50,11 @@
             <div class="clear"></div>
             
             <div id="manageContent" class="grid_17 alpha omega">
-                <!-- Requests content links -->
-                <div id="requestsContentLinks" class="subsectionContentLinks grid_17">
+                <!-- Notifications content links -->
+                <div id="notificationsContentLinks" class="subsectionContentLinks grid_17">
                     <p class="selectedSubsectionContentLink" contentType="all">All</p>
-                    <p contentType="requested">Requested</p>
-                    <p contentType="pending">Pending</p>
+                    <p contentType="invitations">Invitations</p>
+                    <p contentType="requests">Requests</p>
                 </div>
                 <div class="clear"></div>
 

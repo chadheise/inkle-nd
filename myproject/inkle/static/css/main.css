@@ -61,7 +61,7 @@ input
 
 .subsectionContentLinks p
 {
-    color: #F1D8A2;
+    color: #EAB0B5;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -71,7 +71,7 @@ input
 
 .subsectionContentLinks .selectedSubsectionContentLink
 {
-    color: #E48116;
+    color: #CD1A26;
 }
 
 .subsectionTitle
@@ -108,7 +108,7 @@ input
     text-decoration: none;
 }
 
-.memberCard, .locationCard, .sphereCard
+.memberCard, .locationCard, .sphereCard, .invitationCard
 {
     border: 2px solid #777;
     background-color: #CCC;
@@ -116,7 +116,7 @@ input
     margin-bottom: 10px;
 }
 
-.memberCard img, .locationCard img, .sphereCard img
+.memberCard img, .locationCard img, .sphereCard img, .invitationCard img
 {
     border: 1px solid #444;
     height: 100px;
@@ -178,7 +178,7 @@ input
     text-decoration: none;
 }
 
-.memberCard .info, .locationCard .info, .sphereCard .info
+.memberCard .info, .locationCard .info, .sphereCard .info, .invitationCard .info
 {
     float: left;
     width: 542px;

@@ -30,3 +30,31 @@
 {
     margin-bottom: 15px;
 }
+
+#invitedBy
+{
+    text-decoration: none;
+    color: #1B5898;
+}
+
+.acceptInvitation
+{
+    background-color: #1B5898;
+    border-color: #2A4360;
+}
+
+.acceptInvitation:hover
+{
+    border-color: #002C45;
+}
+
+.rejectInvitation
+{
+    background-color: #CD1A26;
+    border-color: #914044;
+}
+
+.rejectInvitation:hover
+{
+    border-color: #7E181A;
+}

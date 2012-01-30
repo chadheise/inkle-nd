@@ -68,6 +68,15 @@ class Inkling(models.Model):
         """String representation for the current inkling."""
         return "%s (%s, %s)" % (self.location.name, self.date, self.category)
 
+    def get_formatted_category(self):
+        """Returns the current member's formatted category."""
+        if (self.category == "dinner"):
+            return "Dinner"
+        elif (self.category == "pregame"):
+            return "Pregame"
+        elif (self.category == "mainEvent"):
+            return "Main Event"
+
 
 class Invitation(models.Model):
     """Invitation class definition."""
