@@ -240,12 +240,20 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
     # Determine whether to use his or her and him or her
     his_her = "his"
     him_her = "him"
-    if (to_member.gender == "Female"):
+    if (from_member.gender == "Female"):
         his_her = "her"
         him_her = "her"
 
+    # Determine the inkling category
+    if (inkling.category == "dinner"):
+        category = "Dinner"
+    elif (inkling.category == "pregame"):
+        category = "Pregame"
+    elif (inkling.category == "mainEvent"):
+        category = "Main Event"
+
     # Specify the subject
-    subject = "%s %s has invited to %s inkling" % (to_member.first_name, to_member.last_name, him_her)
+    subject = "%s %s has invited you to %s inkling" % (from_member.first_name, from_member.last_name, his_her)
     
     # Specify the text body
     body_text = """Hi %s,
@@ -261,7 +269,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
         http://www.inkleit.com/manage/requests/
 
     Thanks,
-    The Inkle team""" % (from_member.first_name, to_member.first_name, to_member.last_name, his_her, inkling.location.name, inkling.category, inkling.date)
+    The Inkle team""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.date)
     
     # Specify the HTML body
     body_html = """<html>
@@ -282,7 +290,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
             <p>Thanks,<br />
             The Inkle team</p>
         </body>
-    </html>""" % (from_member.first_name, to_member.first_name, to_member.last_name, his_her, inkling.location.name, inkling.category, inkling.date)
+    </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.date)
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)

@@ -219,10 +219,12 @@ def inkling_invitations_view(request):
     try:
         inkling = Inkling.objects.get(pk = request.POST["inklingID"])
         for m in members:
+            invitation = Invitation(description = "", inkling = inkling, from_member = member)
+            invitation.save()
+            m.invitations.add(invitation)
             send_inkling_invitation_email(member, m, inkling)
     except KeyError:
         pass
-
 
     return HttpResponse()
 
@@ -409,7 +411,7 @@ def add_to_circle_view(request):
         from_member.accepted.remove(to_member)
     
     # Get the to_member's info for their member card
-    member = Member.active.get(pk = request.session["member_id"])
+    to_member.mutual_followings = from_member.following.filter(is_active = True) & to_member.following.filter(is_active = True)
     to_member.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
     to_member.show_contact_info = True
    
@@ -535,10 +537,6 @@ def join_sphere_view(request):
 
     # Add the sphere to the logged in member's spheres list
     member.spheres.add(sphere)
-   
-    return render_to_response( "memberCard.html",
-        { "m" : member, "member" : member },
-        context_instance = RequestContext(request) )
 
     return HttpResponse()
 
@@ -560,7 +558,7 @@ def leave_sphere_view(request):
     # Remove the sphere from the logged in member's spheres list
     member.spheres.remove(sphere)
 
-    return HttpResponse(request.session["member_id"])
+    return HttpResponse()
 
 
 def create_inkling_view(request):
@@ -654,7 +652,7 @@ def get_my_inklings_view(request):
         pastDate = True
     
     # Get the names and images for the logged in member's inkling locations
-    member.dinner_location, member.pregame_location, member.main_event_location = get_inklings(member, date)
+    member.dinner_inkling, member.pregame_inkling, member.main_event_inkling = get_inklings(member, date)
 
     return render_to_response( "myInklings.html",
         { "member" : member, "pastDate" : pastDate },
@@ -665,27 +663,24 @@ def get_inklings(member, date):
     """Returns the names and images for the logged in member's inkling locations."""
     # Get the name and image for the logged in member's dinner inkling location
     try:
-        inkling = member.inklings.get(date = date, category = "dinner")
-        dinner_location = inkling.location
+        dinner_inkling = member.inklings.get(date = date, category = "dinner")
     except Inkling.DoesNotExist:
-        dinner_location = None
+        dinner_inkling = None
     
     # Get the name and image for the logged in member's pregame inkling location
     try:
-        inkling = member.inklings.get(date = date, category = "pregame")
-        pregame_location = inkling.location
+        pregame_inkling = member.inklings.get(date = date, category = "pregame")
     except Inkling.DoesNotExist:
-        pregame_location = None
+        pregame_inkling = None
 
     # Get the name and image for the logged in member's main event inkling location
     try:
-        inkling =  member.inklings.get(date = date, category = "mainEvent")
-        main_event_location = inkling.location
+        main_event_inkling =  member.inklings.get(date = date, category = "mainEvent")
     except Inkling.DoesNotExist:
-        main_event_location = None
+        main_event_inkling = None
 
     # Return the dinner, pregame, and main event locations
-    return (dinner_location, pregame_location, main_event_location)
+    return (dinner_inkling, pregame_inkling, main_event_inkling)
 
 
 def create_sphere_view(request):

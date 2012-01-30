@@ -196,7 +196,7 @@ $(document).ready(function() {
                     });
                 }
                 
-                inklingElement.attr("inklingID", inklingID);
+                $(".inklingInviteContainer [inklingType = '" + inklingElement.attr("inklingType") + "']").attr("inklingID", inkilingID);
 
                 // Fade out the inkling's suggestions
                 inklingElement.find(".inklingSuggestions").fadeOut("medium");
@@ -320,12 +320,15 @@ $(document).ready(function() {
             invited += $(this).attr("suggestionID") + "|<|>|";
         });
 
+        var inklingID = $(this).parents(".inklingInviteContainer").attr("inklingID");
+
         // Update calendar
         $.ajax({
             type: "POST",
             url: "/inklingInvitations/",
             data: { "invited" : invited, "inklingID" : inklingID },
-            success: function(html) {            
+            success: function(html) {
+                invitedContainer.empty();
             },
             error: function(a, b, error) { alert("home.js (64): " + error); }
         });

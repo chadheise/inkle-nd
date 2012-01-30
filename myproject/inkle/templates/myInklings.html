@@ -4,12 +4,12 @@
         <div id="dinnerInkling" class="inkling" inklingType="dinner">
             <div>
                 <p class="inklingTitle">Dinner</p>
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinner_location.id|default:"default" }}.jpg" />
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinner_inkling.location.id|default:"default" }}.jpg" />
 
                 {% if not pastDate %}
-                    <input type="text" location="{{ member.dinner_location.name|default:"" }}" />
+                    <input type="text" location="{{ member.dinner_inkling.location.name|default:"" }}" />
                 {% else %}
-                    <p class="pastInklingText">{{ member.dinner_location.name|default:"" }}</p>
+                    <p class="pastInklingText">{{ member.dinner_inkling.location.name|default:"" }}</p>
                 {% endif %}
             </div>
 
@@ -20,12 +20,12 @@
         <div id="pregameInkling" class="inkling" inklingType="pregame">
             <div>
                 <p class="inklingTitle">Pregame</p>
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregame_location.id|default:"default" }}.jpg" />
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregame_inkling.location.id|default:"default" }}.jpg" />
 
                 {% if not pastDate %}
-                    <input type="text" location="{{ member.pregame_location.name|default:"" }}" />
+                    <input type="text" location="{{ member.pregame_inkling.location.name|default:"" }}" />
                 {% else %}
-                    <p class="pastInklingText">{{ member.pregame_location.name|default:"" }}</p>
+                    <p class="pastInklingText">{{ member.pregame_inkling.location.name|default:"" }}</p>
                 {% endif %}
             </div>
 
@@ -36,12 +36,12 @@
         <div id="mainEventInkling" class="inkling" inklingType="mainEvent">
             <div>
                 <p class="inklingTitle">Main Event</p>
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.main_event_location.id|default:"default" }}.jpg" />
+                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.main_event_inkling.location.id|default:"default" }}.jpg" />
 
                 {% if not pastDate %}
-                    <input type="text" location="{{ member.main_event_location.name|default:"" }}" />
+                    <input type="text" location="{{ member.main_event_inkling.location.name|default:"" }}" />
                 {% else %}
-                    <p class="pastInklingText">{{ member.main_event_location.name|default:"" }}</p>
+                    <p class="pastInklingText">{{ member.main_event_inkling.location.name|default:"" }}</p>
                 {% endif %}
             </div>
 
@@ -49,21 +49,21 @@
         </div>
         <div class="clear"></div>
         
-        <div id="dinnerInklingInvite" class="inklingInviteContainer" inklingID="{{ inkling.id }}">
+        <div id="dinnerInklingInvite" class="inklingInviteContainer" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
             <div class="invited"></div>
             <input type="text" />
             <button class="button inklingInviteButton">Invite</button>
             <div class="suggestions inklingInviteSuggestions"></div>
         </div>
 
-        <div id="pregameInklingInvite" class="inklingInviteContainer" inklingID="{{ inkling.id }}">
+        <div id="pregameInklingInvite" class="inklingInviteContainer" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
             <div class="invited"></div>
             <input type="text" />
             <button class="button inklingInviteButton">Invite</button>
             <div class="suggestions inklingInviteSuggestions"></div>
         </div>
 
-        <div id="mainEventInklingInvite" class="inklingInviteContainer" inklingID="{{ inkling.id }}">
+        <div id="mainEventInklingInvite" class="inklingInviteContainer" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
             <div class="invited"></div>
             <input type="text" />
             <button class="button inklingInviteButton">Invite</button>
