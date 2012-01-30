@@ -77,7 +77,7 @@ class Invitation(models.Model):
     
     def __unicode__(self):
         """String representation for the current invitation."""
-        return "%s - %s (%s)" % (self.inkling, self.from_member.name, self.description)
+        return "%s - %s (%s)" % (self.inkling, self.from_member, self.description)
 
 
 class ActiveMemberManager(models.Manager):
