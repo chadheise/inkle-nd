@@ -50,7 +50,6 @@ def date_selected_view(request):
 
 def get_location_inklings_view(request):
     # Get the member who is logged in (or redirect them to the login page)
-    print "---------------"
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
@@ -187,6 +186,45 @@ def edit_location_view(request):
     return render_to_response( "locationInfo.html",
         {"member" : member, "location" : location},
         context_instance = RequestContext(request) )
+
+
+def inkling_invitations_view(request):
+    # Get the logged in member (or raise a 404 error if the member ID is invalid)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    invites = request.POST["invited"].split("|<|>|")
+    members = []
+    i = 0
+    while (i < len(invites)):
+        if (invites[i] == "people"):
+            try:
+                m = Member.active.get(pk = int(invites[i + 1]))
+                if (m not in members):
+                    members.append(m)
+            except KeyError:
+                pass
+        elif (invites[i] == "circles"):
+            try:
+                circle = Circle.objects.get(pk = int(invites[i + 1]))
+                for m in circle.members.filter(is_active = True):
+                    if (m not in members):
+                        members.append(m)
+            except KeyError:
+                pass
+        i += 1
+
+    try:
+        inkling = Inkling.objects.get(pk = request.POST["inklingID"])
+        for m in members:
+            send_inkling_invitation_email(member, m, inkling)
+    except KeyError:
+        pass
+
+
+    return HttpResponse()
 
 
 def request_to_follow_view(request):
@@ -557,7 +595,7 @@ def create_inkling_view(request):
     member.inklings.add(inkling)
 
     # Return the location's name and image
-    return HttpResponse(location.name + "|<|>|" + str(location.id))
+    return HttpResponse(location.name + "|<|>|" + str(location.id) + "|<|>|" + str(inkling.id))
 
 
 def remove_inkling_view(request):
