@@ -18,7 +18,7 @@
             <!-- Member name and header dropdown -->
             <div id="headerMemberSection" class="grid_7 alpha omega">
                 <div>
-                    {% if member.requested.all|length %}
+                    {% if member.get_num_notifications %}
                         <img id="headerDropdownButton" class="headerDropdownButtonHighlighted" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
                     {% else %}
                         <img id="headerDropdownButton" src="{{ STATIC_URL }}/media/images/main/downArrow.png" />
@@ -34,8 +34,8 @@
                 </div>
                 <div id="headerDropdown">
                     <a href="/manage/notifications/">
-                        {% if member.requested.all|length %}
-                            <p class="headerDropdownOption headerDropdownOptionHighlighted">Notifications <span id="notificationsCount">({{ member.requested.all|length }})</span></p>
+                        {% if member.get_num_notifications %}
+                            <p class="headerDropdownOption headerDropdownOptionHighlighted">Notifications <span id="notificationsCount">({{ member.get_num_notifications }})</span></p>
                         {% else %}
                             <p class="headerDropdownOption">Notifications</p>
                         {% endif %}

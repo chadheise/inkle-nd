@@ -68,6 +68,12 @@ class Inkling(models.Model):
         """String representation for the current inkling."""
         return "%s (%s, %s)" % (self.location.name, self.date, self.category)
 
+    def get_formatted_date(self):
+        """Returns the current inkling's formatted date."""
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        date = self.date.split("/")
+        return "%s %s, %s" % (months[int(date[0]) - 1], date[1], date[2])
+
     def get_formatted_category(self):
         """Returns the current member's formatted category."""
         if (self.category == "dinner"):
@@ -163,6 +169,10 @@ class Member(User):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         birthday = self.birthday.split("/")
         return "%s %s, %s" % (months[int(birthday[0]) - 1], birthday[1], birthday[2])
+
+    def get_num_notifications(self):
+        """Returns the current member's notification count."""
+        return self.requested.count() + self.invitations.count()
 
     def update_verification_hash(self):
         """Updates the current member's verification hash."""
