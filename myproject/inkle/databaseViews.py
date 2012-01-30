@@ -415,7 +415,7 @@ def add_to_circle_view(request):
     to_member.show_contact_info = True
    
     return render_to_response( "memberCard.html",
-        { "m" : to_member },
+        { "member" : from_member, "m" : to_member },
         context_instance = RequestContext(request) )
 
 
@@ -757,6 +757,23 @@ def send_password_reset_email_view(request, email = None):
         send_password_reset_email(member)
     except Member.DoesNotExist:
         pass
+
+    return HttpResponse()
+
+
+def send_contact_email_view(request):
+    """Sends an email to support@inkleit.com."""
+    # Get the member who is logged in (otherwise, set member to None)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        member = None
+    
+    # Send the contact email if the required POST data is present
+    try:
+        send_contact_email(member, request.POST["name"], request.POST["email"], request.POST["subject"], request.POST["message"])
+    except KeyError:
+        raise Http404()
 
     return HttpResponse()
 

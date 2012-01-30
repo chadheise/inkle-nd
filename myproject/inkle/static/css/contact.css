@@ -1,0 +1,76 @@
+a
+{
+    color: #1B5898;
+}
+
+.errors
+{
+    border: solid 2px #CD1A26;
+    padding: 5px 10px 5px 10px;
+    background-color: #E5736F;
+    margin-bottom: 10px;
+    width: 400px;
+}
+
+table tr
+{
+    height: 30px;
+}
+
+table th
+{
+    text-align: right;
+    width: 70px;
+    padding-right: 5px;
+}
+
+#messageTextareaLabel
+{
+    vertical-align: top;
+    padding-top: 3px;
+}
+
+table td input
+{
+    width: 300px;
+    border: inset 2px #BBB;
+}
+
+table td textarea
+{
+    width: 300px;
+    height: 130px;
+    border: inset 2px #BBB;
+    resize: none;
+}
+
+table td .invalid
+{
+    border: solid 2px #CD1A26;
+}
+
+#contactButton
+{
+    padding: 5px 0px 5px 0px;
+    width: 150px;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    margin-top: 15px;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: #288D42;
+    border-color: #336E34;
+    cursor: pointer;
+}
+
+#contactButton:hover
+{
+    border-color: #1A492B;
+    cursor: pointer;
+}
+
+#contactConfirmation
+{
+    display: none;
+}
