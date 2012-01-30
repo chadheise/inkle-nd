@@ -28,7 +28,6 @@ $(document).ready(function() {
             var numDisplayed = $(".sphereCard").size();
         }
         
-        alert(numDisplayed);
         $.ajax({
             type: "POST",
             url: "/getSearchContent/",
@@ -38,7 +37,9 @@ $(document).ready(function() {
                 if (contentType == "members") {   
                      $("#peopleContent .loadContentButton").remove()
                      $("#peopleContent").append(newContent);
-                     $("#peopleContent").append('<button class="loadContentButton" contentType = "members">Load more members</button>');
+                     if ( $(".memberCard").size() != $("#numMembers").attr("count") ) {
+                         $("#peopleContent").append('<button class="loadContentButton" contentType = "members">Load more members</button>');
+                     }
                 }
                 else if (contentType == "locations") {   
                     $("#locationsContent .loadContentButton").remove()
