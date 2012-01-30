@@ -48,6 +48,7 @@ urlpatterns = patterns(
     
     (r"^stopFollowing/$", "stop_following_view"),
 
+
     (r"^inklingInvitations/$", "inkling_invitations_view"),
 
     # Manage page
@@ -111,4 +112,7 @@ urlpatterns = patterns(
     (r"^editProfileEmailPreferences/$", "edit_profile_email_preferences_view"),
     (r"^editProfilePicture/$", "edit_profile_picture_view"),
     (r"^getNewProfilePicture/$", "get_new_profile_picture_view"),
+
+    (r"^contact/$", "contact_view"),
+    (r"^sendContactEmail/$", "send_contact_email_view"),
 )

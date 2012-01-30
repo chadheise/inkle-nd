@@ -10,9 +10,10 @@ a
     outline: none;
 }
 
-input
+input, textarea
 {
    color: #1B5898;
+   font-size: 13px;
 }
 
 *::-moz-focus-inner

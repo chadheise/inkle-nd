@@ -582,6 +582,64 @@ def sphere_view(request, sphere_id = None):
         context_instance = RequestContext(request) )
 
 
+def contact_view(request):
+    """Returns the HTML for the contact page."""
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        member = None
+
+    # Create dictionaries to hold the POST data and the invalid errors
+    if (member):
+        data = { "name" : member.get_full_name(), "email" : member.email, "subject" : "", "message" : "" }
+    else:
+        data = { "name" : "", "email" : "", "subject" : "", "message" : "" }
+    invalid = { "errors" : [] }
+
+    if (request.POST):
+        # Get the POST data
+        try:
+            data["name"] = request.POST["name"]
+            data["email"] = request.POST["email"]
+            data["subject"] = request.POST["subject"]
+            data["message"] = request.POST["message"]
+        except KeyError:
+            pass
+
+        # Validate the name
+        if (not data["name"]):
+            invalid["name"] = True
+            invalid["errors"].append("Name not specified")
+
+        # Validate the email
+        if (not data["email"]):
+            invalid["email"] = True
+            invalid["errors"].append("Email not specified")
+
+        elif (not is_email(data["email"])):
+            invalid["email"] = True
+            invalid["errors"].append("Invalid email format")
+
+        # Validate the subject
+        if (not data["subject"]):
+            invalid["subject"] = True
+            invalid["errors"].append("Subject not specified")
+
+        # Validate the message
+        if (not data["message"]):
+            invalid["message"] = True
+            invalid["errors"].append("Message not specified")
+        
+        return render_to_response( "contactForm.html",
+            { "member" : member, "data" : data, "invalid" : invalid },
+            context_instance = RequestContext(request) )
+
+    return render_to_response( "contact.html",
+        { "member" : member, "data" : data, "invalid" : invalid },
+        context_instance = RequestContext(request) )
+
+
 def location_view(request, location_id = None, content_type = "all", date = "today"):
     """Gets the members who are going to the inputted location today and returns the HTML for the location page."""
     # Get the member who is logged in (or redirect them to the login page)

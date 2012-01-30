@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Contact</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/contact.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/contact.js"></script>
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <div class="grid_24 alpha omega">
+            <!-- Page title -->
+            <div class="grid_24">
+                <p class="pageTitle">Contact</p>
+            </div>
+            <div class="clear"></div>
+
+            <div id="contactContent" class="grid_24">
+                {% include "contactForm.html" %}
+            </div>
+       </div>
+    </div>
+{% endblock mainContent%}

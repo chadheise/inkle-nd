@@ -761,6 +761,23 @@ def send_password_reset_email_view(request, email = None):
     return HttpResponse()
 
 
+def send_contact_email_view(request):
+    """Sends an email to support@inkleit.com."""
+    # Get the member who is logged in (otherwise, set member to None)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        member = None
+    
+    # Send the contact email if the required POST data is present
+    try:
+        send_contact_email(member, request.POST["name"], request.POST["email"], request.POST["subject"], request.POST["message"])
+    except KeyError:
+        raise Http404()
+
+    return HttpResponse()
+
+
 def send_request_to_follow_email_view(request, to_member_id = None):
     """Sends an email to the provided email allowing the corresponding to reset their password."""
     # Get the member who is sending the follow request (or raise a 404 error if the member ID is invalid)
