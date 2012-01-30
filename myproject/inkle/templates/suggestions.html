@@ -13,7 +13,7 @@
         {% if queryType == "search" %}
             <a href="{{ suggestion.get_absolute_url }}">
         {% endif %}
-        <div class="suggestion" suggestionID="{{ suggestion.id }}">
+        <div class="suggestion" suggestionID="{{ suggestion.id }}" category="{{ categoryTitle|lower|default:"" }}">
             <img src="{{ STATIC_URL }}/media/images/{{ category.suggestionType }}/{{ suggestion.id }}.jpg" />
             <p fullName="{{ suggestion.name }}">{{ suggestion.name|truncate_characters:numChars }}</p>
         </div>

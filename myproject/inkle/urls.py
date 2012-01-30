@@ -43,7 +43,9 @@ urlpatterns = patterns(
     (r"^preventFollowing/$", "prevent_following_view"),
     
     (r"^stopFollowing/$", "stop_following_view"),
-    
+
+    (r"^inklingInvitations/$", "inkling_invitations_view"),
+
     #Manage page
     (r"^circles/$", "circles_view"),
     (r"^requests/$", "requests_view"),

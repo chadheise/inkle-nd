@@ -178,9 +178,10 @@ $(document).ready(function() {
             data: {"inklingType" : inklingType, "locationID" : locationID, "date" : date},
             success: function(locationInfo) {
                 // Split the location name and image
-                locationInfo = locationInfo.split("|<|>|");
-                locationName = locationInfo[0];
-                locationImage = "/static/media/images/locations/" + locationInfo[1] + ".jpg";
+                var locationInfo = locationInfo.split("|<|>|");
+                var locationName = locationInfo[0];
+                var locationImage = "/static/media/images/locations/" + locationInfo[1] + ".jpg";
+                var inklingID = locationInfo[2];
                 
                 // Update the value of the inkling's input
                 inklingElement.find("input").val(locationName);
@@ -195,6 +196,8 @@ $(document).ready(function() {
                     });
                 }
                 
+                inklingElement.attr("inklingID", inklingID);
+
                 // Fade out the inkling's suggestions
                 inklingElement.find(".inklingSuggestions").fadeOut("medium");
             },
@@ -308,11 +311,33 @@ $(document).ready(function() {
         window.location = $(this).attr("url") + contentType + "/" + date + "/";
     });
 
+    $(".inklingInviteButton").live("click", function() {
+        var invitedContainer = $(this).siblings(".invited");
+
+        var invited = "";
+        invitedContainer.find(".invitedPeople").each(function(index) {
+            invited += $(this).attr("category") + "|<|>|";
+            invited += $(this).attr("suggestionID") + "|<|>|";
+        });
+
+        // Update calendar
+        $.ajax({
+            type: "POST",
+            url: "/inklingInvitations/",
+            data: { "invited" : invited, "inklingID" : inklingID },
+            success: function(html) {            
+            },
+            error: function(a, b, error) { alert("home.js (64): " + error); }
+        });
+    });
+
     $(".inklingInviteContainer .selectedSuggestion").live("click", function() {
         $(".inklingInviteSuggestions").fadeOut("medium");
+        var category = $(this).attr("category");
+        var suggestionID = $(this).attr("suggestionID");
         var inklingInviteContainer = $(this).parents(".inklingInviteContainer");
         inklingInviteContainer.find("input").val("");
-        inklingInviteContainer.find(".invited").append("<div class='invitedPeople'>" + $(this).find("p").attr("fullName") + "</div>");
+        inklingInviteContainer.find(".invited").append("<div class='invitedPeople' category='" + category + "' suggestionID='" + suggestionID + "'>" + $(this).find("p").attr("fullName") + "</div>");
     });
     
     $(".inklingInviteSuggestions .suggestion").live("hover", function() {
@@ -497,7 +522,6 @@ $(document).ready(function() {
                },
                error: function(a, b, error) { alert("calendar.js (6): " + error); }
            });
-
        });
 
        $(".calendarArrow").live("click", function() {
