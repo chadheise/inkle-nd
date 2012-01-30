@@ -671,7 +671,7 @@ def get_edit_content_type(request):
         context_instance = RequestContext(request) )
  
 
-def members_search_query(query, members):
+def members_search_query(query, members, queryIndex):
     """Returns the members who match the inputted query."""
     # Split the query into words
     query_split = query.split()
@@ -688,8 +688,95 @@ def members_search_query(query, members):
     else:
         members = []
 
+    print members[queryIndex*2:queryIndex*2+2]
     return members
 
+def get_search_content_view(request):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        if "query" in request.POST:
+            return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
+        else:
+            return HttpResponseRedirect("/login/")
+    if "query" in request.POST:
+       # Strip the whitespace off the ends of the query
+       query = query.strip()
+    else:
+        raise Http404()
+    if "queryIndex" in request.POST:
+        index = int(request.POST["queryIndex"])
+    else:
+        index = 0
+    
+    if ( ("contentType" not in request.POST) or (request.POST["contentType"] not in ["members", "locations", "spheres"]) ):
+        if "query" in request.POST:
+            return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
+        else:
+            return HttpResponseRedirect("/login/")
+    elif request.POST["contentType"] == "members":
+        # Get the members who match the search query
+        members = members_search_query(query, Member.active.all())
+
+        # Initialize member variables
+        member.num_following = 0
+        member.num_followers = 0
+        member.num_other_people = 0
+
+        # Determine each member's people type and button list
+        for m in members:
+            # Case 1: The logged in member is following and is being followed by the current member
+            if ((m in member.following.filter(is_active = True)) and (member in m.following.filter(is_active = True))):
+                m.people_type = "following follower"
+                member.num_following += 1
+                member.num_followers += 1
+                m.show_contact_info = True
+                #m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
+                m.button_list = [buttonDictionary["circles"]]
+
+            # Case 2: The logged member is following the current member
+            elif (m in member.following.filter(is_active = True)):
+                m.people_type = "following"
+                member.num_following += 1
+                m.show_contact_info = True
+                #m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+                m.button_list = [buttonDictionary["circles"]]
+
+            # Case 3: The logged member is being followed by the current member
+            elif (member in m.following.filter(is_active = True)):
+                m.people_type = "follower"
+                member.num_followers += 1
+                m.show_contact_info = False
+                if (m in member.pending.all()):
+                    #m.button_list = [buttonDictionary["prevent"], buttonDictionary["revoke"]]
+                    m.button_list = [buttonDictionary["revoke"]]
+                else:
+                    #m.button_list = [buttonDictionary["prevent"], buttonDictionary["request"]]
+                    m.button_list = [buttonDictionary["request"]]
+
+            # Case 4: Neither the logged in member nor the current member are following each other
+            else:
+                m.people_type = "other"
+                member.num_other_people += 1
+                m.show_contact_info = False
+                if (m in member.pending.all()):
+                    m.button_list = [buttonDictionary["revoke"]]
+                else:
+                    m.button_list = [buttonDictionary["request"]]
+
+            # Determine the members who are being followed by both the logged in member and the current member
+            m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+            
+        return render_to_response( "searchMembers.html",
+            {"members" : members},
+            context_instance = RequestContext(request) )
+            
+    elif request.POST["contentType"] == "locations":
+        pass
+    elif request.POST["contentType"] == "spheres": 
+        pass
+        
 
 def locations_search_query(query):
     """Returns the locations which match the inputted query."""
@@ -723,7 +810,7 @@ def search_view(request, query = ""):
     query = query.strip()
 
     # Get the members who match the search query
-    members = members_search_query(query, Member.active.all())
+    members = members_search_query(query, Member.active.all(), 0)
 
     # Initialize member variables
     member.num_following = 0
