@@ -955,7 +955,7 @@ def suggestions_view(request):
             
         # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
         members = members_search_query(query, member.following.all())
-        members = list(set(members) - set(circle.members.filter(is_active = True)) - set([member]))[0:5]
+        members = members.exclude(pk__in = circle.members.all())[0:5]
         if (members):
             members.suggestionType = "members"
             for m in members:
@@ -983,6 +983,8 @@ def suggestions_view(request):
         
         # Set the number of characters to show for each suggestion
         num_chars = 17
+
+    print "done"
 
     return render_to_response( "suggestions.html",
         { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
