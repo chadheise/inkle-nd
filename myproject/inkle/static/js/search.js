@@ -16,6 +16,48 @@ $(document).ready(function() {
     var query = $("#searchSummary").attr("query");
     $("#searchInput").val(query).removeClass("emptySearchInput").removeAttr("empty");
     
+    $(".loadContentButton").live("click", function() {
+        var loadSize = 2;
+        var contentType = $(this).attr("contentType")
+        if (contentType == "members") {   
+            var queryIndex = $(".memberCard").size() / loadSize;
+        }
+        else if (contentType == "locations") {   
+            var queryIndex = $(".locationCard").size() / loadSize;
+        }
+        else if (contentType == "spheres") {   
+            var queryIndex = $(".sphereCard").size() / loadSize;
+        }
+        
+        
+        $.ajax({
+            type: "POST",
+            url: "/getSearchContent/",
+            data: {"query" : query, "queryIndex" : queryIndex, "contentType" : contentType},
+            success: function(html) {
+                var newContent = $(html).hide().fadeIn("medium");
+                if (contentType == "members") {   
+                     $("#peopleContent .loadContentButton").remove()
+                     $("#peopleContent").append(newContent);
+                     $("#peopleContent").append('<button class="loadContentButton" contentType = "members">Load more members</button>');
+                }
+                else if (contentType == "locations") {   
+                    $("#locationsContent .loadContentButton").remove()
+                    $("#locationsContent").append(newContent);
+                    $("#locationsContent").append('<button class="loadContentButton" contentType = "locations">Load more members</button>');
+                }
+                else if (contentType == "spheres") {   
+                    $("#spheresContent .loadContentButton").remove()
+                    $("#spheresContent").append(newContent);
+                    $("#spheresContent").append('<button class="loadContentButton" contentType = "spheres">Load more members</button>');
+                }
+            },
+            error: function(a, b, error) { alert("search.js (1): " + error); }
+        }); 
+        
+        
+    });
+    
     // Update the search results when one of the main content links is clicked
     $("#searchContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected

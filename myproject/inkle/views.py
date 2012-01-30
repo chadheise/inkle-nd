@@ -669,6 +669,8 @@ def get_edit_content_type(request):
     return render_to_response( "editManageInfo.html",
         { "member" : member },
         context_instance = RequestContext(request) )
+<<<<<<< local
+=======
  
 
 def members_search_query(query, members, queryIndex = 0):
@@ -690,6 +692,7 @@ def members_search_query(query, members, queryIndex = 0):
 
     #print members[queryIndex*2:queryIndex*2+2]
     return members
+>>>>>>> other
 
 def get_search_content_view(request):
     # Get the member who is logged in (or redirect them to the login page)
@@ -700,24 +703,25 @@ def get_search_content_view(request):
             return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
         else:
             return HttpResponseRedirect("/login/")
+    
     if "query" in request.POST:
        # Strip the whitespace off the ends of the query
-       query = query.strip()
+       query = request.POST["query"].strip()
     else:
         raise Http404()
     if "queryIndex" in request.POST:
-        index = int(request.POST["queryIndex"])
+        queryIndex = int(request.POST["queryIndex"])
     else:
-        index = 0
-    
+        queryIndex = 0
     if ( ("contentType" not in request.POST) or (request.POST["contentType"] not in ["members", "locations", "spheres"]) ):
         if "query" in request.POST:
             return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
         else:
             return HttpResponseRedirect("/login/")
     elif request.POST["contentType"] == "members":
+        print "Inside members"
         # Get the members who match the search query
-        members = members_search_query(query, Member.active.all())
+        members = members_search_query(query, Member.active.all(), queryIndex)
 
         # Initialize member variables
         member.num_following = 0
@@ -767,27 +771,75 @@ def get_search_content_view(request):
 
             # Determine the members who are being followed by both the logged in member and the current member
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            
+        
         return render_to_response( "searchMembers.html",
             {"members" : members},
             context_instance = RequestContext(request) )
             
     elif request.POST["contentType"] == "locations":
-        pass
-    elif request.POST["contentType"] == "spheres": 
-        pass
+        print "post type loactions"
+        # Get the locations which match the search query
+        locations = locations_search_query(query, queryIndex)
         
+        return render_to_response( "searchLocations.html",
+            {"locations" : locations},
+            context_instance = RequestContext(request) )
+        
+    elif request.POST["contentType"] == "spheres": 
+        # Get the spheres which match the search query
+        spheres = spheres_search_query(query, queryIndex)
 
-def locations_search_query(query):
+        # Initialize member variables
+        member.num_my_spheres = 0
+        member.num_other_spheres = 0
+
+        # Determine which spheres the logged in member has joined and set their button lists accordingly
+        for sphere in spheres:
+            if (sphere in member.spheres.all()):
+                sphere.sphere_type = "mySpheres"
+                member.num_my_spheres += 1
+                sphere.button_list = [buttonDictionary["leave"]]
+            else:
+                sphere.sphere_type = "otherSpheres"
+                member.num_other_spheres += 1
+                sphere.button_list = [buttonDictionary["join"]]
+
+            # Determine the number of members in the current sphere
+            sphere.num_members = len(sphere.member_set.filter(is_active = True))
+        
+        return render_to_response( "searchSpheres.html",
+            {"spheres" : spheres},
+            context_instance = RequestContext(request) )
+
+def members_search_query(query, members, queryIndex = 0):
+    """Returns the members who match the inputted query."""
+    # Split the query into words
+    query_split = query.split()
+
+    # If the query is only one word long, match the members' first or last names alone
+    if (len(query_split) == 1):
+        members = members.filter(Q(first_name__istartswith = query) | Q(last_name__istartswith = query))
+
+    # If the query is two words long, match the members' first and last names
+    elif (len(query_split) == 2):
+        members = members.filter((Q(first_name__istartswith = query_split[0]) & Q(last_name__istartswith = query_split[1])) | (Q(first_name__istartswith = query_split[1]) & Q(last_name__istartswith = query_split[0])))
+
+    # if the query is more than two words long, return no results
+    else:
+        members = []
+
+    return members[queryIndex*2:queryIndex*2+2]      
+
+def locations_search_query(query, queryIndex = 0):
     """Returns the locations which match the inputted query."""
     locations = Location.objects.filter(Q(name__icontains = query))
-    return locations
+    return locations[queryIndex*2:queryIndex*2+2]
         
 
-def spheres_search_query(query):
+def spheres_search_query(query, queryIndex = 0):
     """Returns the spheres which match the inputted query."""
     spheres = Sphere.objects.filter(Q(name__icontains = query))
-    return spheres
+    return spheres[queryIndex*2:queryIndex*2+2]
 
 def circles_search_query(query, member):
     """Returns the circles which match the inputted query."""
@@ -862,10 +914,10 @@ def search_view(request, query = ""):
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
     # Get the locations which match the search query
-    locations = Location.objects.filter(Q(name__contains = query))
+    locations = locations_search_query(query, 0)
     
     # Get the spheres which match the search query
-    spheres = Sphere.objects.filter(Q(name__contains = query))
+    spheres = spheres_search_query(query, 0)
     
     # Initialize member variables
     member.num_my_spheres = 0
