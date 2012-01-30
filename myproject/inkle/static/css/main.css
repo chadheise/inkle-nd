@@ -104,9 +104,15 @@ input, textarea
 #footer p, #footer a
 {
     color: #FFFFFF;
-    padding-top: 7px;
+    margin-top: 5px;
+    padding: 2px;
     font-size: 14px;
     text-decoration: none;
+}
+
+#footer a:hover
+{
+    background-color: #ABD4B0;
 }
 
 .memberCard, .locationCard, .sphereCard, .invitationCard
