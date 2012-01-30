@@ -229,3 +229,60 @@ def send_accept_request_email(from_member, to_member):
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
+
+
+def send_inkling_invitation_email(from_member, to_member, inkling):
+    """Sends an email to from_member that to_member has invited them to the inkling."""
+    # Specify the from address and to addresses
+    from_address = "support@inkleit.com"
+    to_addresses = [from_member.email]
+
+    # Determine whether to use his or her and him or her
+    his_her = "his"
+    him_her = "him"
+    if (to_member.gender == "Female"):
+        his_her = "her"
+        him_her = "her"
+
+    # Specify the subject
+    subject = "%s %s has invited to %s inkling" % (to_member.first_name, to_member.last_name, him_her)
+    
+    # Specify the text body
+    body_text = """Hi %s,
+
+        %s %s has invited you to %s inkling! Here is the inkling's information:
+        
+        Location: %s
+        Category: %s
+        Date: %s
+
+        You can respond to this inkling invitation by clicking on the following link:
+
+        http://www.inkleit.com/manage/requests/
+
+    Thanks,
+    The Inkle team""" % (from_member.first_name, to_member.first_name, to_member.last_name, his_her, inkling.location.name, inkling.category, inkling.date)
+    
+    # Specify the HTML body
+    body_html = """<html>
+        <head></head>
+        <body>
+            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
+
+            <p>Hi %s,</p>
+
+            <p>%s %s has invited you to %s inkling. Here is the inkling's information:</p>
+            
+            <p>Location: %s</p>
+            <p>Category: %s</p>
+            <p>Date: %s</p>
+
+            <p>Click <a href="http://www.inkleit.com/manage/requests/">here</a> to respond to this inkling invitation.</p>
+    
+            <p>Thanks,<br />
+            The Inkle team</p>
+        </body>
+    </html>""" % (from_member.first_name, to_member.first_name, to_member.last_name, his_her, inkling.location.name, inkling.category, inkling.date)
+    
+    # Send the email
+    send_email(from_address, to_addresses, subject, body_text, body_html)

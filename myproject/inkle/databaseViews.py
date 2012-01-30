@@ -771,6 +771,29 @@ def send_accept_request_email_view(request, from_member_id = None):
     return HttpResponse()
 
 
+def send_inkling_invitation_email_view(request):
+    """Sends an email to the provided email inviting them to an inkling."""
+    # Get the member who is accepting the follow request (or raise a 404 error if the member ID is invalid)
+    try:
+        to_member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    # Get the member to who sent the follow request (or raise a 404 error if the member ID is invalid)
+    try:
+        from_member = Member.active.get(pk = from_member_id)
+    except member.DoesNotExist:
+        raise Http404()
+
+    # If the from_member is actually following the to_member, send the inkling invitation email
+    if ((from_member.invited_email_preference) and (from_member in to_member.followers.all())):
+        send_inkling_invitation_email(from_member, to_member, inkling)
+    else:
+        raise Http404()
+
+    return HttpResponse()
+
+
 def set_password_view(request):
     """Resets the member's password."""
     # Get the member corresponding to the provided email (or throw a 404 error)

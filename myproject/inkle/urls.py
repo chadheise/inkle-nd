@@ -20,6 +20,7 @@ urlpatterns = patterns(
     (r"^sendPasswordResetEmail/(?P<email>.+)/$", "send_password_reset_email_view"),
     (r"^sendRequestToFollowEmail/(?P<to_member_id>\w+)/$", "send_request_to_follow_email_view"),
     (r"^sendAcceptRequestEmail/(?P<from_member_id>\w+)/$", "send_accept_request_email_view"),
+    (r"^sendInklingInvitationEmail/$", "send_inkling_invitation_email_view"),
     
     (r"^dateSelect/$", "date_selected_view"),
     
