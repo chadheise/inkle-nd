@@ -45,21 +45,21 @@ $(document).ready(function() {
     /* Helper function for loadContent() which replaces the manage content HTML*/
     function loadContentHelper(html, contentType, callback)
     {
-        // Show the requests content links if the content type is "requests"
-        if (contentType == "requests")
+        // Show the notifications content links if the content type is "notifications"
+        if (contentType == "notifications")
         {
-            // Show the requests content links
-            $("#requestsContentLinks").show();
+            // Show the notifications content links
+            $("#notificationsContentLinks").show();
 
-            // Set the "All" content link as the selected requests content link
-            $("#requestsContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
-            $("#requestsContentLinks p[contentType='all']").addClass("selectedSubsectionContentLink");
+            // Set the "All" content link as the selected notifications content link
+            $("#notificationsContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            $("#notificationsContentLinks p[contentType='all']").addClass("selectedSubsectionContentLink");
         }
 
-        // Otherwise, hide the requests content links
+        // Otherwise, hide the notifications content links
         else
         {
-            $("#requestsContentLinks").hide();
+            $("#notificationsContentLinks").hide();
         }
 
         // Update the main content with the HTML returned from the AJAX call

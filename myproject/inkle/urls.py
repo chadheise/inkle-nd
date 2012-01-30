@@ -32,12 +32,12 @@ urlpatterns = patterns(
     (r"^editLocation/$", "edit_location_view"),
     (r"^getEditLocationHtml/$", "get_edit_location_html_view"),
     (r"^manage/$", "manage_view"),
-    (r"^manage/(?P<content_type>requests|circles|spheres|followers)/$", "manage_view"),
+    (r"^manage/(?P<content_type>notifications|circles|spheres|followers)/$", "manage_view"),
     (r"^getEditManageHtml/$", "get_edit_manage_html_view"),
-    #Search views
+    
+    # Search views
     (r"^search/(?P<query>.+)/$", "search_view"),
     (r"^getSearchContent/$", "get_search_content_view"),
-    
     
     (r"^suggestions/$", "suggestions_view"),   
     (r"^requestToFollow/$", "request_to_follow_view"),
@@ -50,9 +50,9 @@ urlpatterns = patterns(
 
     (r"^inklingInvitations/$", "inkling_invitations_view"),
 
-    #Manage page
+    # Manage page
     (r"^circles/$", "circles_view"),
-    (r"^requests/$", "requests_view"),
+    (r"^notifications/$", "notifications_view"),
     (r"^spheres/$", "spheres_view"),
     (r"^followers/$", "followers_view"),
 

@@ -15,15 +15,6 @@
                 <div id="headerSearchSuggestions" class="suggestions"></div>
             </div>
 
-            <!-- Notifications -->
-            <!--<div class="grid_1 push_1">
-                {% if member.requested.all|length %}
-                    <a id="requestNotificationLink" href="/manage/requests/"><div id="requestNotification">{{ member.requested.all|length }}</div></a>
-                {% else %}
-                    <p class="grid_1">&nbsp;</p>
-                {% endif %}
-            </div>-->
-
             <!-- Member name and header dropdown -->
             <div id="headerMemberSection" class="grid_7 alpha omega">
                 <div>
@@ -42,22 +33,19 @@
                     </div>
                 </div>
                 <div id="headerDropdown">
-                    <a href="/editProfile/">
-                        <p class="headerDropdownOption">Profile information</p>
-                    </a>
-                    <a href="/account/">
-                        <p class="headerDropdownOption">Manage account</p>
-                    </a>
-                    <a href="/manage/requests/">
+                    <a href="/manage/notifications/">
                         {% if member.requested.all|length %}
-                            <p class="headerDropdownOption headerDropdownOptionHighlighted">Requests <span id="requestsCount">({{ member.requested.all|length }})</span></p>
+                            <p class="headerDropdownOption headerDropdownOptionHighlighted">Notifications <span id="notificationsCount">({{ member.requested.all|length }})</span></p>
                         {% else %}
-                            <p class="headerDropdownOption">Requests</p>
+                            <p class="headerDropdownOption">Notifications</p>
                         {% endif %}
                         
                     </a>
-                    <a href="/manage/circles/">
-                        <p class="headerDropdownOption">Circles</p>
+                    <a href="/editProfile/">
+                        <p class="headerDropdownOption">Edit profile</p>
+                    </a>
+                    <a href="/account/">
+                        <p class="headerDropdownOption">Manage account</p>
                     </a>
                     <a href="/logout/">
                         <p class="headerDropdownOption">Logout</p>
