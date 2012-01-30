@@ -804,7 +804,9 @@ def members_search_query(query, members, queryIndex = 0):
     else:
         members = []
 
-    return members[queryIndex*2:queryIndex*2+2]      
+    if len(members) >= queryIndex*2+1:
+        return members[queryIndex*2:queryIndex*2+2] 
+    return members    
 
 def locations_search_query(query, queryIndex = 0):
     """Returns the locations which match the inputted query."""
