@@ -371,7 +371,7 @@ def add_to_circle_view(request):
         from_member.accepted.remove(to_member)
     
     # Get the to_member's info for their member card
-    to_member.mutual_followings = from_member.following.filter(is_active = True) & to_member.following.filter(is_active = True)
+    member = Member.active.get(pk = request.session["member_id"])
     to_member.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
     to_member.show_contact_info = True
    
@@ -497,6 +497,10 @@ def join_sphere_view(request):
 
     # Add the sphere to the logged in member's spheres list
     member.spheres.add(sphere)
+   
+    return render_to_response( "memberCard.html",
+        { "m" : member, "member" : member },
+        context_instance = RequestContext(request) )
 
     return HttpResponse()
 
@@ -518,7 +522,7 @@ def leave_sphere_view(request):
     # Remove the sphere from the logged in member's spheres list
     member.spheres.remove(sphere)
 
-    return HttpResponse()
+    return HttpResponse(request.session["member_id"])
 
 
 def create_inkling_view(request):

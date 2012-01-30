@@ -553,7 +553,7 @@ def sphere_view(request, sphere_id = None):
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (location_id):
+        if (sphere_id):
             return HttpResponseRedirect("/login/?next=/sphere/" + sphere_id + "/")
         else:
             return HttpResponseRedirect("/login/")
