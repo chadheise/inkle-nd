@@ -34,7 +34,11 @@ urlpatterns = patterns(
     (r"^manage/$", "manage_view"),
     (r"^manage/(?P<content_type>requests|circles|spheres|followers)/$", "manage_view"),
     (r"^getEditManageHtml/$", "get_edit_manage_html_view"),
+    #Search views
     (r"^search/(?P<query>.+)/$", "search_view"),
+    (r"^getSearchContent/$", "get_search_content_view"),
+    
+    
     (r"^suggestions/$", "suggestions_view"),   
     (r"^requestToFollow/$", "request_to_follow_view"),
     (r"^revokeRequest/$", "revoke_request_view"),
