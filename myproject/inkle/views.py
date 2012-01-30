@@ -942,13 +942,13 @@ def followers_view(request):
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (request.POST["other_member_id"]):
+        if "other_member_id" in request.POST:
             return HttpResponseRedirect("/login/?next=/member/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/?next=/manage/followers/")
             
     # If we are viewing another member's page, get the members who are following them
-    if (request.POST["other_member_id"]):
+    if "other_member_id" in request.POST:
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
         try:
             other_member = Member.active.get(pk = request.POST["other_member_id"])
@@ -1134,32 +1134,33 @@ def spheres_view(request):
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (request.POST["other_member_id"]):
+        if "other_member_id" in request.POST:
             return HttpResponseRedirect("/login/?next=/member/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/?next=/manage/spheres/")
 
     # If we are viewing another member's page, get the members who are following them
-    if (request.POST["other_member_id"]):
+    if "other_member_id" in request.POST:
         # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
+        
         try:
             other_member = Member.active.get(pk = request.POST["other_member_id"])
         except Member.DoesNotExist:
             raise Http404()
-
+            
         # Get the other member's spheres
         spheres = other_member.spheres.all()
-
+        
         # Determine the number of members in the current sphere
         for sphere in spheres:
             sphere.num_members = len(sphere.member_set.filter(is_active = True))
-
+            
         # Specify the page context
         page_context = "member"
-
+        
         # Specify the text if the other member is not in any spheres
         no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
-    
+        
         # Determine the privacy rating for the logged in member and the current member whose page is being viewed
         if (member in other_member.followers.all()):
             other_member.privacy = 2
@@ -1167,7 +1168,7 @@ def spheres_view(request):
             other_member.privacy = 1
         else:
             other_member.privacy = 0
-
+            
         if (other_member.privacy < other_member.spheres_privacy):
             return render_to_response( "noPermission.html",
                 {},
@@ -1177,20 +1178,20 @@ def spheres_view(request):
     else:
         # Get the logged in member's spheres
         spheres = member.spheres.all()
-
+        
         # Give each sphere the "Leave sphere" button
         for sphere in spheres:
             sphere.button_list = [buttonDictionary["leave"]]
-
+            
             # Determine the number of members in the current sphere
             sphere.num_members = len(sphere.member_set.filter(is_active = True))
-
+            
         # Specify the page context
         page_context = "manage"
         
         # Specify the text if the logged in member is not in any spheres
         no_spheres_text = "You are"
-
+        
     return render_to_response( "spheres.html",
         { "spheres" : spheres, "pageContext" : page_context, "noSpheresText" : no_spheres_text },
         context_instance = RequestContext(request) )
