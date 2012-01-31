@@ -868,7 +868,7 @@ def members_search_query(query, members, queryIndex = "all"):
     else:
         i = 0
         returnList = []
-        while (i < 10 and (queryIndex + i) < len(members)):
+        while (i < 5 and (queryIndex + i) < len(members)):
             returnList.append(members[(queryIndex + i)])
             i += 1
         return returnList   
@@ -883,7 +883,7 @@ def locations_search_query(query, queryIndex = "all"):
     else:
         i = 0
         returnList = []
-        while (i < 10 and (queryIndex + i) < len(locations)):
+        while (i < 5 and (queryIndex + i) < len(locations)):
             returnList.append(locations[(queryIndex + i)])
             i += 1
         return returnList
@@ -901,7 +901,7 @@ def spheres_search_query(query, queryIndex = "all"):
         returnList = []
         print queryIndex
         print len(spheres)
-        while (i < 10 and (queryIndex + i) < len(spheres)):
+        while (i < 5 and (queryIndex + i) < len(spheres)):
             returnList.append( spheres[(queryIndex + i)])
             i += 1
         return returnList
@@ -1006,7 +1006,7 @@ def search_view(request, query = ""):
         sphere.num_members = len(sphere.member_set.filter(is_active = True))
 
     return render_to_response( "search.html",
-        {"member" : member, "query" : query, "members" : members[0:10], "numMembers" : numMembers, "locations" : locations[0:10], "numLocations" : numLocations, "spheres" : spheres[0:10], "numSpheres" : numSpheres},
+        {"member" : member, "query" : query, "members" : members[0:5], "numMembers" : numMembers, "locations" : locations[0:5], "numLocations" : numLocations, "spheres" : spheres[0:5], "numSpheres" : numSpheres},
         context_instance = RequestContext(request) )
 
 
@@ -1043,7 +1043,7 @@ def suggestions_view(request):
     # Case 2: Member, location, and sphere suggestions for the main header search
     elif (query_type == "search"):
         # Get the member suggestions (and add them to the categories list if there are any)
-        members = members_search_query(query, Member.active.all())[0:5]
+        members = members_search_query(query, Member.active.all())[0:3]
         if (members):
             members.suggestionType = "members"
             for m in members:
@@ -1051,13 +1051,13 @@ def suggestions_view(request):
             categories.append((members, "People"))
         
         # Get the location suggestions (and add them to the categories list if there are any)
-        locations = locations_search_query(query)[0:5]
+        locations = locations_search_query(query)[0:3]
         if (locations):
             locations.suggestionType = "locations"
             categories.append((locations, "Locations"))
 
         # Get the sphere suggestions (and add them to the categories list if there are any)
-        spheres = Sphere.objects.filter(Q(name__contains = query))[0:5]
+        spheres = Sphere.objects.filter(Q(name__contains = query))[0:3]
         if (spheres):
             spheres.suggestionType = "spheres"
             categories.append((spheres, "Spheres"))
