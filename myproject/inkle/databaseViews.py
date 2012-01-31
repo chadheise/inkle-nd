@@ -382,6 +382,50 @@ def remove_following(from_member, to_member):
     return
 
 
+def invitation_response_view(request):
+    """Responds to the current invitation."""
+    # Get the member who is logged in (or raise a 404 error if the member ID is invalid)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    # Get the invitation which is being responded to (or raise a 404 error if the invitation ID is invalid)
+    try:
+        invitation = member.invitations.get(pk = request.POST["invitationID"])
+        response = request.POST["response"]
+    except:
+        raise Http404()
+
+    # Make sure the invitation is actually in the logged in member's invitation list
+    if (invitation not in member.invitations):
+        raise Http404()
+
+    # Update the logged in member's inkling if they accepted the current invitation
+    if (response == "accept"):
+        # See if the logged in member already has an inkling for the location/date combination
+        try:
+            conflicting_inkling = member.inklings.get(category = invitation.inkling.category, date = invitation.date)
+            if (conflicting_inkling != invitation.inkling):
+                remove_inkling(member, conflicting_inkling)
+        except Inkling.DoesNotExist:
+            pass
+
+        # Add the inkling to the logged in member's inklings list
+        member.inklings.add(invitation.inkling)
+
+    # Remove the invitation from the logged in member's invitations
+    member.invitations.remove(invitation)
+
+    # Delete the invitation if no one else is part of this invitation
+    if (not invitation.member_set.all()):
+       invitation.delete() 
+
+    return render_to_response( "invitationConfirmation.html",
+        { "invitation" : invitation, "response" : response },
+        context_instance = RequestContext(request) )
+
+
 def add_to_circle_view(request):
     """Adds the to_member to one of from_member's circles."""
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
@@ -625,7 +669,7 @@ def remove_inkling(member, inkling):
     member.inklings.remove(inkling)
 
     # If the inkling no longer has any attendees, delete it
-    if (not inkling.member_set.all()):
+    if ((not inkling.member_set.all()) and (not inkling.invitation_set.all())):
         inkling.delete()
 
     return

@@ -67,6 +67,9 @@ urlpatterns = patterns(
     
     (r"^joinSphere/$", "join_sphere_view"),
     (r"^leaveSphere/$", "leave_sphere_view"),
+
+    # Invitation response
+    (r"^invitationResponse/$", "invitation_response_view"),
     
     (r"^createInkling/$", "create_inkling_view"),
     (r"^removeInkling/$", "remove_inkling_view"),
