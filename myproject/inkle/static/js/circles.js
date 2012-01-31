@@ -287,7 +287,6 @@ $(document).ready(function() {
                 $("#circleMembers").prepend(html);
                 $(".circlesMenu").each( function() {
                     memberID = $(this).siblings(".cardButton").attr("memberID")
-                    $(this).append("<div><input id='m" + memberID + "_c" + circleID + "' type='checkbox' circleID='" +  circleID + "' /> <label for='m" + memberID + "_c" + circleID + "'>" + name + "</label></div>");
                     $(".noCircles").remove()
                 });
                 $("#addToCircleInput").val("");
