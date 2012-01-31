@@ -537,7 +537,9 @@ def join_sphere_view(request):
     # Add the sphere to the logged in member's spheres list
     member.spheres.add(sphere)
 
-    return HttpResponse()
+    return render_to_response( "memberCard.html",
+        { "m" : member },
+        context_instance = RequestContext(request) )
 
 
 def leave_sphere_view(request):
@@ -557,7 +559,7 @@ def leave_sphere_view(request):
     # Remove the sphere from the logged in member's spheres list
     member.spheres.remove(sphere)
 
-    return HttpResponse()
+    return HttpResponse(request.session["member_id"])
 
 
 def create_inkling_view(request):

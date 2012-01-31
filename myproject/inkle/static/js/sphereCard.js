@@ -59,7 +59,8 @@ $(document).ready(function() {
                     memberCount++;
                     
                     $("#sphereMemberCount").text( memberCount ); //Update number of members in sphere
-                    $("#sphereContent").prepend(html);
+                    var memberCard = $(html).hide().fadeIn("slow");
+                    $("#sphereContent").prepend(memberCard);
                     
                 }
                 else {    
@@ -165,7 +166,7 @@ $(document).ready(function() {
                     memberCount--;
                     
                     $("#sphereMemberCount").text( memberCount ); //Update number of members in sphere
-                    $("#member_" + html).fadeOut("medium");
+                    $("#member_" + html).fadeOut("medium"); //Fadeout the member card
                     
                 }
                 else {  
