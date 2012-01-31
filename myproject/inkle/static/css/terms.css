@@ -1,0 +1,16 @@
+#termsContent
+{
+    text-align: justify;
+}
+
+.termsSectionTitle
+{
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+ul, ol
+{
+    margin-left: 50px;
+}
