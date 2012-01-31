@@ -807,7 +807,7 @@ def get_search_content_view(request):
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         
         return render_to_response( "searchMembers.html",
-            {"members" : members},
+            {"member" : member, "members" : members},
             context_instance = RequestContext(request) )
             
     elif request.POST["contentType"] == "locations":
@@ -868,7 +868,7 @@ def members_search_query(query, members, queryIndex = 0):
     else:
         i = 0
         returnList = []
-        while (i < 2 and (queryIndex + i) < len(members)):
+        while (i < 10 and (queryIndex + i) < len(members)):
             returnList.append(members[(queryIndex + i)])
             i += 1
         return returnList
@@ -884,7 +884,7 @@ def locations_search_query(query, queryIndex = 0):
     else:
         i = 0
         returnList = []
-        while (i < 2 and (queryIndex + i) < len(locations)):
+        while (i < 10 and (queryIndex + i) < len(locations)):
             returnList.append(locations[(queryIndex + i)])
             i += 1
         return returnList
@@ -903,7 +903,7 @@ def spheres_search_query(query, queryIndex = 0):
         returnList = []
         print queryIndex
         print len(spheres)
-        while (i < 2 and (queryIndex + i) < len(spheres)):
+        while (i < 10 and (queryIndex + i) < len(spheres)):
             returnList.append( spheres[(queryIndex + i)])
             i += 1
         return returnList
@@ -1009,7 +1009,7 @@ def search_view(request, query = ""):
         sphere.num_members = len(sphere.member_set.filter(is_active = True))
 
     return render_to_response( "search.html",
-        {"member" : member, "query" : query, "members" : members[0:2], "numMembers" : numMembers, "locations" : locations[0:2], "numLocations" : numLocations, "spheres" : spheres[0:2], "numSpheres" : numSpheres},
+        {"member" : member, "query" : query, "members" : members[0:10], "numMembers" : numMembers, "locations" : locations[0:10], "numLocations" : numLocations, "spheres" : spheres[0:10], "numSpheres" : numSpheres},
         context_instance = RequestContext(request) )
 
 

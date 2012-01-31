@@ -27,12 +27,25 @@
 {
     margin-bottom: 15px;
     overflow: hidden;
+    color: #1B5898;
 }
 
 .noResultsMessage
 {
     display: none;
     margin-bottom: 15px;
+}
+
+.loadContentButton {
+    background-color: #1B5898;
+    border-color: #2A4360;
+    background-color: #288D42;
+    border-color: #336E34;
+    margin: 0px 0px 30px 0px;
+}
+.loadContentButton:hover {
+    border-color: #002C45;
+    border-color: #1A492B;
 }
 
 .newItemInput
