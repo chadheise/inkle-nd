@@ -110,7 +110,7 @@
                         {% for m in members %}
                             {% include "memberCard.html" %}
                         {% endfor %}
-                        <button class="loadContentButton" contentType = "members">Load more members</button>
+                        <button class="loadContentButton button" contentType = "members">Load more members</button>
                     </div>
                     
                     <p id="noPeopleResultsMessage" class="noResultsMessage">No results match your query.</p>
@@ -121,7 +121,7 @@
                         {% for location in locations %}
                             {% include "locationCard.html" %}
                         {% endfor %}
-                        <button class="loadContentButton" contentType = "locations">Load more locations</button>
+                        <button class="loadContentButton button" contentType = "locations">Load more locations</button>
                     </div>
                     <p id="noLocationsResultsMessage" class="noResultsMessage">No results match your query.</p>
             
@@ -131,7 +131,7 @@
                         {% for sphere in spheres %}
                             {% include "sphereCard.html" %}
                         {% endfor %}
-                        <button class="loadContentButton" contentType = "spheres">Load more locations</button>
+                        <button class="loadContentButton button" contentType = "spheres">Load more locations</button>
                     </div>
                     <p id="noSpheresResultsMessage" class="noResultsMessage">No results match your query.</p>
                 </div>

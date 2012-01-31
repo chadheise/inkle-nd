@@ -2,14 +2,41 @@ $(document).ready(function() {
     if ($(".memberCard").length == 0)
     {
         $("#noPeopleResultsMessage").show();
+        $(".loadContentButton").filter(function() {
+            return $(this).attr("contentType") == "members";
+        }).hide()
     }
     if ($(".locationCard").length == 0)
     {
         $("#noLocationsResultsMessage").show();
+        $(".loadContentButton").filter(function() {
+            return $(this).attr("contentType") == "locations";
+        }).hide()
     }
     if ($(".sphereCard").length == 0)
     {
         $("#noSpheresResultsMessage").show();
+        $(".loadContentButton").filter(function() {
+            return $(this).attr("contentType") == "spheres";
+        }).hide()
+    }
+    if ($(".memberCard").length >= $("#numMembers").attr("count"))
+    {
+        $(".loadContentButton").filter(function() {
+            return $(this).attr("contentType") == "members";
+        }).hide()
+    }
+    if ($(".locationCard").length >= $("#numLocations").attr("count"))
+    {
+        $(".loadContentButton").filter(function() {
+            return $(this).attr("contentType") == "locations";
+        }).hide()
+    }
+    if ($(".sphereCard").length >= $("#numSpheres").attr("count"))
+    {
+        $(".loadContentButton").filter(function() {
+            return $(this).attr("contentType") == "spheres";
+        }).hide()
     }
 
     // Set the search input's value to the search query
@@ -172,6 +199,7 @@ $(document).ready(function() {
                     $(".following").show();
                     $(".follower").show();
                     $(".other").show();
+                    $(".loadContentButton").show()
                     
                     if ($(".memberCard").length == 0)
                     {
@@ -183,6 +211,7 @@ $(document).ready(function() {
                     $(".follower").hide();
                     $(".other").hide();
                     $(".following").show();
+                    $(".loadContentButton").hide()
                     
                     if ($(".following").length == 0)
                     {
@@ -194,6 +223,7 @@ $(document).ready(function() {
                     $(".following").hide();
                     $(".other").hide();
                     $(".follower").show();
+                    $(".loadContentButton").hide()
 
                     if ($(".follower").length == 0)
                     {
@@ -205,6 +235,7 @@ $(document).ready(function() {
                     $(".following").hide();
                     $(".follower").hide();
                     $(".other").show();
+                    $(".loadContentButton").hide()
 
                     if ($(".other").length == 0)
                     {
@@ -237,6 +268,7 @@ $(document).ready(function() {
                 {
                     $(".mySpheres").show();
                     $(".otherSpheres").show();
+                    $(".loadContentButton").show()
 
                     if ($(".sphereCard").length == 0)
                     {
@@ -247,6 +279,7 @@ $(document).ready(function() {
                 {
                     $(".mySpheres").show();
                     $(".otherSpheres").hide();
+                    $(".loadContentButton").hide()
                     
                     if ($(".mySpheres").length == 0)
                     {
@@ -257,6 +290,7 @@ $(document).ready(function() {
                 {
                     $(".mySpheres").hide();
                     $(".otherSpheres").show();
+                    $(".loadContentButton").hide()
 
                     if ($(".otherSpheres").length == 0)
                     {
