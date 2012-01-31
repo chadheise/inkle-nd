@@ -844,7 +844,7 @@ def get_search_content_view(request):
             {"spheres" : spheres},
             context_instance = RequestContext(request) )
 
-def members_search_query(query, members, queryIndex = 0):
+def members_search_query(query, members, queryIndex = "all"):
     """Returns the members who match the inputted query."""
     # Split the query into words
     query_split = query.split()
@@ -871,10 +871,9 @@ def members_search_query(query, members, queryIndex = 0):
         while (i < 10 and (queryIndex + i) < len(members)):
             returnList.append(members[(queryIndex + i)])
             i += 1
-        return returnList
-    return members    
+        return returnList   
 
-def locations_search_query(query, queryIndex = 0):
+def locations_search_query(query, queryIndex = "all"):
     """Returns the locations which match the inputted query."""
     locations = Location.objects.filter(Q(name__icontains = query))
     if queryIndex == "all":
@@ -888,10 +887,9 @@ def locations_search_query(query, queryIndex = 0):
             returnList.append(locations[(queryIndex + i)])
             i += 1
         return returnList
-    return locations
         
 
-def spheres_search_query(query, queryIndex = 0):
+def spheres_search_query(query, queryIndex = "all"):
     """Returns the spheres which match the inputted query."""
     spheres = Sphere.objects.filter(Q(name__icontains = query))
     if queryIndex == "all":
@@ -907,7 +905,6 @@ def spheres_search_query(query, queryIndex = 0):
             returnList.append( spheres[(queryIndex + i)])
             i += 1
         return returnList
-    return spheres
 
 def circles_search_query(query, member):
     """Returns the circles which match the inputted query."""
