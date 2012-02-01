@@ -340,13 +340,17 @@ $(document).ready(function() {
         });
     });
 
+    $(".removeInvitedPeople").live("click", function() {
+        $(this).parent().remove();
+    });
+
     $(".inklingInviteContainer .selectedSuggestion").live("click", function() {
         $(".inklingInviteSuggestions").fadeOut("medium");
         var category = $(this).attr("category");
         var suggestionID = $(this).attr("suggestionID");
         var inklingInviteContainer = $(this).parents(".inklingInviteContainer");
         inklingInviteContainer.find("input").val("");
-        inklingInviteContainer.find(".invited").append("<div class='invitedPeople' category='" + category + "' suggestionID='" + suggestionID + "'>" + $(this).find("p").attr("fullName") + "</div>");
+        inklingInviteContainer.find(".invited").append("<div class='invitedPeople' category='" + category + "' suggestionID='" + suggestionID + "'><p class='invitedPeopleName'>" + $(this).find("p").attr("fullName") + "</p><div class='removeInvitedPeople'><p>x</p></div></div>");
     });
     
     $(".inklingInviteSuggestions .suggestion").live("hover", function() {

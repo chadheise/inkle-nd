@@ -86,7 +86,7 @@ class Inkling(models.Model):
 
 class Invitation(models.Model):
     """Invitation class definition."""
-    description = models.CharField(max_length = 200)
+    description = models.CharField(max_length = 200, default = "")
     inkling = models.ForeignKey(Inkling)
     from_member = models.ForeignKey("Member")
     
