@@ -21,7 +21,7 @@
                         {% endif %}
 
                         <!-- Phone -->
-                        {% if m.phone and m.privacy >= m.email_privacy %}
+                        {% if m.phone and m.privacy >= m.phone_privacy %}
                             <p>{{ m.get_formatted_phone }}</p>
                         {% endif %}
                     </div>

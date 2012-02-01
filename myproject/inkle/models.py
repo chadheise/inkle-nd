@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Import modules necessary for generating a new verification hash
 from hashlib import md5
 from random import randint
+
+import datetime
 
 class Location(models.Model):
     """Location class definition."""
@@ -58,11 +59,29 @@ class Circle(models.Model):
         return "%s" % (self.name)
 
 
+class PastInklingManager(models.Manager):
+    """Manager which returns past inkling objects."""
+    def get_query_set(self):
+        return Inkling.objects.filter(date__lt = datetime.date.today())
+
+
+class CurrentInklingManager(models.Manager):
+    """Manager which returns current inkling objects."""
+    def get_query_set(self):
+        return Inkling.objects.filter(date__gte = datetime.date.today())
+
+
 class Inkling(models.Model):
     """Inkling class definition."""
     location = models.ForeignKey(Location)
     category = models.CharField(max_length = 20)
-    date = models.CharField(max_length = 10)
+    #date = models.CharField(max_length = 10)
+    date = models.DateField()
+
+    # Manager
+    objects = models.Manager()
+    past = PastInklingManager()
+    current = CurrentInklingManager()
     
     def __unicode__(self):
         """String representation for the current inkling."""
@@ -71,8 +90,7 @@ class Inkling(models.Model):
     def get_formatted_date(self):
         """Returns the current inkling's formatted date."""
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        date = self.date.split("/")
-        return "%s %s, %s" % (months[int(date[0]) - 1], date[1], date[2])
+        return "%s %s, %s" % (months[self.date.month - 1], self.date.day, self.date.year)
 
     def get_formatted_category(self):
         """Returns the current member's formatted category."""
@@ -116,7 +134,8 @@ class Member(User):
     
     # Profile information
     gender = models.CharField(max_length = 6)
-    birthday = models.CharField(max_length = 10)
+    #birthday = models.CharField(max_length = 10)
+    birthday = models.DateField()
     phone = models.CharField(max_length = 10, default = "")
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
@@ -130,12 +149,15 @@ class Member(User):
     verified = models.BooleanField(default = False)
 
     # Privacy settings
-    location_privacy = models.IntegerField(max_length = 1, default = 0)
+    name_privacy = models.IntegerField(max_length = 1, default = 0)
+    image_privacy = models.IntegerField(max_length = 1, default = 0)
     email_privacy = models.IntegerField(max_length = 1, default = 1)
     phone_privacy = models.IntegerField(max_length = 1, default = 1)
     birthday_privacy = models.IntegerField(max_length = 1, default = 1)
+    gender_privacy = models.IntegerField(max_length = 1, default = 0)
+    location_privacy = models.IntegerField(max_length = 1, default = 0)
     followers_privacy = models.IntegerField(max_length = 1, default = 2)
-    followings_privacy = models.IntegerField(max_length = 1, default = 2)
+    following_privacy = models.IntegerField(max_length = 1, default = 2)
     spheres_privacy = models.IntegerField(max_length = 1, default = 0)
     inklings_privacy = models.IntegerField(max_length = 1, default = 2)
 
@@ -145,7 +167,7 @@ class Member(User):
     invited_email_preference = models.BooleanField(default = True)
     general_email_preference = models.BooleanField(default = True)
 
-    # Custom manager
+    # Manager
     objects = models.Manager()
     active = ActiveMemberManager()
 
@@ -167,8 +189,7 @@ class Member(User):
     def get_formatted_birthday(self):
         """Returns the current member's formatted birthday."""
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        birthday = self.birthday.split("/")
-        return "%s %s, %s" % (months[int(birthday[0]) - 1], birthday[1], birthday[2])
+        return "%s %s, %s" % (months[self.birthday.month - 1], self.birthday.day, self.birthday.year)
 
     def get_num_notifications(self):
         """Returns the current member's notification count."""
@@ -189,14 +210,14 @@ class Member(User):
         self.birthday = birthday
         self.gender = gender
 
-    def update_privacy_settings(self, location, email, phone, birthday, followers, followings, spheres, inklings):
+    def update_privacy_settings(self, location, email, phone, birthday, followers, following, spheres, inklings):
         """Updates the current member's privacy settings."""
         self.location_privacy = location
         self.email_privacy = email
         self.phone_privacy = phone
         self.birthday_privacy = birthday
         self.followers_privacy = followers
-        self.followings_privacy = followings
+        self.following_privacy = following
         self.spheres_privacy = spheres
         self.inklings_privacy = inklings
 
