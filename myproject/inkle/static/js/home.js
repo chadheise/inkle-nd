@@ -146,6 +146,10 @@ $(document).ready(function() {
                         $(this).attr("src", "/static/media/images/locations/default.jpg");
                         $(this).fadeIn("medium");
                     });
+
+                    var inklingInviteContainer = $(".inklingInviteContainer[inklingType = '" + inklingElement.attr("inklingType") + "']");
+                    inklingInviteContainer.attr("inklingID", "");
+                    inklingInviteContainer.addClass("hidden");
                 },
                 error: function(a, b, error) { alert("home.js (3): " + error); }
             });
@@ -196,7 +200,9 @@ $(document).ready(function() {
                     });
                 }
                 
-                $(".inklingInviteContainer[inklingType = '" + inklingElement.attr("inklingType") + "']").attr("inklingID", inklingID);
+                var inklingInviteContainer = $(".inklingInviteContainer[inklingType = '" + inklingElement.attr("inklingType") + "']");
+                inklingInviteContainer.attr("inklingID", inklingID);
+                inklingInviteContainer.removeClass("hidden");
 
                 // Fade out the inkling's suggestions
                 inklingElement.find(".inklingSuggestions").fadeOut("medium");
