@@ -31,8 +31,7 @@ def home_view(request):
     dates = [today + datetime.timedelta(days = x) for x in range(5)] 
 
     # Get others' dinner inklings for today
-    date = str(today.month) + "/" + str(today.day) + "/" + str(today.year)
-    locations = get_others_inklings(member, date, "other", "circles", "mainEvent")
+    locations = get_others_inklings(member, today, "other", "circles", "mainEvent")
 
     return render_to_response( "home.html",
         { "member" : member, "locations" : locations, "dates" : dates, "selectedDate" : today },
@@ -73,12 +72,7 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
         return HttpResponseRedirect("/manage/")
 
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
-    if (member in other_member.followers.all()):
-        other_member.privacy = 2
-    elif (member in other_member.following.all()):
-        other_member.privacy = 1
-    else:
-        other_member.privacy = 0
+    other_member.privacy = get_privacy(member, other_member)
     
     # Create the button lists
     other_member.button_list = []
@@ -323,7 +317,7 @@ def edit_profile_information_view(request):
         raise Http404()
 
     # Create dictionaries to hold the POST data and the invalid errors
-    data = { "first_name" : member.first_name, "last_name" : member.last_name, "phone1" : member.phone[0:3], "phone2" : member.phone[3:6], "phone3" : member.phone[6:10], "city" : member.city, "state" : member.state, "zip_code" : member.zip_code, "month" : int(member.birthday.split("/")[0]), "day" : int(member.birthday.split("/")[1]), "year" : int(member.birthday.split("/")[2]), "gender" : member.gender }
+    data = { "first_name" : member.first_name, "last_name" : member.last_name, "phone1" : member.phone[0:3], "phone2" : member.phone[3:6], "phone3" : member.phone[6:10], "city" : member.city, "state" : member.state, "zip_code" : member.zip_code, "month" : member.birthday.month, "day" : member.birthday.day, "year" : member.birthday.year, "gender" : member.gender }
     invalid = { "errors" : [] }
 
     if (request.POST):
@@ -450,7 +444,7 @@ def edit_profile_information_view(request):
         # If there are no errors, update the logged in member's profile information
         if (not invalid["errors"]):
             phone = data["phone1"] + data["phone2"] + data["phone3"]
-            birthday = str(data["month"]) + "/" + str(data["day"]) + "/" + str(data["year"])
+            birthday = datetime.date(day = int(data["day"]), month = int(data["month"]), year = int(data["year"]))
             member.update_profile_information(data["first_name"], data["last_name"], phone, data["city"], data["state"], data["zip_code"], birthday, data["gender"])
             member.save()
             return HttpResponse()
@@ -510,11 +504,11 @@ def edit_profile_privacy_view(request):
         phone_privacy = int(request.POST["phonePrivacy"])
         birthday_privacy = int(request.POST["birthdayPrivacy"])
         followers_privacy = int(request.POST["followersPrivacy"])
-        followings_privacy = int(request.POST["followingsPrivacy"])
+        following_privacy = int(request.POST["followingsPrivacy"])
         spheres_privacy = int(request.POST["spheresPrivacy"])
         inklings_privacy = int(request.POST["inklingsPrivacy"])
     
-        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, followings_privacy, spheres_privacy, inklings_privacy)
+        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, following_privacy, spheres_privacy, inklings_privacy)
         member.save()
     except KeyError:
         pass
@@ -709,37 +703,6 @@ def get_edit_location_html_view(request):
         { "member" : member, "location" : location },
         context_instance = RequestContext(request) )
 
-
-def get_edit_content_type(request):
-    """Returns the edit manage HTML."""
-    # Get the member who is logged in (or redirect them to the login page)
-    try:
-        member = Member.active.get(pk = request.session["member_id"])
-    except:
-        raise Http404()
-    
-    # Parse the birthday information
-    member.month = member.birthday.split("/")[0]
-    member.day = member.birthday.split("/")[1]
-    member.year = member.birthday.split("/")[2]
-
-    if member.month:
-        member.month = int(member.month)
-    else:
-        member.month = 0
-    if member.day:
-        member.day = int(member.day)
-    else:
-        member.day = 0
-
-    if member.year:
-        member.year = int(member.year)
-    else:
-        member.year = 0
-
-    return render_to_response( "editManageInfo.html",
-        { "member" : member },
-        context_instance = RequestContext(request) )
 
 def get_search_content_view(request):
     # Get the member who is logged in (or redirect them to the login page)
@@ -991,6 +954,9 @@ def search_view(request, query = ""):
 
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+            
+        # Determine the privacy rating for the logged in member and the current member
+        m.privacy = get_privacy(member, m)
 
     # Get the locations which match the search query
     locations = locations_search_query(query, "all")
@@ -1137,11 +1103,9 @@ def notifications_view(request):
     for m in requested_members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
-        if (m in member.following.filter(is_active = True)):
-            m.show_contact_info = True
-        else:
-            m.show_contact_info = False
-   
+        # Determine the privacy rating for the logged in member and the current member
+        m.privacy = get_privacy(member, m)
+
     return render_to_response( "notifications.html",
         { "member" : member, "requestedMembers" : requested_members },
         context_instance = RequestContext(request) )
@@ -1172,12 +1136,7 @@ def followers_view(request):
         no_followers_text = other_member.first_name + " " + other_member.last_name
 
         # Determine the privacy rating for the logged in member and the current member whose page is being viewed
-        if (member in other_member.followers.all()):
-            other_member.privacy = 2
-        elif (member in other_member.following.all()):
-            other_member.privacy = 1
-        else:
-            other_member.privacy = 0
+        other_member.privacy = get_privacy(member, other_member)
 
         if (other_member.privacy < other_member.followers_privacy):
             return render_to_response( "noPermission.html",
@@ -1216,13 +1175,8 @@ def followers_view(request):
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
-        # Determine the privacy rating for the logged in member and the current member card
-        if ((member in m.followers.all()) or (member == m)):
-            m.privacy = 2
-        elif (member in m.following.all()):
-            m.privacy = 1
-        else:
-            m.privacy = 0
+        # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+        m.privacy = get_privacy(member, m)
 
     return render_to_response( "followers.html",
         { "member" : member, "members" : members, "pageContext" : page_context, "noFollowersText" : no_followers_text },
@@ -1274,21 +1228,11 @@ def get_member_following_view(request):
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         
-        # Determine the privacy rating for the logged in member and the current member card
-        if ((member in m.followers.all()) or (member == m)):
-            m.privacy = 2
-        elif (member in m.following.all()):
-            m.privacy = 1
-        else:
-            m.privacy = 0
+        # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+        m.privacy = get_privacy(member, m)
 
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
-    if (member in other_member.followers.all()):
-        other_member.privacy = 2
-    elif (member in other_member.following.all()):
-        other_member.privacy = 1
-    else:
-        other_member.privacy = 0
+    other_member.privacy = get_privacy(member, other_member)
 
     if (other_member.privacy < other_member.followers_privacy):
         return render_to_response( "noPermission.html",
@@ -1326,6 +1270,9 @@ def circles_view(request, circle_id = None):
 
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+
+        # Determine the privacy rating for the logged in member and the current member
+        m.privacy = get_privacy(member, m)
 
     # If a circle ID is specified, return only the circle content (otherwise, return the entire HTML for the circles page)
     try:
@@ -1373,12 +1320,7 @@ def spheres_view(request):
         no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
         
         # Determine the privacy rating for the logged in member and the current member whose page is being viewed
-        if (member in other_member.followers.all()):
-            other_member.privacy = 2
-        elif (member in other_member.following.all()):
-            other_member.privacy = 1
-        else:
-            other_member.privacy = 0
+        other_member.privacy = get_privacy(member, other_member)
             
         if (other_member.privacy < other_member.spheres_privacy):
             return render_to_response( "noPermission.html",
@@ -1418,16 +1360,17 @@ def get_others_inklings_view(request):
 
     # Get the POST data
     try:
-        date = request.POST["date"]
+        date = request.POST["date"].split("/")
         people_type = request.POST["peopleType"]
         people_id = request.POST["peopleID"]
         inkling_type = request.POST["inklingType"]
         include_member = request.POST["includeMember"]
+        print "dine"
     except KeyError:
         raise Http404()
 
     # Get others' inklings
-    locations = get_others_inklings(member, date, people_type, people_id, inkling_type)
+    locations = get_others_inklings(member, datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2])), people_type, people_id, inkling_type)
 
     if (include_member == "true"):
         return render_to_response( "othersInklings.html",
@@ -1437,6 +1380,7 @@ def get_others_inklings_view(request):
         return render_to_response( "locationBoard.html",
             { "locations" : locations },
             context_instance = RequestContext(request) )
+
 
 def get_others_inklings(member, date, people_type, people_id, inkling_type):
     if (people_type == "other"):
@@ -1463,6 +1407,7 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 location.count = 1
                 locations.append(location)
     
+    print "Locations: " + str(locations)
     locations.sort(key = lambda l:-l.count)
 
     return locations
@@ -1483,17 +1428,13 @@ def get_member_inklings_view(request):
         raise Http404()
 
     try:
-        date = request.POST["date"]
+        date = request.POST["date"].split("/")
+        date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     except KeyError:
         raise Http404()
 
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
-    if (member in other_member.followers.all()):
-        other_member.privacy = 2
-    elif (member in other_member.following.all()):
-        other_member.privacy = 1
-    else:
-        other_member.privacy = 0
+    other_member.privacy = get_privacy(member, other_member)
 
     inklings = {}
     if (other_member.privacy >= other_member.inklings_privacy):
@@ -1511,14 +1452,10 @@ def get_member_inklings_view(request):
             pass
 
         # Get date objects
-        month = int(request.POST["date"].split("/")[0])
-        day = int(request.POST["date"].split("/")[1])
-        year = int(request.POST["date"].split("/")[2])
-        date1 = datetime.date(year, month, day)
-        dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+        dates = [date + datetime.timedelta(days = x) for x in range(3)]
         
         return render_to_response( "memberInklings.html",
-            { "inklings" : inklings, "dates" : dates, "selectedDate" : date1 },
+            { "inklings" : inklings, "dates" : dates, "selectedDate" : date },
             context_instance = RequestContext(request) )
     else:
         return render_to_response( "noPermission.html",
@@ -1767,7 +1704,7 @@ def register_view(request):
                 last_name = data["last_name"],
                 username = data["email"],
                 email = data["email"],
-                birthday = str(data["month"]) + "/" + str(data["day"]) + "/" + str(data["year"]),
+                birthday = datetime.date(day = data["day"], month = data["month"], year = data["year"]),
                 gender = data["gender"]
             )
             

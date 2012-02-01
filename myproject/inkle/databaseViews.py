@@ -89,8 +89,7 @@ def get_location_inklings(member_id = None, location_id = None, date = datetime.
     following = member.following.filter(is_active = True)
 
     # Get all of the specified date's inklings at the provided location
-    dateReformat = str(date.month) + "/" + str(date.day) + "/" + str(date.year)
-    location_inklings = Inkling.objects.filter(date = dateReformat, location = location)
+    location_inklings = Inkling.objects.filter(date = date, location = location)
 
     # Get the logged in member's dinner inkling and the members who are attending
     try:
@@ -102,6 +101,8 @@ def get_location_inklings(member_id = None, location_id = None, date = datetime.
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
             m.button_list = [buttonDictionary["circles"]]
+            # Determine the privacy rating for the logged in member and the current member
+            m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
         member.dinner_members = []
         member.num_dinner_others = 0
@@ -116,6 +117,8 @@ def get_location_inklings(member_id = None, location_id = None, date = datetime.
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
             m.button_list = [buttonDictionary["circles"]]
+            # Determine the privacy rating for the logged in member and the current member
+            m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
         member.pregame_members = []
         member.num_pregame_others = 0
@@ -130,11 +133,23 @@ def get_location_inklings(member_id = None, location_id = None, date = datetime.
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
             m.button_list = [buttonDictionary["circles"]]
+            # Determine the privacy rating for the logged in member and the current member
+            m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
         member.main_event_members = []
         member.num_main_event_others = 0
         
     return member 
+
+
+def get_privacy(member, other_member):
+    # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+    if ((member == other_member) or (member in other_member.followers.all())):
+        return 2
+    elif (member in other_member.following.all()):
+        return 1
+    else:
+        return 0
 
 def edit_location_view(request):
     """Edits a location's Location object."""
@@ -198,7 +213,7 @@ def inkling_invitations_view(request):
         if (invites[i] == "people"):
             try:
                 m = Member.active.get(pk = int(invites[i + 1]))
-                if ((m in member.following.filter(is_active = True)) and (m not in members)):
+                if ((m in member.followers.filter(is_active = True)) and (m not in members)):
                     members.append(m)
             except KeyError:
                 pass
@@ -615,9 +630,13 @@ def create_inkling_view(request):
         raise Http404()
    
     # Get the POST data
-    inkling_type = request.POST["inklingType"]
-    location = Location.objects.get(pk = request.POST["locationID"])
-    date = request.POST["date"]
+    try:
+        inkling_type = request.POST["inklingType"]
+        location = Location.objects.get(pk = request.POST["locationID"])
+        date = request.POST["date"].split("/")
+        date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
+    except KeyError:
+        raise Http404()
 
     # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
@@ -651,7 +670,8 @@ def remove_inkling_view(request):
     
     # Get the POST data
     inkling_type = request.POST["inklingType"]
-    date = request.POST["date"]
+    date = request.POST["date"].split("/")
+    date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     
     # Get the inkling for the member/type/date combination and remove it if possible
     try:
@@ -684,16 +704,11 @@ def get_my_inklings_view(request):
         raise Http404()
     
     # Get the POST data
-    date = request.POST["date"]
-    
-    #Get the date to be viewed
-    month = int(request.POST["date"].split('/')[0])
-    day = int(request.POST["date"].split('/')[1])
-    year = int(request.POST["date"].split('/')[2])
-    viewDate = datetime.date(year, month, day)
+    date = request.POST["date"].split("/")
+    date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     
     pastDate = False
-    if viewDate < datetime.date.today():
+    if (date < datetime.date.today()):
         pastDate = True
     
     # Get the names and images for the logged in member's inkling locations
