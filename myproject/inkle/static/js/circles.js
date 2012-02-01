@@ -138,8 +138,12 @@ $(document).ready(function() {
                 data: { "circleName" : name },
                 success: function(circleID) {
                     $("#newCircle").fadeOut("medium", function() {
-                        $("#newCircleInput").val("")
-                        $("#newCircle").before("<button class='circle' circleID='" + circleID + "'>" + name + "</button>");
+                        $("#newCircleInput").val("");
+                        var circle = $("<div class='circle' circleID='" + circleID + "'><p>" + name + "</p></div>");
+                        $("#newCircle").before(circle);
+                        var circleP = circle.find("p");
+                        var marginTop = (circle.height() - circleP.height()) / 2;
+                        circle.find("p").css("margin-top", marginTop + "px");
                         $(".circlesMenu").each( function() {
                             memberID = $(this).siblings(".cardButton").attr("memberID")
                             $(this).append("<div><input id='m" + memberID + "_c" + circleID + "' type='checkbox' circleID='" +  circleID + "' /> <label for='m" + memberID + "_c" + circleID + "'>" + name + "</label></div>");
