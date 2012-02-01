@@ -14,16 +14,16 @@ $(document).ready(function() {
             url: "/" + "getMember" + contentType + "/",
             data: { "date" : date, "other_member_id" : other_member_id},
             success: function(html) {
-                if (contentType == "Inklings") {
-                    $("#calendarContainer").fadeIn("medium");
-                }
-                else {
-                   $("#calendarContainer").fadeIn("medium"); 
+                if (contentType != "Inklings") {
+                    $("#calendarContainer").fadeOut("medium");
                 }
                 
                 // If this is the first load, simply load the member content
                 if (firstLoad)
                 {
+                    if (contentType == "Inklings") {
+                        $("#calendarContainer").fadeIn("medium");
+                    }
                     loadContentHelper(html, styleSelectedDate);
                 }
                 // Otherwise, fade out the current member content and fade the new member content back in
@@ -31,6 +31,9 @@ $(document).ready(function() {
                 {
                     $("#memberContent").fadeOut("medium", function () {
                         loadContentHelper(html, function() {
+                            if (contentType == "Inklings") {
+                                $("#calendarContainer").fadeIn("medium");
+                            }
                             $("#memberContent").fadeIn("medium");
                             styleSelectedDate();
                         });
