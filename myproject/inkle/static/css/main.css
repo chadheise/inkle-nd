@@ -42,6 +42,8 @@ input, textarea
     font-weight: bold;
     color: #288D42;
     float: left;
+    width: 100%;
+    word-wrap:break-word;
 }
 
 .contentLinks p
