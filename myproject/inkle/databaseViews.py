@@ -398,14 +398,14 @@ def invitation_response_view(request):
         raise Http404()
 
     # Make sure the invitation is actually in the logged in member's invitation list
-    if (invitation not in member.invitations):
+    if (invitation not in member.invitations.all()):
         raise Http404()
 
     # Update the logged in member's inkling if they accepted the current invitation
     if (response == "accept"):
         # See if the logged in member already has an inkling for the location/date combination
         try:
-            conflicting_inkling = member.inklings.get(category = invitation.inkling.category, date = invitation.date)
+            conflicting_inkling = member.inklings.get(category = invitation.inkling.category, date = invitation.inkling.date)
             if (conflicting_inkling != invitation.inkling):
                 remove_inkling(member, conflicting_inkling)
         except Inkling.DoesNotExist:
