@@ -48,26 +48,31 @@
             <div class="suggestions inklingSuggestions"></div>
         </div>
         <div class="clear"></div>
-        
-        <div id="dinnerInklingInvite" class="inklingInviteContainer" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
-            <div class="invited"></div>
-            <input type="text" />
-            <button class="button inklingInviteButton">Invite</button>
-            <div class="suggestions inklingInviteSuggestions"></div>
-        </div>
 
-        <div id="pregameInklingInvite" class="inklingInviteContainer" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
-            <div class="invited"></div>
-            <input type="text" />
-            <button class="button inklingInviteButton">Invite</button>
-            <div class="suggestions inklingInviteSuggestions"></div>
-        </div>
+        {% if not pastDate %}
+            <!-- Dinner inkling invite -->
+            <div id="dinnerInklingInvite" class="inklingInviteContainer {% if not member.dinner_inkling %}hidden{% endif %}" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
+                <div class="invited"></div>
+                <input type="text" />
+                <button class="button inklingInviteButton">Invite</button>
+                <div class="suggestions inklingInviteSuggestions"></div>
+            </div>
 
-        <div id="mainEventInklingInvite" class="inklingInviteContainer" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
-            <div class="invited"></div>
-            <input type="text" />
-            <button class="button inklingInviteButton">Invite</button>
-            <div class="suggestions inklingInviteSuggestions"></div>
-        </div>
+            <!-- Pregame inkling invite -->
+            <div id="pregameInklingInvite" class="inklingInviteContainer {% if not member.pregame_inkling %}hidden{% endif %}" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
+                <div class="invited"></div>
+                <input type="text" />
+                <button class="button inklingInviteButton">Invite</button>
+                <div class="suggestions inklingInviteSuggestions"></div>
+            </div>
+
+            <!-- Main event inkling invite -->
+            <div id="mainEventInklingInvite" class="inklingInviteContainer {% if not member.main_event_inkling %}hidden{% endif %}" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
+                <div class="invited"></div>
+                <input type="text" />
+                <button class="button inklingInviteButton">Invite</button>
+                <div class="suggestions inklingInviteSuggestions"></div>
+            </div>
+        {% endif %}
     </div>
 </div>
