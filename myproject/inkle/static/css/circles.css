@@ -12,6 +12,7 @@
     cursor: pointer;
     float: left;
     text-align: center;
+    word-wrap:break-word;
 }
 
 .circle p
