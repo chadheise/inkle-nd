@@ -214,6 +214,8 @@ select, select option
 .locationBoardCardText
 {
     margin-top: 20px;
+    width: 100%;
+    overflow:hidden;
 }
 
 .hidden
