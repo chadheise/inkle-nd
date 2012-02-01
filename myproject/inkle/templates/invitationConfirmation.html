@@ -1,1 +1,1 @@
-<div class="memberMessage">You accepted <a class="memberMessageName" href="{{ member.get_absolute_url }}">{{ invitation.from_member.get_full_name }}</a>'s invitation to {{ invitation.location.name }}.</div>
+<div class="memberMessage">You {{ response }}ed <a class="memberMessageName" href="{{ member.get_absolute_url }}">{{ invitation.from_member.get_full_name }}</a>'s invitation to <a class="memberMessageName" href="{{ invitation.inkling.location.get_absolute_url }}">{{ invitation.inkling.location.name }}</a> on {{ invitation.inkling.get_formatted_date }}.</div>
