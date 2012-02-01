@@ -51,4 +51,7 @@
 {
     margin-top: 5px;
     font-size: 18px;
+    width: 100%;
+    word-wrap:break-word;
+    color: #1B5898;
 }

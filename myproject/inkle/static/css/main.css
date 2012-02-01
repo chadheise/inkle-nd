@@ -173,6 +173,7 @@ input, textarea
     float: left;
     clear: right;
     width: 100%;
+    overflow: hidden;
 }
 
 .memberMessage, .sphereMessage
