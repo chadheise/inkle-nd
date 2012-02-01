@@ -1101,7 +1101,7 @@ def suggestions_view(request):
     # Case 4: Member and circle suggestions for inkling invites
     elif (query_type == "inklingInvite"):
         # Get the member suggestions (and add them to the categories list if there are any)
-        members = members_search_query(query, member.following.all())[0:5]
+        members = members_search_query(query, member.followers.all())[0:5]
         if (members):
             members.suggestionType = "members"
             for m in members:
