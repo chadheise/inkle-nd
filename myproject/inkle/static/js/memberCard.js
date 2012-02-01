@@ -66,10 +66,11 @@ $(document).ready(function() {
                 var selectedCircleID = $(".selectedCircle").attr("circleID");
                 if ((circleID == selectedCircleID) || (selectedCircleID == -1))
                 {
-                    var memberName = memberCard.find(".memberName").text();
+                    var memberName = memberCard.find(".cardName").text();
+                    var memberID = memberCard.parent().attr("id").split("_")[1];
                     memberCard.fadeOut("medium", function() {
                         // Create the member message
-                        memberCard.after("<p class='memberMessage'>You removed <span class='memberMessageName'>" + memberName + "</span> from this sphere.</p>");
+                        memberCard.after("<p class='memberMessage'>You removed <a class='memberMessageName' href='/member/" + memberID + "/'>" + memberName + "</a> from this sphere.</p>");
 
                         // Fade in the member message and then fade it out after a set time
                         var memberMessageElement = memberCard.next(".memberMessage");
