@@ -182,4 +182,78 @@ $(document).ready(function() {
         var query = $(this).children(".suggestion p").text();
         window.location.href = "/search/" + query;
     });
+
+    /* FOOTER STUFF */
+    /* Fades in the invite your friends content when the "Invite your friends" button is clicked */
+    $("#inviteYourFriendsButton").live("click", function() {
+        // Get the invite your friends content
+        var inviteYourFriendsElement = $("#inviteYourFriendsContent");
+       
+        // If the invite your friends content is not visible, fade it in
+        if (! inviteYourFriendsElement.is(":visible"))
+        {
+            var buttonPosition = $(this).position();
+            var buttonHeight = $(this).height();
+            var buttonWidth = $(this).width();
+            inviteYourFriendsElement
+                .css("right", buttonPosition.left - 59)
+                .css("bottom", buttonPosition.top + 26)
+                .fadeIn("medium");
+            $(this).addClass("selectedInviteYourFriendsButton");
+        }
+
+        // Otherwise, if the invite your friends element is visible, fade it out
+        else
+        {
+            inviteYourFriendsElement.fadeOut("medium");
+            $(this).removeClass("selectedInviteYourFriendsButton");
+        }
+    });
+    
+    /* Fades out the header dropdown menu when a click occurs on an element which is not part of the header dropdown menu */
+    $("html").live("click", function(e) {
+        if ($("#inviteYourFriendsContent:visible").length != 0)
+        {
+            if ((e.target.id != "inviteYourFriendsContent") && (e.target.id != "inviteYourFriendsButton") && (($(e.target).parents("#inviteYourFriendsContent").length == 0)))
+            {
+                $("#inviteYourFriendsContent").fadeOut("medium");
+                $("#inviteYourFriendsButton").removeClass("selectedInviteYourFriendsButton");
+            }
+        }
+    });
+
+    $("#inviteYourFriendsContent textarea").addClass("emptyTextarea");
+    
+    /* If the search input gains focus and it says "Search" grayed out, make the text black and empty it */
+    $("#inviteYourFriendsContent textarea").focus(function() {
+        if ($(this).hasClass("emptyTextarea"))
+        {
+            $(this).val("").removeClass("emptyTextarea");
+        }
+    });
+   
+    /* If the search input loses focus and is empty, gray it out, put "Search" in it, and fade out the search suggestions*/
+    $("#inviteYourFriendsContent textarea").blur(function() {
+        if ($(this).val() == "")
+        {
+            $(this).val("Invite your friends to join Inkle by typing their email addresses here").addClass("emptyTextarea");
+        }
+        
+        $("#headerSearchSuggestions").fadeOut("medium");
+    });
+
+    $("#inviteToInkleSendButton").live("click", function() {
+        var emails = $("#inviteYourFriendsContent textarea").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/inviteToInkle/",
+            data: { "emails" : emails },
+            success: function() {
+                $("#inviteYourFriendsContent textarea").val("Thank you for telling your friends about Inkle!").addClass("emptyTextarea");
+            },
+            error: function(a, b, error) { alert("home.js (-10): " + error); }
+        });
+    });
+
 });

@@ -333,3 +333,41 @@ def send_contact_email(member, name, email, subject, message):
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
+
+
+def send_invite_to_inkle_email(member, emails):
+    """Sends an invitation to join Inkle to the inputted email."""
+    # Specify the from address and to addresses
+    from_address = "support@inkleit.com"
+    to_addresses = emails
+
+    # Specify the subject
+    subject = "%s has invited you to join Inkle!" % (member.get_full_name())
+
+    # Specify the text body
+    body_text = """Hi there,
+    
+        %s has invited you to join Inkle! Inkle makes it easy to find where the big event is happening. To join, simply follow this link:
+
+        http://www.inkleit.com/
+
+        We hope to see you soon!
+
+    Thanks,
+    The Inkle team""" % (member.get_full_name())
+    
+    # Specify the HTML body
+    body_html = """<html>
+        <head></head>
+        <body>
+            <p>Hi there,</p>
+
+            <p>%s has invited you to join Inkle! Inkle makes it easy to find where the big event is happening. To join, simply click <a href="http://www.inkleit.com/">here</a>!</p>
+            
+            <p>Thanks,<br />
+            The Inkle team</p>
+        </body>
+    </html>""" % (member.get_full_name())
+    
+    # Send the email
+    send_email(from_address, to_addresses, subject, body_text, body_html)

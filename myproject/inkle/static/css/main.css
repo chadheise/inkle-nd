@@ -102,7 +102,7 @@ input, textarea
     z-index: 1;
 }
 
-#footer p, #footer a
+#footerLinks, #footerLinks a
 {
     color: #FFFFFF;
     margin-top: 5px;
@@ -111,7 +111,53 @@ input, textarea
     text-decoration: none;
 }
 
-#footer a:hover
+#inviteYourFriendsButton
+{
+    cursor: pointer;
+    width: 70%;
+    margin-top: 5px;
+    float: right;
+    font-weight: bold;
+    color: #FFF;
+}
+
+#inviteYourFriendsContent
+{
+    display: none;
+    z-index: 2;
+    position: absolute;
+    background-color: #EEE;
+    border-radius: 3px 0px 3px 3px;
+    border: solid 2px #AAA;
+    padding: 5px;
+    text-align: center;
+}
+
+#inviteToInkleSendButton
+{
+    background-color: #1B5898;
+    border-color: #2A4360;
+    margin-top: 5px;
+}
+
+#inviteToInkleSendButton:hover
+{
+    border-color: #002C45;
+}
+
+#inviteYourFriendsContent textarea
+{
+    width: 200px;
+    height: 75px;
+    resize: none;
+}
+
+.emptyTextarea
+{
+    color: #888;
+}
+
+#footer a:hover, #inviteYourFriendsButton:hover, .selectedInviteYourFriendsButton
 {
     background-color: #ABD4B0;
 }
