@@ -121,4 +121,5 @@ urlpatterns = patterns(
     (r"^terms/$", "terms_view"),
     (r"^contact/$", "contact_view"),
     (r"^sendContactEmail/$", "send_contact_email_view"),
+    (r"^help/$", "help_view"),
 )

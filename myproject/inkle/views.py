@@ -1747,3 +1747,8 @@ def logout_view(request):
         pass
 
     return HttpResponseRedirect("/login/")
+
+def help_view(request):
+    return render_to_response( "help.html",
+        { },
+        context_instance = RequestContext(request) )
