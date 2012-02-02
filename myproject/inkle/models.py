@@ -87,7 +87,10 @@ class Inkling(models.Model):
     
     def __unicode__(self):
         """String representation for the current inkling."""
-        return "%s (%s, %s)" % (self.location.name, self.date, self.category)
+        if self.location is not None:
+            return "%s (%s, %s)" % (self.location.name, self.date, self.category)
+        else:
+            return "%s (%s, %s)" % (self.memberPlace.first_name + " " + self.memberPlace.last_name + "'s Place", self.date, self.category)          
 
     def get_formatted_date(self):
         """Returns the current inkling's formatted date."""
