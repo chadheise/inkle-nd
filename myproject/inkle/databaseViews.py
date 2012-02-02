@@ -11,6 +11,7 @@ from myproject.inkle.emails import *
 
 import datetime
 import shutil
+import re
 
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
@@ -23,6 +24,14 @@ buttonDictionary = {
     "join" : ("joinSphere", "Join sphere", "Beome a member of this sphere"),
     "leave" : ("leaveSphere", "Leave sphere", "I no longer wish to be a part of this sphere"),
 }
+
+
+def is_email(email):
+    """Returns True if the inputted email is a valid email address format; otherwise, returns False."""
+    if (re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][\.-0-9a-zA-Z]*\.[a-zA-Z]+", email)):
+        return True
+    else:
+        return False
 
 def date_selected_view(request):
     """Updates the calendar once a date is clicked."""
@@ -774,6 +783,37 @@ def create_location_view(request):
 
     # Return the new location's ID
     return HttpResponse(location.id)
+
+
+def invite_to_inkle_view(request):
+    """Sends an email to the people whom the logged in member wants to join Inkle."""
+    # Get the member who is logged in (or raise a 404 error if the member ID is invalid)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except Member.DoesNotExist:
+        raise Http404()
+
+    try:
+        emails = request.POST["emails"]
+    except KeyError:
+        raise Http404()
+
+    if ("," in emails):
+        emails = [email.strip() for email in emails.split(",")]
+    elif (";" in emails):
+        emails = [email.strip() for email in emails.split(";")]
+    else:
+        emails = [email.strip() for email in emails.split()]
+    
+    valid_emails = []
+    for email in emails:
+        if ((is_email(email)) and ((email.endswith("@nd.edu")) or (email.endswith("@saintmarys.edu")) or (email.endswith("@hcc-nd.edu")))):
+            valid_emails.append(email)
+
+    if (valid_emails):
+        send_invite_to_inkle_email(member, valid_emails)
+
+    return HttpResponse()
 
 
 def send_email_verification_email_view(request, email = None):

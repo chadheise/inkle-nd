@@ -51,6 +51,8 @@ urlpatterns = patterns(
 
     (r"^inklingInvitations/$", "inkling_invitations_view"),
 
+    (r"^inviteToInkle/$", "invite_to_inkle_view"),
+
     # Manage page
     (r"^circles/$", "circles_view"),
     (r"^notifications/$", "notifications_view"),

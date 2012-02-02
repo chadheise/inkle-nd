@@ -9,8 +9,6 @@ from django.contrib import auth
 from myproject.inkle.models import *
 from myproject.inkle.emails import *
 
-import re
-
 from django.db.models import Q
 
 import datetime
@@ -729,7 +727,6 @@ def get_search_content_view(request):
         else:
             return HttpResponseRedirect("/login/")
     elif request.POST["contentType"] == "members":
-        print "Inside members"
         # Get the members who match the search query
         members = members_search_query(query, Member.active.all(), numDisplayed)
 
@@ -875,8 +872,6 @@ def spheres_search_query(query, queryIndex = "all"):
     else:
         i = 0
         returnList = []
-        print queryIndex
-        print len(spheres)
         while (i < 5 and (queryIndex + i) < len(spheres)):
             returnList.append( spheres[(queryIndex + i)])
             i += 1
@@ -1365,7 +1360,6 @@ def get_others_inklings_view(request):
         people_id = request.POST["peopleID"]
         inkling_type = request.POST["inklingType"]
         include_member = request.POST["includeMember"]
-        print "dine"
     except KeyError:
         raise Http404()
 
@@ -1407,7 +1401,6 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 location.count = 1
                 locations.append(location)
     
-    print "Locations: " + str(locations)
     locations.sort(key = lambda l:-l.count)
 
     return locations
@@ -1461,14 +1454,6 @@ def get_member_inklings_view(request):
         return render_to_response( "noPermission.html",
             {},
             context_instance = RequestContext(request) )
-
-
-def is_email(email):
-    """Returns True if the inputted email is a valid email address format; otherwise, returns False."""
-    if (re.search(r"[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][\.-0-9a-zA-Z]*\.[a-zA-Z]+", email)):
-        return True
-    else:
-        return False
 
 
 def login_view(request):
