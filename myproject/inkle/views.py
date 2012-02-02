@@ -1396,7 +1396,7 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     for p in people:
         inkling = p.inklings.filter(date = date, category = inkling_type)
         if (inkling):
-            if inkling.location:
+            if inkling[0].location:
                 location = inkling[0].location
                 if (location in locations):
                     for l in locations:
@@ -1405,8 +1405,15 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 else:
                     location.count = 1
                     locations.append(location)
-            elif inkling.memberPlace in member.following.filter(is_active = True):
-                pass
+            elif inkling[0].memberPlace in member.following.filter(is_active = True):
+                memberPlace = inkling[0].memberPlace
+                if (memberPlace in locations):
+                    for l in locations:
+                        if (l == location):
+                            l.count += 1
+                else:
+                    memberPlace.count = 1
+                    locations.append(memberPlace)
     
     locations.sort(key = lambda l:-l.count)
 
