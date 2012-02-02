@@ -1748,7 +1748,27 @@ def logout_view(request):
 
     return HttpResponseRedirect("/login/")
 
-def help_view(request):
-    return render_to_response( "help.html",
-        { },
-        context_instance = RequestContext(request) )
+def help_view(request, content_type = "overview"):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        if (content_type):
+            return HttpResponseRedirect("/login/?next=/help/" + content_type + "/")
+        else:
+            return HttpResponseRedirect("/login/?next=/help/")
+    
+    try:
+        first_load = request.POST["firstLoad"]
+        first_load = False
+    except KeyError:
+        first_load = True
+
+    if (first_load):
+        return render_to_response( "help.html",
+            { "member" : member, "contentType" : content_type },
+            context_instance = RequestContext(request) )
+    else:
+        return render_to_response( "help" + content_type[0].upper() + content_type[1:] + ".html",
+            { "member" : member, "contentType" : content_type },
+            context_instance = RequestContext(request) )
