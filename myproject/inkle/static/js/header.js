@@ -51,7 +51,7 @@ $(document).ready(function() {
                 // Otherwise, trigger the selected item's click event
                 else
                 {
-                    $(".selectedSuggestion").trigger("click");
+                    window.location.href = $(".selectedSuggestion").parent().attr("href");
                 }
             }
 
