@@ -998,20 +998,24 @@ def suggestions_view(request):
 
     # Initialize the list of suggestion categories
     categories = []
-
+    
     # Case 1: Location suggestions for an inkling
     if (query_type == "inkling"):
         # Get the location suggestions (and add them to the categories list if there are any)
         locations = locations_search_query(query)[0:5]
+        memberPlace = members_search_query(query, Member.active.filter(pk = request.session["member_id"]))
+        if (memberPlace):
+            memberPlace.suggestionType = "members"
+            categories.append((memberPlace,))
         if (locations):
             locations.suggestionType = "locations"
             categories.append((locations,))
-        
+      
         # Set the number of characters to show for each suggestion
         num_chars = 23
 
         return render_to_response( "inklingSuggestions.html",
-            { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
+            { "member" : member, "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
             context_instance = RequestContext(request) )
        
     # Case 2: Member, location, and sphere suggestions for the main header search
@@ -1392,14 +1396,17 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     for p in people:
         inkling = p.inklings.filter(date = date, category = inkling_type)
         if (inkling):
-            location = inkling[0].location
-            if (location in locations):
-                for l in locations:
-                    if (l == location):
-                        l.count += 1
-            else:
-                location.count = 1
-                locations.append(location)
+            if inkling.location:
+                location = inkling[0].location
+                if (location in locations):
+                    for l in locations:
+                        if (l == location):
+                            l.count += 1
+                else:
+                    location.count = 1
+                    locations.append(location)
+            elif inkling.memberPlace in member.following.filter(is_active = True):
+                pass
     
     locations.sort(key = lambda l:-l.count)
 
