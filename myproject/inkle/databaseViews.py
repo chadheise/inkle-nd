@@ -597,7 +597,7 @@ def join_sphere_view(request):
     member.spheres.add(sphere)
 
     return render_to_response( "memberCard.html",
-        { "m" : member },
+        { "member" : member, "m" : member },
         context_instance = RequestContext(request) )
 
 

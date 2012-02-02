@@ -57,11 +57,20 @@ $(document).ready(function() {
                     
                     var memberCount = parseInt($("#sphereMemberCount").text());
                     memberCount++;
-                    
                     $("#sphereMemberCount").text( memberCount ); //Update number of members in sphere
-                    var memberCard = $(html).hide().fadeIn("slow");
-                    $("#sphereContent").prepend(memberCard);
-                    
+
+                    // Fade out the no spheres message if it is present
+                    if ($("#sphereContent .memberCard").size() == 0)
+                    {
+                        $("#sphereContent").fadeOut("medium", function() {
+                            $(this).html(html).fadeIn("medium");
+                        });
+                    }
+                    else
+                    {
+                        var memberCard = $(html).hide().fadeIn("slow");
+                        $("#sphereContent").prepend(memberCard);
+                    }
                 }
                 else {    
                     // Get the context of the current page
@@ -166,7 +175,16 @@ $(document).ready(function() {
                     memberCount--;
                     
                     $("#sphereMemberCount").text( memberCount ); //Update number of members in sphere
-                    $("#member_" + html).fadeOut("medium"); //Fadeout the member card
+                    $("#member_" + html).fadeOut("medium", function() { //Fadeout the member card
+                        // Fade in the no spheres message if no members remain
+                        $(this).remove();
+                        if ($("#sphereContent .memberCard").size() == 0)
+                        {
+                            $("#sphereContent").fadeOut("fast", function() {
+                                $(this).html("<p>There are no members in this sphere.</p>").fadeIn("medium");
+                            });
+                        }
+                    });
                     
                 }
                 else {  
