@@ -5,13 +5,36 @@
 {% endblock title %}
 
 {% block css %}
-    
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/help.css" />
 {% endblock css %}
 
 {% block js %}
-    
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/help.js"></script>
 {% endblock js %}
 
 {% block mainContent %}
-    
+    <div id="mainContent" class="container_24">
+        <div class="grid_24 alpha omega">
+            <!-- Page title -->
+            <div class="grid_24">
+                <p class="pageTitle">Help</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Help content links -->
+            <div id="helpContentLinks" class="contentLinks grid_24">
+                <p {% if contentType == "overview" %}class="selectedContentLink"{% endif %} contentType="overview">Overview</p>
+                <p {% if contentType == "home" %}class="selectedContentLink"{% endif %} contentType="home">Home</p>
+                <p {% if contentType == "following" %}class="selectedContentLink"{% endif %} contentType="following">Following</p>
+                <p {% if contentType == "circles" %}class="selectedContentLink"{% endif %} contentType="circles">Circles</p>
+                <p {% if contentType == "spheres" %}class="selectedContentLink"{% endif %} contentType="spheres">Spheres</p>
+                <p {% if contentType == "inklings" %}class="selectedContentLink"{% endif %} contentType="inklings">Inklings</p>
+                <p {% if contentType == "places" %}class="selectedContentLink"{% endif %} contentType="places">Places</p>
+            </div>
+            <div class="clear"></div>
+            
+            <div id="helpContent" class="grid_24">
+            </div>
+       </div>
+    </div>
 {% endblock mainContent%}
