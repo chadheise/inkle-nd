@@ -637,23 +637,43 @@ def create_inkling_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
-   
+    print "Here1"
     # Get the POST data
     try:
         inkling_type = request.POST["inklingType"]
-        location = Location.objects.get(pk = request.POST["locationID"])
+        if request.POST["locationType"] == "locations":
+            location = Location.objects.get(pk = request.POST["locationID"])
+        elif request.POST["locationType"] == "members":
+            memberPlace = Member.objects.get(pk = request.POST["locationID"])
         date = request.POST["date"].split("/")
         date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     except KeyError:
+        print "exception raised"
         raise Http404()
 
+    print "before try"
     # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
-        inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
+        print "inside try"
+        if request.POST["locationType"] == "locations":
+            print "location identified"
+            inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
+        elif request.POST["locationType"] == "members":
+            print "memberPlace identified"
+            inkling = Inkling.objects.get(memberPlace = memberPlace, category = inkling_type, date = date)
+        print "inkling found"
     except Inkling.DoesNotExist:
-        inkling = Inkling(location = location, category = inkling_type, date = date)
-        inkling.save()
-    
+        print "inkling doesn't exist"
+        if request.POST["locationType"] == "locations":
+            print "making location inkling"
+            inkling = Inkling(location = location, category = inkling_type, date = date)
+            inkling.save()
+        elif request.POST["locationType"] == "members":
+            print "making memberPlace inkling"
+            inkling =  inkling = Inkling(memberPlace = memberPlace, category = inkling_type, date = date)
+            inkling.save()
+        print "inkling made"
+        
     # See if the logged in member already has an inkling for the location/date combination
     try:
         conflicting_inkling = member.inklings.get(category = inkling_type, date = date)
@@ -666,7 +686,11 @@ def create_inkling_view(request):
     member.inklings.add(inkling)
 
     # Return the location's name and image
-    return HttpResponse(location.name + "|<|>|" + str(location.id) + "|<|>|" + str(inkling.id))
+    if request.POST["locationType"] == "locations":
+        return HttpResponse(location.name + "|<|>|" + str(location.id) + "|<|>|" + str(inkling.id))
+    elif request.POST["locationType"] == "members":
+        return HttpResponse(memberPlace.first_name + " " + memberPlace.last_name + "'s Place|<|>|" + str(memberPlace.id) + "|<|>|" + str(inkling.id))
+    
 
 
 def remove_inkling_view(request):
