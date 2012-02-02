@@ -10,7 +10,6 @@ class Location(models.Model):
     """Location class definition."""
     # General information
     name = models.CharField(max_length = 100)
-    image = models.CharField(max_length = 100, default = "default.jpg") # TODO: change default to ""?
     category = models.CharField(max_length = 20, default = "Other")
     
     # Address
@@ -35,6 +34,9 @@ class Location(models.Model):
         """Returns the current location's formatted phone number."""
         return "(%s) %s-%s" % (self.phone[0:3], self.phone[3:6], self.phone[6:10])
 
+    def __unicode__(self):
+        """String representation for the current location."""
+        return "%s (%s, %s)" % (self.name, self.city, self.state)
 
 class Sphere(models.Model):
     """Sphere class definition."""
@@ -73,9 +75,9 @@ class CurrentInklingManager(models.Manager):
 
 class Inkling(models.Model):
     """Inkling class definition."""
-    location = models.ForeignKey(Location)
+    location = models.ForeignKey(Location, blank=True, null=True)
+    memberPlace = models.ForeignKey("Member", blank=True, null=True)
     category = models.CharField(max_length = 20)
-    #date = models.CharField(max_length = 10)
     date = models.DateField()
 
     # Manager
@@ -136,6 +138,7 @@ class Member(User):
     gender = models.CharField(max_length = 6)
     #birthday = models.CharField(max_length = 10)
     birthday = models.DateField()
+    street = models.CharField(max_length = 50, default = "")
     phone = models.CharField(max_length = 10, default = "")
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
