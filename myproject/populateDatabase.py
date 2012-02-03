@@ -8,7 +8,10 @@ def load_members():
         m.set_password("password")
         m.update_verification_hash()
         m.save()
-        shutil.copyfile("inkle/static/media/images/main/woman.jpg", "inkle/static/media/images/members/" + str(m.id) + ".jpg")
+        if (data[7] == "Male"):
+            shutil.copyfile("inkle/static/media/images/main/man.jpg", "inkle/static/media/images/members/" + str(m.id) + ".jpg")
+        else:
+            shutil.copyfile("inkle/static/media/images/main/woman.jpg", "inkle/static/media/images/members/" + str(m.id) + ".jpg")
 
 
 def load_locations(filename):
