@@ -1,0 +1,29 @@
+Alumni Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~alumh/
+Badin Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~badin/
+Breen Phillips Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~bphall/
+Carroll Hall | Dorm | Far Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~carroll/
+Cavanaugh Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~thenaugh/
+Dillon Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://dillon.nd.edu/main.html
+Duncan Hall | Dorm | West Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~duncan/
+Farley Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~farley/
+Fisher Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~fisher/
+Howard Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~howard/homepage.htm
+Keenan Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~keenan/index.php
+Keough Hall | Dorm | West Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~keough/Home.html
+Knott Hall | Dorm | Mod Quad | Notre  Dame | IN | 46556 | | http://www.nd.edu/~knott/
+Lewis Hall | Dorm | God Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~welshhal/
+Lyons Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~lyons/Home.html
+McGlinn Hall | Dorm | West Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~mcglinn/
+Morrissey Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://morrissey.nd.edu/
+O'Neill Hall | Dorm | West Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~oneill/index.html
+Pangborn Hall | Dorm | South Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~pangborn/
+Pasquerilla East Hall | Dorm | Mod Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~pasqeast/
+Pasquerilla West Hall | Dorm | Mod Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~pasqwest/
+Ryan Hall | Dorm | South Quad | West Dame | IN | 46556 |  | http://www.nd.edu/~ryan/
+St. Edward's Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~steds/
+Siegfried Hall | Dorm | Mod Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~sieghall/
+Sorin Hall | Dorm | God Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~otters/
+Stanford Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~stanford/
+Walsh Hall | Dorm | God Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~wild/
+Welsh Family Hall | Dorm | West Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~welshhal/
+Zahm Hall | Dorm | North Quad | Notre Dame | IN | 46556 | | http://www.nd.edu/~zahmhall/
