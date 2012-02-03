@@ -44,6 +44,11 @@
                 {% else %}
                     <p contentType="Inklings">Inklings</p>
                 {% endif %}
+                {% if content_type == "place" %}
+                    <p class="selectedContentLink" contentType="Place">Place</p>
+                {% else %}
+                    <p contentType="Place">Place</p>
+                {% endif %}
                 {% if content_type == "spheres" %}
                     <p class="selectedContentLink" contentType="Spheres">Spheres</p>
                 {% else %}
@@ -59,6 +64,15 @@
                 {% else %}
                     <p contentType="Followers">Followers</p>
                 {% endif %}
+            </div>
+            <div class="clear"></div>
+            
+            <!-- Additional content links for viewing memberPlace -->
+            <div id="memberPlaceContentLinks" class="subsectionContentLinks grid_17" style="display: none;">
+                <p {% if place_type == "all" %}class="selectedSubsectionContentLink"{% endif %} contentType="all">All</p>
+                <p {% if place_type == "dinner" %}class="selectedSubsectionContentLink"{% endif %} contentType="dinner">Dinner</p>
+                <p {% if place_type == "pregame" %}class="selectedSubsectionContentLink"{% endif %} contentType="pregame">Pregame</p>
+                <p {% if place_type == "mainEvent" %}class="selectedSubsectionContentLink"{% endif %} contentType="mainEvent">Main Event</p>
             </div>
             <div class="clear"></div>
             

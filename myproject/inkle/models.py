@@ -97,6 +97,10 @@ class Inkling(models.Model):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         return "%s %s, %s" % (months[self.date.month - 1], self.date.day, self.date.year)
 
+    def get_date_url(self):
+        """Returns the current inkling's date for use in a url."""
+        return "%s_%s_%s/" % (self.date.month, self.date.day, self.date.year)
+
     def get_formatted_category(self):
         """Returns the current member's formatted category."""
         if (self.category == "dinner"):

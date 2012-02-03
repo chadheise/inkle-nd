@@ -48,7 +48,7 @@ def manage_view(request, content_type = "circles"):
         context_instance = RequestContext(request) )
 
 
-def member_view(request, other_member_id = None, content_type = "inklings", date = "today"):
+def member_view(request, other_member_id = None, content_type = "inklings", date = "today", place_type = "all"):
     """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -57,7 +57,10 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
         if (other_member_id):
             return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
         else:
-            return HttpResponseRedirect("/login/?next=/manage/")
+            if content_type == "place":
+                return HttpResponseRedirect("/login/?next=/manage/place/")
+            else:
+                return HttpResponseRedirect("/login/?next=/manage/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
@@ -95,7 +98,7 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
     return render_to_response( "member.html",
-        { "member" : member, "other_member" : other_member, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
+        { "member" : member, "other_member" : other_member, "dates" : dates, "selectedDate" : date1, "content_type" : content_type, "place_type" : place_type },
         context_instance = RequestContext(request) )
     
 
@@ -672,7 +675,7 @@ def location_view(request, location_id = None, content_type = "all", date = "tod
             date1 = datetime.date.today()
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
     
-    member = get_location_inklings(request.session["member_id"], location_id, date1)
+    member = get_location_inklings(request.session["member_id"], location_id, None, date1)
 
     return render_to_response( "location.html",
         { "member" : member, "location" : location, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
@@ -1241,7 +1244,6 @@ def get_member_following_view(request):
         return render_to_response( "following.html",
             { "member" : member, "otherMember" : other_member, "members" : members },
             context_instance = RequestContext(request) )
-
     
 def circles_view(request, circle_id = None):
     """Gets the logged in member's circles returns the HTML for the circles page."""
@@ -1436,7 +1438,7 @@ def get_member_inklings_view(request):
 
     try:
         date = request.POST["date"].split("/")
-        date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
+        date = datetime.date(int(date[2]), int(date[0]), int(date[1]) )
     except KeyError:
         raise Http404()
 
@@ -1460,6 +1462,8 @@ def get_member_inklings_view(request):
 
         # Get date objects
         dates = [date + datetime.timedelta(days = x) for x in range(3)]
+        
+        print inklings
         
         return render_to_response( "memberInklings.html",
             { "inklings" : inklings, "dates" : dates, "selectedDate" : date },
