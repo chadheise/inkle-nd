@@ -22,11 +22,15 @@ def load_locations(filename):
 
 
 def load_dorms():
-    load_locations("databaseData/dorms.txt")
+    load_locations("databaseData/notreDameDorms.txt")
+    load_locations("databaseData/saintMarysDorms.txt")
+    load_locations("databaseData/holyCrossDorms.txt")
 
 
 def load_campus_locations():
-    load_locations("databaseData/campusLocations.txt")
+    load_locations("databaseData/notreDameCampusLocations.txt")
+    load_locations("databaseData/saintMarysCampusLocations.txt")
+    load_locations("databaseData/holyCrossCampusLocations.txt")
 
 
 def load_spheres():
@@ -36,14 +40,14 @@ def load_spheres():
         shutil.copyfile("inkle/static/media/images/main/sphere.jpg", "inkle/static/media/images/spheres/" + str(s.id) + ".jpg")
 
 
-def load_dev_database():
+def populate_dev_database():
     load_members()
-    load_locations("databaseData/dorms.txt")
-    load_locations("databaseData/campusLocations.txt")
+    load_dorms()
+    load_campus_locations()
     load_spheres()
 
 
-def load_prod_database():
-    load_locations("databaseData/dorms.txt")
-    load_locations("databaseData/campusLocations.txt")
+def populate_prod_database():
+    load_dorms()
+    load_campus_locations()
     load_spheres()

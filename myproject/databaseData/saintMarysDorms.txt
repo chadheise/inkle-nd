@@ -1,0 +1,5 @@
+Holy Cross Hall | Dorm | St. Mary's College | Notre Dame | IN | 46556 | | http://www3.saintmarys.edu/residence-life/holy-cross-hall
+LeMans Hall | Dorm | St. Mary's College | Notre Dame | IN | 46556 | | http://www3.saintmarys.edu/residence-life/le-mans-hall
+McCandless Hall | Dorm | St. Mary's College | Notre Dame | IN | 46556 | | http://www3.saintmarys.edu/residence-life/mccandless-hall
+Opus Hall | Dorm | St. Mary's College | Notre Dame | IN | 46556 | | http://www3.saintmarys.edu/residence-life/regina-hall
+Regina Hall | Dorm | St. Mary's College | Notre Dame | IN | 46556 | | http://www3.saintmarys.edu/residence-life/opus-hall
