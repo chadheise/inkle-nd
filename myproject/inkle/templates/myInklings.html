@@ -4,12 +4,22 @@
         <div id="dinnerInkling" class="inkling" inklingType="dinner">
             <div>
                 <p class="inklingTitle">Dinner</p>
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinner_inkling.location.id|default:"default" }}.jpg" />
-
                 {% if not pastDate %}
-                    <input type="text" location="{{ member.dinner_inkling.location.name|default:"" }}" />
+                    {% if member.dinner_inkling.memberPlace %} <!-- Check inkling type (member or location) -->
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ member.dinner_inkling.memberPlace.id|default:"default" }}.jpg" />
+                        <input type="text" location="{{ member.dinner_inkling.memberPlace.first_name }} {{ member.dinner_inkling.memberPlace.last_name }}'s Place" />
+                    {% else %}
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinner_inkling.location.id|default:"default" }}.jpg" />
+                        <input type="text" location="{{ member.dinner_inkling.location.name|default:"" }}" />
+                    {% endif %}
                 {% else %}
-                    <p class="pastInklingText">{{ member.dinner_inkling.location.name|default:"" }}</p>
+                    {% if member.dinner_inkling.memberPlace %} <!-- Check inkling type (member or location) -->
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ member.dinner_inkling.memberPlace.id|default:"default" }}.jpg" />
+                        <p class="pastInklingText">{{ member.dinner_inkling.memberPlace.first_name }} {{ member.dinner_inkling.memberPlace.last_name }}'s Place</p>
+                    {% else %}
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.dinner_inkling.location.id|default:"default" }}.jpg" />
+                        <p class="pastInklingText">{{ member.dinner_inkling.location.name|default:"" }}</p>
+                    {% endif %}
                 {% endif %}
             </div>
 
@@ -20,12 +30,22 @@
         <div id="pregameInkling" class="inkling" inklingType="pregame">
             <div>
                 <p class="inklingTitle">Pregame</p>
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregame_inkling.location.id|default:"default" }}.jpg" />
-
                 {% if not pastDate %}
-                    <input type="text" location="{{ member.pregame_inkling.location.name|default:"" }}" />
+                    {% if member.pregame_inkling.memberPlace %} <!-- Check inkling type (member or location) -->
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ member.pregame_inkling.memberPlace.id|default:"default" }}.jpg" />
+                        <input type="text" location="{{ member.pregame_inkling.memberPlace.first_name }} {{ member.pregame_inkling.memberPlace.last_name }}'s Place" />
+                    {% else %}
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregame_inkling.location.id|default:"default" }}.jpg" />
+                        <input type="text" location="{{ member.pregame_inkling.location.name|default:"" }}" />
+                    {% endif %}
                 {% else %}
-                    <p class="pastInklingText">{{ member.pregame_inkling.location.name|default:"" }}</p>
+                    {% if member.pregame_inkling.memberPlace %} <!-- Check inkling type (member or location) -->
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ member.pregame_inkling.memberPlace.id|default:"default" }}.jpg" />
+                        <p class="pastInklingText">{{ member.pregame_inkling.memberPlace.first_name }} {{ member.pregame_inkling.memberPlace.last_name }}'s Place</p>
+                    {% else %}
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.pregame_inkling.location.id|default:"default" }}.jpg" />
+                        <p class="pastInklingText">{{ member.pregame_inkling.location.name|default:"" }}</p>
+                    {% endif %}
                 {% endif %}
             </div>
 
@@ -36,12 +56,22 @@
         <div id="mainEventInkling" class="inkling" inklingType="mainEvent">
             <div>
                 <p class="inklingTitle">Main Event</p>
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.main_event_inkling.location.id|default:"default" }}.jpg" />
-
                 {% if not pastDate %}
-                    <input type="text" location="{{ member.main_event_inkling.location.name|default:"" }}" />
+                    {% if member.main_event_inkling.memberPlace %} <!-- Check inkling type (member or location) -->
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ member.main_event_inkling.memberPlace.id|default:"default" }}.jpg" />
+                        <input type="text" location="{{ member.main_event_inkling.memberPlace.first_name }} {{ member.main_event_inkling.memberPlace.last_name }}'s Place" />
+                    {% else %}
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.main_event_inkling.location.id|default:"default" }}.jpg" />
+                        <input type="text" location="{{ member.main_event_inkling.location.name|default:"" }}" />
+                    {% endif %}
                 {% else %}
-                    <p class="pastInklingText">{{ member.main_event_inkling.location.name|default:"" }}</p>
+                    {% if member.main_event_inkling.memberPlace %} <!-- Check inkling type (member or location) -->
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ member.main_event_inkling.memberPlace.id|default:"default" }}.jpg" />
+                        <p class="pastInklingText">{{ member.main_event_inkling.memberPlace.first_name }} {{ member.main_event_inkling.memberPlace.last_name }}'s Place</p>
+                    {% else %}
+                        <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ member.main_event_inkling.location.id|default:"default" }}.jpg" />
+                        <p class="pastInklingText">{{ member.main_event_inkling.location.name|default:"" }}</p>
+                    {% endif %}
                 {% endif %}
             </div>
 
@@ -51,7 +81,7 @@
 
         {% if not pastDate %}
             <!-- Dinner inkling invite -->
-            <div id="dinnerInklingInvite" class="inklingInviteContainer {% if not member.dinner_inkling %}hidden{% endif %}" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
+            <div id="dinnerInklingInvite" class="inklingInviteContainer {% if member.dinner_inkling.memberPlace != member or not member.dinner_inkling %}hidden{% endif %}" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
                 <input type="text" />
                 <button class="button inklingInviteButton">Invite</button>
                 <div class="suggestions inklingInviteSuggestions"></div>
@@ -59,7 +89,7 @@
             </div>
 
             <!-- Pregame inkling invite -->
-            <div id="pregameInklingInvite" class="inklingInviteContainer {% if not member.pregame_inkling %}hidden{% endif %}" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
+            <div id="pregameInklingInvite" class="inklingInviteContainer {% if member.pregame_inkling.memberPlace != member or not member.pregame_inkling %}hidden{% endif %}" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
                 <input type="text" />
                 <button class="button inklingInviteButton">Invite</button>
                 <div class="suggestions inklingInviteSuggestions"></div>
@@ -67,7 +97,7 @@
             </div>
 
             <!-- Main event inkling invite -->
-            <div id="mainEventInklingInvite" class="inklingInviteContainer {% if not member.main_event_inkling %}hidden{% endif %}" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
+            <div id="mainEventInklingInvite" class="inklingInviteContainer {% if member.main_event_inkling.memberPlace != member or not member.main_event_inkling %}hidden{% endif %}" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
                 <input type="text" />
                 <button class="button inklingInviteButton">Invite</button>
                 <div class="suggestions inklingInviteSuggestions"></div>

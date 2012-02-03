@@ -236,7 +236,6 @@ def inkling_invitations_view(request):
             except KeyError:
                 pass
         i += 1
-
     try:
         inkling = Inkling.objects.get(pk = request.POST["inklingID"])
         invitation = Invitation(description = "", inkling = inkling, from_member = member)
@@ -645,6 +644,8 @@ def create_inkling_view(request):
             location = Location.objects.get(pk = request.POST["locationID"])
         elif request.POST["locationType"] == "members":
             memberPlace = Member.objects.get(pk = request.POST["locationID"])
+            if memberPlace != member:
+                raise Http404()
         date = request.POST["date"].split("/")
         date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     except KeyError:
@@ -735,7 +736,6 @@ def get_my_inklings_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
-    
     # Get the POST data
     date = request.POST["date"].split("/")
     date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
@@ -743,7 +743,7 @@ def get_my_inklings_view(request):
     pastDate = False
     if (date < datetime.date.today()):
         pastDate = True
-    
+
     # Get the names and images for the logged in member's inkling locations
     member.dinner_inkling, member.pregame_inkling, member.main_event_inkling = get_inklings(member, date)
 
