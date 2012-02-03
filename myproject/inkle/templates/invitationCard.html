@@ -15,7 +15,7 @@
             <div class="infoRow">
                 <!-- Name -->
                 {% if invitation.inkling.memberPlace %}
-                    <a class="cardName" href="{{ invitation.inkling.memberPlace.get_absolute_url }}place/">{{ invitation.inkling.memberPlace.get_full_name }}'s Place</a>
+                    <a class="cardName" href="{{ invitation.inkling.memberPlace.get_absolute_url }}place/{{invitation.inkling.get_date_url}}{{invitation.inkling.category}}/">{{ invitation.inkling.memberPlace.get_full_name }}'s Place</a>
                 {% else %}
                     <a class="cardName" href="{{ invitation.inkling.location.get_absolute_url }}">{{ invitation.inkling.location.name }}</a>
                 {% endif %}
