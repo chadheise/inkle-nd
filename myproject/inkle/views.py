@@ -57,7 +57,6 @@ def manage_view(request, content_type = "circles", date = "today", place_type = 
         {"member" : member, "dates" : dates, "selectedDate" : date1, "defaultContentType" : content_type, "place_type" : place_type},
         context_instance = RequestContext(request) )
 
-
 def member_view(request, other_member_id = None, content_type = "inklings", date = "today", place_type = "all"):
     """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)

@@ -22,9 +22,7 @@ $(document).ready(function() {
                     }
                     else if (contentType == "place") {
                         $("#memberPlaceContentLinks").show();
-                        $("#calendarContainer").show();
-                        $(".subsectionTitle").fadeIn("medium");
-                        $(".inklingContent").fadeIn("medium");   
+                        $("#calendarContainer").show();  
                     }
                     $(".circle").each(function() {
                         var circleP = $(this).find("p");
@@ -52,7 +50,6 @@ $(document).ready(function() {
                         $("#calendarContainer").fadeOut("medium");
                     }
                     
-                    
                     $("#mainManageContent").fadeOut("medium", function () {
                         loadContentHelper(html, contentType, function() {
                             $("#mainManageContent").fadeIn("medium", function() {
@@ -63,7 +60,6 @@ $(document).ready(function() {
                                 });
                             });
                         });
-                        
                         styleSelectedDate();
                     });
                 }
@@ -98,8 +94,7 @@ $(document).ready(function() {
                         $("#mainEventContent").show()
                     }  
                 }
-            });
-            
+            });       
         }
 
         // Execute the callback function if there is one

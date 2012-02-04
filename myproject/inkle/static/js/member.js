@@ -21,12 +21,15 @@ $(document).ready(function() {
                 // If this is the first load, simply load the member content
                 if (firstLoad)
                 {
-                    if (contentType == "Inklings" || contentType == "Place") {
+                    loadContentHelper(html, contentType, styleSelectedDate);
+                    if (contentType == "Inklings")  {
                         $("#calendarContainer").fadeIn("medium");
                     }
-                    loadContentHelper(html, styleSelectedDate);
-                    if (contentType == "Place") {
-                           $("#memberPlaceContentLinks").fadeIn();
+                    else if (contentType == "Place") {
+                        $("#memberPlaceContentLinks").show();
+                        $("#calendarContainer").show();
+                    }
+                    /*if (contentType == "Place") {   
                            if ( $(".selectedSubsectionContentLink").attr("contentType") == "all") {
                                $("#dinnerContent").show();
                                $("#pregameContent").show();
@@ -36,16 +39,30 @@ $(document).ready(function() {
                               $(".subsectionTitle").hide();
                               $("#" +  $(".selectedSubsectionContentLink").attr("contentType") + "Content").show();
                            }      
-                    }
+                    }*/
                     
                 }
                 // Otherwise, fade out the current member content and fade the new member content back in
                 else
                 {
-                    $("#memberContent").fadeOut("medium", function () {
-                        loadContentHelper(html, function() {
-                            $("#memberContent").fadeIn("medium");
-                            if (contentType == "Inklings") {
+                    if (contentType == "Inklings") {
+                        $("#memberPlaceContentLinks").fadeOut("medium", function() {
+                            $("#calendarContainer").fadeIn("medium");
+                        });
+                    }
+                    else if(contentType == "Place") {
+                        $("#memberPlaceContentLinks").fadeIn("medium");
+                        $("#calendarContainer").fadeIn("medium");    
+                    }
+                    else {
+                        $("#memberPlaceContentLinks").fadeOut("medium");
+                        $("#calendarContainer").fadeOut("medium");
+                    }
+                    
+                    $("#mainMemberContent").fadeOut("medium", function () {
+                        loadContentHelper(html, contentType, function() {
+                            $("#mainMemberContent").fadeIn("medium");
+                            /*if (contentType == "Inklings") {
                                 $("#calendarContainer").fadeIn("medium");
                                 $("#memberPlaceContentLinks").hide("medium");
                             }
@@ -58,9 +75,9 @@ $(document).ready(function() {
                             }
                             else {
                                 $("#memberPlaceContentLinks").hide();
-                            }
-                            styleSelectedDate();
+                            }*/
                         });
+                        styleSelectedDate();
                     }); 
                 }
             },
@@ -69,10 +86,33 @@ $(document).ready(function() {
     }
  
     /* Helper function for loadContent() which replaces the member content HTML*/
-    function loadContentHelper(html, callback)
+    function loadContentHelper(html, contentType, callback)
     {
         // Update the main content with the HTML returned from the AJAX call
         $("#mainMemberContent").html(html);
+
+        if (contentType == "Place") {
+            $("#memberPlaceContentLinks").children().each(function() {
+                if ($(this).hasClass("selectedSubsectionContentLink")) {
+                    if ($(this).attr("contentType") == "all") {
+                        $(".subsectionTitle").show();
+                        $(".inklingContent").show();
+                    }
+                    else if ($(this).attr("contentType") == "dinner") {
+                        $(".subsectionTitle").hide();
+                        $("#dinnerContent").show()
+                    }
+                    else if ($(this).attr("contentType") == "pregame") {
+                        $(".subsectionTitle").hide();
+                        $("#pregameContent").show()
+                    }
+                    else if ($(this).attr("contentType") == "mainEvent") {
+                        $(".subsectionTitle").hide();
+                        $("#mainEventContent").show()
+                    }  
+                }
+            });
+        }
 
         // Execute the callback function if there is one
         if (callback)
@@ -103,7 +143,8 @@ $(document).ready(function() {
         if (!$(this).hasClass("selectedSubsectionContentLink"))
         {
             // Update the selected subsection content link
-            $(".subsectionContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            //$(".subsectionContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            $(this).siblings().removeClass("selectedSubsectionContentLink");
             $(this).addClass("selectedSubsectionContentLink");
 
             // Load the content for the clicked subsection inkling type
@@ -113,21 +154,18 @@ $(document).ready(function() {
             }
             else if ( $(this).attr("contentType") == "dinner" ) {
                 $(".subsectionTitle").fadeOut("medium");
-                $(".inklingContent").fadeOut("medium", function() {
-                    $("#dinnerContent").fadeIn("medium");
-                });
+                $(".inklingContent").fadeOut("medium");
+                $("#dinnerContent").delay(400).fadeIn("medium");
             }
             else if ( $(this).attr("contentType") == "pregame" ) {
                 $(".subsectionTitle").fadeOut("medium");
-                $(".inklingContent").fadeOut("medium", function() {
-                    $("#pregameContent").fadeIn("medium");
-                });
+                $(".inklingContent").fadeOut("medium");
+                $("#pregameContent").delay(400).fadeIn("medium");
             }
             else if ( $(this).attr("contentType") == "mainEvent" ) {
                 $(".subsectionTitle").fadeOut("medium");
-                $(".inklingContent").fadeOut("medium", function() {
-                    $("#mainEventContent").fadeIn("medium");
-                });
+                $(".inklingContent").fadeOut("medium");
+                $("#mainEventContent").delay(400).fadeIn("medium");
             }
             
         }
