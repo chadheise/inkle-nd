@@ -82,7 +82,7 @@ def get_member_place_view(request):
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (request.POST["memberPlace_id"]):
+        if (request.POST["other_member_id"]):
             return HttpResponseRedirect("/login/?next=/member/" + request.POST["member_id"] + "/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/")
@@ -91,7 +91,7 @@ def get_member_place_view(request):
     date1 = datetime.date(int(request.POST["date"].split("/")[2]), int(request.POST["date"].split("/")[0]), int(request.POST["date"].split("/")[1]))
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
-    member = get_location_inklings(request.session["member_id"], None, request.POST["other_member_id"], date1)
+    member = get_location_inklings(request.session["member_id"], None, request.session["member_id"], date1)
 
     return render_to_response( "locationInklings.html",
         { "member" : member},
@@ -662,7 +662,7 @@ def create_inkling_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
-    print "Here1"
+
     # Get the POST data
     try:
         inkling_type = request.POST["inklingType"]

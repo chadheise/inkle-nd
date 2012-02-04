@@ -35,7 +35,7 @@ def home_view(request):
         { "member" : member, "locations" : locations, "dates" : dates, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
-def manage_view(request, content_type = "circles"):
+def manage_view(request, content_type = "circles", date = "today", place_type = "all"):
     """Returns the HTML for the manage page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -43,8 +43,18 @@ def manage_view(request, content_type = "circles"):
     except:
         return HttpResponseRedirect("/login/?next=/manage/" + content_type + "/")
 
+    # Get date objects
+    if date == "today":
+        date1 = datetime.date.today()
+    else:
+        try:
+            date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
+        except:
+            date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+
     return render_to_response( "manage.html",
-        {"member" : member, "defaultContentType" : content_type},
+        {"member" : member, "dates" : dates, "selectedDate" : date1, "defaultContentType" : content_type, "place_type" : place_type},
         context_instance = RequestContext(request) )
 
 
@@ -1100,14 +1110,14 @@ def notifications_view(request):
 
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
-    
+
     # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in requested_members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
         # Determine the privacy rating for the logged in member and the current member
         m.privacy = get_privacy(member, m)
-
+        
     return render_to_response( "notifications.html",
         { "member" : member, "requestedMembers" : requested_members },
         context_instance = RequestContext(request) )
@@ -1248,6 +1258,7 @@ def get_member_following_view(request):
 def circles_view(request, circle_id = None):
     """Gets the logged in member's circles returns the HTML for the circles page."""
     # Get the member who is logged in (or redirect them to the login page)
+
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
@@ -1462,8 +1473,6 @@ def get_member_inklings_view(request):
 
         # Get date objects
         dates = [date + datetime.timedelta(days = x) for x in range(3)]
-        
-        print inklings
         
         return render_to_response( "memberInklings.html",
             { "inklings" : inklings, "dates" : dates, "selectedDate" : date },

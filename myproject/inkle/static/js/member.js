@@ -27,9 +27,15 @@ $(document).ready(function() {
                     loadContentHelper(html, styleSelectedDate);
                     if (contentType == "Place") {
                            $("#memberPlaceContentLinks").fadeIn();
-                           $("#dinnerContent").show();
-                           $("#pregameContent").show();
-                           $("#mainEventContent").show();  
+                           if ( $(".selectedSubsectionContentLink").attr("contentType") == "all") {
+                               $("#dinnerContent").show();
+                               $("#pregameContent").show();
+                               $("#mainEventContent").show();
+                           }
+                           else {
+                              $(".subsectionTitle").hide();
+                              $("#" +  $(".selectedSubsectionContentLink").attr("contentType") + "Content").show();
+                           }      
                     }
                     
                 }
@@ -50,8 +56,8 @@ $(document).ready(function() {
                                 $("#pregameContent").show();
                                 $("#mainEventContent").show();
                             }
-                            else { 
-                                $("#memberPlaceContentLinks").hide("medium");
+                            else {
+                                $("#memberPlaceContentLinks").hide();
                             }
                             styleSelectedDate();
                         });
