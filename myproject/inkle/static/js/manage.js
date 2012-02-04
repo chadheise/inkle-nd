@@ -119,7 +119,7 @@ $(document).ready(function() {
         }
     });
     
-    /* Updates which inklings are displayed when a memberPlace content link is clicked */
+    /* Updates which inklings are displayed when a member place content link is clicked */
     $("#memberPlaceContentLinks p").live("click", function() {
             // Only update the content if the subsection content link which is clicked is not the currently selected one
             if (!$(this).hasClass("selectedSubsectionContentLink"))

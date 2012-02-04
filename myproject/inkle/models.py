@@ -76,7 +76,7 @@ class CurrentInklingManager(models.Manager):
 class Inkling(models.Model):
     """Inkling class definition."""
     location = models.ForeignKey(Location, blank=True, null=True)
-    memberPlace = models.ForeignKey("Member", blank=True, null=True)
+    member_place = models.ForeignKey("Member", blank=True, null=True)
     category = models.CharField(max_length = 20)
     date = models.DateField()
 
@@ -90,7 +90,7 @@ class Inkling(models.Model):
         if self.location is not None:
             return "%s (%s, %s)" % (self.location.name, self.date, self.category)
         else:
-            return "%s (%s, %s)" % (self.memberPlace.first_name + " " + self.memberPlace.last_name + "'s Place", self.date, self.category)          
+            return "%s (%s, %s)" % (self.member_place.first_name + " " + self.member_place.last_name + "'s Place", self.date, self.category)          
 
     def get_formatted_date(self):
         """Returns the current inkling's formatted date."""
