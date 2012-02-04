@@ -269,7 +269,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
         http://www.inkleit.com/manage/requests/
 
     Thanks,
-    The Inkle team""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.date)
+    The Inkle team""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.get_formatted_date())
     
     # Specify the HTML body
     body_html = """<html>
@@ -290,7 +290,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
             <p>Thanks,<br />
             The Inkle team</p>
         </body>
-    </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.date)
+    </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.get_formatted_date(weekday = True))
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
