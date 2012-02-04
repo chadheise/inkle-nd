@@ -5,8 +5,13 @@
         <div>
             <p class="inklingTitle">Dinner</p>
             {% if inklings.dinner %}
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.dinner.location.id }}.jpg" />
-                <p class="locationName">{{ inklings.dinner.location.name }}</p>
+                {% if inklings.dinner.location %}
+                    <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.dinner.location.id }}.jpg" />
+                    <p class="locationName">{{ inklings.dinner.location.name }}</p>
+                {% else %}
+                    <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ inklings.dinner.memberPlace.id }}.jpg" />
+                    <p class="locationName">{{ inklings.dinner.memberPlace.get_full_name }}'s Place</p>
+                {% endif %}
             {% else %}
                 <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/default.jpg" />
                 <p class="locationName">&nbsp;</p>
@@ -19,8 +24,13 @@
         <div>
             <p class="inklingTitle">Pregame</p>
             {% if inklings.pregame %}
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.pregame.location.id }}.jpg" />
-                <p class="locationName">{{ inklings.pregame.location.name }}</p>
+                {% if inklings.pregame.location %}
+                    <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.pregame.location.id }}.jpg" />
+                    <p class="locationName">{{ inklings.pregame.location.name }}</p>
+                {% else %}
+                    <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ inklings.pregame.memberPlace.id }}.jpg" />
+                    <p class="locationName">{{ inklings.pregame.memberPlace.get_full_name }}'s Place</p>
+                {% endif %}
             {% else %}
                 <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/default.jpg" />
                 <p class="locationName">&nbsp;</p>
@@ -33,8 +43,13 @@
         <div>
             <p class="inklingTitle">Main Event</p>
             {% if inklings.mainEvent %}
-                <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.mainEvent.location.id }}.jpg" />
-                <p class="locationName">{{ inklings.mainEvent.location.name }}</p>
+                {% if inklings.mainEvent.location %}
+                    <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/{{ inklings.mainEvent.location.id }}.jpg" />
+                    <p class="locationName">{{ inklings.mainEvent.location.name }}</p>
+                {% else %}
+                    <img class="inklingImage" src="{{ STATIC_URL }}/media/images/members/{{ inklings.mainEvent.memberPlace.id }}.jpg" />
+                    <p class="locationName">{{ inklings.mainEvent.memberPlace.get_full_name }}'s Place</p>
+                {% endif %}
             {% else %}
                 <img class="inklingImage" src="{{ STATIC_URL }}/media/images/locations/default.jpg" />
                 <p class="locationName">&nbsp;</p>

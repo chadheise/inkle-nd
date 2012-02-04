@@ -8,36 +8,51 @@ $(document).ready(function() {
     function loadContent(contentType, date, firstLoad)
     {
         var other_member_id = $("#memberName").attr("memberID");
-
+        
         $.ajax({
             type: "POST",
             url: "/" + "getMember" + contentType + "/",
             data: { "date" : date, "other_member_id" : other_member_id},
             success: function(html) {
-                if (contentType != "Inklings") {
+                if ( (contentType != "Inklings") && (contentType != "Place") ) {
                     $("#calendarContainer").fadeOut("medium");
                 }
                 
                 // If this is the first load, simply load the member content
                 if (firstLoad)
                 {
-                    if (contentType == "Inklings") {
+                    loadContentHelper(html, contentType, styleSelectedDate);
+                    if (contentType == "Inklings")  {
                         $("#calendarContainer").fadeIn("medium");
                     }
-                    loadContentHelper(html, styleSelectedDate);
+                    else if (contentType == "Place") {
+                        $("#memberPlaceContentLinks").show();
+                        $("#calendarContainer").show();
+                    }
                 }
                 // Otherwise, fade out the current member content and fade the new member content back in
                 else
                 {
-                    $("#memberContent").fadeOut("medium", function () {
-                        loadContentHelper(html, function() {
-                            if (contentType == "Inklings") {
-                                $("#calendarContainer").fadeIn("medium");
-                            }
-                            $("#memberContent").fadeIn("medium");
-                            styleSelectedDate();
+                    if (contentType == "Inklings") {
+                        $("#memberPlaceContentLinks").fadeOut("medium", function() {
+                            $("#calendarContainer").fadeIn("medium");
                         });
-                    });
+                    }
+                    else if(contentType == "Place") {
+                        $("#memberPlaceContentLinks").fadeIn("medium");
+                        $("#calendarContainer").fadeIn("medium");    
+                    }
+                    else {
+                        $("#memberPlaceContentLinks").fadeOut("medium");
+                        $("#calendarContainer").fadeOut("medium");
+                    }
+                    
+                    $("#mainMemberContent").fadeOut("medium", function () {
+                        loadContentHelper(html, contentType, function() {
+                            $("#mainMemberContent").fadeIn("medium");
+                        });
+                        styleSelectedDate();
+                    }); 
                 }
             },
             error: function(a, b, error) { alert("member.js (1): " + error); }
@@ -45,10 +60,33 @@ $(document).ready(function() {
     }
  
     /* Helper function for loadContent() which replaces the member content HTML*/
-    function loadContentHelper(html, callback)
+    function loadContentHelper(html, contentType, callback)
     {
         // Update the main content with the HTML returned from the AJAX call
         $("#mainMemberContent").html(html);
+
+        if (contentType == "Place") {
+            $("#memberPlaceContentLinks").children().each(function() {
+                if ($(this).hasClass("selectedSubsectionContentLink")) {
+                    if ($(this).attr("contentType") == "all") {
+                        $(".subsectionTitle").show();
+                        $(".inklingContent").show();
+                    }
+                    else if ($(this).attr("contentType") == "dinner") {
+                        $(".subsectionTitle").hide();
+                        $("#dinnerContent").show()
+                    }
+                    else if ($(this).attr("contentType") == "pregame") {
+                        $(".subsectionTitle").hide();
+                        $("#pregameContent").show()
+                    }
+                    else if ($(this).attr("contentType") == "mainEvent") {
+                        $(".subsectionTitle").hide();
+                        $("#mainEventContent").show()
+                    }  
+                }
+            });
+        }
 
         // Execute the callback function if there is one
         if (callback)
@@ -70,6 +108,39 @@ $(document).ready(function() {
             var contentType = $(this).attr("contentType");
             var date = $("#selectedDate").attr("month") + "/" + $("#selectedDate").attr("day") + "/" + $("#selectedDate").attr("year");
             loadContent(contentType, date, false);
+        }
+    });
+    
+    /* Updates the subsection when one of the subsection content links is clicked */
+    $(".subsectionContentLinks p").click(function() {
+        // Only update the content if the subsection content link which is clicked is not the currently selected one
+        if (!$(this).hasClass("selectedSubsectionContentLink"))
+        {
+            // Update the selected subsection content link
+            $(this).siblings().removeClass("selectedSubsectionContentLink");
+            $(this).addClass("selectedSubsectionContentLink");
+
+            // Load the content for the clicked subsection inkling type
+            if ( $(this).attr("contentType") == "all" ) {
+                $(".subsectionTitle").fadeIn("medium");
+                $(".inklingContent").fadeIn("medium");
+            }
+            else if ( $(this).attr("contentType") == "dinner" ) {
+                $(".subsectionTitle").fadeOut("medium");
+                $(".inklingContent").fadeOut("medium");
+                $("#dinnerContent").delay(400).fadeIn("medium");
+            }
+            else if ( $(this).attr("contentType") == "pregame" ) {
+                $(".subsectionTitle").fadeOut("medium");
+                $(".inklingContent").fadeOut("medium");
+                $("#pregameContent").delay(400).fadeIn("medium");
+            }
+            else if ( $(this).attr("contentType") == "mainEvent" ) {
+                $(".subsectionTitle").fadeOut("medium");
+                $(".inklingContent").fadeOut("medium");
+                $("#mainEventContent").delay(400).fadeIn("medium");
+            }
+            
         }
     });
     

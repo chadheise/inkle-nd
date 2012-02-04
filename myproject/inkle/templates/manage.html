@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/circles.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/calendar.css" />
 {% endblock css %}
 
 {% block js %}
@@ -20,6 +21,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/birthday.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/invitationCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/calendar.js"></script>
 {% endblock js %}
 
 {% block mainContent %}
@@ -44,6 +46,7 @@
             <!-- Manage content links -->
             <div id="manageContentLinks" class="contentLinks grid_17">
                 <p {% if defaultContentType == "notifications" %}class="selectedContentLink"{% endif %} contentType="notifications">Notifications</p>
+                <p {% if defaultContentType == "place" %}class="selectedContentLink"{% endif %} contentType="place">Place</p>
                 <p {% if defaultContentType == "circles" %}class="selectedContentLink"{% endif %} contentType="circles">Circles</p>
                 <p {% if defaultContentType == "spheres" %}class="selectedContentLink"{% endif %} contentType="spheres">Spheres</p>
                 <p {% if defaultContentType == "followers" %}class="selectedContentLink"{% endif %} contentType="followers">Followers</p>
@@ -52,10 +55,24 @@
             
             <div id="manageContent" class="grid_17 alpha omega">
                 <!-- Notifications content links -->
-                <div id="notificationsContentLinks" class="subsectionContentLinks grid_17">
+                <div id="notificationsContentLinks" class="subsectionContentLinks grid_17" style="display: none;">
                     <p class="selectedSubsectionContentLink" contentType="all">All</p>
                     <p contentType="invitations">Invitations</p>
                     <p contentType="requests">Requests</p>
+                </div>
+                <div class="clear"></div>
+                <!-- Additional content links for viewing memberPlace -->
+                <div id="memberPlaceContentLinks" class="subsectionContentLinks grid_17" style="display: none;">
+                    <p {% if place_type == "all" %}class="selectedSubsectionContentLink"{% endif %} contentType="all">All</p>
+                    <p {% if place_type == "dinner" %}class="selectedSubsectionContentLink"{% endif %} contentType="dinner">Dinner</p>
+                    <p {% if place_type == "pregame" %}class="selectedSubsectionContentLink"{% endif %} contentType="pregame">Pregame</p>
+                    <p {% if place_type == "mainEvent" %}class="selectedSubsectionContentLink"{% endif %} contentType="mainEvent">Main Event</p>
+                </div>
+                <div class="clear"></div>
+
+                <!-- Calendar -->
+                <div id="calendarContainer" class="grid_17 alpha omega" style="display: none;">
+                    {% include "calendar.html" %}
                 </div>
                 <div class="clear"></div>
 
