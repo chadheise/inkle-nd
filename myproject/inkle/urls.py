@@ -54,8 +54,8 @@ urlpatterns = patterns(
     # Manage page
     (r"^manage/$", "manage_view"),
     (r"^manage/(?P<content_type>notifications|place|circles|spheres|followers)/$", "manage_view"),
-    ##(r"^place/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "manage_view"),
-    ##(r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/(?P<place_type>all|dinner|pregame|mainEvent)/$", "manage_view"),
+    (r"^manage/(?P<content_type>place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "manage_view"),
+    (r"^manage/(?P<content_type>place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/(?P<place_type>all|dinner|pregame|mainEvent)/$", "manage_view"),
     #Manage page database views
     (r"^notifications/$", "notifications_view"),
     (r"^place/$", "get_member_place_view"),

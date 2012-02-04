@@ -79,7 +79,14 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
 
     # Redirect the logged in member to their profile page if they are the other member
     if (member == other_member):
-        return HttpResponseRedirect("/manage/")
+        redirectPath = "/manage/"
+        if (content_type == "place" or content_type == "spheres" or content_type == "followers"):
+            redirectPath = redirectPath + content_type + "/"
+            if (date != "today"):
+                redirectPath = redirectPath + date + "/"
+                if (content_type == "place"):
+                    redirectPath = redirectPath + place_type +"/"
+        return HttpResponseRedirect(redirectPath)
 
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
     other_member.privacy = get_privacy(member, other_member)
