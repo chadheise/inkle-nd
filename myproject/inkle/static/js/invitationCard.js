@@ -67,6 +67,7 @@ $(document).ready(function() {
                     $("#invitationsContentMembers").html("<p style='margin-bottom: 15px;'>No one has invited you to any inklings.</p>");
                 }
             });
+            
             invitationCard.after(invitationMessage);
         });
     }

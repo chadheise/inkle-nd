@@ -87,12 +87,19 @@ class Inkling(models.Model):
     
     def __unicode__(self):
         """String representation for the current inkling."""
-        return "%s (%s, %s)" % (self.location.name, self.date, self.category)
+        if self.location is not None:
+            return "%s (%s, %s)" % (self.location.name, self.date, self.category)
+        else:
+            return "%s (%s, %s)" % (self.memberPlace.first_name + " " + self.memberPlace.last_name + "'s Place", self.date, self.category)          
 
     def get_formatted_date(self):
         """Returns the current inkling's formatted date."""
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         return "%s %s, %s" % (months[self.date.month - 1], self.date.day, self.date.year)
+
+    def get_date_url(self):
+        """Returns the current inkling's date for use in a url."""
+        return "%s_%s_%s/" % (self.date.month, self.date.day, self.date.year)
 
     def get_formatted_category(self):
         """Returns the current member's formatted category."""

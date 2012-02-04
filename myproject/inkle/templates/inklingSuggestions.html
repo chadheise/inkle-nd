@@ -2,7 +2,7 @@
 
 {% for category, categoryTitle in categories %}
     {% for suggestion in category %}
-        <div class="suggestion" suggestionID="{{ suggestion.id }}">
+        <div class="suggestion" suggestionID="{{ suggestion.id }}" suggestionType="{{ category.suggestionType }}">
             <img src="{{ STATIC_URL }}/media/images/{{ category.suggestionType }}/{{ suggestion.id }}.jpg" />
             <div>
                 {% if suggestion == member %}

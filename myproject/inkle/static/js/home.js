@@ -168,6 +168,9 @@ $(document).ready(function() {
         // Get the ID of the selected location
         var locationID = $(this).attr("suggestionID");
 
+        // Get the location type (location or memberPlace)
+        var locationType = $(this).attr("suggestionType");
+
         // Get the type of the selected inkling
         var inklingElement = $(this).parents(".inkling");
         var inklingType = inklingElement.attr("inklingType");
@@ -179,12 +182,12 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "/createInkling/",
-            data: {"inklingType" : inklingType, "locationID" : locationID, "date" : date},
+            data: {"inklingType" : inklingType, "locationID" : locationID, "locationType" : locationType, "date" : date},
             success: function(locationInfo) {
                 // Split the location name and image
                 var locationInfo = locationInfo.split("|<|>|");
                 var locationName = locationInfo[0];
-                var locationImage = "/static/media/images/locations/" + locationInfo[1] + ".jpg";
+                var locationImage = "/static/media/images/" + locationType + "/" + locationInfo[1] + ".jpg";
                 var inklingID = locationInfo[2];
                 
                 // Update the value of the inkling's input
@@ -308,13 +311,13 @@ $(document).ready(function() {
     
     $(".locationBoardCard").live("click", function() {
         var date = $(".selectedDateContainer").attr("month") + "_" + $(".selectedDateContainer").attr("day") + "_" + $(".selectedDateContainer").attr("year");
-        var contentType ="all"
-        $("#locationBoardInklingSelect").children().each(function() {
-            if ($(this).attr("selected") == "selected") {
-                contentType = $(this).attr("inklingtype")
-            }
-        });
-        window.location = $(this).attr("url") + contentType + "/" + date + "/";
+        var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
+        if ( $(this).attr("type") == "memberPlace" ) { //If member is in the url (indicates a memberPlace not a location)
+            window.location = $(this).attr("url") + "place/" + date + "/" + inklingType + "/";
+        }
+        else {
+            window.location = $(this).attr("url") + inklingType + "/" + date + "/";
+        }
     });
 
     $(".inklingInviteButton").live("click", function() {

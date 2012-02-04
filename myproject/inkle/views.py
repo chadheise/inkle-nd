@@ -35,7 +35,7 @@ def home_view(request):
         { "member" : member, "locations" : locations, "dates" : dates, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
-def manage_view(request, content_type = "circles"):
+def manage_view(request, content_type = "circles", date = "today", place_type = "all"):
     """Returns the HTML for the manage page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -43,12 +43,21 @@ def manage_view(request, content_type = "circles"):
     except:
         return HttpResponseRedirect("/login/?next=/manage/" + content_type + "/")
 
+    # Get date objects
+    if date == "today":
+        date1 = datetime.date.today()
+    else:
+        try:
+            date1 = datetime.date(int(date.split("_")[2]), int(date.split("_")[0]), int(date.split("_")[1]) )
+        except:
+            date1 = datetime.date.today()
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+
     return render_to_response( "manage.html",
-        {"member" : member, "defaultContentType" : content_type},
+        {"member" : member, "dates" : dates, "selectedDate" : date1, "defaultContentType" : content_type, "place_type" : place_type},
         context_instance = RequestContext(request) )
 
-
-def member_view(request, other_member_id = None, content_type = "inklings", date = "today"):
+def member_view(request, other_member_id = None, content_type = "inklings", date = "today", place_type = "all"):
     """Returns the HTML for the member page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -57,7 +66,10 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
         if (other_member_id):
             return HttpResponseRedirect("/login/?next=/member/" + other_member_id + "/")
         else:
-            return HttpResponseRedirect("/login/?next=/manage/")
+            if content_type == "place":
+                return HttpResponseRedirect("/login/?next=/manage/place/")
+            else:
+                return HttpResponseRedirect("/login/?next=/manage/")
     
     # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
     try:
@@ -67,7 +79,14 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
 
     # Redirect the logged in member to their profile page if they are the other member
     if (member == other_member):
-        return HttpResponseRedirect("/manage/")
+        redirectPath = "/manage/"
+        if (content_type == "place" or content_type == "spheres" or content_type == "followers"):
+            redirectPath = redirectPath + content_type + "/"
+            if (date != "today"):
+                redirectPath = redirectPath + date + "/"
+                if (content_type == "place"):
+                    redirectPath = redirectPath + place_type +"/"
+        return HttpResponseRedirect(redirectPath)
 
     # Determine the privacy rating for the logged in member and the current member whose page is being viewed
     other_member.privacy = get_privacy(member, other_member)
@@ -95,7 +114,7 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
     return render_to_response( "member.html",
-        { "member" : member, "other_member" : other_member, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
+        { "member" : member, "other_member" : other_member, "dates" : dates, "selectedDate" : date1, "content_type" : content_type, "place_type" : place_type },
         context_instance = RequestContext(request) )
     
 
@@ -672,7 +691,7 @@ def location_view(request, location_id = None, content_type = "all", date = "tod
             date1 = datetime.date.today()
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
     
-    member = get_location_inklings(request.session["member_id"], location_id, date1)
+    member = get_location_inklings(request.session["member_id"], location_id, None, date1)
 
     return render_to_response( "location.html",
         { "member" : member, "location" : location, "dates" : dates, "selectedDate" : date1, "content_type" : content_type },
@@ -1097,14 +1116,14 @@ def notifications_view(request):
 
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
-    
+
     # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
     for m in requested_members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
         # Determine the privacy rating for the logged in member and the current member
         m.privacy = get_privacy(member, m)
-
+        
     return render_to_response( "notifications.html",
         { "member" : member, "requestedMembers" : requested_members },
         context_instance = RequestContext(request) )
@@ -1241,11 +1260,11 @@ def get_member_following_view(request):
         return render_to_response( "following.html",
             { "member" : member, "otherMember" : other_member, "members" : members },
             context_instance = RequestContext(request) )
-
     
 def circles_view(request, circle_id = None):
     """Gets the logged in member's circles returns the HTML for the circles page."""
     # Get the member who is logged in (or redirect them to the login page)
+
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
@@ -1396,7 +1415,7 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     for p in people:
         inkling = p.inklings.filter(date = date, category = inkling_type)
         if (inkling):
-            if inkling.location:
+            if inkling[0].location:
                 location = inkling[0].location
                 if (location in locations):
                     for l in locations:
@@ -1405,8 +1424,15 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 else:
                     location.count = 1
                     locations.append(location)
-            elif inkling.memberPlace in member.following.filter(is_active = True):
-                pass
+            elif inkling[0].memberPlace in member.following.filter(is_active = True):
+                memberPlace = inkling[0].memberPlace
+                if (memberPlace in locations):
+                    for l in locations:
+                        if (l == location):
+                            l.count += 1
+                else:
+                    memberPlace.count = 1
+                    locations.append(memberPlace)
     
     locations.sort(key = lambda l:-l.count)
 
@@ -1429,7 +1455,7 @@ def get_member_inklings_view(request):
 
     try:
         date = request.POST["date"].split("/")
-        date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
+        date = datetime.date(int(date[2]), int(date[0]), int(date[1]) )
     except KeyError:
         raise Http404()
 

@@ -1,6 +1,6 @@
 {% load truncate_characters from extraTags %}
 
-    <div class="locationBoardCard grid_12 alpha omega" url="{{ location.get_absolute_url }}">
+    <div class="locationBoardCard grid_12 alpha omega" url="{{ location.get_absolute_url }}"{% if location.name %}type="location"{% else %}type="memberPlace"{% endif %}>
         <!-- Location count -->
         <div class="locationBoardCardCount grid_4 alpha">
             <img src="{{ STATIC_URL }}/media/images/main/blotblue.png"/>
@@ -12,7 +12,11 @@
         <!-- Location name and city -->
         <div class="grid_8 alpha omega locationBoardCardText">
             <!-- <a class="locationBoardCardName" href="{{ location.get_absolute_url }}">{{ location.name }}</a> -->
-            <p class="locationBoardCardName">{{ location.name }}</p>
+            {% if location.name %}
+                <p class="locationBoardCardName">{{ location.name }}</p>
+            {% else %}
+                <p class="locationBoardCardName">{{ location.get_full_name }}'s Place</p>
+            {% endif %}
             <div class="locationBoardCardCity">{{ location.city }}, {{ location.state }}</div>
         </div>
     </div>
