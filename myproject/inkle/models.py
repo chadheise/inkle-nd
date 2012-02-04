@@ -92,10 +92,14 @@ class Inkling(models.Model):
         else:
             return "%s (%s, %s)" % (self.member_place.first_name + " " + self.member_place.last_name + "'s Place", self.date, self.category)          
 
-    def get_formatted_date(self):
+    def get_formatted_date(self, weekday = False):
         """Returns the current inkling's formatted date."""
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        return "%s %s, %s" % (months[self.date.month - 1], self.date.day, self.date.year)
+        if (weekday):
+            days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            return "%s, %s %s, %s" % (days[self.date.weekday()], months[self.date.month - 1], self.date.day, self.date.year)
+        else:
+            return "%s %s, %s" % (months[self.date.month - 1], self.date.day, self.date.year)
 
     def get_date_url(self):
         """Returns the current inkling's date for use in a url."""
