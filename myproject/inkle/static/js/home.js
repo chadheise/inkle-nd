@@ -311,13 +311,13 @@ $(document).ready(function() {
     
     $(".locationBoardCard").live("click", function() {
         var date = $(".selectedDateContainer").attr("month") + "_" + $(".selectedDateContainer").attr("day") + "_" + $(".selectedDateContainer").attr("year");
-        var contentType ="all"
-        $("#locationBoardInklingSelect").children().each(function() {
-            if ($(this).attr("selected") == "selected") {
-                contentType = $(this).attr("inklingtype")
-            }
-        });
-        window.location = $(this).attr("url") + contentType + "/" + date + "/";
+        var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
+        if ( $(this).attr("type") == "memberPlace" ) { //If member is in the url (indicates a memberPlace not a location)
+            window.location = $(this).attr("url") + "place/" + date + "/" + inklingType + "/";
+        }
+        else {
+            window.location = $(this).attr("url") + inklingType + "/" + date + "/";
+        }
     });
 
     $(".inklingInviteButton").live("click", function() {
