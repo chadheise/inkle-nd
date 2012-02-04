@@ -334,8 +334,9 @@ def edit_profile_information_view(request):
         raise Http404()
 
     # Create dictionaries to hold the POST data and the invalid errors
-    data = { "first_name" : member.first_name, "last_name" : member.last_name, "phone1" : member.phone[0:3], "phone2" : member.phone[3:6], "phone3" : member.phone[6:10], "city" : member.city, "state" : member.state, "zip_code" : member.zip_code, "month" : member.birthday.month, "day" : member.birthday.day, "year" : member.birthday.year, "gender" : member.gender }
+    data = { "first_name" : member.first_name, "last_name" : member.last_name, "phone1" : member.phone[0:3], "phone2" : member.phone[3:6], "phone3" : member.phone[6:10], "street" : member.street, "city" : member.city, "state" : member.state, "zip_code" : member.zip_code, "month" : member.birthday.month, "day" : member.birthday.day, "year" : member.birthday.year, "gender" : member.gender }
     invalid = { "errors" : [] }
+    print data["street"]
 
     if (request.POST):
         # Get the POST data
@@ -345,6 +346,7 @@ def edit_profile_information_view(request):
             data["phone1"] = request.POST["phone1"]
             data["phone2"] = request.POST["phone2"]
             data["phone3"] = request.POST["phone3"]
+            data["street"] = request.POST["street"]
             data["city"] = request.POST["city"]
             data["state"] = request.POST["state"]
             data["zip_code"] = request.POST["zipCode"]
@@ -402,7 +404,7 @@ def edit_profile_information_view(request):
                 invalid["errors"].append("Phone number section three not specified")
 
         # Validate the address
-        if (data["city"] or data["state"] or data["zip_code"]):
+        if (data["street"] or data["city"] or data["state"] or data["zip_code"]):
             if (not data["city"]):
                 invalid["city"] = True
                 invalid["errors"].append("City not specified")
@@ -462,7 +464,7 @@ def edit_profile_information_view(request):
         if (not invalid["errors"]):
             phone = data["phone1"] + data["phone2"] + data["phone3"]
             birthday = datetime.date(day = int(data["day"]), month = int(data["month"]), year = int(data["year"]))
-            member.update_profile_information(data["first_name"], data["last_name"], phone, data["city"], data["state"], data["zip_code"], birthday, data["gender"])
+            member.update_profile_information(data["first_name"], data["last_name"], phone, data["street"], data["city"], data["state"], data["zip_code"], birthday, data["gender"])
             member.save()
             return HttpResponse()
 

@@ -72,6 +72,7 @@ $(document).ready(function() {
         var phone1 = $("#phone1").val();
         var phone2 = $("#phone2").val();
         var phone3 = $("#phone3").val();
+        var street = $("#street").val();
         var city = $("#city").val();
         var state = $("#state option:selected").val(); 
         var zipCode = $("#zipCode").val();
@@ -83,7 +84,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "/editProfileInformation/",
-            data: { "firstName" : firstName, "lastName" : lastName, "phone1" : phone1, "phone2" : phone2, "phone3" : phone3, "city" : city, "state" : state, "zipCode" : zipCode, "month" : month, "day" : day, "year" : year, "gender" : gender },
+            data: { "firstName" : firstName, "lastName" : lastName, "phone1" : phone1, "phone2" : phone2, "phone3" : phone3, "street" : street, "city" : city, "state" : state, "zipCode" : zipCode, "month" : month, "day" : day, "year" : year, "gender" : gender },
             success: function(html) {
                 if (html.startsWith("\n"))
                 {

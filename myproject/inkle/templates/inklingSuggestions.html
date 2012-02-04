@@ -7,7 +7,9 @@
             <div>
                 {% if suggestion == member %}
                     <p>{{ member.first_name}} {{ member.last_name}}'s Place</p>
-                    <p class="cityState">{{ suggestion.city }}, {{ suggestion.state }}</p>
+                    {% if suggestion.city and suggestion.state %}
+                        <p class="cityState">{{ suggestion.city }}, {{ suggestion.state }}</p>
+                    {% endif %}
                 {% else %}
                     <p>{{ suggestion.name|truncate_characters:numChars }}</p>
                     <p class="cityState">{{ suggestion.city }}, {{ suggestion.state }}</p>

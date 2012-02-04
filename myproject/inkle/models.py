@@ -143,10 +143,9 @@ class Member(User):
     
     # Profile information
     gender = models.CharField(max_length = 6)
-    #birthday = models.CharField(max_length = 10)
     birthday = models.DateField()
-    street = models.CharField(max_length = 50, default = "")
     phone = models.CharField(max_length = 10, default = "")
+    street = models.CharField(max_length = 100, default = "")
     city = models.CharField(max_length = 50, default = "")
     state = models.CharField(max_length = 2, default = "")
     zip_code = models.CharField(max_length = 5, default = "")
@@ -209,11 +208,12 @@ class Member(User):
         """Updates the current member's verification hash."""
         self.verification_hash = md5(str(randint(1000, 9999))).hexdigest()
 
-    def update_profile_information(self, first_name, last_name, phone, city, state, zip_code, birthday, gender):
+    def update_profile_information(self, first_name, last_name, phone, street, city, state, zip_code, birthday, gender):
         """Updates the current member's privacy settings."""
         self.first_name = first_name
         self.last_name = last_name
         self.phone = phone
+        self.street = street
         self.city = city
         self.state = state
         self.zip_code = zip_code

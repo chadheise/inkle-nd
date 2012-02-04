@@ -37,6 +37,12 @@
             </td>
         </tr>
 
+        <!-- Street -->
+        <tr>
+            <th><label for="street">Street:</label></th>
+            <td><input id="street" {% if invalid.street %}class="invalid"{% endif %} maxlength="100" value="{{ data.street }}" /></td>
+        </tr>
+
         <!-- City -->
         <tr>
             <th><label for="city">City:</label></th>
