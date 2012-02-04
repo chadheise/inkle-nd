@@ -168,7 +168,7 @@ $(document).ready(function() {
         // Get the ID of the selected location
         var locationID = $(this).attr("suggestionID");
 
-        // Get the location type (location or memberPlace)
+        // Get the location type (location or member place)
         var locationType = $(this).attr("suggestionType");
 
         // Get the type of the selected inkling
@@ -312,7 +312,7 @@ $(document).ready(function() {
     $(".locationBoardCard").live("click", function() {
         var date = $(".selectedDateContainer").attr("month") + "_" + $(".selectedDateContainer").attr("day") + "_" + $(".selectedDateContainer").attr("year");
         var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
-        if ( $(this).attr("type") == "memberPlace" ) { //If member is in the url (indicates a memberPlace not a location)
+        if ( $(this).attr("type") == "memberPlace" ) { //If member is in the url (indicates a member place not a location)
             window.location = $(this).attr("url") + "place/" + date + "/" + inklingType + "/";
         }
         else {

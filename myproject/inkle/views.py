@@ -1024,10 +1024,10 @@ def suggestions_view(request):
     if (query_type == "inkling"):
         # Get the location suggestions (and add them to the categories list if there are any)
         locations = locations_search_query(query)[0:5]
-        memberPlace = members_search_query(query, Member.active.filter(pk = request.session["member_id"]))
-        if (memberPlace):
-            memberPlace.suggestionType = "members"
-            categories.append((memberPlace,))
+        member_place = members_search_query(query, Member.active.filter(pk = request.session["member_id"]))
+        if (member_place):
+            member_place.suggestionType = "members"
+            categories.append((member_place,))
         if (locations):
             locations.suggestionType = "locations"
             categories.append((locations,))
@@ -1426,15 +1426,15 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 else:
                     location.count = 1
                     locations.append(location)
-            elif inkling[0].memberPlace in member.following.filter(is_active = True):
-                memberPlace = inkling[0].memberPlace
-                if (memberPlace in locations):
+            elif inkling[0].member_place in member.following.filter(is_active = True):
+                member_place = inkling[0].member_place
+                if (member_place in locations):
                     for l in locations:
                         if (l == location):
                             l.count += 1
                 else:
-                    memberPlace.count = 1
-                    locations.append(memberPlace)
+                    member_place.count = 1
+                    locations.append(member_place)
     
     locations.sort(key = lambda l:-l.count)
 
