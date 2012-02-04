@@ -71,34 +71,60 @@ def get_location_inklings_view(request):
     date1 = datetime.date(int(request.POST["year"]), int(request.POST["month"]), int(request.POST["day"]))
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
-    member = get_location_inklings(request.session["member_id"], request.POST["location_id"], date1)
+    member = get_location_inklings(request.session["member_id"], request.POST["location_id"], None, date1)
     
     return render_to_response( "locationInklings.html",
         { "member" : member},
         context_instance = RequestContext(request) )
 
-def get_location_inklings(member_id = None, location_id = None, date = datetime.date.today()):
-    """Returns a member object with additional fields indicating inklings at the input location for the input datetime date object"""
+def get_member_place_view(request):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        if (request.POST["other_member_id"]):
+            return HttpResponseRedirect("/login/?next=/member/" + request.POST["member_id"] + "/" + request.POST["other_member_id"] + "/")
+        else:
+            return HttpResponseRedirect("/login/")
 
+    # Get date objects
+    date1 = datetime.date(int(request.POST["date"].split("/")[2]), int(request.POST["date"].split("/")[0]), int(request.POST["date"].split("/")[1]))
+    dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
+
+    member = get_location_inklings(request.session["member_id"], None, request.session["member_id"], date1)
+
+    return render_to_response( "locationInklings.html",
+        { "member" : member},
+        context_instance = RequestContext(request) )
+
+def get_location_inklings(member_id = None, location_id = None, memberPlace_id = None, date = datetime.date.today()):
+    """Returns a member object with additional fields indicating inklings at the input location for the input datetime date object"""
+    
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = member_id)
     except:
         if (location_id):
             return HttpResponseRedirect("/login/?next=/location/" + location_id + "/")
+        elif (memberPlace_id):
+            return HttpResponseRedirect("/login/?next=/member/" + memberPlace_id + "/place/")
         else:
             return HttpResponseRedirect("/login/")
-    # Get the location corresponding to the inputted ID (or throw a 404 error if it is invalid)
+    # Get the location or memberPlace corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
-        location = Location.objects.get(pk = int(location_id))
+        if (location_id):
+            location = Location.objects.get(pk = int(location_id))
+            # Get all of the specified date's inklings at the provided location
+            location_inklings = Inkling.objects.filter(date = date, location = location)
+        else:
+            memberPlace = Member.objects.get(pk = int(memberPlace_id))
+            # Get all of the specified date's inklings at the provided location
+            location_inklings = Inkling.objects.filter(date = date, memberPlace = memberPlace)
     except:
         raise Http404()
     
     # Get the people whom the logged in member is following
     following = member.following.filter(is_active = True)
-
-    # Get all of the specified date's inklings at the provided location
-    location_inklings = Inkling.objects.filter(date = date, location = location)
 
     # Get the logged in member's dinner inkling and the members who are attending
     try:
@@ -236,7 +262,6 @@ def inkling_invitations_view(request):
             except KeyError:
                 pass
         i += 1
-
     try:
         inkling = Inkling.objects.get(pk = request.POST["inklingID"])
         invitation = Invitation(description = "", inkling = inkling, from_member = member)
@@ -637,23 +662,45 @@ def create_inkling_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
-   
+
     # Get the POST data
     try:
         inkling_type = request.POST["inklingType"]
-        location = Location.objects.get(pk = request.POST["locationID"])
+        if request.POST["locationType"] == "locations":
+            location = Location.objects.get(pk = request.POST["locationID"])
+        elif request.POST["locationType"] == "members":
+            memberPlace = Member.objects.get(pk = request.POST["locationID"])
+            if memberPlace != member:
+                raise Http404()
         date = request.POST["date"].split("/")
         date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     except KeyError:
+        print "exception raised"
         raise Http404()
 
+    print "before try"
     # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
-        inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
+        print "inside try"
+        if request.POST["locationType"] == "locations":
+            print "location identified"
+            inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
+        elif request.POST["locationType"] == "members":
+            print "memberPlace identified"
+            inkling = Inkling.objects.get(memberPlace = memberPlace, category = inkling_type, date = date)
+        print "inkling found"
     except Inkling.DoesNotExist:
-        inkling = Inkling(location = location, category = inkling_type, date = date)
-        inkling.save()
-    
+        print "inkling doesn't exist"
+        if request.POST["locationType"] == "locations":
+            print "making location inkling"
+            inkling = Inkling(location = location, category = inkling_type, date = date)
+            inkling.save()
+        elif request.POST["locationType"] == "members":
+            print "making memberPlace inkling"
+            inkling =  inkling = Inkling(memberPlace = memberPlace, category = inkling_type, date = date)
+            inkling.save()
+        print "inkling made"
+        
     # See if the logged in member already has an inkling for the location/date combination
     try:
         conflicting_inkling = member.inklings.get(category = inkling_type, date = date)
@@ -666,7 +713,11 @@ def create_inkling_view(request):
     member.inklings.add(inkling)
 
     # Return the location's name and image
-    return HttpResponse(location.name + "|<|>|" + str(location.id) + "|<|>|" + str(inkling.id))
+    if request.POST["locationType"] == "locations":
+        return HttpResponse(location.name + "|<|>|" + str(location.id) + "|<|>|" + str(inkling.id))
+    elif request.POST["locationType"] == "members":
+        return HttpResponse(memberPlace.first_name + " " + memberPlace.last_name + "'s Place|<|>|" + str(memberPlace.id) + "|<|>|" + str(inkling.id))
+    
 
 
 def remove_inkling_view(request):
@@ -711,7 +762,6 @@ def get_my_inklings_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
-    
     # Get the POST data
     date = request.POST["date"].split("/")
     date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
@@ -719,7 +769,7 @@ def get_my_inklings_view(request):
     pastDate = False
     if (date < datetime.date.today()):
         pastDate = True
-    
+
     # Get the names and images for the logged in member's inkling locations
     member.dinner_inkling, member.pregame_inkling, member.main_event_inkling = get_inklings(member, date)
 

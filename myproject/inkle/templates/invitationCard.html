@@ -4,13 +4,21 @@
 <div class="grid_17 alpha omega">
     <div class="invitationCard">
         <!-- Image -->
-        <img src="{{ STATIC_URL }}/media/images/locations/{{ invitation.inkling.location.id }}.jpg" />
+        {% if invitation.inkling.memberPlace %}
+            <img src="{{ STATIC_URL }}/media/images/members/{{ invitation.inkling.memberPlace.id }}.jpg" />
+        {% else %}
+            <img src="{{ STATIC_URL }}/media/images/locations/{{ invitation.inkling.location.id }}.jpg" />
+        {% endif %}
 
         <!-- Invitations info -->
         <div class="info">
             <div class="infoRow">
                 <!-- Name -->
-                <a class="cardName" href="{{ invitation.inkling.location.get_absolute_url }}">{{ invitation.inkling.location.name }}</a>
+                {% if invitation.inkling.memberPlace %}
+                    <a class="cardName" href="{{ invitation.inkling.memberPlace.get_absolute_url }}place/{{invitation.inkling.get_date_url}}{{invitation.inkling.category}}/">{{ invitation.inkling.memberPlace.get_full_name }}'s Place</a>
+                {% else %}
+                    <a class="cardName" href="{{ invitation.inkling.location.get_absolute_url }}">{{ invitation.inkling.location.name }}</a>
+                {% endif %}
                 
                 <!-- Contact information -->
                 <!--{% if m.privacy >= m.email_privacy or m.privacy >= m.phone_privacy %}
