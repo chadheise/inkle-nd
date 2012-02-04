@@ -43,6 +43,7 @@ $(document).ready(function() {
         if (numNotifications == 1)
         {
             $("#notificationsCount").text("");
+            
             //Remove highlighting from header dropdown
             $("#headerDropdownButton").removeClass("headerDropdownButtonHighlighted")
             $(".headerDropdownOption").removeClass("headerDropdownOptionHighlighted")
@@ -57,7 +58,7 @@ $(document).ready(function() {
     function hideInvitationCard(invitationCard, html)
     {
         invitationCard.fadeOut("medium", function() {
-            var invitationMessage = $(html).fadeIn("slow").delay(2000).fadeOut("medium", function() {
+            var invitationMessage = $(html).fadeIn("medium").delay(2000).fadeOut("medium", function() {
                 $(this).remove();
                 invitationCard.remove();
                        
@@ -67,8 +68,8 @@ $(document).ready(function() {
                     $("#invitationsContentMembers").html("<p style='margin-bottom: 15px;'>No one has invited you to any inklings.</p>");
                 }
             });
-            
+
             invitationCard.after(invitationMessage);
-        });
+       });
     }
 });

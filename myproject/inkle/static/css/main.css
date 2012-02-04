@@ -227,7 +227,6 @@ input, textarea
 
 .memberMessage, .sphereMessage
 {
-    display: none;
     padding: 5px;
     border: 2px solid #444;
     background-color: #BBB;
