@@ -29,18 +29,6 @@ $(document).ready(function() {
                         $("#memberPlaceContentLinks").show();
                         $("#calendarContainer").show();
                     }
-                    /*if (contentType == "Place") {   
-                           if ( $(".selectedSubsectionContentLink").attr("contentType") == "all") {
-                               $("#dinnerContent").show();
-                               $("#pregameContent").show();
-                               $("#mainEventContent").show();
-                           }
-                           else {
-                              $(".subsectionTitle").hide();
-                              $("#" +  $(".selectedSubsectionContentLink").attr("contentType") + "Content").show();
-                           }      
-                    }*/
-                    
                 }
                 // Otherwise, fade out the current member content and fade the new member content back in
                 else
@@ -62,20 +50,6 @@ $(document).ready(function() {
                     $("#mainMemberContent").fadeOut("medium", function () {
                         loadContentHelper(html, contentType, function() {
                             $("#mainMemberContent").fadeIn("medium");
-                            /*if (contentType == "Inklings") {
-                                $("#calendarContainer").fadeIn("medium");
-                                $("#memberPlaceContentLinks").hide("medium");
-                            }
-                            else if(contentType == "Place") {
-                                $("#calendarContainer").fadeIn("medium");
-                                $("#memberPlaceContentLinks").fadeIn();
-                                $("#dinnerContent").show();
-                                $("#pregameContent").show();
-                                $("#mainEventContent").show();
-                            }
-                            else {
-                                $("#memberPlaceContentLinks").hide();
-                            }*/
                         });
                         styleSelectedDate();
                     }); 
@@ -143,7 +117,6 @@ $(document).ready(function() {
         if (!$(this).hasClass("selectedSubsectionContentLink"))
         {
             // Update the selected subsection content link
-            //$(".subsectionContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
             $(this).siblings().removeClass("selectedSubsectionContentLink");
             $(this).addClass("selectedSubsectionContentLink");
 
