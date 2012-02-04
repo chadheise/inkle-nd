@@ -31,8 +31,6 @@ urlpatterns = patterns(
     
     (r"^editLocation/$", "edit_location_view"),
     (r"^getEditLocationHtml/$", "get_edit_location_html_view"),
-    (r"^manage/$", "manage_view"),
-    (r"^manage/(?P<content_type>notifications|circles|spheres|followers)/$", "manage_view"),
     (r"^getEditManageHtml/$", "get_edit_manage_html_view"),
     
     # Search views
@@ -54,8 +52,14 @@ urlpatterns = patterns(
     (r"^inviteToInkle/$", "invite_to_inkle_view"),
 
     # Manage page
-    (r"^circles/$", "circles_view"),
+    (r"^manage/$", "manage_view"),
+    (r"^manage/(?P<content_type>notifications|place|circles|spheres|followers)/$", "manage_view"),
+    ##(r"^place/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "manage_view"),
+    ##(r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/(?P<place_type>all|dinner|pregame|mainEvent)/$", "manage_view"),
+    #Manage page database views
     (r"^notifications/$", "notifications_view"),
+    (r"^place/$", "get_member_place_view"),
+    (r"^circles/$", "circles_view"),
     (r"^spheres/$", "spheres_view"),
     (r"^followers/$", "followers_view"),
 
@@ -84,10 +88,12 @@ urlpatterns = patterns(
     #Member page
     (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
     #urls to load default member content
-    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|spheres|following|followers)/$", "member_view"),
-    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "member_view"),
+    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place|spheres|following|followers)/$", "member_view"),
+    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "member_view"),
+    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/(?P<place_type>all|dinner|pregame|mainEvent)/$", "member_view"),
     #Database view content loading for member page
     (r"^getMemberInklings/$", "get_member_inklings_view"),
+    (r"^getMemberPlace/$", "get_member_place_view"),
     (r"^getMemberSpheres/$", "spheres_view"),
     (r"^getMemberFollowing/$", "get_member_following_view"),
     (r"^getMemberFollowers/$", "followers_view"),
