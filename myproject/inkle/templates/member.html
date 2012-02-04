@@ -39,31 +39,11 @@
 
             <!-- Member content links -->
             <div id="memberContentLinks" class="contentLinks grid_17 alpha omega">
-                {% if content_type == "inklings" %}
-                    <p class="selectedContentLink" contentType="Inklings">Inklings</p>
-                {% else %}
-                    <p contentType="Inklings">Inklings</p>
-                {% endif %}
-                {% if content_type == "place" %}
-                    <p class="selectedContentLink" contentType="Place">Place</p>
-                {% else %}
-                    <p contentType="Place">Place</p>
-                {% endif %}
-                {% if content_type == "spheres" %}
-                    <p class="selectedContentLink" contentType="Spheres">Spheres</p>
-                {% else %}
-                    <p contentType="Spheres">Spheres</p>
-                {% endif %}
-                {% if content_type == "following" %}
-                    <p class="selectedContentLink" contentType="Following">Following</p>
-                {% else %}
-                    <p contentType="Following">Following</p>
-                {% endif %}
-                {% if content_type == "followers" %}
-                    <p class="selectedContentLink" contentType="Followers">Followers</p>
-                {% else %}
-                    <p contentType="Followers">Followers</p>
-                {% endif %}
+                <p {% if content_type == "inklings" %}class="selectedContentLink"{% endif %} contentType="Inklings">Inklings</p>
+                <p {% if content_type == "place" %}class="selectedContentLink"{% endif %} contentType="Place">Place</p>
+                <p {% if content_type == "spheres" %}class="selectedContentLink"{% endif %} contentType="Spheres">Spheres</p>
+                <p {% if content_type == "following" %}class="selectedContentLink"{% endif %} contentType="Following">Following</p>
+                <p {% if content_type == "followers" %}class="selectedContentLink"{% endif %} contentType="Followers">Followers</p>
             </div>
             <div class="clear"></div>
             
