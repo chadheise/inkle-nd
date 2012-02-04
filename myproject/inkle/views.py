@@ -1760,11 +1760,8 @@ def help_view(request, content_type = "overview"):
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (content_type):
-            return HttpResponseRedirect("/login/?next=/help/" + content_type + "/")
-        else:
-            return HttpResponseRedirect("/login/?next=/help/")
-    
+        member = None
+
     try:
         first_load = request.POST["firstLoad"]
         first_load = False
