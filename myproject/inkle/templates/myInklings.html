@@ -81,7 +81,7 @@
 
         {% if not pastDate %}
             <!-- Dinner inkling invite -->
-            <div id="dinnerInklingInvite" class="inklingInviteContainer {% if member.dinner_inkling.memberPlace != member or not member.dinner_inkling %}hidden{% endif %}" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
+            <div id="dinnerInklingInvite" class="inklingInviteContainer {% if not member.dinner_inkling or member.dinner_inkling.memberPlace and member.dinner_inkling.memberPlace != member %}hidden{% endif %}" inklingType="dinner" inklingID="{{ member.dinner_inkling.id }}">
                 <input type="text" />
                 <button class="button inklingInviteButton">Invite</button>
                 <div class="suggestions inklingInviteSuggestions"></div>
@@ -89,7 +89,7 @@
             </div>
 
             <!-- Pregame inkling invite -->
-            <div id="pregameInklingInvite" class="inklingInviteContainer {% if member.pregame_inkling.memberPlace != member or not member.pregame_inkling %}hidden{% endif %}" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
+            <div id="pregameInklingInvite" class="inklingInviteContainer {% if not member.pregame_inkling or member.pregame_inkling.memberPlace and member.pregame_inkling.memberPlace != member %}hidden{% endif %}" inklingType="pregame" inklingID="{{ member.pregame_inkling.id }}">
                 <input type="text" />
                 <button class="button inklingInviteButton">Invite</button>
                 <div class="suggestions inklingInviteSuggestions"></div>
@@ -97,7 +97,7 @@
             </div>
 
             <!-- Main event inkling invite -->
-            <div id="mainEventInklingInvite" class="inklingInviteContainer {% if member.main_event_inkling.memberPlace != member or not member.main_event_inkling %}hidden{% endif %}" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
+            <div id="mainEventInklingInvite" class="inklingInviteContainer {% if not member.main_event_inkling or member.main_event_inkling.memberPlace and member.main_event_inkling.memberPlace != member %}hidden{% endif %}" inklingType="mainEvent" inklingID="{{ member.main_event_inkling.id }}">
                 <input type="text" />
                 <button class="button inklingInviteButton">Invite</button>
                 <div class="suggestions inklingInviteSuggestions"></div>
