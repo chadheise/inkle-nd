@@ -248,7 +248,7 @@ def inkling_invitations_view(request):
         if (invites[i] == "people"):
             try:
                 m = Member.active.get(pk = int(invites[i + 1]))
-                if ((m in member.followers.filter(is_active = True)) and (m not in members)):
+                if ((m in (member.following.filter(is_active = True) | member.followers.filter(is_active = True))) and (m not in members)):
                     members.append(m)
             except KeyError:
                 pass
