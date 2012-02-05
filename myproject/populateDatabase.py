@@ -32,6 +32,8 @@ def load_campus_locations():
     load_locations("databaseData/saintMarysCampusLocations.txt")
     load_locations("databaseData/holyCrossCampusLocations.txt")
 
+def load_restaurants():
+    load_locations("databaseData/restaurants.txt")
 
 def load_spheres():
     for line in open("databaseData/spheres.txt", "r"):
@@ -42,12 +44,14 @@ def load_spheres():
 
 def populate_dev_database():
     load_members()
+    load_restaurants()
     load_dorms()
     load_campus_locations()
     load_spheres()
 
 
 def populate_prod_database():
+    load_restaurants()
     load_dorms()
     load_campus_locations()
     load_spheres()
