@@ -3,6 +3,9 @@
     {% if other_member.city and other_member.state and other_member.zip_code %}
         <div class="infoSection">
             <p class="infoLabel">Location:</p>
+                {% if other_member.street %}
+                    <p><span id="memberStreet">{{ other_member.street }}</span><p>
+                {% endif %}
                 <p><span id="memberCity">{{ other_member.city }}</span>, <span id="memberState">{{ other_member.state }}</span> <span id="memberZipCode">{{ other_member.zip_code }}</span></p>
         </div>
     {% endif %}
