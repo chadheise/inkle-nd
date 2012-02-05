@@ -275,6 +275,12 @@ $(document).ready(function() {
             url: "/stopFollowing/",
             data: { "toMemberID" : toMemberID },
             success: function() {
+                // Refresh if on member page
+                if ($("#mainMemberContent").size() != 0)
+                {
+                    window.location.href = window.location.href;
+                }
+
                 // Get the context of the current page
                 var pageContext = $(".peopleContent").attr("context");
                 
