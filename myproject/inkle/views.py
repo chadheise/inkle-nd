@@ -240,9 +240,9 @@ def update_account_email_view(request):
             invalid["confirm_new_email"] = True
             invalid["errors"].append("An account already exists for the provided new email")
 
-        elif (not ((data["email"].endswith("@nd.edu")) or (data["email"].endswith("@saintmarys.edu")) or (data["email"].endswith("@hcc-nd.edu")))):
-            invalid["email"] = True
-            invalid["confirm_email"] = True
+        elif (not ((data["new_email"].endswith("@nd.edu")) or (data["new_email"].endswith("@saintmarys.edu")) or (data["new_email"].endswith("@hcc-nd.edu")))):
+            invalid["new_email"] = True
+            invalid["confirm_new_email"] = True
             invalid["errors"].append("Inkle is currently limited to Notre Dame, Saint Mary's, and Holy Cross email addresses only")
 
         # Validate the confirm new email
@@ -501,7 +501,9 @@ def edit_profile_picture_view(request):
         destination = open(fileName, "wb+")
         for chunk in request.FILES["newProfilePicture"].chunks():
             destination.write(chunk)
-            destination.close()
+        destination.close()
+        member.changed_image += 1
+        member.save()
         return render_to_response( "editProfilePicture.html",
             { "member" : member },
             context_instance = RequestContext(request) )
@@ -529,9 +531,10 @@ def edit_profile_privacy_view(request):
         followers_privacy = int(request.POST["followersPrivacy"])
         following_privacy = int(request.POST["followingsPrivacy"])
         networks_privacy = int(request.POST["networksPrivacy"])
+        place_privacy = int(request.POST["placePrivacy"])
         inklings_privacy = int(request.POST["inklingsPrivacy"])
     
-        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, following_privacy, networks_privacy, inklings_privacy)
+        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, following_privacy, networks_privacy, place_privacy, inklings_privacy)
         member.save()
     except KeyError:
         pass
@@ -1515,7 +1518,7 @@ def login_view(request):
     if (request.POST):
         # Get the POST data
         try:
-            data["email"] = request.POST["email"]
+            data["email"] = request.POST["email"].lower()
             data["password"] = request.POST["password"]
         except KeyError:
             pass
@@ -1620,8 +1623,8 @@ def register_view(request):
         try:
             data["first_name"] = request.POST["firstName"]
             data["last_name"] = request.POST["lastName"]
-            data["email"] = request.POST["email"]
-            data["confirm_email"] = request.POST["confirmEmail"]
+            data["email"] = request.POST["email"].lower()
+            data["confirm_email"] = request.POST["confirmEmail"].lower()
             data["password"] = request.POST["password"]
             data["confirm_password"] = request.POST["confirmPassword"]
             data["month"] = int(request.POST["month"])

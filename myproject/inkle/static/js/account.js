@@ -121,7 +121,9 @@ $(document).ready(function() {
                         $.ajax({
                             url: "/sendUpdateEmailVerificationEmail/" + newEmail + "/",
                             success: function() {
+                                alert("success");
                                 window.location.href = "/logout/";
+                                alert("logged out");
                             },
                             error: function (a, b, error) { alert("account.js (3.2): " + error); }
                         });
