@@ -14,39 +14,24 @@ def load_members():
             shutil.copyfile("inkle/static/media/images/main/woman.jpg", "inkle/static/media/images/members/" + str(m.id) + ".jpg")
 
 
-def load_following(from_member_id, to_member_id):
-    if (from_member_id != to_member_id):
-        try:
-            from_member = Member.objects.get(pk = from_member_id)
-            to_member = Member.objects.get(pk = to_member_id)
+def load_member_followings():
+    for line in open("databaseData/memberFollowings.txt", "r"):
+        data = [x.strip() for x in line.split("|")]
+        if (data[0] != data[1]):
+            from_member = Member.objects.get(pk = data[0])
+            to_member = Member.objects.get(pk = data[1])
     
             from_member.accepted.add(to_member)
             from_member.following.add(to_member)
             to_member.followers.add(from_member)
-        except Member.DoesNotExist:
-            return
 
-
-def load_followings():
-    load_following(1, 2)
-    load_following(1, 3)
-    load_following(1, 4)
-    load_following(1, 5)
-    load_following(1, 6)
-    load_following(1, 7)
-    load_following(1, 8)
-    load_following(1, 9)
-    load_following(1, 10)
-
-    load_following(2, 1)
-    load_following(2, 3)
-    load_following(2, 5)
-    load_following(2, 7)
-    load_following(2, 9)
-    load_following(2, 11)
-    load_following(2, 13)
-    load_following(2, 15)
-    load_following(2, 16)
+def load_member_networks():
+    for line in open("databaseData/memberNetworks.txt", "r"):
+        data = [x.strip() for x in line.split("|")]
+        member = Member.objects.get(pk = data[0])
+        network = Network.objects.get(pk = data[1])
+    
+        member.networks.add(network)
 
 
 def load_locations(filename):
@@ -87,15 +72,16 @@ def load_networks():
 
 
 def populate_dev_database():
+    load_networks()
     load_members()
-    load_followings()
+    load_member_followings()
+    load_member_networks()
     load_bars()
     load_clubs()
     load_restaurants()
     load_apartments()
     load_dorms()
     load_campus_locations()
-    load_networks()
 
 
 def populate_prod_database():
