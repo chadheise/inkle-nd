@@ -268,7 +268,7 @@ def inkling_invitations_view(request):
                 m = Member.active.get(pk = int(invites[i + 1]))
                 if ((m in (member.following.filter(is_active = True) | member.followers.filter(is_active = True))) and (m not in members)):
                     members.append(m)
-            except KeyError:
+            except:
                 pass
         elif (invites[i] == "blots"):
             try:
@@ -277,7 +277,7 @@ def inkling_invitations_view(request):
                     for m in blot.members.filter(is_active = True):
                         if (m not in members):
                             members.append(m)
-            except KeyError:
+            except:
                 pass
         i += 1
     try:
@@ -289,7 +289,7 @@ def inkling_invitations_view(request):
                 m.invitations.add(invitation)
                 if (m.invited_email_preference):
                     send_inkling_invitation_email(member, m, inkling)
-    except KeyError:
+    except:
         pass
 
     return HttpResponse()
