@@ -128,5 +128,5 @@ urlpatterns = patterns(
     (r"^contact/$", "contact_view"),
     (r"^sendContactEmail/$", "send_contact_email_view"),
     (r"^help/$", "help_view"),
-    (r"^help/(?P<content_type>overview|home|following|blots|networks|inklings|places)/$", "help_view"),
+    (r"^help/(?P<content_type>overview|home|following|blots|networks|inklings)/$", "help_view"),
 )
