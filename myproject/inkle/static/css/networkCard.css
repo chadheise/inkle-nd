@@ -11,13 +11,13 @@
 
 .joinNetwork
 {
-    background-color: #E48116;
-    border-color: #946732;
+    background-color: #1B5898;
+    border-color: #2A4360;
 }
 
 .joinNetwork:hover
 {
-    border-color: #793818;
+    border-color: #002C45;
 }
 
 .leaveNetwork
