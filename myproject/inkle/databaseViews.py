@@ -18,11 +18,11 @@ buttonDictionary = {
     "prevent" : ("preventFollowing", "Block", "No longer allow this person to follow me"),
     "revoke" : ("revokeRequest", "Revoke request", "Revoke my request to follow this person"),
     "stop" : ("stopFollowing", "Stop following", "Stop following this person"),
-    "circles" : ("circlesCardButton", "Circles"),
+    "blots" : ("blotsCardButton", "Blots"),
     "reject" : ("rejectRequest", "Reject request", "Do not allow this person to follow me"),
     "accept" : ("acceptRequest", "Accept request", "Allow this person to follow me"),
-    "join" : ("joinSphere", "Join sphere", "Beome a member of this sphere"),
-    "leave" : ("leaveSphere", "Leave sphere", "I no longer wish to be a part of this sphere"),
+    "join" : ("joinNetwork", "Join network", "Beome a member of this network"),
+    "leave" : ("leaveNetwork", "Leave network", "I no longer wish to be a part of this network"),
 }
 
 
@@ -135,7 +135,7 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
         for m in member.dinner_members:
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            m.button_list = [buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["blots"]]
             # Determine the privacy rating for the logged in member and the current member
             m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
@@ -151,7 +151,7 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
         for m in member.pregame_members:
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            m.button_list = [buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["blots"]]
             # Determine the privacy rating for the logged in member and the current member
             m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
@@ -167,7 +167,7 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
         for m in member.main_event_members:
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            m.button_list = [buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["blots"]]
             # Determine the privacy rating for the logged in member and the current member
             m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
@@ -252,11 +252,11 @@ def inkling_invitations_view(request):
                     members.append(m)
             except KeyError:
                 pass
-        elif (invites[i] == "circles"):
+        elif (invites[i] == "blots"):
             try:
-                circle = Circle.objects.get(pk = int(invites[i + 1]))
-                if (circle in member.circles.all()):
-                    for m in circle.members.filter(is_active = True):
+                blot = Blot.objects.get(pk = int(invites[i + 1]))
+                if (blot in member.blots.all()):
+                    for m in blot.members.filter(is_active = True):
                         if (m not in members):
                             members.append(m)
             except KeyError:
@@ -418,9 +418,9 @@ def remove_following(from_member, to_member):
     # Remove the to_member from the from_member's accepted list
     from_member.accepted.remove(to_member)
 
-    # Remove the to_member from all of the from_member's circles
-    for circle in from_member.circles.all():
-        circle.members.remove(to_member)
+    # Remove the to_member from all of the from_member's blots
+    for blot in from_member.blots.all():
+        blot.members.remove(to_member)
 
     # Remove the from_member follower of to_member
     to_member.followers.remove(from_member)
@@ -475,8 +475,8 @@ def invitation_response_view(request):
         context_instance = RequestContext(request) )
 
 
-def add_to_circle_view(request):
-    """Adds the to_member to one of from_member's circles."""
+def add_to_blot_view(request):
+    """Adds the to_member to one of from_member's blots."""
     # Get the member who sent the request (or raise a 404 error if the member ID is invalid)
     try:
         from_member = Member.active.get(pk = request.session["member_id"])
@@ -489,14 +489,14 @@ def add_to_circle_view(request):
     except:
         raise Http404()
 
-    # Get the circle to which to_member is being added (or raise a 404 error if the circle ID is invalid)
+    # Get the blot to which to_member is being added (or raise a 404 error if the blot ID is invalid)
     try:
-        circle = Circle.objects.get(pk = request.POST["circleID"])
+        blot = Blot.objects.get(pk = request.POST["blotID"])
     except:
         raise Http404()
 
-    # Add the to_member to the circle
-    circle.members.add(to_member)
+    # Add the to_member to the blot
+    blot.members.add(to_member)
 
     # If the to_member was only in the accepted list, remove them from the accepted list
     if (to_member in from_member.accepted.all()):
@@ -504,7 +504,7 @@ def add_to_circle_view(request):
     
     # Get the to_member's info for their member card
     to_member.mutual_followings = from_member.following.filter(is_active = True) & to_member.following.filter(is_active = True)
-    to_member.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+    to_member.button_list = [buttonDictionary["stop"], buttonDictionary["blots"]]
     to_member.show_contact_info = True
    
     return render_to_response( "memberCard.html",
@@ -512,8 +512,8 @@ def add_to_circle_view(request):
         context_instance = RequestContext(request) )
 
 
-def remove_from_circle_view(request):
-    """Removes the to_member from one of from_member's circles."""
+def remove_from_blot_view(request):
+    """Removes the to_member from one of from_member's blots."""
     # Get the member who sent the request (or redirect them to the login page)
     try:
         from_member = Member.active.get(pk = request.session["member_id"])
@@ -526,131 +526,131 @@ def remove_from_circle_view(request):
     except:
         raise Http404()
     
-    # Get the circle to which to_member is being removed (or raise a 404 error if the circle ID is invalid)
+    # Get the blot to which to_member is being removed (or raise a 404 error if the blot ID is invalid)
     try:
-        circle = Circle.objects.get(pk = request.POST["circleID"])
+        blot = Blot.objects.get(pk = request.POST["blotID"])
     except:
         raise Http404()
 
-    # Remove the to_member from the from_member's circle
-    remove_from_circle(from_member, to_member, circle)
+    # Remove the to_member from the from_member's blot
+    remove_from_blot(from_member, to_member, blot)
 
     return HttpResponse()
 
 
-def remove_from_circle(from_member, to_member, circle):
-    """Removes the to_member from one of from_member's circles."""
-    # Remove the to_member from the from_member's circle
-    circle.members.remove(to_member)
+def remove_from_blot(from_member, to_member, blot):
+    """Removes the to_member from one of from_member's blots."""
+    # Remove the to_member from the from_member's blot
+    blot.members.remove(to_member)
 
-    # Get the number of from_member's circles which to_member is in
-    count = len([c for c in from_member.circles.all().select_related("members") if (to_member in c.members.filter(is_active = True))])
+    # Get the number of from_member's blots which to_member is in
+    count = len([c for c in from_member.blots.all().select_related("members") if (to_member in c.members.filter(is_active = True))])
 
-    # Add the to_member to the from_member's accepted list if the to_member no longer belongs to any of from_member's circles
+    # Add the to_member to the from_member's accepted list if the to_member no longer belongs to any of from_member's blots
     if (count == 0):
         from_member.accepted.add(to_member)
 
     return
 
 
-def create_circle_view(request):
-    """Create a new circle for the logged in member."""
+def create_blot_view(request):
+    """Create a new blot for the logged in member."""
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
-    # Create the new circle and add it to the logged in member's circles list
-    circle = Circle.objects.create(name = request.POST["circleName"])
-    member.circles.add(circle)
+    # Create the new blot and add it to the logged in member's blots list
+    blot = Blot.objects.create(name = request.POST["blotName"])
+    member.blots.add(blot)
 
-    # Return the new circle's ID
-    return HttpResponse(circle.id)
+    # Return the new blot's ID
+    return HttpResponse(blot.id)
 
 
-def rename_circle_view(request):
-    """Updates the name of one of the logged in member's circles."""
+def rename_blot_view(request):
+    """Updates the name of one of the logged in member's blots."""
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
-    # Update the requested circle's name (or raise a 404 error if the circle ID is invalid)
+    # Update the requested blot's name (or raise a 404 error if the blot ID is invalid)
     try:
-        circle = member.circles.filter(pk = request.POST["circleID"]).update(name = request.POST["circleName"])
+        blot = member.blots.filter(pk = request.POST["blotID"]).update(name = request.POST["blotName"])
     except KeyError:
         raise Http404()
 
     return HttpResponse()
 
 
-def delete_circle_view(request):
-    """Deletes one of the logged in member's circles."""
+def delete_blot_view(request):
+    """Deletes one of the logged in member's blots."""
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
-    # Get the circle which is to be deleted (or raise a 404 error if the circle ID is invalid)
+    # Get the blot which is to be deleted (or raise a 404 error if the blot ID is invalid)
     try:
-        circle = Circle.objects.get(pk = request.POST["circleID"])
+        blot = Blot.objects.get(pk = request.POST["blotID"])
     except:
         raise Http404()
 
-    # Remove each member from the circle to be deleted 
-    for m in circle.members.all():
-        remove_from_circle(member, m, circle)
+    # Remove each member from the blot to be deleted 
+    for m in blot.members.all():
+        remove_from_blot(member, m, blot)
 
-    # Remove the circle to be deleted from the logged in member's circles list
-    member.circles.remove(circle)
+    # Remove the blot to be deleted from the logged in member's blots list
+    member.blots.remove(blot)
     
-    # Delete the circle
-    circle.delete()
+    # Delete the blot
+    blot.delete()
 
     return HttpResponse()
 
 
-def join_sphere_view(request):
-    """Makes the logged in member join a sphere."""
+def join_network_view(request):
+    """Makes the logged in member join a network."""
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
-    # Get the sphere which is being joined (or raise a 404 error if the sphere ID is invalid)
+    # Get the network which is being joined (or raise a 404 error if the network ID is invalid)
     try:
-        sphere = Sphere.objects.get(pk = request.POST["sphereID"])
+        network = Network.objects.get(pk = request.POST["networkID"])
     except:
         raise Http404()
 
-    # Add the sphere to the logged in member's spheres list
-    member.spheres.add(sphere)
+    # Add the network to the logged in member's networks list
+    member.networks.add(network)
 
     return render_to_response( "memberCard.html",
         { "member" : member, "m" : member },
         context_instance = RequestContext(request) )
 
 
-def leave_sphere_view(request):
-    """Makes the logged in member leave a sphere."""
+def leave_network_view(request):
+    """Makes the logged in member leave a network."""
     # Get the logged in member (or raise a 404 error if the member ID is invalid)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
         raise Http404()
 
-    # Get the sphere which is being left (or raise a 404 error if the sphere ID is invalid)
+    # Get the network which is being left (or raise a 404 error if the network ID is invalid)
     try:
-        sphere = Sphere.objects.get(pk = request.POST["sphereID"])
+        network = Network.objects.get(pk = request.POST["networkID"])
     except:
         raise Http404()
 
-    # Remove the sphere from the logged in member's spheres list
-    member.spheres.remove(sphere)
+    # Remove the network from the logged in member's networks list
+    member.networks.remove(network)
 
     return HttpResponse(request.session["member_id"])
 
@@ -802,14 +802,14 @@ def get_inklings(member, date):
     return (dinner_inkling, pregame_inkling, main_event_inkling)
 
 
-def create_sphere_view(request):
-    """Creates a new Sphere object."""
-    # Create a new sphere using the POST data and save it
-    sphere = Sphere(name = request.POST["sphereName"])
-    sphere.save()
+def create_network_view(request):
+    """Creates a new Network object."""
+    # Create a new network using the POST data and save it
+    network = Network(name = request.POST["networkName"])
+    network.save()
 
-    # Copy the default sphere image
-    shutil.copyfile("static/media/images/main/sphere.jpg", "static/media/images/spheres/" + str(sphere.id) + ".jpg")
+    # Copy the default network image
+    shutil.copyfile("static/media/images/main/network.jpg", "static/media/images/networks/" + str(network.id) + ".jpg")
 
     return HttpResponse()
     

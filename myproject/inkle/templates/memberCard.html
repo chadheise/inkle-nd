@@ -28,14 +28,14 @@
                 {% endif %}
             </div>
 
-            <!-- Spheres -->
-            <div class="memberSpheres infoRow">
-                {% if m.privacy >= m.spheres_privacy %}
-                    {% for sphere in m.spheres.all %}
-                        {% if sphere != m.spheres.all|first %}
+            <!-- Networks -->
+            <div class="memberNetworks infoRow">
+                {% if m.privacy >= m.networks_privacy %}
+                    {% for network in m.networks.all %}
+                        {% if network != m.networks.all|first %}
                             <span>&middot;</span>
                         {% endif %}
-                        {% for word in sphere.name|split %}
+                        {% for word in network.name|split %}
                             <span>{{ word }}</span>
                         {% endfor %}
                     {% endfor %}
@@ -54,15 +54,15 @@
                 {% if m != member %}
                     {% for buttonClass, buttonText, toolTip in m.button_list %}
                         <button class="cardButton {{ buttonClass }}" memberID="{{ m.id }}" title="{{ toolTip }}">{{ buttonText }}</button>
-                        {% if buttonClass == "circlesCardButton" %}
-                            <div class="circlesMenu">
-                                {% for circle in member.circles.all %}
+                        {% if buttonClass == "blotsCardButton" %}
+                            <div class="blotsMenu">
+                                {% for blot in member.blots.all %}
                                     <div>
-                                        <input id="m{{ m.id }}_c{{ circle.id }}" type="checkbox" {% if m in circle.members.all %}checked="checked"{% endif %} circleID="{{ circle.id }}" />
-                                        <label for="m{{ m.id }}_c{{ circle.id }}">{{ circle.name }}</label>
+                                        <input id="m{{ m.id }}_c{{ blot.id }}" type="checkbox" {% if m in blot.members.all %}checked="checked"{% endif %} blotID="{{ blot.id }}" />
+                                        <label for="m{{ m.id }}_c{{ blot.id }}">{{ blot.name }}</label>
                                     </div>
                                 {% empty %}
-                                    <div class="noCircles">You have no circles.</div>
+                                    <div class="noBlots">You have no blots.</div>
                                 {% endfor %}
                             </div>
                         {% endif %}

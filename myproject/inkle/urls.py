@@ -53,26 +53,26 @@ urlpatterns = patterns(
 
     # Manage page
     (r"^manage/$", "manage_view"),
-    (r"^manage/(?P<content_type>notifications|place|circles|spheres|followers)/$", "manage_view"),
+    (r"^manage/(?P<content_type>notifications|place|blots|networks|followers)/$", "manage_view"),
     (r"^manage/(?P<content_type>place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "manage_view"),
     (r"^manage/(?P<content_type>place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/(?P<place_type>all|dinner|pregame|mainEvent)/$", "manage_view"),
     #Manage page database views
     (r"^notifications/$", "notifications_view"),
     (r"^place/$", "get_member_place_view"),
-    (r"^circles/$", "circles_view"),
-    (r"^spheres/$", "spheres_view"),
+    (r"^blots/$", "blots_view"),
+    (r"^networks/$", "networks_view"),
     (r"^followers/$", "followers_view"),
 
-    (r"^circles/(?P<circle_id>\w+)/$", "circles_view"),
-    (r"^createCircle/$", "create_circle_view"),
-    (r"^renameCircle/$", "rename_circle_view"),
-    (r"^deleteCircle/$", "delete_circle_view"),
-    (r"^removeFromCircle/$", "remove_from_circle_view"),
-    (r"^addToCircle/$", "add_to_circle_view"),
+    (r"^blots/(?P<blot_id>\w+)/$", "blots_view"),
+    (r"^createBlot/$", "create_blot_view"),
+    (r"^renameBlot/$", "rename_blot_view"),
+    (r"^deleteBlot/$", "delete_blot_view"),
+    (r"^removeFromBlot/$", "remove_from_blot_view"),
+    (r"^addToBlot/$", "add_to_blot_view"),
     
     
-    (r"^joinSphere/$", "join_sphere_view"),
-    (r"^leaveSphere/$", "leave_sphere_view"),
+    (r"^joinNetwork/$", "join_network_view"),
+    (r"^leaveNetwork/$", "leave_network_view"),
 
     # Invitation response
     (r"^invitationResponse/$", "invitation_response_view"),
@@ -80,7 +80,7 @@ urlpatterns = patterns(
     (r"^createInkling/$", "create_inkling_view"),
     (r"^removeInkling/$", "remove_inkling_view"),
     (r"^getMyInklings/$", "get_my_inklings_view"),
-    (r"^createSphere/$", "create_sphere_view"),
+    (r"^createNetwork/$", "create_network_view"),
     (r"^createLocation/$", "create_location_view"),
     (r"^getOthersInklings/$", "get_others_inklings_view"),
     (r"^uploadImage/$", "upload_image_view"),
@@ -88,13 +88,13 @@ urlpatterns = patterns(
     #Member page
     (r"^member/(?P<other_member_id>\d+)/$", "member_view"),
     #urls to load default member content
-    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place|spheres|following|followers)/$", "member_view"),
+    (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place|networks|following|followers)/$", "member_view"),
     (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/$", "member_view"),
     (r"^member/(?P<other_member_id>\d+)/(?P<content_type>inklings|place)/(?P<date>\d\d?_\d\d?_\d\d\d\d)/(?P<place_type>all|dinner|pregame|mainEvent)/$", "member_view"),
     #Database view content loading for member page
     (r"^getMemberInklings/$", "get_member_inklings_view"),
     (r"^getMemberPlace/$", "get_member_place_view"),
-    (r"^getMemberSpheres/$", "spheres_view"),
+    (r"^getMemberNetworks/$", "networks_view"),
     (r"^getMemberFollowing/$", "get_member_following_view"),
     (r"^getMemberFollowers/$", "followers_view"),
     
@@ -107,7 +107,7 @@ urlpatterns = patterns(
     #Database view content loading for location page
     (r"^getLocationInklings/$", "get_location_inklings_view"),
     
-    (r"^sphere/(?P<sphere_id>\d+)/$", "sphere_view"),
+    (r"^network/(?P<network_id>\d+)/$", "network_view"),
 
     (r"^account/$", "account_view"),
     (r"^account/(?P<content_type>password|email|deactivate)/$", "account_view"),
@@ -128,5 +128,5 @@ urlpatterns = patterns(
     (r"^contact/$", "contact_view"),
     (r"^sendContactEmail/$", "send_contact_email_view"),
     (r"^help/$", "help_view"),
-    (r"^help/(?P<content_type>overview|home|following|circles|spheres|inklings|places)/$", "help_view"),
+    (r"^help/(?P<content_type>overview|home|following|blots|networks|inklings|places)/$", "help_view"),
 )

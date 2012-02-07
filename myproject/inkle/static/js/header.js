@@ -157,7 +157,7 @@ $(document).ready(function() {
             $(this).addClass("selectedHeaderDropdownButton");
         }
 
-        // Otherwise, if the circles menu is visible, fade it out
+        // Otherwise, if the blots menu is visible, fade it out
         else
         {
             headerDropdownElement.fadeOut("medium");

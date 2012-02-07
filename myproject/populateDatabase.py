@@ -38,11 +38,11 @@ def load_restaurants():
 def load_apartments():
     load_locations("databaseData/apartments.txt")
 
-def load_spheres():
-    for line in open("databaseData/spheres.txt", "r"):
+def load_networks():
+    for line in open("databaseData/networks.txt", "r"):
         data = [x.strip() for x in line.split("|")]
-        s = Sphere.objects.create(name = data[0])
-        shutil.copyfile("inkle/static/media/images/main/sphere.jpg", "inkle/static/media/images/spheres/" + str(s.id) + ".jpg")
+        s = Network.objects.create(name = data[0])
+        shutil.copyfile("inkle/static/media/images/main/network.jpg", "inkle/static/media/images/networks/" + str(s.id) + ".jpg")
 
 
 def populate_dev_database():
@@ -51,7 +51,7 @@ def populate_dev_database():
     load_apartments()
     load_dorms()
     load_campus_locations()
-    load_spheres()
+    load_networks()
 
 
 def populate_prod_database():
@@ -59,4 +59,4 @@ def populate_prod_database():
     load_apartments()
     load_dorms()
     load_campus_locations()
-    load_spheres()
+    load_networks()

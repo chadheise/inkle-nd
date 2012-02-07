@@ -96,14 +96,14 @@
             </td>
         </tr>
 
-        <!-- Spheres -->
+        <!-- Networks -->
         <tr>
-            <th><label for="spheresPrivacy">Spheres:</label></th>
+            <th><label for="networksPrivacy">Networks:</label></th>
             <td>
-                <select id="spheresPrivacy">
-                    <option value="0" {% if member.spheres_privacy == 0 %}selected{% endif %}>Everyone</option>
-                    <option value="1" {% if member.spheres_privacy == 1 %}selected{% endif %}>Followers and followings</option>
-                    <option value="2" {% if member.spheres_privacy == 2 %}selected{% endif %}>Followers</option>
+                <select id="networksPrivacy">
+                    <option value="0" {% if member.networks_privacy == 0 %}selected{% endif %}>Everyone</option>
+                    <option value="1" {% if member.networks_privacy == 1 %}selected{% endif %}>Followers and followings</option>
+                    <option value="2" {% if member.networks_privacy == 2 %}selected{% endif %}>Followers</option>
                 </select>
             </td>
         </tr>

@@ -1,4 +1,4 @@
-.memberCard .memberSpheres
+.memberCard .memberNetworks
 {
     font-size: 14px;
     text-align: justify;
@@ -16,13 +16,13 @@
     text-decoration: none;
 }
 
-.requestToFollow, .revokeRequest, .acceptRequest, .circlesCardButton
+.requestToFollow, .revokeRequest, .acceptRequest, .blotsCardButton
 {
     background-color: #1B5898;
     border-color: #2A4360;
 }
 
-.requestToFollow:hover, .revokeRequest:hover, .acceptRequest:hover, .circlesCardButton:hover
+.requestToFollow:hover, .revokeRequest:hover, .acceptRequest:hover, .blotsCardButton:hover
 {
     border-color: #002C45;
 }
@@ -38,7 +38,7 @@
     border-color: #7E181A;
 }
 
-.circlesMenu
+.blotsMenu
 {
     display: none;
     z-index: 1;

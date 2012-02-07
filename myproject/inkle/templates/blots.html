@@ -1,0 +1,26 @@
+<div class="grid_17 alpha omega">
+    <!-- Accepted blot -->
+    <div class="blot selectedBlot" blotID="-1"><p>Accepted</p></div>
+
+    <!-- User-created blots -->
+    {% for blot in member.blots.all %}
+        <div class="blot" blotID="{{ blot.id }}"><p>{{ blot.name }}</p></div>
+    {% endfor %}
+
+    <!-- New blot -->
+    <div id="newBlot" class="blot"><input id="newBlotInput" type="text" /></div>
+    
+    <!-- Create blot button -->
+    <div id="createBlotButton"><p>+</p></div>
+    
+    <!-- Blot content -->
+    <div id="blotContent">
+        <div id="blotMembers">
+            {% for m in members %}
+                {% include "memberCard.html" %}
+            {% empty %}
+                <p>There is no one in this blot.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

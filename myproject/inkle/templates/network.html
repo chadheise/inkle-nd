@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Network | {{ network.name }}</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/network.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/networkCard.css" />
+{% endblock css %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/networkCard.js"></script>
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <!-- Network info -->
+        <div class="grid_6">
+            <!-- Network image -->
+            <img id="networkImage" src="{{ STATIC_URL }}/media/images/networks/{{ network.id }}.jpg" image="{{ network.image }}" />
+
+            <div id="networkInfo">
+                {% include "networkInfo.html" %}
+            </div>
+        </div>
+
+        <!-- Network page content -->
+        <div class="grid_15 push_1 alpha omega">
+            <!-- Network name -->
+            <div class="grid_15">
+                <p id="networkName" class="pageTitle">{{ network.name }}</p>
+            </div>
+            <div class="clear"></div>
+                
+            <!-- Network content links -->
+            <div id="networkContentLinks" class="contentLinks grid_15">
+                <p class="selectedContentLink" contentType="members">Members</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Network members -->
+            <div id="networkContent" class="grid_15">
+                {% for m in network.members %}
+                    {% include "memberCard.html" %}
+                {% empty %}
+                    <p>There are no members in this network.</p>
+                {% endfor %}
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+{% endblock mainContent%}

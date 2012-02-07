@@ -1,0 +1,15 @@
+{% if blot %}
+    <div id="blotButtonsContainer">
+        <input id="addToBlotInput" type="text" blotID="{{ blot.id }}" />
+        <p id="addToBlotSuggestions" class="suggestions"></p> 
+        <input id="deleteBlotButton" type="button" value="Delete this blot" />
+    </div>
+{% endif %}
+
+<div id="blotMembers" class="peopleContent" context="blots">
+    {% for m in members %}
+        {% include "memberCard.html" %}
+    {% empty %}
+        <p>There is no one in this blot.</p>
+    {% endfor %}
+</div>

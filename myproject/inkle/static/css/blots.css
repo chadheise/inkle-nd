@@ -1,4 +1,4 @@
-.circle
+.blot
 {
     height: 142px;
     width: 142px;
@@ -15,22 +15,22 @@
     word-wrap:break-word;
 }
 
-.circle p
+.blot p
 {
     margin-top: 62px;
 }
 
-.circle:hover
+.blot:hover
 {
     border-color: #ABC2E5;
 }
 
-.selectedCircle
+.selectedBlot
 {
     background-color: #1B5898;
 }
 
-#createCircleButton
+#createBlotButton
 {
     margin-top: 35px;
     height: 70px;
@@ -47,22 +47,22 @@
     text-align: center;
 }
 
-#createCircleButton:hover
+#createBlotButton:hover
 {
     border-color: #ABC2E5;
 }
 
-#createCircleButton p
+#createBlotButton p
 {
     margin-top: 17px;
 }
 
-#newCircle
+#newBlot
 {
     display: none;
 }
 
-#newCircleInput, #renameCircleInput
+#newBlotInput, #renameBlotInput
 {
     margin-top: 60px;
     width: 90%;
@@ -70,12 +70,12 @@
     border: inset 2px #BBB;
 }
 
-#circleButtonsContainer
+#blotButtonsContainer
 {
     margin-bottom: 10px;
 }
 
-#deleteCircleButton
+#deleteBlotButton
 {
     background-color: #CD1A26;
     border-color: #914044;
@@ -87,30 +87,30 @@
     padding: 2px 5px 2px 5px;
 }
 
-#deleteCircleButton:hover
+#deleteBlotButton:hover
 {
     border-color: #7E181A;
     cursor: pointer;
 }
 
-#addToCircleInput
+#addToBlotInput
 {
     padding: 2px 5px 2px 5px;
     width: 300px;
     border: inset 2px #BBB;
 }
 
-.emptyAddToCircleInput
+.emptyAddToBlotInput
 {
     color: #888;
 }
 
-#addToCircleSuggestions
+#addToBlotSuggestions
 {
     width: 310px;
 }
 
-#circleContent
+#blotContent
 {
     clear: both;
 }

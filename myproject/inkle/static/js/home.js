@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    // Set the "All circles" and "Dinner" options as the selected options
+    // Set the "All blots" and "Dinner" options as the selected options
     $("#locationBoardPeopleSelect option:first").attr("selected", "selected");
     $("#locationBoardInklingSelect option:last").attr("selected", "selected");
 
@@ -37,17 +37,17 @@ $(document).ready(function() {
             if (selectedPeopleOption.attr("people"))
             {
                 var peopleType = "other";
-                var peopleID = "circles";
+                var peopleID = "blots";
             }
-            else if (selectedPeopleOption.attr("sphereID"))
+            else if (selectedPeopleOption.attr("networkID"))
             {
-                var peopleType = "sphere";
-                var peopleID = selectedPeopleOption.attr("sphereID");
+                var peopleType = "network";
+                var peopleID = selectedPeopleOption.attr("networkID");
             }
-            else if (selectedPeopleOption.attr("circleID"))
+            else if (selectedPeopleOption.attr("blotID"))
             {
-                var peopleType = "circle";
-                var peopleID = selectedPeopleOption.attr("circleID");
+                var peopleType = "blot";
+                var peopleID = selectedPeopleOption.attr("blotID");
             }
 
             // Get the selected inkling type
@@ -58,7 +58,7 @@ $(document).ready(function() {
         else
         {
             var peopleType = "other";
-            var peopleID = "circles";
+            var peopleID = "blots";
             var inklingType = "dinner";
             var includeMember = "true";
         }

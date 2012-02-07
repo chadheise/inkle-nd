@@ -1,9 +1,0 @@
-<div class="grid_17">
-    <div id ="spheresContent" context="{{ pageContext }}">
-        {% for sphere in spheres %}
-            {% include "sphereCard.html" %}
-        {% empty %}
-            <p>{{ noSpheresText }} not a member of any spheres.</p>
-        {% endfor %}
-    </div>
-</div>

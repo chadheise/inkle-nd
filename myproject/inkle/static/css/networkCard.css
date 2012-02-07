@@ -1,4 +1,4 @@
-.sphereMessageName
+.networkMessageName
 {
     color: #1B5898;
 }
@@ -9,24 +9,24 @@
     margin-top: 3px;
 }
 
-.joinSphere
+.joinNetwork
 {
     background-color: #E48116;
     border-color: #946732;
 }
 
-.joinSphere:hover
+.joinNetwork:hover
 {
     border-color: #793818;
 }
 
-.leaveSphere
+.leaveNetwork
 {
     background-color: #CD1A26;
     border-color: #914044;
 }
 
-.leaveSphere:hover
+.leaveNetwork:hover
 {
     border-color: #7E181A;
 }

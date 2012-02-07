@@ -38,26 +38,26 @@ class Location(models.Model):
         """String representation for the current location."""
         return "%s (%s, %s)" % (self.name, self.city, self.state)
 
-class Sphere(models.Model):
-    """Sphere class definition."""
+class Network(models.Model):
+    """Network class definition."""
     name = models.CharField(max_length = 50)
     
     def __unicode__(self):
-        """String representation for the current sphere."""
+        """String representation for the current network."""
         return "%s" % (self.name)
 
     def get_absolute_url(self):
-        """Returns the URL for current sphere's sphere page."""
-        return "/sphere/%i/" % (self.id)
+        """Returns the URL for current network's network page."""
+        return "/network/%i/" % (self.id)
 
 
-class Circle(models.Model):
-    """Circle class definition."""
+class Blot(models.Model):
+    """Blot class definition."""
     name = models.CharField(max_length = 50)
     members = models.ManyToManyField("Member")
     
     def __unicode__(self):
-        """String representation for the current circle."""
+        """String representation for the current blot."""
         return "%s" % (self.name)
 
 
@@ -134,8 +134,8 @@ class ActiveMemberManager(models.Manager):
 
 class Member(User):
     """Member class definition. Inherits from built-in Django User class."""
-    circles = models.ManyToManyField(Circle)
-    spheres = models.ManyToManyField(Sphere)
+    blots = models.ManyToManyField(Blot)
+    networks = models.ManyToManyField(Network)
     inklings = models.ManyToManyField(Inkling)
 
     # Member lists
@@ -171,7 +171,7 @@ class Member(User):
     location_privacy = models.IntegerField(max_length = 1, default = 0)
     followers_privacy = models.IntegerField(max_length = 1, default = 2)
     following_privacy = models.IntegerField(max_length = 1, default = 2)
-    spheres_privacy = models.IntegerField(max_length = 1, default = 0)
+    networks_privacy = models.IntegerField(max_length = 1, default = 0)
     inklings_privacy = models.IntegerField(max_length = 1, default = 2)
 
     # Email preferences
@@ -224,7 +224,7 @@ class Member(User):
         self.birthday = birthday
         self.gender = gender
 
-    def update_privacy_settings(self, location, email, phone, birthday, followers, following, spheres, inklings):
+    def update_privacy_settings(self, location, email, phone, birthday, followers, following, networks, inklings):
         """Updates the current member's privacy settings."""
         self.location_privacy = location
         self.email_privacy = email
@@ -232,7 +232,7 @@ class Member(User):
         self.birthday_privacy = birthday
         self.followers_privacy = followers
         self.following_privacy = following
-        self.spheres_privacy = spheres
+        self.networks_privacy = networks
         self.inklings_privacy = inklings
 
     def update_email_preferences(self, requested, accepted, invited, general):
