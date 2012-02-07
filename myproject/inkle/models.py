@@ -21,6 +21,9 @@ class Location(models.Model):
     # Contact info
     phone = models.CharField(max_length = 10, default = "")
     website = models.CharField(max_length = 100, default = "")
+    
+    #Metadata
+    date_created = models.DateField(auto_now_add=True)
 
     def __unicode__(self):
         """String representation for the current location."""
@@ -41,6 +44,9 @@ class Location(models.Model):
 class Network(models.Model):
     """Network class definition."""
     name = models.CharField(max_length = 50)
+    
+    #Metadata
+    date_created = models.DateField(auto_now_add=True)
     
     def __unicode__(self):
         """String representation for the current network."""
@@ -84,6 +90,9 @@ class Inkling(models.Model):
     objects = models.Manager()
     past = PastInklingManager()
     current = CurrentInklingManager()
+    
+    #Metadata
+    date_created = models.DateField(auto_now_add=True)
     
     def __unicode__(self):
         """String representation for the current inkling."""
