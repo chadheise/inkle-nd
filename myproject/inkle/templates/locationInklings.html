@@ -3,10 +3,12 @@
         <p class="subsectionTitle">Dinner</p>
         {% for m in member.dinner_members %}
             {% include "memberCard.html" %}
-        {% empty %}
-            <p>None of the people you are following are going here for dinner.</p>
         {% endfor %}
-        <p>There are {{ member.num_dinner_others }} other member{{ member.num_dinner_others|pluralize }} who you aren't following attending this inkling.</p>
+        {% if member.dinner_members %}
+            <p>There {% if member.num_dinner_others == 1 %}is{% else %}are{% endif %} {{ member.num_dinner_others }} other member{{ member.num_dinner_others|pluralize }} attending this inkling.</p>
+        {% else %}
+            <p>There {% if member.num_dinner_others == 1 %}is{% else %}are{% endif %} {{ member.num_dinner_others }} member{{ member.num_dinner_others|pluralize }} attending this inkling.</p>
+        {% endif %}
     </div>
 
     <!-- Pregame inkling members -->
@@ -14,10 +16,12 @@
         <p class="subsectionTitle">Pregame</p>
         {% for m in member.pregame_members %}
             {% include "memberCard.html" %}
-        {% empty %}
-            <p>None of the people you are following are going here for pregame.</p>
         {% endfor %}
-        <p>There are {{ member.num_pregame_others }} other member{{ member.num_pregame_others|pluralize }} who you aren't following attending this inkling.</p>
+        {% if member.pregame_members %}
+            <p>There {% if member.num_pregame_others == 1 %}is{% else %}are{% endif %} {{ member.num_pregame_others }} other member{{ member.num_pregame_others|pluralize }} attending this inkling.</p>
+        {% else %}
+            <p>There {% if member.num_pregame_others == 1 %}is{% else %}are{% endif %} {{ member.num_pregame_others }} member{{ member.num_pregame_others|pluralize }} attending this inkling.</p>
+        {% endif %}
     </div>
 
     <!-- Main event inkling members -->
@@ -25,8 +29,10 @@
         <p class="subsectionTitle">Main event</p>
         {% for m in member.main_event_members %}
             {% include "memberCard.html" %}
-        {% empty %}
-            <p>None of the people you are following are going here for the main event.</p>
         {% endfor %}
-        <p>There are {{ member.num_main_event_others }} other member{{ member.num_main_event_others|pluralize }} who you aren't following attending this inkling.</p>
+        {% if member.main_event_members %}
+            <p>There {% if member.num_main_event_others == 1 %}is{% else %}are{% endif %} {{ member.num_main_event_others }} other member{{ member.num_main_event_others|pluralize }} attending this inkling.</p>
+        {% else %}
+            <p>There {% if member.num_main_event_others == 1 %}is{% else %}are{% endif %} {{ member.num_main_event_others }} member{{ member.num_main_event_others|pluralize }} attending this inkling.</p>
+        {% endif %}
     </div>
