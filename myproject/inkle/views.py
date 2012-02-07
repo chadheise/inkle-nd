@@ -240,6 +240,11 @@ def update_account_email_view(request):
             invalid["confirm_new_email"] = True
             invalid["errors"].append("An account already exists for the provided new email")
 
+        elif (not ((data["email"].endswith("@nd.edu")) or (data["email"].endswith("@saintmarys.edu")) or (data["email"].endswith("@hcc-nd.edu")))):
+            invalid["email"] = True
+            invalid["confirm_email"] = True
+            invalid["errors"].append("Inkle is currently limited to Notre Dame, Saint Mary's, and Holy Cross email addresses only")
+
         # Validate the confirm new email
         if (not data["confirm_new_email"]):
             invalid["confirm_new_email"] = True
@@ -1096,7 +1101,7 @@ def suggestions_view(request):
         # Get the blots suggestions (and add them to the categories list if there are any)
         blots = blots_search_query(query, member)[0:5]
         if (blots):
-            blots.suggestionType = "members"
+            blots.suggestionType = "blots"
             categories.append((blots, "Blots"))
         
         # Set the number of characters to show for each suggestion
@@ -1662,7 +1667,17 @@ def register_view(request):
             invalid["email"] = True
             invalid["confirm_email"] = True
             invalid["errors"].append("Email and confirm email do not match")
-
+            
+        elif (not ((data["email"].endswith("@nd.edu")) or (data["email"].endswith("@saintmarys.edu")) or (data["email"].endswith("@hcc-nd.edu")))):
+            invalid["email"] = True
+            invalid["confirm_email"] = True
+            invalid["errors"].append("Inkle is currently limited to Notre Dame, Saint Mary's, and Holy Cross email addresses only")
+        
+        elif (data["email"] == "mrobert7@nd.edu"):
+            invalid["email"] = True
+            invalid["confirm_email"] = True
+            invalid["errors"].append("Mason, you can't sign up for Inkle because we don't have enough space (i.e. jiggabytes) for you. Lose some weight and we'll see what we can do.")
+            
         # Validate the password and confirm password
         if ((not data["password"]) and (not data["confirm_password"])):
             invalid["password"] = True
