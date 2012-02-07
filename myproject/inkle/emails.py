@@ -6,6 +6,7 @@ live = False
 def send_email(from_address, to_addresses, subject, body_text, body_html):
     """Sends an email with the inputted details using the WebFaction SMTP server."""
     # Create the message
+    # message = MIMEText(body_text)
     message = MIMEText(body_html, "html")
     message["Subject"] = subject
 
@@ -46,14 +47,21 @@ def send_email_verification_email(member):
     body_html = """<html>
         <head></head>
         <body>
-            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
-
             <p>Hi %s,</p>
 
-            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify this email address and complete the registration process.</p>
+            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify your email address and start redifining how you plan your nights.</p>
 
-            <p>Once your account is verified, you'll be able to log into <a href="http://www.inkleit.com">Inkle</a> and redefine how you plan your weekends!</p>
-    
+            <p>Here are some suggestions to get you started:</p>
+            
+            <ol>
+                <li><a href="http://www.inkleit.com/editProfile/information/">Update your profile information</a> to help your friends find you.</li>
+                <li>Request to follow your friends by searching for them at the top of any page. If you're friends aren't using Inkle yet, use the link at the bottom of any page to tell them about it.</li>
+                <li>Once your friends have accepted your request, <a href="http://www.inkleit.com/manage/blots/">group them into blots</a> (e.g. "Best Friends", "Dormmates", or "London Buddies").</li>
+                <li>Join networks that you associate with by searching for them at the top of any page (e.g. "University of Notre Dame").</li>
+                <li>See where people in your blots or networks are going or share where you will be headed by setting your own inklings from the <a href="http://www.inkleit.com/">home page</a>.
+                <li>If you still have questions, check out the <a href="http://www.inkleit.com/help/">help section</a> or <a href="http://www.inkleit.com/contact/">contact us</a>.</li>
+            </ol>
+            
             <p>Welcome aboard,<br />
             The Inkle team</p>
         </body>
@@ -86,11 +94,9 @@ def send_update_email_verification_email(member):
     body_html = """<html>
         <head></head>
         <body>
-            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
-
             <p>Hi %s,</p>
 
-            <p>Looks like you've changed the email address associated with your account. Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify this email address and get back to using <a href="http://www.inkleit.com">Inkle</a>.</p>
+            <p>Looks like you've changed the email address associated with your account. Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify your new email address and get back to using <a href="http://www.inkleit.com">Inkle</a>.</p>
     
             <p>Welcome aboard,<br />
             The Inkle team</p>
@@ -126,11 +132,9 @@ def send_password_reset_email(member):
     body_html = """<html>
         <head><head>
         <body>
-            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
-
             <p>Hi %s,</p>
 
-            <p>We hear you forgot the password to your Inkle account! You can easily reset it by clicking <a href="http://www.inkleit.com/resetPassword/%s/%s/">here</a>. Note that you will only be able to visit this link one time. If you need another password reset link, go to the Inkle home page and request a new one.</p>
+            <p>You've requested to reset the password for your Inkle account. You can easily reset it by clicking <a href="http://www.inkleit.com/resetPassword/%s/%s/">here</a>. Note that you will only be able to visit this link one time. If you need another password reset link, go to the Inkle home page and request a new one.</p>
 
             <p>If you didn't request to have you password reset, don't worry - just disregard this message.</p>
     
@@ -171,14 +175,14 @@ def send_request_to_follow_email(from_member, to_member):
     body_html = """<html>
         <head></head>
         <body>
-            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
-
             <p>Hi %s,</p>
 
-            <p>%s %s has requested to follow you on Inkle! Click <a href="http://www.inkleit.com/manage/requests/">here</a> to respond to %s request.</p>
+            <p>%s %s has requested to follow you on Inkle! Click <a href="http://www.inkleit.com/manage/notifications/">here</a> to respond to %s request.</p>
     
             <p>Thanks,<br />
             The Inkle team</p>
+            
+            <p style="font-size: 10px;">If you don't want to receive emails like this, you can set your email preferences <a href="http://www.inkleit.com/editProfile/emailPreferences/">here</a>.</p>
         </body>
     </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her)
     
@@ -205,7 +209,7 @@ def send_accept_request_email(from_member, to_member):
     # Specify the text body
     body_text = """Hi %s,
 
-        %s %s has accpted your request to follow %s on Inkle! Click on the following link to check out %s profile:
+        %s %s has accepted your request to follow %s on Inkle! Click on the following link to check out %s profile:
 
         http://www.inkleit.com/member/%d/
 
@@ -216,16 +220,16 @@ def send_accept_request_email(from_member, to_member):
     body_html = """<html>
         <head></head>
         <body>
-            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
-
             <p>Hi %s,</p>
 
-            <p>%s %s has accpted your request to follow %s on Inkle! Click <a href="http://www.inkleit.com/member/%d/">here</a> to check out %s profile.</p>
+            <p>%s %s has accepted your request to follow %s on Inkle! Check out %s's inklings by visiting %s <a href="http://www.inkleit.com/member/%d/">profile</a> and group %s with the other people you are following by adding %s to your <a href="http://www.inkleit.com/manage/blots/">blots</a>.</p>
     
             <p>Thanks,<br />
             The Inkle team</p>
+            
+            <p style="font-size: 10px;">If you don't want to receive emails like this, you can set your email preferences <a href="http://www.inkleit.com/editProfile/emailPreferences/">here</a>.</p>
         </body>
-    </html>""" % (from_member.first_name, to_member.first_name, to_member.last_name, him_her, to_member.id, his_her)
+    </html>""" % (from_member.first_name, to_member.first_name, to_member.last_name, him_her, to_member.first_name, his_her, to_member.id, him_her, him_her)
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
@@ -253,7 +257,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
         category = "Main Event"
 
     # Specify the subject
-    subject = "%s %s has invited you to %s inkling" % (from_member.first_name, from_member.last_name, his_her)
+    subject = "%s %s has invited you to an inkling" % (from_member.first_name, from_member.last_name)
     
     # Specify the text body
     body_text = """Hi %s,
@@ -275,22 +279,22 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
     body_html = """<html>
         <head></head>
         <body>
-            <img src="http://www.inkleit.com/static/media/images/main/inkleLogo.png" />
-
             <p>Hi %s,</p>
 
-            <p>%s %s has invited you to %s inkling. Here is the inkling's information:</p>
+            <p>%s %s has invited you to an inkling! Here is the information:</p>
             
-            <p>Location: %s</p>
-            <p>Category: %s</p>
-            <p>Date: %s</p>
+            <p>Location: %s<br />
+            Type: %s<br />
+            Date: %s</p>
 
-            <p>Click <a href="http://www.inkleit.com/manage/requests/">here</a> to respond to this inkling invitation.</p>
+            <p>Click <a href="http://www.inkleit.com/manage/notifications/">here</a> to respond to %s invitation.</p>
     
             <p>Thanks,<br />
             The Inkle team</p>
+            
+            <p style="font-size: 10px;">If you don't want to receive emails like this, you can set your email preferences <a href="http://www.inkleit.com/editProfile/emailPreferences/">here</a>.</p>
         </body>
-    </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.get_formatted_date(weekday = True))
+    </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, inkling.location.name, category, inkling.get_formatted_date(year = False, weekday = True), his_her)
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)
@@ -322,9 +326,9 @@ def send_contact_email(member, name, email, subject, message):
 
             <p>Someone has sent a message using Inkle's contact page. Here is the information:</p>
             
-            <p>Name: %s</p>
-            <p>Message: %s</p>
-            <p>Logged in: %s</p>
+            <p>Name: %s<br />
+            Message: %s<br />
+            Logged in: %s</p>
 
             <p>Thanks,<br />
             The Inkle bot</p>
@@ -360,9 +364,9 @@ def send_invite_to_inkle_email(member, emails):
     body_html = """<html>
         <head></head>
         <body>
-            <p>Hi there,</p>
+            <p>%s has invited you to join Inkle!</p>
 
-            <p>%s has invited you to join Inkle! Inkle makes it easy to find where the big event is happening. To join, simply click <a href="http://www.inkleit.com/">here</a>!</p>
+            <p>Inkle makes it easy to find where the big event is happening. Currently, Inkle is only available to Notre Dame, Saint Mary's, and Holy Cross students. To be one of the first members of the next big social network, click <a href="http://www.inkleit.com/">here</a>!</p>
             
             <p>Thanks,<br />
             The Inkle team</p>
