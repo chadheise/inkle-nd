@@ -91,7 +91,10 @@ def get_member_place_view(request):
     date1 = datetime.date(int(request.POST["date"].split("/")[2]), int(request.POST["date"].split("/")[0]), int(request.POST["date"].split("/")[1]))
     dates = [date1 + datetime.timedelta(days = x) for x in range(3)]
 
-    member = get_location_inklings(request.session["member_id"], None, request.session["member_id"], date1)
+    if ("other_member_id" in request.POST):
+        member = get_location_inklings(member.id, None, request.POST["other_member_id"], date1)
+    else:
+        member = get_location_inklings(member.id, None, member.id, date1)
 
     return render_to_response( "locationInklings.html",
         { "member" : member},
@@ -99,7 +102,6 @@ def get_member_place_view(request):
 
 def get_location_inklings(member_id = None, location_id = None, member_place_id = None, date = datetime.date.today()):
     """Returns a member object with additional fields indicating inklings at the input location for the input datetime date object"""
-    
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = member_id)
@@ -130,7 +132,7 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
     try:
         dinner_inkling = location_inklings.get(category = "dinner")
         all_dinner_members = dinner_inkling.member_set.all()
-        member.dinner_members = [m for m in all_dinner_members if (m in following)]
+        member.dinner_members = [m for m in all_dinner_members if (m in following or m == member)]
         member.num_dinner_others = len(all_dinner_members) - len(member.dinner_members)
         for m in member.dinner_members:
             m.show_contact_info = True
@@ -146,7 +148,7 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
     try:
         pregame_inkling = location_inklings.get(category = "pregame")
         all_pregame_members = pregame_inkling.member_set.all()
-        member.pregame_members = [m for m in all_pregame_members if (m in following)]
+        member.pregame_members = [m for m in all_pregame_members if (m in following or m == member)]
         member.num_pregame_others = len(all_pregame_members) - len(member.pregame_members)
         for m in member.pregame_members:
             m.show_contact_info = True
@@ -162,7 +164,7 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
     try:
         main_event_inkling = location_inklings.get(category = "mainEvent")
         all_main_event_members = main_event_inkling.member_set.all()
-        member.main_event_members = [m for m in all_main_event_members if (m in following)]
+        member.main_event_members = [m for m in all_main_event_members if (m in following or m == member)]
         member.num_main_event_others = len(all_main_event_members) - len(member.main_event_members)
         for m in member.main_event_members:
             m.show_contact_info = True
@@ -675,31 +677,21 @@ def create_inkling_view(request):
         date = request.POST["date"].split("/")
         date = datetime.date(day = int(date[1]), month = int(date[0]), year = int(date[2]))
     except KeyError:
-        print "exception raised"
         raise Http404()
 
-    print "before try"
     # Get the inkling for the location/type/date combination (or create it if no inkling exists)
     try:
-        print "inside try"
         if request.POST["locationType"] == "locations":
-            print "location identified"
             inkling = Inkling.objects.get(location = location, category = inkling_type, date = date)
         elif request.POST["locationType"] == "members":
-            print "member_place identified"
             inkling = Inkling.objects.get(member_place = member_place, category = inkling_type, date = date)
-        print "inkling found"
     except Inkling.DoesNotExist:
-        print "inkling doesn't exist"
         if request.POST["locationType"] == "locations":
-            print "making location inkling"
             inkling = Inkling(location = location, category = inkling_type, date = date)
             inkling.save()
         elif request.POST["locationType"] == "members":
-            print "making member_place inkling"
             inkling =  inkling = Inkling(member_place = member_place, category = inkling_type, date = date)
             inkling.save()
-        print "inkling made"
         
     # See if the logged in member already has an inkling for the location/date combination
     try:

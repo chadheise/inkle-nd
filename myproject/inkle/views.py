@@ -336,7 +336,6 @@ def edit_profile_information_view(request):
     # Create dictionaries to hold the POST data and the invalid errors
     data = { "first_name" : member.first_name, "last_name" : member.last_name, "phone1" : member.phone[0:3], "phone2" : member.phone[3:6], "phone3" : member.phone[6:10], "street" : member.street, "city" : member.city, "state" : member.state, "zip_code" : member.zip_code, "month" : member.birthday.month, "day" : member.birthday.day, "year" : member.birthday.year, "gender" : member.gender }
     invalid = { "errors" : [] }
-    print data["street"]
 
     if (request.POST):
         # Get the POST data
@@ -1425,11 +1424,11 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 else:
                     location.count = 1
                     locations.append(location)
-            elif inkling[0].member_place in member.following.filter(is_active = True):
+            elif (inkling[0].member_place in (member.following.filter(is_active = True) | member.followers.filter(is_active = True))) or (inkling[0].member_place == member):
                 member_place = inkling[0].member_place
                 if (member_place in locations):
                     for l in locations:
-                        if (l == location):
+                        if (l == member_place):
                             l.count += 1
                 else:
                     member_place.count = 1
