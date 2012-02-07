@@ -83,9 +83,22 @@ def get_member_place_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         if (request.POST["other_member_id"]):
-            return HttpResponseRedirect("/login/?next=/member/" + request.POST["member_id"] + "/" + request.POST["other_member_id"] + "/")
+            return HttpResponseRedirect("/login/?next=/member/" + request.session["member_id"] + "/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/")
+
+    # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
+    try:
+        other_member = Member.active.get(pk = request.POST["other_member_id"])
+        # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+        other_member.privacy = get_privacy(member, other_member)
+
+        if (other_member.privacy < other_member.place_privacy):
+            return render_to_response( "noPermission.html",
+                {},
+                context_instance = RequestContext(request) )
+    except:
+        pass
 
     # Get date objects
     date1 = datetime.date(int(request.POST["date"].split("/")[2]), int(request.POST["date"].split("/")[0]), int(request.POST["date"].split("/")[1]))

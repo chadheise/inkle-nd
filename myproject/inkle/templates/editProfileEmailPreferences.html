@@ -6,25 +6,25 @@
     <table id="editProfileEmailPreferencesForm">
         <!-- Requested -->
         <tr>
-            <td><input id="requestedPreference" type="checkbox" {% if member.requested_email_preference %}checked{% endif %}></td>
+            <th><input id="requestedPreference" type="checkbox" {% if member.requested_email_preference %}checked{% endif %}></th>
             <td><label for="requestedPreference">Email me when someone requests to follow me</label></td>
         </tr>
 
         <!-- Accepted -->
         <tr>
-            <td><input id="acceptedPreference" type="checkbox" {% if member.accepted_email_preference %}checked{% endif %}></td>
+            <th><input id="acceptedPreference" type="checkbox" {% if member.accepted_email_preference %}checked{% endif %}></th>
             <td><label for="acceptedPreference">Email me when someone accepts my request to follow them</label></td>
         </tr>
         
         <!-- Invited -->
         <tr>
-            <td><input id="invitedPreference" type="checkbox" {% if member.invited_email_preference %}checked{% endif %}></td>
+            <th><input id="invitedPreference" type="checkbox" {% if member.invited_email_preference %}checked{% endif %}></th>
             <td><label for="invitedPreference">Email me when someone invites me to an inkling</label></td>
         </tr>
 
         <!-- General -->
         <tr>
-            <td><input id="generalPreference" type="checkbox" {% if member.general_email_preference %}checked{% endif %}></td>
+            <th><input id="generalPreference" type="checkbox" {% if member.general_email_preference %}checked{% endif %}></th>
             <td><label for="generalPreference">Email me with updates on Inkle's news and features</label></td>
         </tr>
     </table>
