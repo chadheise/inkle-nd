@@ -588,6 +588,7 @@ def network_view(request, network_id = None):
     # Determine the mutual following for each member in the network
     for m in network.members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
+        m.privacy = get_privacy(member, m)
 
     if (member in network.members):
         network.button_list = [buttonDictionary["leave"]]

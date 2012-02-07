@@ -48,7 +48,6 @@ class Network(models.Model):
     #Metadata
     date_created = models.DateTimeField(auto_now_add=True)
     
-    
     def __unicode__(self):
         """String representation for the current network."""
         return "%s" % (self.name)
