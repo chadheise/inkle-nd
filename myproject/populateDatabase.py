@@ -35,6 +35,9 @@ def load_campus_locations():
 def load_restaurants():
     load_locations("databaseData/restaurants.txt")
 
+def load_apartments():
+    load_locations("databaseData/apartments.txt")
+
 def load_spheres():
     for line in open("databaseData/spheres.txt", "r"):
         data = [x.strip() for x in line.split("|")]
@@ -45,6 +48,7 @@ def load_spheres():
 def populate_dev_database():
     load_members()
     load_restaurants()
+    load_apartments()
     load_dorms()
     load_campus_locations()
     load_spheres()
@@ -52,6 +56,7 @@ def populate_dev_database():
 
 def populate_prod_database():
     load_restaurants()
+    load_apartments()
     load_dorms()
     load_campus_locations()
     load_spheres()
