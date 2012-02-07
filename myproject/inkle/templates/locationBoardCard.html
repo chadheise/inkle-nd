@@ -17,6 +17,11 @@
             {% else %}
                 <p class="locationBoardCardName">{{ location.get_full_name }}'s Place</p>
             {% endif %}
-            <div class="locationBoardCardCity">{{ location.city }}, {{ location.state }}</div>
+            {% if location.street %}
+                <div class="locationBoardCardStreet">{{ location.street }}</div>
+            {% endif %}
+            {% if location.city and location.state %}
+                <div class="locationBoardCardCity">{{ location.city }}, {{ location.state }}</div>
+            {% endif %}
         </div>
     </div>
