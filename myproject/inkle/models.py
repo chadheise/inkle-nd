@@ -23,7 +23,7 @@ class Location(models.Model):
     website = models.CharField(max_length = 100, default = "")
     
     #Metadata
-    date_created = models.DateField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         """String representation for the current location."""
@@ -46,7 +46,8 @@ class Network(models.Model):
     name = models.CharField(max_length = 50)
     
     #Metadata
-    date_created = models.DateField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    
     
     def __unicode__(self):
         """String representation for the current network."""
@@ -92,7 +93,7 @@ class Inkling(models.Model):
     current = CurrentInklingManager()
     
     #Metadata
-    date_created = models.DateField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
     
     def __unicode__(self):
         """String representation for the current inkling."""
@@ -122,6 +123,14 @@ class Inkling(models.Model):
             return "Pregame"
         elif (self.category == "mainEvent"):
             return "Main Event"
+    
+    def is_location_inkling(self):
+        """Returns true if the inkling is for a loaction"""
+        return bool(self.location)
+    
+    def is_member_place_inkling(self):
+       """Returns true if the inkling is for a member place"""
+       return bool(self.member_place)
 
 
 class Invitation(models.Model):

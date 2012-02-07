@@ -468,10 +468,6 @@ def invitation_response_view(request):
     # Remove the invitation from the logged in member's invitations
     member.invitations.remove(invitation)
 
-    # Delete the invitation if no one else is part of this invitation
-    if (not invitation.member_set.all()):
-       invitation.delete() 
-
     return render_to_response( "invitationConfirmation.html",
         { "invitation" : invitation, "response" : response },
         context_instance = RequestContext(request) )
