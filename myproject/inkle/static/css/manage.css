@@ -58,3 +58,8 @@
 {
     border-color: #7E181A;
 }
+
+#dinnerContent, #pregameContent
+{
+    margin-bottom: 15px;
+}

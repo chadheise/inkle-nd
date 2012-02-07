@@ -55,3 +55,8 @@
     word-wrap:break-word;
     color: #1B5898;
 }
+
+#dinnerContent, #pregameContent
+{
+    margin-bottom: 15px;
+}

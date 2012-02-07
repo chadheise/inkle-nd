@@ -29,6 +29,11 @@ table th
     padding-right: 5px;
 }
 
+#editProfileEmailPreferencesForm th
+{
+    width: 5px;
+}
+
 table td input
 {
     width: 200px;

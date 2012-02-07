@@ -115,13 +115,14 @@ $(document).ready(function() {
         var followersPrivacy = $("#followersPrivacy option:selected").val(); 
         var followingsPrivacy = $("#followingsPrivacy option:selected").val(); 
         var networksPrivacy = $("#networksPrivacy option:selected").val(); 
-        var inklingsPrivacy = $("#inklingsPrivacy option:selected").val(); 
+        var inklingsPrivacy = $("#inklingsPrivacy option:selected").val();
+        var placePrivacy = $("#placePrivacy option:selected").val(); 
 
         // Edit the logged in member's profile privacy settings
         $.ajax({
             type: "POST",
             url: "/editProfilePrivacy/",
-            data: { "locationPrivacy" : locationPrivacy, "emailPrivacy" : emailPrivacy, "phonePrivacy" : phonePrivacy, "birthdayPrivacy" : birthdayPrivacy, "followersPrivacy" : followersPrivacy, "followingsPrivacy" : followingsPrivacy, "networksPrivacy" : networksPrivacy, "inklingsPrivacy" : inklingsPrivacy },
+            data: { "locationPrivacy" : locationPrivacy, "emailPrivacy" : emailPrivacy, "phonePrivacy" : phonePrivacy, "birthdayPrivacy" : birthdayPrivacy, "followersPrivacy" : followersPrivacy, "followingsPrivacy" : followingsPrivacy, "networksPrivacy" : networksPrivacy, "placePrivacy" : placePrivacy, "inklingsPrivacy" : inklingsPrivacy },
             success: function(html) {
                 // Fade out the privacy content, fade in the confirmation message, and fade back in the privacy content after a delay
                 $("#editProfilePrivacyContent").fadeOut("medium", function() {
