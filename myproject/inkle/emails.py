@@ -49,7 +49,7 @@ def send_email_verification_email(member):
         <body>
             <p>Hi %s,</p>
 
-            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify your email address and start redifining how you plan your nights.</p>
+            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify your email address and start redefining how you plan your nights.</p>
 
             <p>Here are some suggestions to get you started:</p>
             

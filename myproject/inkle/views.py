@@ -1514,7 +1514,7 @@ def login_view(request):
     if (request.POST):
         # Get the POST data
         try:
-            data["email"] = request.POST["email"]
+            data["email"] = request.POST["email"].lower()
             data["password"] = request.POST["password"]
         except KeyError:
             pass
@@ -1619,8 +1619,8 @@ def register_view(request):
         try:
             data["first_name"] = request.POST["firstName"]
             data["last_name"] = request.POST["lastName"]
-            data["email"] = request.POST["email"]
-            data["confirm_email"] = request.POST["confirmEmail"]
+            data["email"] = request.POST["email"].lower()
+            data["confirm_email"] = request.POST["confirmEmail"].lower()
             data["password"] = request.POST["password"]
             data["confirm_password"] = request.POST["confirmPassword"]
             data["month"] = int(request.POST["month"])
