@@ -1,76 +1,76 @@
 $(document).ready(function() {
-    /* Fades in the circles menu when a circles card button is clicked */
-    $(".circlesCardButton").live("click", function() {
-        // Get the circles menu corresponding to the clicked circles card button
-        var circlesMenuElement = $(this).siblings(".circlesMenu");
+    /* Fades in the blots menu when a blots card button is clicked */
+    $(".blotsCardButton").live("click", function() {
+        // Get the blots menu corresponding to the clicked blots card button
+        var blotsMenuElement = $(this).siblings(".blotsMenu");
        
-        // If the circles menu is not visible, fade out all the other circle menus and fade in the clicked circle menu
-        if (! circlesMenuElement.is(":visible"))
+        // If the blots menu is not visible, fade out all the other blot menus and fade in the clicked blot menu
+        if (! blotsMenuElement.is(":visible"))
         {
-            // Fade out all the other circles menus
-            $(".circlesMenu").fadeOut('medium');
+            // Fade out all the other blots menus
+            $(".blotsMenu").fadeOut('medium');
 
-            // Fade in the circles menu below the circles card button
+            // Fade in the blots menu below the blots card button
             var buttonPosition = $(this).position();
             var buttonHeight = $(this).height();
-            circlesMenuElement
+            blotsMenuElement
                 .css("left", buttonPosition.left + 10)
                 .css("top", (buttonPosition.top + 2 * buttonHeight - 5))
                 .fadeIn("medium");
         }
 
-        // Otherwise, if the circles menu is visible, fade it out
+        // Otherwise, if the blots menu is visible, fade it out
         else
         {
-            circlesMenuElement.fadeOut("medium");
+            blotsMenuElement.fadeOut("medium");
         }
     });
     
-    /* Fades out the circles menu when a click occurs on an element which is not a circles card button on circles menu */
+    /* Fades out the blots menu when a click occurs on an element which is not a blots card button on blots menu */
     $("html").live("click", function(e) {
-        if ($(".circlesMenu:visible").length != 0)
+        if ($(".blotsMenu:visible").length != 0)
         {
-            if ((!($(e.target).hasClass("circlesCardButton"))) && (($(e.target).parents(".circlesMenu").length == 0)))
+            if ((!($(e.target).hasClass("blotsCardButton"))) && (($(e.target).parents(".blotsMenu").length == 0)))
             {
-                $(".circlesMenu").fadeOut("medium");
+                $(".blotsMenu").fadeOut("medium");
             }
         }
     });
    
-    /* Adds or removes a member to or from one of the logged in member's circle when a circle menu input is changed */
-    $(".circlesMenu input").live("change", function() {
-        // Get the circle ID corresponding to the changed input
-        var circleID = parseInt($(this).attr("circleID"));
-        var toMemberID = parseInt($(this).parents(".circlesMenu").siblings(".circlesCardButton").attr("memberID"));
+    /* Adds or removes a member to or from one of the logged in member's blot when a blot menu input is changed */
+    $(".blotsMenu input").live("change", function() {
+        // Get the blot ID corresponding to the changed input
+        var blotID = parseInt($(this).attr("blotID"));
+        var toMemberID = parseInt($(this).parents(".blotsMenu").siblings(".blotsCardButton").attr("memberID"));
         
         // Get the member card
         var memberCard = $(this).parents(".memberCard");
         
-        // Determine whether to add or remove the member from the circle depending on whether or not the input is checked
+        // Determine whether to add or remove the member from the blot depending on whether or not the input is checked
         if ($(this).is(":checked"))
         {
-            var url = "/addToCircle/"
+            var url = "/addToBlot/"
         }
         else
         {
-            var url = "/removeFromCircle/"
+            var url = "/removeFromBlot/"
         }
         
-        // Add or remove the member to or from the circle
+        // Add or remove the member to or from the blot
         $.ajax({
             type: "POST",
             url: url,
-            data: { "circleID" : circleID, "toMemberID" : toMemberID},
+            data: { "blotID" : blotID, "toMemberID" : toMemberID},
             success: function(html) {
-                // If we are on the circles manage page and we remove a member from the accepted or the selected circle, hide the member card and display a message
-                var selectedCircleID = $(".selectedCircle").attr("circleID");
-                if ((circleID == selectedCircleID) || (selectedCircleID == -1))
+                // If we are on the blots manage page and we remove a member from the accepted or the selected blot, hide the member card and display a message
+                var selectedBlotID = $(".selectedBlot").attr("blotID");
+                if ((blotID == selectedBlotID) || (selectedBlotID == -1))
                 {
                     var memberName = memberCard.find(".cardName").text();
                     var memberID = memberCard.parent().attr("id").split("_")[1];
                     memberCard.fadeOut("medium", function() {
                         // Create the member message
-                        memberCard.after("<p class='memberMessage'>You removed <a class='memberMessageName' href='/member/" + memberID + "/'>" + memberName + "</a> from this sphere.</p>");
+                        memberCard.after("<p class='memberMessage'>You removed <a class='memberMessageName' href='/member/" + memberID + "/'>" + memberName + "</a> from this network.</p>");
 
                         // Fade in the member message and then fade it out after a set time
                         var memberMessageElement = memberCard.next(".memberMessage");
@@ -191,13 +191,13 @@ $(document).ready(function() {
     /* Helper function for when a "Stop following" button is clicked */
     function stopFollowingHelper(memberCard)
     {
-        // Update the "Stop following" button and remove the "Circles" button
+        // Update the "Stop following" button and remove the "Blots" button
         memberCard.find(".stopFollowing").fadeOut("medium", function()
         {
             $(this).text("Request to follow").removeClass("stopFollowing").addClass("requestToFollow");
             $(this).fadeIn("medium");
         });
-        memberCard.find(".circlesCardButton").fadeOut("medium", function()
+        memberCard.find(".blotsCardButton").fadeOut("medium", function()
         {
             $(this).remove();
         });
@@ -228,7 +228,7 @@ $(document).ready(function() {
                     $(this).remove();
 
                     // If we are on the followers manage page, remove the member card and check if no more members are present
-                    if (pageContext == "circles")
+                    if (pageContext == "blots")
                     {
                         // Remove the member card
                         memberCard.remove();
@@ -236,9 +236,9 @@ $(document).ready(function() {
                         // If no more member cards are present, fade in a message saying no members are following the logged in member
                         if ($(".memberCard").length == 0)
                         {
-                            $("#circleMembers").hide(function() {
-                                $("#circleMembers").html("<p>There is no one in this circle.</p>");
-                                $("#circleMembers").fadeIn("medium");
+                            $("#blotMembers").hide(function() {
+                                $("#blotMembers").html("<p>There is no one in this blot.</p>");
+                                $("#blotMembers").fadeIn("medium");
                             });
                         }
                     }
@@ -294,7 +294,7 @@ $(document).ready(function() {
                 }
 
                 // Otherwise, if any of the following are true, fade out the member card and update it
-                else if ((pageContext == "circles") || (pageContext == "location") || (searchContentType = "following"))
+                else if ((pageContext == "blots") || (pageContext == "location") || (searchContentType = "following"))
                 {
                     showStopFollowingMessage(memberCard, toMemberName, pageContext);
                     stopFollowingHelper(memberCard);

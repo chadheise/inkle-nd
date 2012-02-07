@@ -13,11 +13,11 @@ $(document).ready(function() {
             return $(this).attr("contentType") == "locations";
         }).hide()
     }
-    if ($(".sphereCard").length == 0)
+    if ($(".networkCard").length == 0)
     {
-        $("#noSpheresResultsMessage").show();
+        $("#noNetworksResultsMessage").show();
         $(".loadContentButton").filter(function() {
-            return $(this).attr("contentType") == "spheres";
+            return $(this).attr("contentType") == "networks";
         }).hide()
     }
     if ($(".memberCard").length >= $("#numMembers").attr("count"))
@@ -32,10 +32,10 @@ $(document).ready(function() {
             return $(this).attr("contentType") == "locations";
         }).hide()
     }
-    if ($(".sphereCard").length >= $("#numSpheres").attr("count"))
+    if ($(".networkCard").length >= $("#numNetworks").attr("count"))
     {
         $(".loadContentButton").filter(function() {
-            return $(this).attr("contentType") == "spheres";
+            return $(this).attr("contentType") == "networks";
         }).hide()
     }
 
@@ -51,8 +51,8 @@ $(document).ready(function() {
         else if (contentType == "locations") {   
             var numDisplayed = $(".locationCard").size();
         }
-        else if (contentType == "spheres") {   
-            var numDisplayed = $(".sphereCard").size();
+        else if (contentType == "networks") {   
+            var numDisplayed = $(".networkCard").size();
         }
         
         $.ajax({
@@ -77,12 +77,12 @@ $(document).ready(function() {
                         $("#locationsContent").append(button);
                     }
                 }
-                else if (contentType == "spheres") {   
-                    var button = $("#spheresContent .loadContentButton")
-                    $("#spheresContent .loadContentButton").remove()
-                    $("#spheresContent").append(newContent);
-                    if ( $(".sphereCard").size() != $("#numSpheres").attr("count") ) {
-                        $("#spheresContent").append(button);
+                else if (contentType == "networks") {   
+                    var button = $("#networksContent .loadContentButton")
+                    $("#networksContent .loadContentButton").remove()
+                    $("#networksContent").append(newContent);
+                    if ( $(".networkCard").size() != $("#numNetworks").attr("count") ) {
+                        $("#networksContent").append(button);
                     }
                 }
             },
@@ -116,18 +116,18 @@ $(document).ready(function() {
                     {
                         $("#noLocationsResultsMessage").show();
                     }
-                    if ($(".sphereCard").length == 0)
+                    if ($(".networkCard").length == 0)
                     {
-                        $("#noSpheresResultsMessage").show();
+                        $("#noNetworksResultsMessage").show();
                     }
                     $("#peopleContent").show();
                     $(".memberCard").show();
                     $("#locationsContent").show();
-                    $("#spheresContent").show();
-                    $(".sphereCard").show();
+                    $("#networksContent").show();
+                    $(".networkCard").show();
                     $(".subsectionTitle").show();
                     $("#peopleContentLinks").hide();
-                    $("#spheresContentLinks").hide();
+                    $("#networksContentLinks").hide();
                 }
                 else if (contentType == "people")
                 {
@@ -140,10 +140,10 @@ $(document).ready(function() {
                     $("#peopleContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
                     $("#peopleContentLinks [contentType='all']").addClass("selectedSubsectionContentLink");
                     $("#locationsContent").hide();
-                    $("#spheresContent").hide();
+                    $("#networksContent").hide();
                     $(".subsectionTitle").hide();
                     $("#peopleContentLinks").show();
-                    $("#spheresContentLinks").hide();
+                    $("#networksContentLinks").hide();
                 }
                 else if (contentType == "locations")
                 {
@@ -153,26 +153,26 @@ $(document).ready(function() {
                     }
                     $("#peopleContent").hide();
                     $("#locationsContent").show();
-                    $("#spheresContent").hide();
+                    $("#networksContent").hide();
                     $(".subsectionTitle").hide();
                     $("#peopleContentLinks").hide();
-                    $("#spheresContentLinks").hide();
+                    $("#networksContentLinks").hide();
                 }
-                else if (contentType == "spheres")
+                else if (contentType == "networks")
                 {
-                    if ($(".sphereCard").length == 0)
+                    if ($(".networkCard").length == 0)
                     {
-                        $("#noSpheresResultsMessage").show();
+                        $("#noNetworksResultsMessage").show();
                     }
                     $("#peopleContent").hide();
                     $("#locationsContent").hide();
-                    $("#spheresContent").show();
-                    $(".sphereCard").show();
+                    $("#networksContent").show();
+                    $(".networkCard").show();
                     $(".subsectionTitle").hide();
-                    $("#spheresContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
-                    $("#spheresContentLinks [contentType='all']").addClass("selectedSubsectionContentLink");
+                    $("#networksContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+                    $("#networksContentLinks [contentType='all']").addClass("selectedSubsectionContentLink");
                     $("#peopleContentLinks").hide();
-                    $("#spheresContentLinks").show();
+                    $("#networksContentLinks").show();
                 }
 
                 $("#searchContent").fadeIn();
@@ -248,53 +248,53 @@ $(document).ready(function() {
         }
     });
 
-    // Update the spheres search results when one of the sphere subsection content links is clicked
-    $("#spheresContentLinks p").click(function() {
+    // Update the networks search results when one of the network subsection content links is clicked
+    $("#networksContentLinks p").click(function() {
         // Only change the content if we click a content link which is not already selected
         if (!$(this).hasClass("selectedSubsectionContentLink"))
         {
-            // Remove the selected sphere content link class from the appropriate element and add it to the clicked sphere content link
-            $("#spheresContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
+            // Remove the selected network content link class from the appropriate element and add it to the clicked network content link
+            $("#networksContentLinks .selectedSubsectionContentLink").removeClass("selectedSubsectionContentLink");
             $(this).addClass("selectedSubsectionContentLink");
 
             // Depending on which people content link was clicked, hide and show the appropriate results
             var contentType = $(this).attr("contentType");
             $("#mainSearchContent").fadeOut(function() {
-                // Remove any sphere messages and hide the no spheres results message
-                $(".sphereMessage").remove();
-                $("#noSpheresResultsMessage").hide();
+                // Remove any network messages and hide the no networks results message
+                $(".networkMessage").remove();
+                $("#noNetworksResultsMessage").hide();
 
                 if (contentType == "all")
                 {
-                    $(".mySpheres").show();
-                    $(".otherSpheres").show();
+                    $(".myNetworks").show();
+                    $(".otherNetworks").show();
                     $(".loadContentButton").show()
 
-                    if ($(".sphereCard").length == 0)
+                    if ($(".networkCard").length == 0)
                     {
-                        $("#noSpheresResultsMessage").show();
+                        $("#noNetworksResultsMessage").show();
                     }
                 }
-                else if (contentType == "mySpheres")
+                else if (contentType == "myNetworks")
                 {
-                    $(".mySpheres").show();
-                    $(".otherSpheres").hide();
+                    $(".myNetworks").show();
+                    $(".otherNetworks").hide();
                     $(".loadContentButton").hide()
                     
-                    if ($(".mySpheres").length == 0)
+                    if ($(".myNetworks").length == 0)
                     {
-                        $("#noSpheresResultsMessage").show();
+                        $("#noNetworksResultsMessage").show();
                     }
                 }
-                else if (contentType == "otherSpheres")
+                else if (contentType == "otherNetworks")
                 {
-                    $(".mySpheres").hide();
-                    $(".otherSpheres").show();
+                    $(".myNetworks").hide();
+                    $(".otherNetworks").show();
                     $(".loadContentButton").hide()
 
-                    if ($(".otherSpheres").length == 0)
+                    if ($(".otherNetworks").length == 0)
                     {
-                        $("#noSpheresResultsMessage").show();
+                        $("#noNetworksResultsMessage").show();
                     }
                 }
 
@@ -332,38 +332,38 @@ $(document).ready(function() {
           $("#newLocationCancel").fadeOut('medium');
    });
    
-   /*-----------------------Create New Sphere-------------------------*/
-      $("#newSphereButton").live("click", function() {
+   /*-----------------------Create New Network-------------------------*/
+      $("#newNetworkButton").live("click", function() {
           $(this).fadeOut('medium', function() {
-               $("#newSphereText").fadeIn('medium');
-               $("#newSphereSubmit").fadeIn('medium');
-               $("#newSphereCancel").fadeIn('medium');
+               $("#newNetworkText").fadeIn('medium');
+               $("#newNetworkSubmit").fadeIn('medium');
+               $("#newNetworkCancel").fadeIn('medium');
           });
       });
-      $("#newSphereSubmit").live("click", function() {
-          var sphereName = $("#newSphereText").val()
+      $("#newNetworkSubmit").live("click", function() {
+          var networkName = $("#newNetworkText").val()
           $.ajax({
               type: "POST",
-              url: "/createSphere/",
-              data: { "sphereName" : sphereName },
+              url: "/createNetwork/",
+              data: { "networkName" : networkName },
               success: function() {
-                  $("#newSphereText").fadeOut('medium', function() {
-                      $("#newSphereButton").fadeIn('medium');
-                      $("#newSphereText").attr("value", "");
+                  $("#newNetworkText").fadeOut('medium', function() {
+                      $("#newNetworkButton").fadeIn('medium');
+                      $("#newNetworkText").attr("value", "");
                    });
-                  $("#newSphereSubmit").fadeOut('medium');
-                  $("#newSphereCancel").fadeOut('medium');
+                  $("#newNetworkSubmit").fadeOut('medium');
+                  $("#newNetworkCancel").fadeOut('medium');
               },
               error: function(a, b, error) { alert("search.js (2): " + error); }
           }); 
       });
-      $("#newSphereCancel").live("click", function() {
-          $("#newSphereText").fadeOut('medium', function() {
-                 $("#newSphereButton").fadeIn('medium');
-                 $("#newSphereText").attr("value", "");
+      $("#newNetworkCancel").live("click", function() {
+          $("#newNetworkText").fadeOut('medium', function() {
+                 $("#newNetworkButton").fadeIn('medium');
+                 $("#newNetworkText").attr("value", "");
               });
-             $("#newSphereSubmit").fadeOut('medium');
-             $("#newSphereCancel").fadeOut('medium');
+             $("#newNetworkSubmit").fadeOut('medium');
+             $("#newNetworkCancel").fadeOut('medium');
       });
    
 });

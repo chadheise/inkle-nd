@@ -7,14 +7,14 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/member.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/networkCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/calendar.css" />
 {% endblock css %}
 
 {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}/js/member.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/networkCard.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/calendar.js"></script>
 {% endblock js %}
 
@@ -41,7 +41,7 @@
             <div id="memberContentLinks" class="contentLinks grid_17 alpha omega">
                 <p {% if content_type == "inklings" %}class="selectedContentLink"{% endif %} contentType="Inklings">Inklings</p>
                 <p {% if content_type == "place" %}class="selectedContentLink"{% endif %} contentType="Place">Place</p>
-                <p {% if content_type == "spheres" %}class="selectedContentLink"{% endif %} contentType="Spheres">Spheres</p>
+                <p {% if content_type == "networks" %}class="selectedContentLink"{% endif %} contentType="Networks">Networks</p>
                 <p {% if content_type == "following" %}class="selectedContentLink"{% endif %} contentType="Following">Following</p>
                 <p {% if content_type == "followers" %}class="selectedContentLink"{% endif %} contentType="Followers">Followers</p>
             </div>

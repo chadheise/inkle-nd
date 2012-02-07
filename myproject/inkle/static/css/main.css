@@ -165,7 +165,7 @@ input, textarea
     background-color: #ABD4B0;
 }
 
-.memberCard, .locationCard, .sphereCard, .invitationCard
+.memberCard, .locationCard, .networkCard, .invitationCard
 {
     border: 2px solid #777;
     background-color: #CCC;
@@ -173,7 +173,7 @@ input, textarea
     margin-bottom: 10px;
 }
 
-.memberCard img, .locationCard img, .sphereCard img, .invitationCard img
+.memberCard img, .locationCard img, .networkCard img, .invitationCard img
 {
     border: 1px solid #444;
     height: 100px;
@@ -225,7 +225,7 @@ input, textarea
     overflow: hidden;
 }
 
-.memberMessage, .sphereMessage
+.memberMessage, .networkMessage
 {
     padding: 5px;
     border: 2px solid #444;
@@ -235,7 +235,7 @@ input, textarea
     text-decoration: none;
 }
 
-.memberCard .info, .locationCard .info, .sphereCard .info, .invitationCard .info
+.memberCard .info, .locationCard .info, .networkCard .info, .invitationCard .info
 {
     float: left;
     width: 542px;

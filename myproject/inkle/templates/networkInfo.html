@@ -1,0 +1,15 @@
+<!-- Number of members in network -->
+<div class="infoSection">
+    <p class="infoLabel">Number of members:</p>
+    <p id="networkMemberCount">{{ network.num_members }}</p>
+</div>
+
+<!-- Button list -->
+{% for buttonClass, buttonText, toolTip in network.button_list %}
+    <button class="cardButton {{ buttonClass }}" networkID="{{ network.id }}" title="{{ toolTip }}" style="float: left; margin-left: 0px;">{{ buttonText }}</button>
+{% endfor %}
+
+<!-- Edit network button -->
+{% if member.is_staff %}
+    <button id="networkEditButton" networkID="{{ network.id }}">Edit network</button>
+{% endif %}

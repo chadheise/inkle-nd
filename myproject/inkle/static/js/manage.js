@@ -24,10 +24,10 @@ $(document).ready(function() {
                         $("#memberPlaceContentLinks").show();
                         $("#calendarContainer").show();  
                     }
-                    $(".circle").each(function() {
-                        var circleP = $(this).find("p");
-                        var marginTop = ($(this).height() - circleP.height()) / 2;
-                        circleP.css("margin-top", marginTop + "px");
+                    $(".blot").each(function() {
+                        var blotP = $(this).find("p");
+                        var marginTop = ($(this).height() - blotP.height()) / 2;
+                        blotP.css("margin-top", marginTop + "px");
                         });
                 }
                 // Otherwise, fade out the current manage content and fade the new manage content back in
@@ -53,10 +53,10 @@ $(document).ready(function() {
                     $("#mainManageContent").fadeOut("medium", function () {
                         loadContentHelper(html, contentType, function() {
                             $("#mainManageContent").fadeIn("medium", function() {
-                                $(".circle").each(function() {
-                                    var circleP = $(this).find("p");
-                                    var marginTop = ($(this).height() - circleP.height()) / 2;
-                                    circleP.css("margin-top", marginTop + "px");
+                                $(".blot").each(function() {
+                                    var blotP = $(this).find("p");
+                                    var marginTop = ($(this).height() - blotP.height()) / 2;
+                                    blotP.css("margin-top", marginTop + "px");
                                 });
                             });
                         });

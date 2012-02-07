@@ -29,13 +29,13 @@ def home_view(request):
     dates = [today + datetime.timedelta(days = x) for x in range(5)] 
 
     # Get others' dinner inklings for today
-    locations = get_others_inklings(member, today, "other", "circles", "mainEvent")
+    locations = get_others_inklings(member, today, "other", "blots", "mainEvent")
 
     return render_to_response( "home.html",
         { "member" : member, "locations" : locations, "dates" : dates, "selectedDate" : today },
         context_instance = RequestContext(request) )
 
-def manage_view(request, content_type = "circles", date = "today", place_type = "all"):
+def manage_view(request, content_type = "blots", date = "today", place_type = "all"):
     """Returns the HTML for the manage page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
@@ -80,7 +80,7 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
     # Redirect the logged in member to their profile page if they are the other member
     if (member == other_member):
         redirectPath = "/manage/"
-        if (content_type == "place" or content_type == "spheres" or content_type == "followers"):
+        if (content_type == "place" or content_type == "networks" or content_type == "followers"):
             redirectPath = redirectPath + content_type + "/"
             if (date != "today"):
                 redirectPath = redirectPath + date + "/"
@@ -95,7 +95,7 @@ def member_view(request, other_member_id = None, content_type = "inklings", date
     other_member.button_list = []
 
     if (member in other_member.followers.all()):
-        other_member.button_list.append(buttonDictionary["circles"])
+        other_member.button_list.append(buttonDictionary["blots"])
         other_member.button_list.append(buttonDictionary["stop"])
     else:
         other_member.button_list.append(buttonDictionary["request"])
@@ -524,10 +524,10 @@ def edit_profile_privacy_view(request):
         birthday_privacy = int(request.POST["birthdayPrivacy"])
         followers_privacy = int(request.POST["followersPrivacy"])
         following_privacy = int(request.POST["followingsPrivacy"])
-        spheres_privacy = int(request.POST["spheresPrivacy"])
+        networks_privacy = int(request.POST["networksPrivacy"])
         inklings_privacy = int(request.POST["inklingsPrivacy"])
     
-        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, following_privacy, spheres_privacy, inklings_privacy)
+        member.update_privacy_settings(location_privacy, email_privacy, phone_privacy, birthday_privacy, followers_privacy, following_privacy, networks_privacy, inklings_privacy)
         member.save()
     except KeyError:
         pass
@@ -560,38 +560,38 @@ def edit_profile_email_preferences_view(request):
         context_instance = RequestContext(request) )
 
 
-def sphere_view(request, sphere_id = None):
-    """Returns the HTML for the sphere page."""
+def network_view(request, network_id = None):
+    """Returns the HTML for the network page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        if (sphere_id):
-            return HttpResponseRedirect("/login/?next=/sphere/" + sphere_id + "/")
+        if (network_id):
+            return HttpResponseRedirect("/login/?next=/network/" + network_id + "/")
         else:
             return HttpResponseRedirect("/login/")
     
-    # Get the sphere corresponding to the inputted ID (or throw a 404 error if it is invalid)
+    # Get the network corresponding to the inputted ID (or throw a 404 error if it is invalid)
     try:
-        sphere = Sphere.objects.get(pk = sphere_id)
+        network = Network.objects.get(pk = network_id)
     except:
         raise Http404()
 
-    # Get the sphere's members
-    sphere.members = sphere.member_set.filter(is_active = True)
-    sphere.num_members = len(sphere.members)
+    # Get the network's members
+    network.members = network.member_set.filter(is_active = True)
+    network.num_members = len(network.members)
 
-    # Determine the mutual following for each member in the sphere
-    for m in sphere.members:
+    # Determine the mutual following for each member in the network
+    for m in network.members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
 
-    if (member in sphere.members):
-        sphere.button_list = [buttonDictionary["leave"]]
+    if (member in network.members):
+        network.button_list = [buttonDictionary["leave"]]
     else:
-        sphere.button_list = [buttonDictionary["join"]]
+        network.button_list = [buttonDictionary["join"]]
 
-    return render_to_response( "sphere.html",
-        { "member" : member, "sphere" : sphere },
+    return render_to_response( "network.html",
+        { "member" : member, "network" : network },
         context_instance = RequestContext(request) )
 
 
@@ -742,7 +742,7 @@ def get_search_content_view(request):
         numDisplayed = int(request.POST["numDisplayed"])
     else:
         numDisplayed = 0
-    if ( ("contentType" not in request.POST) or (request.POST["contentType"] not in ["members", "locations", "spheres"]) ):
+    if ( ("contentType" not in request.POST) or (request.POST["contentType"] not in ["members", "locations", "networks"]) ):
         if "query" in request.POST:
             return HttpResponseRedirect("/login/?next=/search/" + request.POST["query"] + "/")
         else:
@@ -764,16 +764,16 @@ def get_search_content_view(request):
                 member.num_following += 1
                 member.num_followers += 1
                 m.show_contact_info = True
-                #m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
-                m.button_list = [buttonDictionary["circles"]]
+                #m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["blots"]]
+                m.button_list = [buttonDictionary["blots"]]
 
             # Case 2: The logged member is following the current member
             elif (m in member.following.filter(is_active = True)):
                 m.people_type = "following"
                 member.num_following += 1
                 m.show_contact_info = True
-                #m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
-                m.button_list = [buttonDictionary["circles"]]
+                #m.button_list = [buttonDictionary["stop"], buttonDictionary["blots"]]
+                m.button_list = [buttonDictionary["blots"]]
 
             # Case 3: The logged member is being followed by the current member
             elif (member in m.following.filter(is_active = True)):
@@ -812,30 +812,30 @@ def get_search_content_view(request):
             {"locations" : locations},
             context_instance = RequestContext(request) )
         
-    elif request.POST["contentType"] == "spheres": 
-        # Get the spheres which match the search query
-        spheres = spheres_search_query(query, numDisplayed)
+    elif request.POST["contentType"] == "networks": 
+        # Get the networks which match the search query
+        networks = networks_search_query(query, numDisplayed)
 
         # Initialize member variables
-        member.num_my_spheres = 0
-        member.num_other_spheres = 0
+        member.num_my_networks = 0
+        member.num_other_networks = 0
 
-        # Determine which spheres the logged in member has joined and set their button lists accordingly
-        for sphere in spheres:
-            if (sphere in member.spheres.all()):
-                sphere.sphere_type = "mySpheres"
-                member.num_my_spheres += 1
-                sphere.button_list = [buttonDictionary["leave"]]
+        # Determine which networks the logged in member has joined and set their button lists accordingly
+        for network in networks:
+            if (network in member.networks.all()):
+                network.network_type = "myNetworks"
+                member.num_my_networks += 1
+                network.button_list = [buttonDictionary["leave"]]
             else:
-                sphere.sphere_type = "otherSpheres"
-                member.num_other_spheres += 1
-                sphere.button_list = [buttonDictionary["join"]]
+                network.network_type = "otherNetworks"
+                member.num_other_networks += 1
+                network.button_list = [buttonDictionary["join"]]
 
-            # Determine the number of members in the current sphere
-            sphere.num_members = len(sphere.member_set.filter(is_active = True))
+            # Determine the number of members in the current network
+            network.num_members = len(network.member_set.filter(is_active = True))
         
-        return render_to_response( "searchSpheres.html",
-            {"spheres" : spheres},
+        return render_to_response( "searchNetworks.html",
+            {"networks" : networks},
             context_instance = RequestContext(request) )
 
 def members_search_query(query, members, queryIndex = "all"):
@@ -883,29 +883,29 @@ def locations_search_query(query, queryIndex = "all"):
         return returnList
         
 
-def spheres_search_query(query, queryIndex = "all"):
-    """Returns the spheres which match the inputted query."""
-    spheres = Sphere.objects.filter(Q(name__icontains = query))
+def networks_search_query(query, queryIndex = "all"):
+    """Returns the networks which match the inputted query."""
+    networks = Network.objects.filter(Q(name__icontains = query))
     if queryIndex == "all":
-        return spheres
-    elif len(spheres) <= queryIndex: #If the number of members is <= the number of members already displayed, return nothing
+        return networks
+    elif len(networks) <= queryIndex: #If the number of members is <= the number of members already displayed, return nothing
         return []
     else:
         i = 0
         returnList = []
-        while (i < 5 and (queryIndex + i) < len(spheres)):
-            returnList.append( spheres[(queryIndex + i)])
+        while (i < 5 and (queryIndex + i) < len(networks)):
+            returnList.append( networks[(queryIndex + i)])
             i += 1
         return returnList
 
-def circles_search_query(query, member):
-    """Returns the circles which match the inputted query."""
-    spheres = member.circles.filter(Q(name__icontains = query))
-    return spheres
+def blots_search_query(query, member):
+    """Returns the blots which match the inputted query."""
+    networks = member.blots.filter(Q(name__icontains = query))
+    return networks
 
 
 def search_view(request, query = ""):
-    """Gets the members, locations, and spheres which match the inputted query and returns the HTML for the search page."""
+    """Gets the members, locations, and networks which match the inputted query and returns the HTML for the search page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
@@ -935,16 +935,16 @@ def search_view(request, query = ""):
             member.num_following += 1
             member.num_followers += 1
             m.show_contact_info = True
-            #m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["circles"]]
-            m.button_list = [buttonDictionary["circles"]]
+            #m.button_list = [buttonDictionary["prevent"], buttonDictionary["stop"], buttonDictionary["blots"]]
+            m.button_list = [buttonDictionary["blots"]]
 
         # Case 2: The logged member is following the current member
         elif (m in member.following.filter(is_active = True)):
             m.people_type = "following"
             member.num_following += 1
             m.show_contact_info = True
-            #m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
-            m.button_list = [buttonDictionary["circles"]]
+            #m.button_list = [buttonDictionary["stop"], buttonDictionary["blots"]]
+            m.button_list = [buttonDictionary["blots"]]
 
         # Case 3: The logged member is being followed by the current member
         elif (member in m.following.filter(is_active = True)):
@@ -978,30 +978,30 @@ def search_view(request, query = ""):
     locations = locations_search_query(query, "all")
     numLocations = len(locations)
     
-    # Get the spheres which match the search query
-    spheres = spheres_search_query(query, "all")
-    numSpheres = len(spheres)
+    # Get the networks which match the search query
+    networks = networks_search_query(query, "all")
+    numNetworks = len(networks)
     
     # Initialize member variables
-    member.num_my_spheres = 0
-    member.num_other_spheres = 0
+    member.num_my_networks = 0
+    member.num_other_networks = 0
 
-    # Determine which spheres the logged in member has joined and set their button lists accordingly
-    for sphere in spheres:
-        if (sphere in member.spheres.all()):
-            sphere.sphere_type = "mySpheres"
-            member.num_my_spheres += 1
-            sphere.button_list = [buttonDictionary["leave"]]
+    # Determine which networks the logged in member has joined and set their button lists accordingly
+    for network in networks:
+        if (network in member.networks.all()):
+            network.network_type = "myNetworks"
+            member.num_my_networks += 1
+            network.button_list = [buttonDictionary["leave"]]
         else:
-            sphere.sphere_type = "otherSpheres"
-            member.num_other_spheres += 1
-            sphere.button_list = [buttonDictionary["join"]]
+            network.network_type = "otherNetworks"
+            member.num_other_networks += 1
+            network.button_list = [buttonDictionary["join"]]
 
-        # Determine the number of members in the current sphere
-        sphere.num_members = len(sphere.member_set.filter(is_active = True))
+        # Determine the number of members in the current network
+        network.num_members = len(network.member_set.filter(is_active = True))
 
     return render_to_response( "search.html",
-        {"member" : member, "query" : query, "members" : members[0:5], "numMembers" : numMembers, "locations" : locations[0:5], "numLocations" : numLocations, "spheres" : spheres[0:5], "numSpheres" : numSpheres},
+        {"member" : member, "query" : query, "members" : members[0:5], "numMembers" : numMembers, "locations" : locations[0:5], "numLocations" : numLocations, "networks" : networks[0:5], "numNetworks" : numNetworks},
         context_instance = RequestContext(request) )
 
 
@@ -1039,7 +1039,7 @@ def suggestions_view(request):
             { "member" : member, "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
             context_instance = RequestContext(request) )
        
-    # Case 2: Member, location, and sphere suggestions for the main header search
+    # Case 2: Member, location, and network suggestions for the main header search
     elif (query_type == "search"):
         # Get the member suggestions (and add them to the categories list if there are any)
         members = members_search_query(query, Member.active.all())[0:3]
@@ -1055,26 +1055,26 @@ def suggestions_view(request):
             locations.suggestionType = "locations"
             categories.append((locations, "Locations"))
 
-        # Get the sphere suggestions (and add them to the categories list if there are any)
-        spheres = Sphere.objects.filter(Q(name__contains = query))[0:3]
-        if (spheres):
-            spheres.suggestionType = "spheres"
-            categories.append((spheres, "Spheres"))
+        # Get the network suggestions (and add them to the categories list if there are any)
+        networks = Network.objects.filter(Q(name__contains = query))[0:3]
+        if (networks):
+            networks.suggestionType = "networks"
+            categories.append((networks, "Networks"))
 
         # Set the number of characters to show for each suggestion
         num_chars = 45
 
-    # Case 3: Member suggestions for adding members to circles
-    elif (query_type == "addToCircle"):
-        # Get the requested circle (or throw a 404 error if the circle ID is invalid)
+    # Case 3: Member suggestions for adding members to blots
+    elif (query_type == "addToBlot"):
+        # Get the requested blot (or throw a 404 error if the blot ID is invalid)
         try:
-            circle = Circle.objects.get(pk = request.POST["circleID"])
+            blot = Blot.objects.get(pk = request.POST["blotID"])
         except:
             raise Http404()
             
-        # Get the members who match the search query and who are not already in the requested circle (and add them to the categories list if there are any)
+        # Get the members who match the search query and who are not already in the requested blot (and add them to the categories list if there are any)
         members = members_search_query(query, member.following.all())
-        members = members.exclude(pk__in = circle.members.all())[0:5]
+        members = members.exclude(pk__in = blot.members.all())[0:5]
         if (members):
             members.suggestionType = "members"
             for m in members:
@@ -1084,7 +1084,7 @@ def suggestions_view(request):
         # Set the number of characters to show for each suggestion
         num_chars = 20
 
-    # Case 4: Member and circle suggestions for inkling invites
+    # Case 4: Member and blot suggestions for inkling invites
     elif (query_type == "inklingInvite"):
         # Get the member suggestions (and add them to the categories list if there are any)
         members = members_search_query(query, member.following.filter(is_active = True) | member.followers.filter(is_active = True))[0:5]
@@ -1094,11 +1094,11 @@ def suggestions_view(request):
                 m.name = m.first_name + " " + m.last_name
             categories.append((members, "People"))
 
-        # Get the circles suggestions (and add them to the categories list if there are any)
-        circles = circles_search_query(query, member)[0:5]
-        if (circles):
-            circles.suggestionType = "members"
-            categories.append((circles, "Circles"))
+        # Get the blots suggestions (and add them to the categories list if there are any)
+        blots = blots_search_query(query, member)[0:5]
+        if (blots):
+            blots.suggestionType = "members"
+            categories.append((blots, "Blots"))
         
         # Set the number of characters to show for each suggestion
         num_chars = 17
@@ -1119,7 +1119,7 @@ def notifications_view(request):
     # Get the members who have requested to follow the logged in member
     requested_members = member.requested.all()
 
-    # For each requested member, determine their spheres, mutual followings, and button list and allow their contact info to be seen
+    # For each requested member, determine their networks, mutual followings, and button list and allow their contact info to be seen
     for m in requested_members:
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
         m.button_list = [buttonDictionary["reject"], buttonDictionary["accept"]]
@@ -1184,7 +1184,7 @@ def followers_view(request):
 
         # Case 3: The logged in member is following the current member
         elif (m in member.following.filter(is_active = True)):
-            m.button_list = [buttonDictionary["prevent"], buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["blots"]]
             m.show_contact_info = True
 
         # Case 4: The logged in member is not following and has not requested to follow the current member
@@ -1237,7 +1237,7 @@ def get_member_following_view(request):
 
         # Case 3: The logged in member is following the current member
         elif (m in member.following.filter(is_active = True)):
-            m.button_list = [buttonDictionary["prevent"], buttonDictionary["circles"]]
+            m.button_list = [buttonDictionary["prevent"], buttonDictionary["blots"]]
             m.show_contact_info = True
 
         # Case 4: The logged in member is not following and has not requested to follow the current member
@@ -1263,21 +1263,20 @@ def get_member_following_view(request):
             { "member" : member, "otherMember" : other_member, "members" : members },
             context_instance = RequestContext(request) )
     
-def circles_view(request, circle_id = None):
-    """Gets the logged in member's circles returns the HTML for the circles page."""
+def blots_view(request, blot_id = None):
+    """Gets the logged in member's blots returns the HTML for the blots page."""
     # Get the member who is logged in (or redirect them to the login page)
-
     try:
         member = Member.active.get(pk = request.session["member_id"])
     except:
-        return HttpResponseRedirect("/login/?next=/manage/circles/")
+        return HttpResponseRedirect("/login/?next=/manage/blots/")
 
-    # If a circle ID is specified, get the members in that circle (otherwise, get the members in the logged in member's accepted circle)
+    # If a blot ID is specified, get the members in that blot (otherwise, get the members in the logged in member's accepted blot)
     try:
-        circle = Circle.objects.get(pk = circle_id)
-        members = circle.members.filter(is_active = True)
-    except Circle.DoesNotExist:
-        circle = None
+        blot = Blot.objects.get(pk = blot_id)
+        members = blot.members.filter(is_active = True)
+    except Blot.DoesNotExist:
+        blot = None
         members = member.accepted.filter(is_active = True)
 
     # Get the necessary information for each member's member card
@@ -1285,8 +1284,8 @@ def circles_view(request, circle_id = None):
         # Show the logged in member's contact information
         m.show_contact_info = True
 
-        # Show the "Stop following" and "Circles" buttons
-        m.button_list = [buttonDictionary["stop"], buttonDictionary["circles"]]
+        # Show the "Stop following" and "Blots" buttons
+        m.button_list = [buttonDictionary["stop"], buttonDictionary["blots"]]
 
         # Determine the members who are being followed by both the logged in member and the current member
         m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
@@ -1294,20 +1293,20 @@ def circles_view(request, circle_id = None):
         # Determine the privacy rating for the logged in member and the current member
         m.privacy = get_privacy(member, m)
 
-    # If a circle ID is specified, return only the circle content (otherwise, return the entire HTML for the circles page)
+    # If a blot ID is specified, return only the blot content (otherwise, return the entire HTML for the blots page)
     try:
         content = request.POST["content"]
-        html = "circleContent.html"
+        html = "blotContent.html"
     except KeyError:
-        html = "circles.html"
+        html = "blots.html"
 
     return render_to_response( html, 
-        { "member" : member, "members" : members, "circle" : circle},
+        { "member" : member, "members" : members, "blot" : blot},
         context_instance = RequestContext(request) )
 
 
-def spheres_view(request):
-    """Gets the logged in member's or other member's spheres and returns the HTML for the sphere page."""
+def networks_view(request):
+    """Gets the logged in member's or other member's networks and returns the HTML for the network page."""
     # Get the member who is logged in (or redirect them to the login page)
     try:
         member = Member.active.get(pk = request.session["member_id"])
@@ -1315,7 +1314,7 @@ def spheres_view(request):
         if "other_member_id" in request.POST:
             return HttpResponseRedirect("/login/?next=/member/" + request.POST["other_member_id"] + "/")
         else:
-            return HttpResponseRedirect("/login/?next=/manage/spheres/")
+            return HttpResponseRedirect("/login/?next=/manage/networks/")
 
     # If we are viewing another member's page, get the members who are following them
     if "other_member_id" in request.POST:
@@ -1326,47 +1325,47 @@ def spheres_view(request):
         except Member.DoesNotExist:
             raise Http404()
             
-        # Get the other member's spheres
-        spheres = other_member.spheres.all()
+        # Get the other member's networks
+        networks = other_member.networks.all()
         
-        # Determine the number of members in the current sphere
-        for sphere in spheres:
-            sphere.num_members = len(sphere.member_set.filter(is_active = True))
+        # Determine the number of members in the current network
+        for network in networks:
+            network.num_members = len(network.member_set.filter(is_active = True))
             
         # Specify the page context
         page_context = "member"
         
-        # Specify the text if the other member is not in any spheres
-        no_spheres_text = other_member.first_name + " " + other_member.last_name + " is"
+        # Specify the text if the other member is not in any networks
+        no_networks_text = other_member.first_name + " " + other_member.last_name + " is"
         
         # Determine the privacy rating for the logged in member and the current member whose page is being viewed
         other_member.privacy = get_privacy(member, other_member)
             
-        if (other_member.privacy < other_member.spheres_privacy):
+        if (other_member.privacy < other_member.networks_privacy):
             return render_to_response( "noPermission.html",
                 {},
                 context_instance = RequestContext(request) )
     
-    # Otherwise, if no member ID is inputted, get the spheres corresponding to the logged in member
+    # Otherwise, if no member ID is inputted, get the networks corresponding to the logged in member
     else:
-        # Get the logged in member's spheres
-        spheres = member.spheres.all()
+        # Get the logged in member's networks
+        networks = member.networks.all()
         
-        # Give each sphere the "Leave sphere" button
-        for sphere in spheres:
-            sphere.button_list = [buttonDictionary["leave"]]
+        # Give each network the "Leave network" button
+        for network in networks:
+            network.button_list = [buttonDictionary["leave"]]
             
-            # Determine the number of members in the current sphere
-            sphere.num_members = len(sphere.member_set.filter(is_active = True))
+            # Determine the number of members in the current network
+            network.num_members = len(network.member_set.filter(is_active = True))
             
         # Specify the page context
         page_context = "manage"
         
-        # Specify the text if the logged in member is not in any spheres
-        no_spheres_text = "You are"
+        # Specify the text if the logged in member is not in any networks
+        no_networks_text = "You are"
         
-    return render_to_response( "spheres.html",
-        { "spheres" : spheres, "pageContext" : page_context, "noSpheresText" : no_spheres_text },
+    return render_to_response( "networks.html",
+        { "networks" : networks, "pageContext" : page_context, "noNetworksText" : no_networks_text },
         context_instance = RequestContext(request) )
 
 
@@ -1405,13 +1404,13 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
     if (people_type == "other"):
         people = member.following.filter(is_active = True)
 
-    elif (people_type == "sphere"):
-        sphere = Sphere.objects.get(pk = people_id)
-        people = sphere.member_set.filter(is_active = True)
+    elif (people_type == "network"):
+        network = Network.objects.get(pk = people_id)
+        people = network.member_set.filter(is_active = True)
     
-    elif (people_type == "circle"):
-        circle = Circle.objects.get(pk = people_id)
-        people = circle.members.filter(is_active = True)
+    elif (people_type == "blot"):
+        blot = Blot.objects.get(pk = people_id)
+        people = blot.members.filter(is_active = True)
 
     locations = []
     for p in people:

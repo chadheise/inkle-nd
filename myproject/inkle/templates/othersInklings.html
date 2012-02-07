@@ -4,17 +4,17 @@
         <p class="subheader" style="display: inline-block; margin-right: 30px;">People:</p>
 
         <select id="locationBoardPeopleSelect" class="locationBoardSelect" style="display: inline-block; margin-right: 30px; width: 200px;">
-            <optgroup label="Circles">
-                <option people="circles" selected="selected">All circles</option>
-                {% for circle in member.circles.all %}
-                    <option circleID="{{ circle.id }}">{{ circle.name }}</option>
+            <optgroup label="Blots">
+                <option people="blots" selected="selected">All blots</option>
+                {% for blot in member.blots.all %}
+                    <option blotID="{{ blot.id }}">{{ blot.name }}</option>
                 {% endfor %}
             </optgroup>
 
-            {% if member.spheres.all %}
-                <optgroup label="Spheres">
-                    {% for sphere in member.spheres.all %}
-                        <option sphereID="{{ sphere.id }}">{{ sphere.name }}</option>
+            {% if member.networks.all %}
+                <optgroup label="Networks">
+                    {% for network in member.networks.all %}
+                        <option networkID="{{ network.id }}">{{ network.name }}</option>
                     {% endfor %}
                 </optgroup>
             {% endif %}

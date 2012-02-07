@@ -7,14 +7,14 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/search.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/memberCard.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/sphereCard.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/networkCard.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/locationCard.css" />
 {% endblock css %}
 
 {% block js %}
     <script type="text/javascript" src="{{ STATIC_URL }}/js/search.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/memberCard.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/sphereCard.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/networkCard.js"></script>
 {% endblock js %}
 
 {% block mainContent %}
@@ -45,12 +45,12 @@
                 <p id="numLocations" count="{{ numLocations }}">All: {{ numLocations }}</p>
             </div>
 
-            <!-- Spheres -->
+            <!-- Networks -->
             <div class="searchSummarySection">
-                <p class="searchSummarySubtitle">Spheres</p>
-                <p id="numSpheres" count="{{ numSpheres }}">All: {{ numSpheres }}</p>
-                <p>Mine: {{ member.num_my_spheres }}</p>
-                <p>Other: {{ member.num_other_spheres }}</p>
+                <p class="searchSummarySubtitle">Networks</p>
+                <p id="numNetworks" count="{{ numNetworks }}">All: {{ numNetworks }}</p>
+                <p>Mine: {{ member.num_my_networks }}</p>
+                <p>Other: {{ member.num_other_networks }}</p>
             </div>
             
             <!-- TODO: get rid of -->
@@ -61,10 +61,10 @@
                 <input id="newLocationCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
             </div>
             <div>
-                <input id="newSphereButton" class="newItemInput newItemButton" type="button" value="Create a new sphere"/>
-                <input id="newSphereText" class="newItemInput newItemText" type="text"/>
-                <input id="newSphereSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
-                <input id="newSphereCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
+                <input id="newNetworkButton" class="newItemInput newItemButton" type="button" value="Create a new network"/>
+                <input id="newNetworkText" class="newItemInput newItemText" type="text"/>
+                <input id="newNetworkSubmit" class="newItemInput newItemButton" type="button" value="Submit"/>
+                <input id="newNetworkCancel" class="newItemInput newItemButton" type="button" value="Cancel"/>
             </div>
         </div>
 
@@ -80,7 +80,7 @@
                 <p class="selectedContentLink" contentType="all">All</p>
                 <p contentType="people">People</p>
                 <p contentType="locations">Locations</p>
-                <p contentType="spheres">Spheres</p>
+                <p contentType="networks">Networks</p>
             </div>
             <div class="clear"></div>
             
@@ -95,11 +95,11 @@
                 </div>
                 <div class="clear"></div>
                 
-                <!-- Sphere content links -->
-                <div id="spheresContentLinks" class="subsectionContentLinks grid_17">
+                <!-- Network content links -->
+                <div id="networksContentLinks" class="subsectionContentLinks grid_17">
                     <p class="selectedSubsectionContentLink" contentType="all">All</p>
-                    <p contentType="mySpheres">Mine</p>
-                    <p contentType="otherSpheres">Other</p>
+                    <p contentType="myNetworks">Mine</p>
+                    <p contentType="otherNetworks">Other</p>
                 </div>
                 <div class="clear"></div>
                 
@@ -125,15 +125,15 @@
                     </div>
                     <p id="noLocationsResultsMessage" class="noResultsMessage">No results match your query.</p>
             
-                    <!-- Spheres -->
-                    <p class="subsectionTitle">Spheres</p>
-                    <div id="spheresContent" context="search">
-                        {% for sphere in spheres %}
-                            {% include "sphereCard.html" %}
+                    <!-- Networks -->
+                    <p class="subsectionTitle">Networks</p>
+                    <div id="networksContent" context="search">
+                        {% for network in networks %}
+                            {% include "networkCard.html" %}
                         {% endfor %}
-                        <button class="loadContentButton button" contentType = "spheres">Load more locations</button>
+                        <button class="loadContentButton button" contentType = "networks">Load more locations</button>
                     </div>
-                    <p id="noSpheresResultsMessage" class="noResultsMessage">No results match your query.</p>
+                    <p id="noNetworksResultsMessage" class="noResultsMessage">No results match your query.</p>
                 </div>
             </div>
         </div>

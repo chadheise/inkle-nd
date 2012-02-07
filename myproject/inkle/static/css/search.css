@@ -1,9 +1,9 @@
-#peopleContentLinks, #spheresContentLinks
+#peopleContentLinks, #networksContentLinks
 {
     display: none;
 }
 
-#peopleSubsectionContentLinks, #spheresSubsectionContentLinks
+#peopleSubsectionContentLinks, #networksSubsectionContentLinks
 {
     display: none;
 }
@@ -66,12 +66,12 @@
    background-color: #009ACD;
 }
 
-#newSphereButton, #newSphereSubmit, #newSphereCancel
+#newNetworkButton, #newNetworkSubmit, #newNetworkCancel
 {
    background-color: #660066;
 }
 
-.newItemText, #newSphereSubmit, #newSphereCancel, #newLocationSubmit, #newLocationCancel
+.newItemText, #newNetworkSubmit, #newNetworkCancel, #newLocationSubmit, #newLocationCancel
 {
     display: none;
 }
