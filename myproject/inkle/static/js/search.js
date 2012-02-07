@@ -144,6 +144,9 @@ $(document).ready(function() {
                     $(".subsectionTitle").hide();
                     $("#peopleContentLinks").show();
                     $("#networksContentLinks").hide();
+                    if ($(".memberCard").size() < parseInt($("#numMembers").attr("count"))) {
+                        $("#peopleContent .loadContentButton").show();
+                    }
                 }
                 else if (contentType == "locations")
                 {
@@ -157,6 +160,10 @@ $(document).ready(function() {
                     $(".subsectionTitle").hide();
                     $("#peopleContentLinks").hide();
                     $("#networksContentLinks").hide();
+                    if ($(".locationCard").size() < parseInt($("#numLocations").attr("count"))) {
+                        $("#locationsContent .loadContentButton").show();
+                    }
+                   
                 }
                 else if (contentType == "networks")
                 {
@@ -173,6 +180,9 @@ $(document).ready(function() {
                     $("#networksContentLinks [contentType='all']").addClass("selectedSubsectionContentLink");
                     $("#peopleContentLinks").hide();
                     $("#networksContentLinks").show();
+                    if ($(".networkCard").size() < parseInt($("#numNetworks").attr("count"))) {
+                        $("#networksContent .loadContentButton").show();
+                    }
                 }
 
                 $("#searchContent").fadeIn();
@@ -199,7 +209,9 @@ $(document).ready(function() {
                     $(".following").show();
                     $(".follower").show();
                     $(".other").show();
-                    $(".loadContentButton").show()
+                    if ($(".memberCard").size() < parseInt($("#numMembers").attr("count"))) {
+                        $("#peopleContent .loadContentButton").show();
+                    }
                     
                     if ($(".memberCard").length == 0)
                     {
@@ -268,7 +280,9 @@ $(document).ready(function() {
                 {
                     $(".myNetworks").show();
                     $(".otherNetworks").show();
-                    $(".loadContentButton").show()
+                    if ($(".networkCard").size() < parseInt($("#numNetworks").attr("count"))) {
+                        $("#networksContent .loadContentButton").show();
+                    }
 
                     if ($(".networkCard").length == 0)
                     {

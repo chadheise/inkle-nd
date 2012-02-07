@@ -83,9 +83,22 @@ def get_member_place_view(request):
         member = Member.active.get(pk = request.session["member_id"])
     except:
         if (request.POST["other_member_id"]):
-            return HttpResponseRedirect("/login/?next=/member/" + request.POST["member_id"] + "/" + request.POST["other_member_id"] + "/")
+            return HttpResponseRedirect("/login/?next=/member/" + request.session["member_id"] + "/" + request.POST["other_member_id"] + "/")
         else:
             return HttpResponseRedirect("/login/")
+
+    # Get the member whose page is being viewed (or throw a 404 error if their member ID is invalid)
+    try:
+        other_member = Member.active.get(pk = request.POST["other_member_id"])
+        # Determine the privacy rating for the logged in member and the current member whose page is being viewed
+        other_member.privacy = get_privacy(member, other_member)
+
+        if (other_member.privacy < other_member.place_privacy):
+            return render_to_response( "noPermission.html",
+                {},
+                context_instance = RequestContext(request) )
+    except:
+        pass
 
     # Get date objects
     date1 = datetime.date(int(request.POST["date"].split("/")[2]), int(request.POST["date"].split("/")[0]), int(request.POST["date"].split("/")[1]))
@@ -132,12 +145,13 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
     try:
         dinner_inkling = location_inklings.get(category = "dinner")
         all_dinner_members = dinner_inkling.member_set.all()
-        member.dinner_members = [m for m in all_dinner_members if (m in following or m == member)]
+        member.dinner_members = [m for m in all_dinner_members if (m in following or m == member or m.inklings_privacy == 0)]
         member.num_dinner_others = len(all_dinner_members) - len(member.dinner_members)
         for m in member.dinner_members:
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            m.button_list = [buttonDictionary["blots"]]
+            if m in following:
+                m.button_list = [buttonDictionary["blots"]]
             # Determine the privacy rating for the logged in member and the current member
             m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
@@ -148,12 +162,13 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
     try:
         pregame_inkling = location_inklings.get(category = "pregame")
         all_pregame_members = pregame_inkling.member_set.all()
-        member.pregame_members = [m for m in all_pregame_members if (m in following or m == member)]
+        member.pregame_members = [m for m in all_pregame_members if (m in following or m == member or m.inklings_privacy == 0)]
         member.num_pregame_others = len(all_pregame_members) - len(member.pregame_members)
         for m in member.pregame_members:
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            m.button_list = [buttonDictionary["blots"]]
+            if m in following:
+                m.button_list = [buttonDictionary["blots"]]
             # Determine the privacy rating for the logged in member and the current member
             m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
@@ -164,12 +179,13 @@ def get_location_inklings(member_id = None, location_id = None, member_place_id 
     try:
         main_event_inkling = location_inklings.get(category = "mainEvent")
         all_main_event_members = main_event_inkling.member_set.all()
-        member.main_event_members = [m for m in all_main_event_members if (m in following or m == member)]
+        member.main_event_members = [m for m in all_main_event_members if (m in following or m == member or m.inklings_privacy == 0)]
         member.num_main_event_others = len(all_main_event_members) - len(member.main_event_members)
         for m in member.main_event_members:
             m.show_contact_info = True
             m.mutual_followings = member.following.filter(is_active = True) & m.following.filter(is_active = True)
-            m.button_list = [buttonDictionary["blots"]]
+            if m in following:
+                m.button_list = [buttonDictionary["blots"]]
             # Determine the privacy rating for the logged in member and the current member
             m.privacy = get_privacy(member, m)
     except Inkling.DoesNotExist:
@@ -252,7 +268,7 @@ def inkling_invitations_view(request):
                 m = Member.active.get(pk = int(invites[i + 1]))
                 if ((m in (member.following.filter(is_active = True) | member.followers.filter(is_active = True))) and (m not in members)):
                     members.append(m)
-            except KeyError:
+            except:
                 pass
         elif (invites[i] == "blots"):
             try:
@@ -261,7 +277,7 @@ def inkling_invitations_view(request):
                     for m in blot.members.filter(is_active = True):
                         if (m not in members):
                             members.append(m)
-            except KeyError:
+            except:
                 pass
         i += 1
     try:
@@ -273,7 +289,7 @@ def inkling_invitations_view(request):
                 m.invitations.add(invitation)
                 if (m.invited_email_preference):
                     send_inkling_invitation_email(member, m, inkling)
-    except KeyError:
+    except:
         pass
 
     return HttpResponse()
@@ -627,6 +643,7 @@ def join_network_view(request):
 
     # Add the network to the logged in member's networks list
     member.networks.add(network)
+    member.privacy = 2
 
     return render_to_response( "memberCard.html",
         { "member" : member, "m" : member },

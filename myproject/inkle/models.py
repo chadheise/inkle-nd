@@ -196,7 +196,9 @@ class Member(User):
     following_privacy = models.IntegerField(max_length = 1, default = 2)
     networks_privacy = models.IntegerField(max_length = 1, default = 0)
     inklings_privacy = models.IntegerField(max_length = 1, default = 2)
-
+    place_privacy = models.IntegerField(max_length = 1, default = 2)
+    invitations_privacy = models.IntegerField(max_length = 1, default = 1)
+    
     # Email preferences
     requested_email_preference = models.BooleanField(default = True)
     accepted_email_preference = models.BooleanField(default = True)
@@ -207,6 +209,9 @@ class Member(User):
     # Manager
     objects = models.Manager()
     active = ActiveMemberManager()
+    
+    #Metadata
+    changed_image = models.IntegerField(max_length = 3, default = 0)
 
     # Note: inherits from built-in Django User class which contains:
     #       id, username, password, first_name, last_name, email, is_staff, is_active, is_superuser, last_login, and date_joined
@@ -248,7 +253,7 @@ class Member(User):
         self.birthday = birthday
         self.gender = gender
 
-    def update_privacy_settings(self, location, email, phone, birthday, followers, following, networks, inklings):
+    def update_privacy_settings(self, location, email, phone, birthday, followers, following, networks, place, inklings):
         """Updates the current member's privacy settings."""
         self.location_privacy = location
         self.email_privacy = email
@@ -257,6 +262,7 @@ class Member(User):
         self.followers_privacy = followers
         self.following_privacy = following
         self.networks_privacy = networks
+        self.place_privacy = place
         self.inklings_privacy = inklings
 
     def update_email_preferences(self, requested, accepted, invited, general):

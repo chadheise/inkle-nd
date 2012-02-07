@@ -25,7 +25,7 @@ def send_email(from_address, to_addresses, subject, body_text, body_html):
 def send_email_verification_email(member):
     """Sends the email verification email."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "inkle@inkleit.com"
     to_addresses = [member.email]
 
     # Specify the subject
@@ -49,7 +49,7 @@ def send_email_verification_email(member):
         <body>
             <p>Hi %s,</p>
 
-            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify your email address and start redifining how you plan your nights.</p>
+            <p>Welcome to Inkle! Click <a href="http://www.inkleit.com/verifyEmail/%s/%s/">here</a> to verify your email address and start redefining how you plan your nights.</p>
 
             <p>Here are some suggestions to get you started:</p>
             
@@ -74,7 +74,7 @@ def send_email_verification_email(member):
 def send_update_email_verification_email(member):
     """Sends update email verification email."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "inkle@inkleit.com"
     to_addresses = [member.email]
 
     # Specify the subject
@@ -110,7 +110,7 @@ def send_update_email_verification_email(member):
 def send_password_reset_email(member):
     """Sends an email which allows member to reset their password."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "inkle@inkleit.com"
     to_addresses = [member.email]
 
     # Specify the subject
@@ -150,7 +150,7 @@ def send_password_reset_email(member):
 def send_request_to_follow_email(from_member, to_member):
     """Sends an email to to_member that from_member has requested to follow them."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "notifications@inkleit.com"
     to_addresses = [to_member.email]
 
     # Specify the subject
@@ -193,7 +193,7 @@ def send_request_to_follow_email(from_member, to_member):
 def send_accept_request_email(from_member, to_member):
     """Sends an email to from_member that to_member has accepted their requested to follow them."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "notifications@inkleit.com"
     to_addresses = [from_member.email]
 
     # Determine whether to use his or her and him or her
@@ -238,7 +238,7 @@ def send_accept_request_email(from_member, to_member):
 def send_inkling_invitation_email(from_member, to_member, inkling):
     """Sends an email to from_member that to_member has invited them to the inkling."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "notifications@inkleit.com"
     to_addresses = [from_member.email]
 
     # Determine whether to use his or her and him or her
@@ -342,7 +342,7 @@ def send_contact_email(member, name, email, subject, message):
 def send_invite_to_inkle_email(member, emails):
     """Sends an invitation to join Inkle to the inputted email."""
     # Specify the from address and to addresses
-    from_address = "support@inkleit.com"
+    from_address = "inkle@inkleit.com"
     to_addresses = emails
 
     # Specify the subject
