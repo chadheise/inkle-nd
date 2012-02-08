@@ -68,3 +68,19 @@ Bob Evans Restaurant | Restaurant | 204 S Dixie Way | South Bend | IN | 46637 | 
 Jimmy John's Gourmet Sandwich | Restaurant | 54570 Ironwood Rd | South Bend | IN | 46635 | 5742778500 | http://www.jimmyjohns.com 
 Steak 'n Shake | Restaurant | 1315 E Ireland Rd | South Bend | IN | 46614 | 5742999936 | http://www.steaknshake.com/
 Steak 'n Shake | Restaurant | 5415 Grape Road | Mishawaka | IN | 46545 | 5742732933 | http://www.steaknshake.com/
+Chipotle Mexican Grill | Restaurant | 1251 N. Eddy St. | South Bend | IN | 46617 | 5742510175 | http://www.chipotle.com/
+Chipotle Mexican Grill | Restaurant | 5445 N, Main St. | Mishawaka | IN | 46545 | 5742713353 | http://www.chipotle.com/
+McAlister's Deli | Restaurant | 1130 Angela Boulevard | South Bend | IN | 46617 | http://www.mcalistersdeli.com/
+Five Guys Burgers & Fries | Restaurant | 1233 N. Eddy St. | South Bend | IN | 46617 | 5742341800 | http://fiveguys.com/
+Five Guys Burgers & Fries | Restaurant | 6501 Grape Rd. | Mishawaka | IN | 46545 | 5742712400 | http://fiveguys.com/
+Hot Box Pizza | Restaurant | 1234 N Eddy St. | South Bend | IN | 46617 | 5742469445 | http://www.gethotboxpizza.com/
+Houlihan's | Restaurant | 4240 N. Main St. | Mishawaka | IN | 46545 | 5742713663 | http://www.houlihans.com/
+Red Robin | Restaurant | 4010 N. Main St. | Mishawaka | IN | 46545 | 5742560100 | http://www.redrobin.com/
+Penn Station East Coast Subs | Restaurant | 2202 S. Bend Ave | South Bend | IN | 46635 | 5748552432 | http://www.penn-station.com/
+Penn Station East Coast Subs | Restaurant | 4007 N. Main St. | Mishawaka | IN | 46545 | 5742178093 | http://www.penn-station.com/
+Olive Garden | Restaurant | 6410 Grape Rd. | Mishawaka | IN | 46545 | 5742776503 | http://www.olivegarden.com/
+Panera Bread | Restaurant | 4310 N. Main St. | Mishawaka | IN | 46545 | 5742430001 | http://www.panerabread.com/
+Papa Vino's Italian Kitchen | Restaurant | 5110 Edison Lakes Pkwy | Mishawaka | IN | 46545 | 5742711692 | http://qdi.com/papavinos/
+Hibachi Grill Buffet | Restaurant | 4502 S. Michigan St. | South Bend | IN | 46614 | 5742918888 |
+Ruth's Chris Steakhouse | Restaurant | 902 E. University Dr. | Granger | IN | 46530 | 5749689700 | http://www.ruthschris.com/Steak-House/14227/Granger/Mishawaka 
+Flat Top Grill | Restaurant | 6501 N. Grape Rd. | Mishawaka | IN | 46545 | 5743077442 | http://www.flattopgrill.com/
