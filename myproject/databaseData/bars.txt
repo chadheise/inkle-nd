@@ -5,7 +5,7 @@ Madison Oyster Bar | Bar | 129 N. Main St. | South Bend | IN | 46601 | 574288377
 Corby's Irish Pub | Pub | 441 E. Lasalle Ave. | South Bend | IN | 46617 | 5742335326 | 
 Linebacker Lounge | Bar | 1631 South Bend Ave. | South Bend | IN | 46617 | 5742890186 | http://www.backer-nd.com/
 Cheers Pub | Pub | 103 S. Dixie Way | South Bend | IN | 46637 | 5743874642 | 
-O'Rourke's Public House | Bar | 1044 E. Angela Blvd | South Bend | IN | 46617 | 5742510355 | http://www.orourkespubhouse.com/
+O'Rourke's Public House | Bar/Restaurant | 1044 E. Angela Blvd | South Bend | IN | 46617 | 5742510355 | http://www.orourkespubhouse.com/
 Sean O'Caseys' Irish Pub | Pub | 123 N. Saint Joseph St. | South Bend | IN | 46601 | 5742457280 | 
 Fiddler's Hearth | Pub | 127 N. Main St. | South Bend | IN | 46601 | 5742322853 | http://www.fiddlershearth.com/
 Center Street Pub | Pub | 112 N. Center St. | Mishawaka | IN | 46544 | 5749680244 | 
@@ -22,5 +22,4 @@ Frank's Place | Bar | 327 W. Marion St. | South Bend | IN | 46601 | 5742322277 |
 LaSalle Grill | Bar | 115 W. Colfax Ave. | South Bend | IN | 46601 | 5742881155 | http://www.lasallegrill.com/
 The Cellar Door | Bar | 211 W. Washington St. | South Bend | IN | 46601 | 5743232120 | 
 The View Tavern | Bar | 515 E. Jefferson Boulevard | South Bend | IN | 46601 | 5742888439 | 
-The Vine | Bar | 103 W. Colfax Ave. | South Bend | IN | 46601| 5742349463 | http://www.thevinesb.com/
 Golden Gnome | Bar | 1902 South Bend Ave. | South Bend | IN | 46637 | 5742776651 | http://golden-gnome.com/
