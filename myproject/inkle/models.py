@@ -6,6 +6,12 @@ from random import randint
 
 import datetime
 
+class ActiveLocationManager(models.Manager):
+    """Manager which returns active location objects."""
+    def get_query_set(self):
+        return Location.objects.filter(is_active = True)
+
+
 class Location(models.Model):
     """Location class definition."""
     # General information
@@ -23,9 +29,13 @@ class Location(models.Model):
     website = models.CharField(max_length = 100, default = "")
     
     # Whether or not location is still open
-    is_open =  models.BooleanField(default = True)
+    is_active =  models.BooleanField(default = True)
 
-    #Metadata
+    # Managers
+    objects = models.Manager()
+    active = ActiveLocationManager()
+
+    # Metadata
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -89,12 +99,12 @@ class Inkling(models.Model):
     category = models.CharField(max_length = 20)
     date = models.DateField()
 
-    # Manager
+    # Managers
     objects = models.Manager()
     past = PastInklingManager()
     current = CurrentInklingManager()
     
-    #Metadata
+    # Metadata
     date_created = models.DateTimeField(auto_now_add=True)
     
     def __unicode__(self):
@@ -141,11 +151,28 @@ class Inkling(models.Model):
        return bool(self.member_place)
 
 
+class PastInvitationManager(models.Manager):
+    """Manager which returns past invitation objects."""
+    def get_query_set(self):
+        return Invitation.objects.filter(inkling__date__lt = datetime.date.today())
+
+
+class CurrentInvitationManager(models.Manager):
+    """Manager which returns current invitation objects."""
+    def get_query_set(self):
+        return Invitation.objects.filter(inkling__date__gte = datetime.date.today())
+
+
 class Invitation(models.Model):
     """Invitation class definition."""
     description = models.CharField(max_length = 200, default = "")
     inkling = models.ForeignKey(Inkling)
     from_member = models.ForeignKey("Member")
+
+    # Managers
+    objects = models.Manager()
+    past = PastInvitationManager()
+    current = CurrentInvitationManager()
     
     def __unicode__(self):
         """String representation for the current invitation."""
@@ -209,11 +236,11 @@ class Member(User):
     general_email_preference = models.BooleanField(default = True)
     email_format_html = models.BooleanField(default = False)
 
-    # Manager
+    # Managers
     objects = models.Manager()
     active = ActiveMemberManager()
     
-    #Metadata
+    # Metadata
     changed_image = models.IntegerField(max_length = 3, default = 0)
 
     # Note: inherits from built-in Django User class which contains:
