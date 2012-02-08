@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Initially, make the search input says "Search" and gray it out */
     $("#headerSearchInput").val("Search").addClass("emptySearchInput");

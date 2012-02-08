@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     showHideContent( $(".selectedContentLink").attr("contentType") ); //Show and hide appropriate content on page load
     

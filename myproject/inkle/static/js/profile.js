@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     if ($("#displayPhone").val() == 0) {
         $("#displayPhone").hide();

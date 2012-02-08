@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Update the selected blot and the blot content when a blot is clicked */
     $(".blot").live("click", function(event) {
