@@ -25,6 +25,7 @@ def load_member_followings():
             from_member.following.add(to_member)
             to_member.followers.add(from_member)
 
+
 def load_member_networks():
     for line in open("databaseData/memberNetworks.txt", "r"):
         data = [x.strip() for x in line.split("|")]
@@ -54,20 +55,26 @@ def load_campus_locations():
     load_locations("databaseData/saintMarysCampusLocations.txt")
     load_locations("databaseData/holyCrossCampusLocations.txt")
 
+
 def load_bars():
     load_locations("databaseData/bars.txt")
+
 
 def load_clubs():
     load_locations("databaseData/clubs.txt")
 
+
 def load_restaurants():
     load_locations("databaseData/restaurants.txt")
+
 
 def load_apartments():
     load_locations("databaseData/apartments.txt")
 
+
 def load_miscellaneous():
     load_locations("databaseData/miscellaneous.txt")
+
 
 def load_networks():
     for line in open("databaseData/networks.txt", "r"):
