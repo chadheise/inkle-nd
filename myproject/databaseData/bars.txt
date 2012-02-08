@@ -23,3 +23,6 @@ LaSalle Grill | Bar | 115 W. Colfax Ave. | South Bend | IN | 46601 | 5742881155 
 The Cellar Door | Bar | 211 W. Washington St. | South Bend | IN | 46601 | 5743232120 | 
 The View Tavern | Bar | 515 E. Jefferson Boulevard | South Bend | IN | 46601 | 5742888439 | 
 Golden Gnome | Bar | 1902 South Bend Ave. | South Bend | IN | 46637 | 5742776651 | http://golden-gnome.com/
+McKinley Pub | Pub | 2930 McKinley Ave | South Bend | IN | 46615 | 5742342616 |
+O'Sullivan's Crossing | Bar | 235 S Michigan St | South Bend | IN | 46601 | 5742893333 | 
+Main Street Pub | Pub | 2046 South Bend Ave | South Bend | IN | 46637 | 5742719898 | http://www.mainstpub.com/

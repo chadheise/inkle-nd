@@ -20,7 +20,7 @@ Buffalo Wild Wings | Restaurant | 4343 Grape Rd. | Mishawaka | IN | 46545 |57427
 Buffalo Wild Wings | Restaurant | 123 W Washington St. | South Bend | IN | 46601 | 5742322293 | http://www.buffalowildwings.com/
 Cambodian Thai | Restaurant | 229 S. Michigan St. | South Bend | IN | 46601 | 5742892877 | 
 J.W. Chen's | Restaurant | 1835 South Bend Ave. | South Bend | IN | 46637 | 5742712777 | 
-Rocco's Restuarant | Restaurant | 537 N Saint Louis Blvd | South Bend | IN | 46617 | 5742332464 | 
+Rocco's Restaurant | Restaurant | 537 N Saint Louis Blvd | South Bend | IN | 46617 | 5742332464 | 
 Polito's Pizzeria Restaurant | Restaurant | 401 N Hickory Rd | South Bend | IN | 46615 | 5742435385 |
 Elia's | Restaurant | Restaurant | 2128 South Bend Ave. | South Bend | IN | 46637 | 5742777239 | 
 Let's Spoon Frozen Yogurt | Dessert Shop | 1635 Edison Rd | South Bend | IN | 5742435847 |
@@ -40,9 +40,31 @@ Indulgence Pastry Shop & Cafe | Dessert Shop | 3622 Edison Rd | South Bend | IN 
 New China Buffet | Restaurant | 920 Erskine Plz | South Bend | IN | 46614 | 5742919324 | 
 Chicory Cafe | Restaurant | 105 E. Jefferson Blvd Ste 103 | South Bend | IN | 46601 | 5742341141 | 
 Nick's Patio | Restaurant | 1710 N Ironwood Dr | South Bend | IN | 46635 | 5742777400 | 
-Bruno's Pizza | Restaurant | 2610 Prarie Ave | South Bend | IN | 46614 | 5742883320 | 
+Bruno's Pizza | Restaurant | 2610 Prairie Ave | South Bend | IN | 46614 | 5742883320 | 
 Mandarin House | Restaurant | 2104 Edison Rd | South Bend | IN | 46617 | 5742874414 | 
 Jan Marie's Portage Ave. Cafe | Restaurant | 1519 Portage Ave | South Bend | IN | 46619 | 574234555 | 
 The Vine | Bar/Restaurant | 103 W Colfax Ave | South Bend | IN | 46601 | 5742349463 | http://www.thevinesb.com/
 Wings Etc. | Restaurant | 2051 E Ireland Rd | South Bend | IN | 46614 | 5742910077 | 
-
+Taqueria Chicago | Restaurant | 2920 W Western Ave | South Bend | IN | 46619 | 5742346775 | 
+Golden Dragon | Restaurant | 3302 Portage Ave Ste 300 | South Bend | IN | 46628 | 574243880 | 
+Mikado Japanese | Restaurant | 402 N Dixie Way | South Bend | IN | 46637 | 5742722535 | 
+Hacienda Mexican Restaurant | Restaurant | 4650 Miami St | South Bend | IN | 46614 | 5742912566 | 
+Panera Bread | Restaurant | 1290 E Ireland Rd Ste 100Z | South Bend | IN | 46614 | 5742314932 | 
+Breadsmith | Restaurant | 2022 South Bend Ave | South Bend | IN | 46637 | 5742739130 | 
+AJ's Burger Shack & Pub | Restaurant | South Bend | IN | 46628 | 5742721800 | 
+Bruno's Pizza | Restaurant | 119 N Dixie Way | South Bend | IN | 46637 | 5742733890 | 
+Starlite Pizza & Restaurant | Restaurant | 932 E Ireland Rd | South Bend | IN | 46614 | 5742915757 | 
+Trios Restaurant and Jazz Club | Restaurant | 129 N Michigan | South Bend | IN | 46601 | 5742888746 | 
+Kilwin's Chocolates and Ice Cream | Dessert Shop | 1044 E Angela Blvd Suite 101 | South Bend | IN | 46617 | 5742341212 | 
+Alexander's Grill | Restaurant | 1841 South Bend Ave | South Bend | IN | 46637 | 5742471780 | 
+Jimmy John's Gourmet Sandwich | Restaurant | 1290 E Ireland Rd | South Bend | IN | 46614 | 5742911900 | http://www.jimmyjohns.com
+Martin's Deli | Restaurant | 1302 Elwood Ave | South Bend | IN | 46628 | 5742338229 | 
+Mindy's Downtown Grill | Restaurant | 120 W Lasalle Ave Ste 100 South Bend | IN | 46601 | 5749681441 | 
+Falafel Express | Restaurant | 1809 South Bend Ave | South Bend | IN | 46637 | 5743875767 | 
+Parisi's Italian Ristorante | Restaurant | 1412 South Bend Ave | South Bend | IN | 46617 | 5742324244 | 
+Gippers Lounge | Restaurant | 515 N Dixie Way | South Bend | IN | 46637 | 5742726600 | 
+Jimmy John's Gourmet Sandwich | Restaurant | 138 S Michigan St | South Bend | IN | 46601 | 5742461020 | http://www.jimmyjohns.com
+Bob Evans Restaurant | Restaurant | 204 S Dixie Way | South Bend | IN | 46637 | 5742726737 | 
+Jimmy John's Gourmet Sandwich | Restaurant | 54570 Ironwood Rd | South Bend | IN | 46635 | 5742778500 | http://www.jimmyjohns.com 
+Steak 'n Shake | Restaurant | 1315 E Ireland Rd | South Bend | IN | 46614 | 5742999936 | http://www.steaknshake.com/
+Steak 'n Shake | Restaurant | 5415 Grape Road | Mishawaka | IN | 46545 | 5742732933 | http://www.steaknshake.com/
