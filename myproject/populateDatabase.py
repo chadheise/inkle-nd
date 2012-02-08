@@ -64,6 +64,9 @@ def load_restaurants():
 def load_apartments():
     load_locations("databaseData/apartments.txt")
 
+def load_miscellaneous():
+    load_locations("databaseData/miscellaneous.txt")
+
 def load_networks():
     for line in open("databaseData/networks.txt", "r"):
         data = [x.strip() for x in line.split("|")]
@@ -72,16 +75,17 @@ def load_networks():
 
 
 def populate_dev_database():
-    load_networks()
     load_members()
     load_member_followings()
-    load_member_networks()
     load_bars()
     load_clubs()
     load_restaurants()
     load_apartments()
+    load_miscellaneous()
     load_dorms()
     load_campus_locations()
+    load_networks()
+    load_member_networks()
 
 
 def populate_prod_database():
@@ -89,6 +93,7 @@ def populate_prod_database():
     load_bars()
     load_clubs()
     load_apartments()
+    load_miscellaneous()
     load_dorms()
     load_campus_locations()
     load_networks()
