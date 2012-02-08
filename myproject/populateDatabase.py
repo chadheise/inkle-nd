@@ -37,6 +37,8 @@ def load_member_networks():
 def load_locations(filename):
     for line in open(filename, "r"):
         data = [x.strip() for x in line.split("|")]
+        if (len(data) != 8):
+            print data
         l = Location.objects.create(name = data[0], category = data[1], street = data[2], city = data[3], state = data[4], zip_code = data[5], phone = data[6], website = data[7])
         shutil.copyfile("inkle/static/media/images/main/location.jpg", "inkle/static/media/images/locations/" + str(l.id) + ".jpg")
 
