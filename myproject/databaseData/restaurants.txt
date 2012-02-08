@@ -18,3 +18,31 @@ T.G.I. Friday's | Restaurant | 4730 Grape Rd | Mishawaka | IN | 46545 | 57427184
 Bar Louie | Restaurant | 6501 Grape Rd. | Mishawaka | IN | 46545 | 5742779100 | http://www.barlouieamerica.com/ 
 Buffalo Wild Wings | Restaurant | 4343 Grape Rd. | Mishawaka | IN | 46545 |5742729464 | http://www.buffalowildwings.com/  
 Buffalo Wild Wings | Restaurant | 123 W Washington St. | South Bend | IN | 46601 | 5742322293 | http://www.buffalowildwings.com/
+Cambodian Thai | Restaurant | 229 S. Michigan St. | South Bend | IN | 46601 | 5742892877 | 
+J.W. Chen's | Restaurant | 1835 South Bend Ave. | South Bend | IN | 46637 | 5742712777 | 
+Rocco's Restuarant | Restaurant | 537 N Saint Louis Blvd | South Bend | IN | 46617 | 5742332464 | 
+Polito's Pizzeria Restaurant | Restaurant | 401 N Hickory Rd | South Bend | IN | 46615 | 5742435385 |
+Elia's | Restaurant | Restaurant | 2128 South Bend Ave. | South Bend | IN | 46637 | 5742777239 | 
+Let's Spoon Frozen Yogurt | Dessert Shop | 1635 Edison Rd | South Bend | IN | 5742435847 |
+Fiddler's Hearth | Restaurant | 127 N. Main St. | South Bend | IN | 46601 | 5742322853 | 
+China House | Restaurant | 2222 Mishawaka Ave | South Bend | IN | 46615 | 5742329828 | 
+Hensell's Oaken Bucket | Restaurant | 212 S Ironwood Dr. | South Bend | IN | 5742891616 | 
+Original Pancake House | Restaurant | 1430 N Ironwood Dr. | South Bend | IN | 46635 | 5742323220 | 
+La Esperanza | Restaurant | 1636 N Ironwood Dr. | South Bend | IN | 46635 | 5742730345 | 
+Matuba Japanese Bar & Restaurant | Restaurant | 2930 McKinley Ave | South Bend | IN | 46615 | 5742510674 | 
+Ho Ping House | Restaurant | 303 South Dixie Way | South Bend | IN | 46637 | 5742433366 | 
+Barnaby's Pizza | Restaurant | 713 W Jefferson Blvd | South Bend | IN | 46601 | 5742884981 | 
+Stude Bagels | Restaurant | 1801 South Bend Ave. | South Bend | IN | 46637 | 574277440 | 
+Bob's 19th Hole | Restaurant | 26582 US-20 | South Bend | IN | 46628 | 5742330297 | 
+El Paraiso | Restaurant | 425 S. Main St. | South Bend | IN | 46601 | 5742341546 | 
+Frankie's Barbecue | Restaurant | 1621 W Washington St. | South Bend | IN | 1621 | 5742878993 | 
+Indulgence Pastry Shop & Cafe | Dessert Shop | 3622 Edison Rd | South Bend | IN | 46615 | 5742322955 | 
+New China Buffet | Restaurant | 920 Erskine Plz | South Bend | IN | 46614 | 5742919324 | 
+Chicory Cafe | Restaurant | 105 E. Jefferson Blvd Ste 103 | South Bend | IN | 46601 | 5742341141 | 
+Nick's Patio | Restaurant | 1710 N Ironwood Dr | South Bend | IN | 46635 | 5742777400 | 
+Bruno's Pizza | Restaurant | 2610 Prarie Ave | South Bend | IN | 46614 | 5742883320 | 
+Mandarin House | Restaurant | 2104 Edison Rd | South Bend | IN | 46617 | 5742874414 | 
+Jan Marie's Portage Ave. Cafe | Restaurant | 1519 Portage Ave | South Bend | IN | 46619 | 574234555 | 
+The Vine | Bar/Restaurant | 103 W Colfax Ave | South Bend | IN | 46601 | 5742349463 | http://www.thevinesb.com/
+Wings Etc. | Restaurant | 2051 E Ireland Rd | South Bend | IN | 46614 | 5742910077 | 
+
