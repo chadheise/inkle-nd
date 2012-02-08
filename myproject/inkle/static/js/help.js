@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     // Populate the main content with the initially selected main content link
     var contentType = $("#helpContentLinks .selectedContentLink").attr("contentType");

@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Accept the clicked inviation when an "Accept invitation" button is clicked */
     $(".acceptInvitation").live("click", function() {

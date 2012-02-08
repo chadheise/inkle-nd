@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 /* Creates the CSRF token which allows Django to send POST data using AJAX */
 $(document).ready(function() {
     $("html").ajaxSend(function(event, xhr, settings) {

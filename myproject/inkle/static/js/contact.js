@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Send the contact message when the "Send" button is clicked */
     $("#contactButton").live("click", function() {

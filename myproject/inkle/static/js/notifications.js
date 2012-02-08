@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Updates which notifications are displayed when a notifications content link is clicked */
     $("#notificationsContentLinks p").live("click", function() {

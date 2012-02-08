@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Helper function for when a "Join network" button is clicked */
     function joinNetworkHelper(networkCard)

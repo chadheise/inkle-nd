@@ -1,3 +1,5 @@
+/* Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved */
+
 $(document).ready(function() {
     /* Fades in the blots menu when a blots card button is clicked */
     $(".blotsCardButton").live("click", function() {
