@@ -22,6 +22,9 @@ class Location(models.Model):
     phone = models.CharField(max_length = 10, default = "")
     website = models.CharField(max_length = 100, default = "")
     
+    # Whether or not location is still open
+    is_open =  models.BooleanField(default = True)
+
     #Metadata
     date_created = models.DateTimeField(auto_now_add=True)
 
