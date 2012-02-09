@@ -569,6 +569,24 @@ def edit_profile_email_preferences_view(request):
         context_instance = RequestContext(request) )
 
 
+def diagnostic_view(request):
+    # Get the member who is logged in (or raise a 404 error)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+    
+    if (not member.is_staff):
+        raise Http404()
+    else:
+        num_members = len(Member.objects.all())
+        num_verified = len(Member.objects.filter(verified = True))
+        num_unverified = num_members - num_verified
+        return render_to_response( "diagnostic.html",
+            { "member" : member, "num_members" : num_members, "num_verified" : num_verified, "num_unverified" : num_unverified },
+            context_instance = RequestContext(request) )
+        
+
 def network_view(request, network_id = None):
     """Returns the HTML for the network page."""
     # Get the member who is logged in (or redirect them to the login page)
