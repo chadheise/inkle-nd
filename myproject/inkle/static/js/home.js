@@ -52,15 +52,7 @@ $(document).ready(function() {
                 var peopleID = selectedPeopleOption.attr("blotID");
             }
 
-            // Get the selected inkling type
-            if ($("#locationBoardInklingSelect").is(":visible").size() == 0)
-            {
-                var inklingtype = "mainEvent"
-            }
-            else
-            {
-                var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
-            }
+            var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
 
             var includeMember = "false";
         }
@@ -68,7 +60,7 @@ $(document).ready(function() {
         {
             var peopleType = "other";
             var peopleID = "blots";
-            var inklingType = "dinner";
+            var inklingType = "mainEvent";
             var includeMember = "true";
         }
 
