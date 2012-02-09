@@ -47,6 +47,11 @@
                     <a href="/account/">
                         <p class="headerDropdownOption">Manage account</p>
                     </a>
+                    {% if member.is_staff %}
+                        <a href="/diagnostic/">
+                            <p class="headerDropdownOption">Diagnostic</p>
+                        </a>
+                    {% endif %}
                     <a href="/logout/">
                         <p class="headerDropdownOption">Logout</p>
                     </a>
