@@ -1097,7 +1097,7 @@ def suggestions_view(request):
     # Case 4: Member and blot suggestions for inkling invites
     elif (query_type == "inklingInvite"):
         # Get the member suggestions (and add them to the categories list if there are any)
-        members = members_search_query(query, member.following.filter(is_active = True) | member.followers.filter(is_active = True))[0:5]
+        members = members_search_query(query, Member.objects.filter(Q(id__in = member.following.filter(is_active=True)) | Q(id__in = member.followers.filter(is_active = True))))[0:5]
         if (members):
             members.suggestionType = "members"
             for m in members:
@@ -1435,7 +1435,7 @@ def get_others_inklings(member, date, people_type, people_id, inkling_type):
                 else:
                     location.count = 1
                     locations.append(location)
-            elif (inkling[0].member_place in (member.following.filter(is_active = True) | member.followers.filter(is_active = True))) or (inkling[0].member_place == member):
+            elif ((inkling[0].member_place in member.following.filter(is_active = True)) or (inkling[0].member_place in member.followers.filter(is_active = True)) or (inkling[0].member_place == member)):
                 member_place = inkling[0].member_place
                 if (member_place in locations):
                     for l in locations:
