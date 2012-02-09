@@ -1679,10 +1679,10 @@ def register_view(request):
             invalid["confirm_email"] = True
             invalid["errors"].append("Inkle is currently limited to Notre Dame, Saint Mary's, and Holy Cross email addresses only")
         
-        elif (data["email"] == "mrobert7@nd.edu"):
-            invalid["email"] = True
-            invalid["confirm_email"] = True
-            invalid["errors"].append("Mason, you can't sign up for Inkle because we don't have enough space (i.e. jiggabytes) for you. Lose some weight and we'll see what we can do.")
+        #elif (data["email"] == "mrobert7@nd.edu"):
+        #    invalid["email"] = True
+        #    invalid["confirm_email"] = True
+        #    invalid["errors"].append("Mason, you can't sign up for Inkle because we don't have enough space (i.e. jiggabytes) for you. Lose some weight and we'll see what we can do.")
             
         # Validate the password and confirm password
         if ((not data["password"]) and (not data["confirm_password"])):
