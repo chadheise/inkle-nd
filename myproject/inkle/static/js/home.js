@@ -53,7 +53,14 @@ $(document).ready(function() {
             }
 
             // Get the selected inkling type
-            var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
+            if ($("#locationBoardInklingSelect").is(":visible").size() == 0)
+            {
+                var inklingtype = "mainEvent"
+            }
+            else
+            {
+                var inklingType = $("#locationBoardInklingSelect option:selected").attr("inklingType");
+            }
 
             var includeMember = "false";
         }
