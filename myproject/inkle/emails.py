@@ -239,7 +239,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
     """Sends an email to from_member that to_member has invited them to the inkling."""
     # Specify the from address and to addresses
     from_address = "notifications@inkleit.com"
-    to_addresses = [from_member.email]
+    to_addresses = [to_member.email]
 
     # Determine whether to use his or her and him or her
     his_her = "his"
