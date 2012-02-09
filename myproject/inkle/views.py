@@ -1111,7 +1111,7 @@ def suggestions_view(request):
             categories.append((blots, "Blots"))
         
         # Set the number of characters to show for each suggestion
-        num_chars = 17
+        num_chars = 20
 
     return render_to_response( "suggestions.html",
         { "categories" : categories, "queryType" : query_type, "numChars" : num_chars },
