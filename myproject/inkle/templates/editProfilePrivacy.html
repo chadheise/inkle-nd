@@ -1,6 +1,6 @@
 <div id="editProfilePrivacyContent">
     <!-- Edit profile privacy message -->
-    <p style="margin-bottom: 15px; text-align: justify;">Inkle makes it easy to control who can see your information. There are three levels of privacy you can select. The lowest level of privacy ("Everyone") allows anyone on Inkle access to your information. The next level ("Followers and Following") enables only people you have allowed to follow you or whom you are following to view your information. The highest level of privacy ("Followers") hides your information from everyone except those who you have explicitly permitted to follow you. For details about each privacy option below, hover over its label.</p>
+    <p style="margin-bottom: 15px; text-align: justify;">Inkle makes it easy to control who can see your information. There are four levels of privacy you can select. The lowest level of privacy ("Everyone") allows anyone on Inkle access to your information. The next level ("Followers and Following") enables only people you have allowed to follow you or whom you are following to view your information. The third level of privacy ("Followers") hides your information from everyone except those who you have explicitly permitted to follow you. The highest level of privacy ("No one") only allows you to see your information. For details about each privacy option below, hover over its label.</p>
 
     <!-- Edit profile privacy form -->
     <table id="editProfilePrivacyForm">
@@ -14,6 +14,26 @@
             </td>
         </tr>
 
+        <!-- Picture -->
+        <tr>
+            <th><label for="picturePrivacy" title="Ability to see your profile picture">Picture:</label></th>
+            <td>
+                <select id="picturePrivacy">
+                    <option value="0" selected>Everyone</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Gender -->
+        <tr>
+            <th><label for="genderPrivacy" title="Ability to see your gender">Gender:</label></th>
+            <td>
+                <select id="genderPrivacy">
+                    <option value="0" selected>Everyone</option>
+                </select>
+            </td>
+        </tr>
+
         <!-- Email -->
         <tr>
             <th><label for="emailPrivacy" title="Ability to see your email address">Email:</label></th>
@@ -22,6 +42,7 @@
                     <option value="0" {% if member.email_privacy == 0 %}selected{% endif %}>Everyone</option>
                     <option value="1" {% if member.email_privacy == 1 %}selected{% endif %}>Followers and Following</option>
                     <option value="2" {% if member.email_privacy == 2 %}selected{% endif %}>Followers</option>
+                    <option value="3" {% if member.email_privacy == 3 %}selected{% endif %}>No one</option>
                 </select>
             </td>
         </tr>
@@ -34,6 +55,7 @@
                     <option value="0" {% if member.phone_privacy == 0 %}selected{% endif %}>Everyone</option>
                     <option value="1" {% if member.phone_privacy == 1 %}selected{% endif %}>Followers and Following</option>
                     <option value="2" {% if member.phone_privacy == 2 %}selected{% endif %}>Followers</option>
+                    <option value="3" {% if member.phone_privacy == 3 %}selected{% endif %}>No one</option>
                 </select>
             </td>
         </tr>
@@ -46,6 +68,7 @@
                     <option value="0" {% if member.location_privacy == 0 %}selected{% endif %}>Everyone</option>
                     <option value="1" {% if member.location_privacy == 1 %}selected{% endif %}>Followers and Following</option>
                     <option value="2" {% if member.location_privacy == 2 %}selected{% endif %}>Followers</option>
+                    <option value="3" {% if member.location_privacy == 3 %}selected{% endif %}>No one</option>
                 </select>
             </td>
         </tr>
@@ -58,16 +81,7 @@
                     <option value="0" {% if member.birthday_privacy == 0 %}selected{% endif %}>Everyone</option>
                     <option value="1" {% if member.birthday_privacy == 1 %}selected{% endif %}>Followers and Following</option>
                     <option value="2" {% if member.birthday_privacy == 2 %}selected{% endif %}>Followers</option>
-                </select>
-            </td>
-        </tr>
-
-        <!-- Gender -->
-        <tr>
-            <th><label for="genderPrivacy" title="Ability to see your gender">Gender:</label></th>
-            <td>
-                <select id="genderPrivacy">
-                    <option value="0" selected>Everyone</option>
+                    <option value="3" {% if member.birthday_privacy == 3 %}selected{% endif %}>No one</option>
                 </select>
             </td>
         </tr>
