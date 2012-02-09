@@ -1795,7 +1795,7 @@ def verify_email_view(request, email = None, verification_hash = None):
 
 
 def logout_view(request):
-    """Logs out the current user."""
+    """Logs out the logged in member."""
     try:
         del request.session["member_id"]
     except KeyError:
