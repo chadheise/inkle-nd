@@ -910,8 +910,8 @@ def networks_search_query(query, queryIndex = "all"):
 
 def blots_search_query(query, member):
     """Returns the blots which match the inputted query."""
-    networks = member.blots.filter(Q(name__icontains = query))
-    return networks
+    blots = member.blots.filter(Q(name__icontains = query))
+    return blots
 
 
 def search_view(request, query = ""):
@@ -1066,7 +1066,7 @@ def suggestions_view(request):
             categories.append((locations, "Locations"))
 
         # Get the network suggestions (and add them to the categories list if there are any)
-        networks = Network.objects.filter(Q(name__contains = query))[0:3]
+        networks = networks_search_query(query)[0:3]
         if (networks):
             networks.suggestionType = "networks"
             categories.append((networks, "Networks"))
