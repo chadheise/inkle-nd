@@ -15,6 +15,7 @@
     height: 50px;
     width: 175px;
     margin-top: 14px;
+    border: none;
 }
 
 #logo:hover
@@ -127,6 +128,7 @@
 {
     float: right;
     padding: 5px 5px 0px 5px;
+    border: none;
 }
 
 #headerMemberImage
@@ -134,6 +136,7 @@
     padding: 0px;
     height: 28px;
     width: 28px;
+    border: none;
 }
 
 #headerDropdownButton
