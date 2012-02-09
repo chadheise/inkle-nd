@@ -282,6 +282,7 @@ def inkling_invitations_view(request):
             except:
                 pass
         i += 1
+
     try:
         inkling = Inkling.objects.get(pk = request.POST["inklingID"])
         invitation = Invitation(description = "", inkling = inkling, from_member = member)

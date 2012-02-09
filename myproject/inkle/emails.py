@@ -1,7 +1,7 @@
 from smtplib import SMTP_SSL
 from email.mime.text import MIMEText
 
-live = False
+from myproject.settings import DEBUG
 
 def send_email(from_address, to_addresses, subject, body_text, body_html):
     """Sends an email with the inputted details using the WebFaction SMTP server."""
@@ -15,7 +15,7 @@ def send_email(from_address, to_addresses, subject, body_text, body_html):
     
     server.login("inkle", "AmiTabh-2012")
 
-    if (not live):
+    if (DEBUG):
         to_addresses = ["test@inkleit.com"]
     server.sendmail(from_address, to_addresses, message.as_string())
 
@@ -256,13 +256,18 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
     elif (inkling.category == "mainEvent"):
         category = "Main Event"
 
+    if (inkling.location):
+        location = inkling.location.name
+    else:
+        location = from_member.get_full_name() + "'s Place"
+
     # Specify the subject
     subject = "%s %s has invited you to an inkling" % (from_member.first_name, from_member.last_name)
     
     # Specify the text body
     body_text = """Hi %s,
 
-        %s %s has invited you to %s inkling! Here is the inkling's information:
+        %s has invited you to %s inkling! Here is the inkling's information:
         
         Location: %s
         Category: %s
@@ -273,7 +278,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
         http://www.inkleit.com/manage/requests/
 
     Thanks,
-    The Inkle team""" % (to_member.first_name, from_member.first_name, from_member.last_name, his_her, inkling.location.name, category, inkling.get_formatted_date())
+    The Inkle team""" % (to_member.first_name, from_member.get_full_name(), his_her, location, category, inkling.get_formatted_date(year = False, weekday = True))
     
     # Specify the HTML body
     body_html = """<html>
@@ -281,7 +286,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
         <body>
             <p>Hi %s,</p>
 
-            <p>%s %s has invited you to an inkling! Here is the information:</p>
+            <p>%s has invited you to an inkling! Here is the information:</p>
             
             <p>Location: %s<br />
             Type: %s<br />
@@ -294,7 +299,7 @@ def send_inkling_invitation_email(from_member, to_member, inkling):
             
             <p style="font-size: 10px;">If you don't want to receive emails like this, you can set your email preferences <a href="http://www.inkleit.com/editProfile/emailPreferences/">here</a>.</p>
         </body>
-    </html>""" % (to_member.first_name, from_member.first_name, from_member.last_name, inkling.location.name, category, inkling.get_formatted_date(year = False, weekday = True), his_her)
+    </html>""" % (to_member.first_name, from_member.get_full_name(), location, category, inkling.get_formatted_date(year = False, weekday = True), his_her)
     
     # Send the email
     send_email(from_address, to_addresses, subject, body_text, body_html)

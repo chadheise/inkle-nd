@@ -120,14 +120,14 @@ class Inkling(models.Model):
         if (weekday):
             days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
             if (year):
-                return "%s, %s %s, %s" % (days[self.date.weekday()], months[self.date.month - 1], self.date.day, self.date.year)
+                return "%s, %s %d, %d" % (days[self.date.weekday()], months[self.date.month - 1], self.date.day, self.date.year)
             else:
-                return "%s, %s %s" % (days[self.date.weekday()], months[self.date.month - 1], self.date.day)
+                return "%s, %s %d" % (days[self.date.weekday()], months[self.date.month - 1], self.date.day)
         else:
             if (year):
-                return "%s %s, %s" % (months[self.date.month - 1], self.date.day, self.date.year)
+                return "%s %d, %d" % (months[self.date.month - 1], self.date.day, self.date.year)
             else:
-                return "%s %s" % (months[self.date.month - 1], self.date.day)
+                return "%s %d" % (months[self.date.month - 1], self.date.day)
 
     def get_date_url(self):
         """Returns the current inkling's date for use in a url."""

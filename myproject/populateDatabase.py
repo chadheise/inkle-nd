@@ -4,7 +4,7 @@ import shutil
 def load_members():
     for line in open("databaseData/members.txt", "r"):
         data = [x.strip() for x in line.split("|")]
-        m = Member(first_name = data[0], last_name = data[1], username = data[2], email = data[3], birthday = datetime.date(day = int(data[4]), month = int(data[5]), year = int(data[6])), gender = data[7], verified = data[8])
+        m = Member(first_name = data[0], last_name = data[1], username = data[2], email = data[3], birthday = datetime.date(day = int(data[4]), month = int(data[5]), year = int(data[6])), gender = data[7], verified = data[8], is_staff = data[9])
         m.set_password("password")
         m.update_verification_hash()
         m.save()

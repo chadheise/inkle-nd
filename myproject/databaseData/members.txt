@@ -1,16 +1,16 @@
-Jacob | Wenger | jwenger@nd.edu | jwenger@nd.edu | 20 | 5 | 1990 | Male | True
-Chad | Heise | cheise@nd.edu | cheise@nd.edu | 14 | 1 | 1990 | Male | True
-Jane | Obringer | jobring2@nd.edu | jobring2@nd.edu | 7 | 7 | 1990 | Male | True
-David | Ulery | dulery@nd.edu | dulery@nd.edu | 3 | 8 | 1990 | Male | True
-Andy | Schroeder | aschroeder@nd.edu | aschroeder@nd.edu | 23 | 8 | 1989 | Male | True
-Nick | Galvez | ngalvez@nd.edu | ngalvez@nd.edu | 23 | 12 | 1990 | Male | True
-Matt | Roe | mroe@nd.edu | mroe@nd.edu | 10 | 10 | 1990 | Male | True
-Chrissy | Grant | cgrant@nd.edu | cgrant@nd.edu | 28 | 2 | 1989 | Female | True
-Brian | Greaney | bgreaney@nd.edu | bgreaney@nd.edu | 22 | 11 | 1990 | Male | True
-Mason | Roberts | mroberts@nd.edu | mroberts@nd.edu | 30 | 10 | 1990 | Male | True
-John | Goedert | jgoedert@nd.edu | jgoedert@nd.edu | 3 | 3 | 1990 | Male | True
-Danielle | Duva | dduva@nd.edu | dduva@nd.edu | 5 | 4 | 1990 | Female | True
-Megan | Martis | mmartis@nd.edu | mmartis@nd.edu | 2 | 7 | 1990 | Female | True
-John | Johnson | jjohnson@nd.edu | jjohson@nd.edu | 4 | 4 | 1971 | Male | True
-Johnny | Walker | jwalker@nd.edu | jwalker@nd.edu | 10 | 4 | 1984 | Male | True
-John | Kennedy | jkennedy@nd.edu | jkennedy@nd.edu | 3 | 10 | 1971 | Male | True
+Jacob | Wenger | jwenger@nd.edu | jwenger@nd.edu | 20 | 5 | 1990 | Male | True | True
+Chad | Heise | cheise@nd.edu | cheise@nd.edu | 14 | 1 | 1990 | Male | True | True
+Jane | Obringer | jobring2@nd.edu | jobring2@nd.edu | 7 | 7 | 1990 | Male | True | False
+David | Ulery | dulery@nd.edu | dulery@nd.edu | 3 | 8 | 1990 | Male | True | False
+Andy | Schroeder | aschroeder@nd.edu | aschroeder@nd.edu | 23 | 8 | 1989 | Male | True | False
+Nick | Galvez | ngalvez@nd.edu | ngalvez@nd.edu | 23 | 12 | 1990 | Male | True | False
+Matt | Roe | mroe@nd.edu | mroe@nd.edu | 10 | 10 | 1990 | Male | True | False
+Chrissy | Grant | cgrant@nd.edu | cgrant@nd.edu | 28 | 2 | 1989 | Female | True | False
+Brian | Greaney | bgreaney@nd.edu | bgreaney@nd.edu | 22 | 11 | 1990 | Male | True | False
+Mason | Roberts | mroberts@nd.edu | mroberts@nd.edu | 30 | 10 | 1990 | Male | True | False
+John | Goedert | jgoedert@nd.edu | jgoedert@nd.edu | 3 | 3 | 1990 | Male | True | False 
+Danielle | Duva | dduva@nd.edu | dduva@nd.edu | 5 | 4 | 1990 | Female | True | False
+Megan | Martis | mmartis@nd.edu | mmartis@nd.edu | 2 | 7 | 1990 | Female | True | False
+John | Johnson | jjohnson@nd.edu | jjohson@nd.edu | 4 | 4 | 1971 | Male | True | False 
+Johnny | Walker | jwalker@nd.edu | jwalker@nd.edu | 10 | 4 | 1984 | Male | True | False
+John | Kennedy | jkennedy@nd.edu | jkennedy@nd.edu | 3 | 10 | 1971 | Male | True | False
