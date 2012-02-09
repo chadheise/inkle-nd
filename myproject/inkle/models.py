@@ -221,12 +221,12 @@ class Member(User):
     phone_privacy = models.IntegerField(max_length = 1, default = 1)
     birthday_privacy = models.IntegerField(max_length = 1, default = 1)
     gender_privacy = models.IntegerField(max_length = 1, default = 0)
-    location_privacy = models.IntegerField(max_length = 1, default = 0)
-    followers_privacy = models.IntegerField(max_length = 1, default = 2)
-    following_privacy = models.IntegerField(max_length = 1, default = 2)
-    networks_privacy = models.IntegerField(max_length = 1, default = 0)
-    inklings_privacy = models.IntegerField(max_length = 1, default = 2)
-    place_privacy = models.IntegerField(max_length = 1, default = 2)
+    location_privacy = models.IntegerField(max_length = 1, default = 1)
+    followers_privacy = models.IntegerField(max_length = 1, default = 1)
+    following_privacy = models.IntegerField(max_length = 1, default = 1)
+    networks_privacy = models.IntegerField(max_length = 1, default = 1)
+    inklings_privacy = models.IntegerField(max_length = 1, default = 1)
+    place_privacy = models.IntegerField(max_length = 1, default = 1)
     invitations_privacy = models.IntegerField(max_length = 1, default = 1)
     
     # Email preferences

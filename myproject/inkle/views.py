@@ -16,6 +16,8 @@ import shutil
 
 from databaseViews import *
 
+from myproject.settings import MEDIA_ROOT
+
 def home_view(request):
     """Gets dates objects and others' inkling locations and returns the HTML for the home page."""
     # Get the member who is logged in (or redirect them to the login page)
@@ -497,7 +499,7 @@ def edit_profile_picture_view(request):
         raise Http404()
 
     if (request.FILES):
-        fileName = "inkle/static/media/images/members/" + str(member.id) + ".jpg"
+        fileName = MEDIA_ROOT + "images/members/" + str(member.id) + ".jpg"
         destination = open(fileName, "wb+")
         for chunk in request.FILES["newProfilePicture"].chunks():
             destination.write(chunk)
@@ -1756,9 +1758,10 @@ def register_view(request):
 
             # Create default image for the new member
             if (member.gender == "Male"):
-                shutil.copyfile("static/media/images/main/man.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
+                #shutil.copyfile("static/media/images/main/man.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
+                shutil.copyfile(MEDIA_ROOT + "images/main/man.jpg", MEDIA_ROOT + "images/members/" + str(member.id) + ".jpg")
             else:
-                shutil.copyfile("static/media/images/main/woman.jpg", "static/media/images/members/" + str(member.id) + ".jpg")
+                shutil.copyfile(MEDIA_ROOT + "images/main/woman.jpg", MEDIA_ROOT + "images/members/" + str(member.id) + ".jpg")
 
             # Send the member to the successful account creation page
             return render_to_response( "registrationConfirmation.html",

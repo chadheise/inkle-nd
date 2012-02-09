@@ -13,6 +13,8 @@ import datetime
 import shutil
 import re
 
+from myproject.settings import MEDIA_ROOT
+
 buttonDictionary = {
     "request" : ("requestToFollow", "Request to follow", "Send a request to start following this person"),
     "prevent" : ("preventFollowing", "Block", "No longer allow this person to follow me"),
@@ -814,7 +816,7 @@ def create_network_view(request):
     network.save()
 
     # Copy the default network image
-    shutil.copyfile("static/media/images/main/network.jpg", "static/media/images/networks/" + str(network.id) + ".jpg")
+    shutil.copyfile(MEDIA_ROOT + "images/main/network.jpg", MEDIA_ROOT + "images/networks/" + str(network.id) + ".jpg")
 
     return HttpResponse()
     
@@ -834,7 +836,7 @@ def create_location_view(request):
     location.save()
 
     # Copy the default location image
-    shutil.copyfile("static/media/images/main/location.jpg", "static/media/images/locations/" + str(location.id) + ".jpg")
+    shutil.copyfile(MEDIA_ROOT + "images/main/location.jpg", MEDIA_ROOT + "images/locations/" + str(location.id) + ".jpg")
 
     # Return the new location's ID
     return HttpResponse(location.id)
