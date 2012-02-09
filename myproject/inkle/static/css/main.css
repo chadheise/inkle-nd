@@ -12,7 +12,7 @@ a
     outline: none;
 }
 
-input, textarea
+input, textarea, select
 {
     color: #1B5898;
     font-size: 13px;
