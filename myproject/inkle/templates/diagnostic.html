@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Inkle | Diagnostic</title>
+{% endblock title %}
+
+{% block css %}
+{% endblock css %}
+
+{% block js %}
+{% endblock js %}
+
+{% block mainContent %}
+    <div id="mainContent" class="container_24">
+        <div class="grid_24 alpha omega">
+            <!-- Page title -->
+            <div class="grid_24">
+                <p class="pageTitle">Diagnostic</p>
+            </div>
+            <div class="clear"></div>
+
+            <!-- Help content links -->
+            <!--<div id="helpContentLinks" class="contentLinks grid_24">
+                <p {% if contentType == "overview" %}class="selectedContentLink"{% endif %} contentType="overview">Overview</p>
+                <p {% if contentType == "home" %}class="selectedContentLink"{% endif %} contentType="home">Home</p>
+                <p {% if contentType == "inklings" %}class="selectedContentLink"{% endif %} contentType="inklings">Inklings</p>
+                <p {% if contentType == "following" %}class="selectedContentLink"{% endif %} contentType="following">Following</p>
+                <p {% if contentType == "blots" %}class="selectedContentLink"{% endif %} contentType="blots">Blots</p>
+                <p {% if contentType == "networks" %}class="selectedContentLink"{% endif %} contentType="networks">Networks</p>
+            </div>
+            <div class="clear"></div>-->
+            
+            <div id="helpContent" class="grid_24">
+                <p>There are {{ num_members }} members signed up for Inkle.</p>
+                <p>There are {{ num_verified }} verified members and {{ num_unverified }} unverified members.</p>
+            </div>
+       </div>
+    </div>
+{% endblock mainContent%}
