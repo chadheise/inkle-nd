@@ -289,7 +289,7 @@ def inkling_invitations_view(request):
         for m in members:
             if (not m.invitations.filter(inkling = inkling, from_member = member)):
                 m.invitations.add(invitation)
-                if (m.invited_email_preference):
+                if (m.invited_email_preference and m.verified):
                     send_inkling_invitation_email(member, m, inkling)
     except:
         pass
@@ -951,7 +951,7 @@ def send_request_to_follow_email_view(request, to_member_id = None):
         raise Http404()
 
     # If the from_member has actually requested to follow the to_member, send the request to follow email
-    if ((to_member.requested_email_preference) and (from_member in to_member.requested.all())):
+    if ((to_member.requested_email_preference) and (to_member.verified) and (from_member in to_member.requested.all())):
         send_request_to_follow_email(from_member, to_member)
     else:
         raise Http404()
@@ -974,7 +974,7 @@ def send_accept_request_email_view(request, from_member_id = None):
         raise Http404()
 
     # If the from_member is actually following the to_member, send the request accepted email
-    if ((from_member.accepted_email_preference) and (from_member in to_member.followers.all())):
+    if ((from_member.accepted_email_preference) and (from_member.verified) and (from_member in to_member.followers.all())):
         send_accept_request_email(from_member, to_member)
     else:
         raise Http404()
@@ -997,7 +997,7 @@ def send_inkling_invitation_email_view(request):
         raise Http404()
 
     # If the from_member is actually following the to_member, send the inkling invitation email
-    if ((from_member.invited_email_preference) and (from_member in to_member.followers.all())):
+    if ((from_member.invited_email_preference) and (from_member.verified) and (from_member in to_member.followers.all())):
         send_inkling_invitation_email(from_member, to_member, inkling)
     else:
         raise Http404()
