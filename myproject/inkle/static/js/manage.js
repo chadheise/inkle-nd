@@ -37,9 +37,7 @@ $(document).ready(function() {
                 {
                     if (contentType == "notifications") {
                         $("#memberPlaceContentLinks").fadeOut("medium");
-                        $("#calendarContainer").fadeOut("medium", function() {
-                            $("#notificationsContentLinks").fadeIn("medium");
-                        });
+                        $("#calendarContainer").fadeOut("medium");
                     }
                     else if(contentType == "place") {
                         $("#notificationsContentLinks").fadeOut("medium");
@@ -53,6 +51,9 @@ $(document).ready(function() {
                     }
                     
                     $("#mainManageContent").fadeOut("medium", function () {
+                        if (contentType == "notifications") {
+                            $("#notificationsContentLinks").fadeIn("medium");
+                        }
                         loadContentHelper(html, contentType, function() {
                             $("#mainManageContent").fadeIn("medium", function() {
                                 $(".blot").each(function() {
