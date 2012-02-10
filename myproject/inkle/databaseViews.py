@@ -338,9 +338,7 @@ def revoke_request_view(request):
     from_member.pending.remove(to_member)
     to_member.requested.remove(from_member)
 
-    return render_to_response( "revokeRequestConfirmation.html",
-        { "member" : to_member },
-        context_instance = RequestContext(request) )
+    return HttpResponse(buttonDictionary["request"][2])
 
 
 def accept_request_view(request):
