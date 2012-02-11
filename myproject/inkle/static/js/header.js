@@ -2,7 +2,7 @@
 
 $(document).ready(function() {
     /* Initially, make the search input says "Search" and gray it out */
-    $("#headerSearchInput").val("Search").addClass("emptySearchInput");
+    $("#headerSearchInput").val("Search for people, locations, and networks").addClass("emptySearchInput");
     
     /* If the search input gains focus and it says "Search" grayed out, make the text black and empty it */
     $("#headerSearchInput").focus(function() {
@@ -16,7 +16,7 @@ $(document).ready(function() {
     $("#headerSearchInput").blur(function() {
         if ($(this).val() == "")
         {
-            $(this).val("Search").addClass("emptySearchInput");
+            $(this).val("Search for people, locations, and networks").addClass("emptySearchInput");
         }
         
         $("#headerSearchSuggestions").fadeOut("medium");

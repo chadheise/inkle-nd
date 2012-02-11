@@ -55,7 +55,7 @@ def send_email_verification_email(member):
             
             <ol>
                 <li><a href="http://www.inkleit.com/editProfile/information/">Update your profile information</a> to help your friends find you.</li>
-                <li>Request to follow your friends by searching for them at the top of any page. If you're friends aren't using Inkle yet, use the link at the bottom of any page to tell them about it.</li>
+                <li>Request to follow your friends by searching for them at the top of any page. If your friends aren't using Inkle yet, use the link at the bottom of any page to tell them about it.</li>
                 <li>Once your friends have accepted your request, <a href="http://www.inkleit.com/manage/blots/">group them into blots</a> (e.g. "Best Friends", "Dormmates", or "London Buddies").</li>
                 <li>Join networks that you associate with by searching for them at the top of any page (e.g. "University of Notre Dame").</li>
                 <li>See where people in your blots or networks are going or share where you will be headed by setting your own inklings from the <a href="http://www.inkleit.com/">home page</a>.
