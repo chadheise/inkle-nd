@@ -9,6 +9,19 @@ $(document).ready(function() {
 
         // Update the network card's classes
         networkCard.removeClass("otherNetworks").addClass("myNetworks");
+
+        // Update the number of members in the network
+        var numMembersElement = networkCard.find(".numMembers");
+        var newNumMembers = parseInt(numMembersElement.attr("numMembers")) + 1;
+        numMembersElement.attr("numMembers", newNumMembers);
+        if (newNumMembers == 1)
+        {
+            numMembersElement.html("1 member")
+        }
+        else
+        {
+            numMembersElement.html(newNumMembers + " members")
+        }
     }
 
     /* Shows a message when the logged in member joins a network */
@@ -112,6 +125,19 @@ $(document).ready(function() {
 
         // Update the network card's classes
         networkCard.removeClass("myNetworks").addClass("otherNetworks");
+
+        // Update the number of members in the network
+        var numMembersElement = networkCard.find(".numMembers");
+        var newNumMembers = parseInt(numMembersElement.attr("numMembers")) - 1;
+        numMembersElement.attr("numMembers", newNumMembers);
+        if (newNumMembers == 1)
+        {
+            numMembersElement.html("1 member")
+        }
+        else
+        {
+            numMembersElement.html(newNumMembers + " members")
+        }
     }
 
     /* Shows a message when the logged in member leaves a network */
