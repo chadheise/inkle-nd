@@ -88,7 +88,12 @@ $(document).ready(function() {
                     }
                 }
             },
-            error: function(a, b, error) { alert("search.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("search.js (1): " + error);
+                }
+            }
         }); 
         
         

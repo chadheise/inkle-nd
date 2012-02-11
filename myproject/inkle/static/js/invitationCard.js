@@ -15,7 +15,12 @@ $(document).ready(function() {
                 decrementNotificationCount();
                 hideInvitationCard(invitationCard, html);
             },
-            error: function(a, b, error) { alert("invitationCard.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("invitationCard.js (1): " + error);
+                }
+            }
         });
     });
 
@@ -33,7 +38,12 @@ $(document).ready(function() {
                 decrementNotificationCount();
                 hideInvitationCard(invitationCard, html);
             },
-            error: function(a, b, error) { alert("invitationCard.js (2): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("invitationCard.js (2): " + error);
+                }
+            }
         });
     });
     

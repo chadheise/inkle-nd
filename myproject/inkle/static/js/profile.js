@@ -69,7 +69,12 @@ $(document).ready(function() {
                        $(".display").fadeIn('medum');
                 });
             },
-            error: function(a, b, error) { alert("profile.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("profile.js (1): " + error);
+                }
+            }
         }); 
     });
     

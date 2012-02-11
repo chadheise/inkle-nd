@@ -27,7 +27,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("help.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("help.js (1): " + error);
+                }
+            }
         });
     }
 

@@ -29,7 +29,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("account.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("account.js (1): " + error);
+                }
+            }
         });
     }
  
@@ -94,7 +99,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("account.js (2): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("account.js (2): " + error);
+                }
+            }
         });
     });
 
@@ -123,16 +133,24 @@ $(document).ready(function() {
                         $.ajax({
                             url: "/sendUpdateEmailVerificationEmail/" + newEmail + "/",
                             success: function() {
-                                alert("success");
                                 window.location.href = "/logout/";
-                                alert("logged out");
                             },
-                            error: function (a, b, error) { alert("account.js (3.2): " + error); }
+                            error: function(jqXHR, textStatus, error) {
+                                if ($("body").attr("debug") == "True")
+                                {
+                                    alert("account.js (3.2): " + error);
+                                }
+                            }
                         });
                     });
                 }
             },
-            error: function(a, b, error) { alert("account.js (3): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("account.js (3.1): " + error);
+                }
+            }
         });
     });
     
@@ -156,7 +174,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("account.js (4): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("account.js (4): " + error);
+                }
+            }
         });
     });
 
@@ -172,7 +195,12 @@ $(document).ready(function() {
                     window.location.href = "/logout/";
                 });
             },
-            error: function(a, b, error) { alert("account.js (3): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("account.js (5): " + error);
+                }
+            }
         });
     });
 });

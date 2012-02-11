@@ -1,3 +1,5 @@
+{% load debug_value from extraTags %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <!-- 
 Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved
@@ -30,7 +32,7 @@ Copyright 2012 Chad Heise & Jacob Wenger - All Rights Reserved
         {% endblock js %}
     </head>
 
-    <body>
+    <body debug="{{ null|debug_value }}">
         <!-- Header -->
         {% include "header.html" %}
 

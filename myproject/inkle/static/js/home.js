@@ -25,7 +25,12 @@ $(document).ready(function() {
                     $("#homeContent").fadeIn("medium"); 
                 });
             },
-            error: function(a, b, error) { alert("home.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("home.js (1): " + error);
+                }
+            }
         });
     }
     
@@ -85,7 +90,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("home.js (5): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("home.js (2): " + error);
+                }
+            }
         });
     }
     
@@ -152,7 +162,12 @@ $(document).ready(function() {
                     inklingInviteContainer.attr("inklingID", "");
                     inklingInviteContainer.addClass("hidden");
                 },
-                error: function(a, b, error) { alert("home.js (3): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("home.js (3): " + error);
+                    }
+                }
             });
         }
 
@@ -211,7 +226,12 @@ $(document).ready(function() {
                 // Fade out the inkling's suggestions
                 inklingElement.find(".inklingSuggestions").fadeOut("medium");
             },
-            error: function(a, b, error) { alert("home.js (4): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("home.js (4): " + error);
+                }
+            }
         });
     });
 
@@ -298,7 +318,12 @@ $(document).ready(function() {
                         // Fade in the suggestions element
                         suggestionsElement.fadeIn("medium");
                     },
-                    error: function(a, b, error) { alert("home.js (2): " + error); }
+                    error: function(jqXHR, textStatus, error) {
+                        if ($("body").attr("debug") == "True")
+                        {
+                            alert("home.js (5): " + error);
+                        }
+                    }
                 });
             }
         }
@@ -340,7 +365,12 @@ $(document).ready(function() {
             success: function(html) {
                 invitedContainer.empty();
             },
-            error: function(a, b, error) { alert("home.js (64): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("home.js (6): " + error);
+                }
+            }
         });
     });
 
@@ -454,7 +484,12 @@ $(document).ready(function() {
                         // Fade in the suggestions element
                         suggestionsElement.fadeIn("medium");
                     },
-                    error: function(a, b, error) { alert("home.js (8): " + error); }
+                    error: function(jqXHR, textStatus, error) {
+                        if ($("body").attr("debug") == "True")
+                        {
+                            alert("home.js (7): " + error);
+                        }
+                    }
                 });
             }
         }
@@ -537,7 +572,12 @@ $(document).ready(function() {
                        updateOthersInklings(date);
                    }                          
                },
-               error: function(a, b, error) { alert("calendar.js (6): " + error); }
+               error: function(jqXHR, textStatus, error) {
+                   if ($("body").attr("debug") == "True")
+                   {
+                       alert("home.js (8): " + error);
+                   }
+               }
            });
        });
 
@@ -569,7 +609,12 @@ $(document).ready(function() {
                    $("#calendarContainer").html(html); // Update the HTML of the calendar
                    styleSelectedDate();
                },
-               error: function(a, b, error) { alert("calendar.js (7): " + error); }
+               error: function(jqXHR, textStatus, error) {
+                   if ($("body").attr("debug") == "True")
+                   {
+                       alert("home.js (9): " + error);
+                   }
+               }
            });
        });
           
