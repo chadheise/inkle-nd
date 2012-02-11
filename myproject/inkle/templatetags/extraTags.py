@@ -108,3 +108,17 @@ def debug_value(value):
     """Returns the value of DEBUG."""
     return DEBUG
 debug_value.is_safe = True
+
+
+@register.filter()
+def clean_url(value):
+    """Returns the website's URL without the http://www. portion."""
+    if value.endswith("/"):
+        value = value[:-1]
+    if ((value.startswith("http://www.")) or (value.startswith("https://www.")) or (value.startswith("www."))):
+        return value.split("www.")[1]
+    elif ((value.startswith("http://")) or (value.startswith("https://"))):
+        return value.split("://")[1]
+    else:
+        return value
+debug_value.is_safe = True
