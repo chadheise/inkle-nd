@@ -95,7 +95,12 @@ $(document).ready(function() {
                     }
                 }
             },
-            error: function(a, b, error) { alert("networkCard.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("networkCard.js (1): " + error);
+                }
+            }
         });
     });
     
@@ -216,7 +221,12 @@ $(document).ready(function() {
                     }
                 }
             },
-            error: function(a, b, error) { alert("networkCard.js (2): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("networkCard.js (2): " + error);
+                }
+            }
         });
     });
 });

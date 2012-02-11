@@ -87,7 +87,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("memberCard.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("memberCard.js (1): " + error);
+                }
+            }
         });
     });
     
@@ -186,7 +191,12 @@ $(document).ready(function() {
                     preventFollowingHelper(memberCard);
                 }
             },
-            error: function(a, b, error) { alert("memberCard.js (2): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("memberCard.js (2): " + error);
+                }
+            }
         });
     });
     
@@ -302,7 +312,12 @@ $(document).ready(function() {
                     stopFollowingHelper(memberCard);
                 }
             },
-            error: function(a, b, error) { alert("memberCard.js (3): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("memberCard.js (3): " + error);
+                }
+            }
         });
     });
         
@@ -321,10 +336,20 @@ $(document).ready(function() {
                 // Send the request to follow email
                 $.ajax({
                     url: "/sendRequestToFollowEmail/" + toMemberID + "/",
-                    error: function (a, b, error) { alert("memberCard.js (4.2): " + error); }
+                    error: function(jqXHR, textStatus, error) {
+                        if ($("body").attr("debug") == "True")
+                        {
+                            alert("memberCard.js (4.2): " + error);
+                        }
+                    }
                 });
             },
-            error: function(a, b, error) { alert("memberCard.js (4.1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("memberCard.js (4.1): " + error);
+                }
+            }
         });
     });
     
@@ -342,7 +367,12 @@ $(document).ready(function() {
             success: function(title) {
                 thisElement.text("Request to follow").addClass("requestToFollow").removeClass("revokeRequest").attr("title", title);
             },
-            error: function(a, b, error) { alert("memberCard.js (5): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("memberCard.js (5): " + error);
+                }
+            }
         });
     });
     

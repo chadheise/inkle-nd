@@ -6,6 +6,7 @@ from datetime import date
 
 # Choices for months, states, and location categories
 from myproject.inkle.choices import *
+from myproject.settings import DEBUG
 
 register = template.Library()
 
@@ -100,3 +101,10 @@ def location_categories(value):
     """Returns a list of the location categories."""
     return LOCATION_CATEGORIES
 location_categories.is_safe = True
+
+
+@register.filter()
+def debug_value(value):
+    """Returns the value of DEBUG."""
+    return DEBUG
+debug_value.is_safe = True

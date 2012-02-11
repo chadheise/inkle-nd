@@ -116,8 +116,11 @@ $(document).ready(function() {
                         $("#headerSearchSuggestions").html(html);
                         $("#headerSearchSuggestions").fadeIn("medium");
                     },
-                    error: function(a, b, error) {
-                        alert("header.js (1): " + error);
+                    error: function(jqXHR, textStatus, error) {
+                        if ($("body").attr("debug") == "True")
+                        {
+                            alert("header.js (1): " + error);
+                        }
                     }
                 });
             }
@@ -254,7 +257,12 @@ $(document).ready(function() {
             success: function() {
                 $("#inviteYourFriendsContent textarea").val("Thank you for telling your friends about Inkle!").addClass("emptyTextarea");
             },
-            error: function(a, b, error) { alert("home.js (-10): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("header.js (2): " + error);
+                }
+            }
         });
     });
 

@@ -31,11 +31,21 @@ $(document).ready(function() {
                         type: "POST",
                         url: "/sendContactEmail/",
                         data: { "name" : name, "email" : email, "subject" : subject, "message" : message },
-                        error: function (a, b, error) { alert("contact.js (1.2): " + error); }
+                        error: function(jqXHR, textStatus, error) {
+                            if ($("body").attr("debug") == "True")
+                            {
+                                alert("contact.js (1.2): " + error);
+                            }
+                        }
                     });
                 }
             },
-            error: function(a, b, error) { alert("contact.js (1.1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("contact.js (1.1): " + error);
+                }
+            }
         });
     });
 });

@@ -97,10 +97,20 @@ $(document).ready(function() {
                 // Send the accepted request email
                 $.ajax({
                     url: "/sendAcceptRequestEmail/" + fromMemberID + "/",
-                    error: function (a, b, error) { alert("notifications.js (1.2): " + error); }
+                    error: function(jqXHR, textStatus, error) {
+                        if ($("body").attr("debug") == "True")
+                        {
+                            alert("notifications.js (1.2): " + error);
+                        }
+                    }
                 });
             },
-            error: function (a, b, error) { alert("notifications.js (1.1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("notifications.js (1.1): " + error);
+                }
+            }
         });
     });
     
@@ -119,7 +129,12 @@ $(document).ready(function() {
                 // Update the request count and display the reject request message
                 acceptRejectSuccessHelper(memberCard, html);
             },
-            error: function (a, b, error) { alert("notifications.js (2): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("notifications.js (2): " + error);
+                }
+            }
         });
     });
 });

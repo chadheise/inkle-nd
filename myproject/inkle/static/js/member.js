@@ -57,7 +57,12 @@ $(document).ready(function() {
                     }); 
                 }
             },
-            error: function(a, b, error) { alert("member.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("member.js (1): " + error);
+                }
+            }
         });
     }
  
@@ -206,7 +211,12 @@ $(document).ready(function() {
                       var contentType = $("#memberContentLinks .selectedContentLink").attr("contentType");
                       loadContent(contentType, date, false);
                },
-               error: function(a, b, error) { alert("calendar.js (6): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("member.js (2): " + error);
+                    }
+                }
            });
 
        });
@@ -239,7 +249,12 @@ $(document).ready(function() {
                    $("#calendarContainer").html(html); // Update the HTML of the calendar
                    styleSelectedDate();
                },
-               error: function(a, b, error) { alert("calendar.js (7): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("member.js (3): " + error);
+                    }
+                }
            });
        });
     

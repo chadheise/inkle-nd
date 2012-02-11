@@ -44,7 +44,12 @@ $(document).ready(function() {
                     $(this).html(html).fadeIn("medium");
                 });
             },
-            error: function(a, b, error) { alert("login.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("login.js (1): " + error);
+                }
+            }
         });
     });
 
@@ -65,11 +70,21 @@ $(document).ready(function() {
                         // Send the password reset email
                         $.ajax({
                             url: "/sendPasswordResetEmail/" + email + "/",
-                            error: function (a, b, error) { alert("login.js (2.2): " + error); }
+                            error: function(jqXHR, textStatus, error) {
+                                if ($("body").attr("debug") == "True")
+                                {
+                                    alert("login.js (2.2): " + error);
+                                }
+                            }
                         });
                     });
                 },
-                error: function (a, b, error) { alert("login.js (2.1): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("login.js (2.1): " + error);
+                    }
+                }
             });
         }
 
@@ -99,7 +114,12 @@ $(document).ready(function() {
                         $(this).html(html).fadeIn("medium");
                     });
                 },
-                error: function (a, b, error) { alert("login.js (3): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("login.js (3): " + error);
+                    }
+                }
             });
         }
 
@@ -154,11 +174,21 @@ $(document).ready(function() {
                     // Send the email verification email
                     $.ajax({
                         url: "/sendEmailVerificationEmail/" + email + "/",
-                        error: function (a, b, error) { alert("login.js (4.2): " + error); }
+                        error: function(jqXHR, textStatus, error) {
+                            if ($("body").attr("debug") == "True")
+                            {
+                                alert("login.js (4.2): " + error);
+                            }
+                        }
                     });
                 }
             },
-            error: function(a, b, error) { alert("login.js (4.1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("login.js (4.1): " + error);
+                }
+            }
         });
     });
 });

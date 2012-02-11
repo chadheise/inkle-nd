@@ -37,7 +37,12 @@ $(document).ready(function() {
                         $("#blotContent").fadeIn("medium");
                     });
                 },
-                error: function(a, b, error) { alert("blots.js (1): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("blots.js (1): " + error);
+                    }
+                }
             });
         }
     });
@@ -69,7 +74,12 @@ $(document).ready(function() {
                 blot.find("p").css("margin-top", marginTop + "px");
 
             },
-            error: function(a, b, error) { alert("blots.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("blots.js (2): " + error);
+                }
+            }
         });
     }
 
@@ -154,7 +164,12 @@ $(document).ready(function() {
                         $("#createBlotButton").fadeIn("medium");
                     });
                 },
-                error: function(a, b, error) { alert("blots.js (2): " + error); }
+                error: function(jqXHR, textStatus, error) {
+                    if ($("body").attr("debug") == "True")
+                    {
+                        alert("blots.js (3): " + error);
+                    }
+                }
             });
         }
     }
@@ -187,7 +202,12 @@ $(document).ready(function() {
                     $(".blot:first").trigger("click");
                 });
             },
-            error: function(a, b, error) { alert("blots.js (4): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("blots.js (4): " + error);
+                }
+            }
         });
     });
 
@@ -267,7 +287,12 @@ $(document).ready(function() {
                         $("#addToBlotSuggestions").html(html);
                         $("#addToBlotSuggestions").fadeIn("medium");
                     },
-                    error: function(a, b, error) { alert("blots.js (5): " + error); }
+                    error: function(jqXHR, textStatus, error) {
+                        if ($("body").attr("debug") == "True")
+                        {
+                           alert("blots.js (5): " + error);
+                        }
+                    }
                 });
             }
         }
@@ -298,7 +323,12 @@ $(document).ready(function() {
                 $("#addToBlotInput").val("");
                 $("#addToBlotSuggestions").fadeOut("medium");
             },
-            error: function(a, b, error) { alert("blots.js (6): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("blots.js (6): " + error);
+                }
+            }
         });
     });
     

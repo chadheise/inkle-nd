@@ -29,7 +29,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("editProfile.js (1): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("editProfile.js (1): " + error);
+                }
+            }
         });
     }
  
@@ -103,7 +108,12 @@ $(document).ready(function() {
                     });
                 }
             },
-            error: function(a, b, error) { alert("editProfile.js (2): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("editProfile.js (2): " + error);
+                }
+            }
         });
     });
    
@@ -133,7 +143,12 @@ $(document).ready(function() {
                     });
                 });
             },
-            error: function(a, b, error) { alert("editProfile.js (3): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("editProfile.js (3): " + error);
+                }
+            }
         });
     });
 
@@ -158,7 +173,12 @@ $(document).ready(function() {
                     });
                 });
             },
-            error: function(a, b, error) { alert("editProfile.js (7): " + error); }
+            error: function(jqXHR, textStatus, error) {
+                if ($("body").attr("debug") == "True")
+                {
+                    alert("editProfile.js (4): " + error);
+                }
+            }
         });
     });
 
