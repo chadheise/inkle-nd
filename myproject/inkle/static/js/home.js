@@ -137,8 +137,10 @@ $(document).ready(function() {
     /* Remove the inkling when it's input is empty and it loses focus */
     $(".inkling input").live("blur", function() {
         // If the value of the of the inkling input is not empty, remove the inkling
+        var thisElement = $(this);
         var query = $(this).val();
-        if (query == "")
+        var inklingLocation = $(this).attr("location");
+        if ((query == "") && (inklingLocation != ""))
         {
             // Get the type of the selected inkling
             var inklingElement = $(this).parents(".inkling");
@@ -153,6 +155,8 @@ $(document).ready(function() {
                 url: "/removeInkling/",
                 data: {"inklingType" : inklingType, "date" : date},
                 success: function() {
+                    thisElement.attr("location", "");
+                    
                     inklingElement.find("img").fadeOut("medium", function() {
                         $(this).attr("src", "/static/media/images/locations/default.jpg");
                         $(this).fadeIn("medium");
@@ -208,6 +212,7 @@ $(document).ready(function() {
                 
                 // Update the value of the inkling's input
                 inklingElement.find("input").val(locationName);
+                inklingElement.find("input").attr("location", locationName);
 
                 // Update the inkling's image (only if the location has changed)
                 var inklingImage = inklingElement.find("img");
