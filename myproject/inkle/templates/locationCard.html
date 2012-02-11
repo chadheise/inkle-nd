@@ -1,3 +1,5 @@
+{% load clean_url from extraTags %}
+
 <!-- Location card -->
 <div class="grid_17 alpha omega">
     <div class="locationCard">
@@ -32,7 +34,7 @@
 
             <!-- Website -->
             <div class="infoRow">
-                <a class="locationWebsite"href="{{ location.website }}">{{ location.website }}</a>
+                <a class="locationWebsite"href="{{ location.website }}">{{ location.website|clean_url }}</a>
             </div>
         </div>
         <div class="clear"></div>
