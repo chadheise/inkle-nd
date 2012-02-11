@@ -1,10 +1,10 @@
 <div id="footer">
     <div class="container_24">
-        <div class="grid_10 push_7">
-            <p id="footerLinks">Copyright &copy; MMXII inkleit.com &middot; <a href="/terms/">Terms</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/help/">Help</a></p>
+        <div class="grid_14 push_5">
+            <p id="footerLinks">Copyright &copy; MMXII inkleit.com {% if member %}&middot; <a href="/gettingStarted/">Getting Started</a>{% endif %} &middot; <a href="/terms/">Terms</a> &middot; <a href="/contact/">Contact</a> &middot; <a href="/help/">Help</a></p>
         </div>
         {% if not loginData and not registrationData %}
-            <div class="grid_5 push_9">
+            <div class="grid_5 push_5">
                 <p id="inviteYourFriendsButton">Tell your friends</p>
                 <div id="inviteYourFriendsContent">
                     <textarea maxlength="1000">Invite your friends to join Inkle by typing their email addresses here</textarea>

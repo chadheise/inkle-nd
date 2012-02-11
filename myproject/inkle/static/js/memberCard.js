@@ -72,7 +72,7 @@ $(document).ready(function() {
                     var memberID = memberCard.parent().attr("id").split("_")[1];
                     memberCard.fadeOut("medium", function() {
                         // Create the member message
-                        memberCard.after("<p class='memberMessage'>You removed <a class='memberMessageName' href='/member/" + memberID + "/'>" + memberName + "</a> from this network.</p>");
+                        memberCard.after("<p class='memberMessage'>You removed <a class='memberMessageName' href='/member/" + memberID + "/'>" + memberName + "</a> from this blot.</p>");
 
                         // Fade in the member message and then fade it out after a set time
                         var memberMessageElement = memberCard.next(".memberMessage");

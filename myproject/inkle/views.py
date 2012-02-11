@@ -1821,6 +1821,17 @@ def logout_view(request):
 
     return HttpResponseRedirect("/login/")
 
+def getting_started_view(request):
+    # Get the member who is logged in (or redirect them to the login page)
+    try:
+        member = Member.active.get(pk = request.session["member_id"])
+    except:
+        raise Http404()
+
+    return render_to_response( "gettingStarted.html",
+        { "member" : member },
+        context_instance = RequestContext(request) )
+
 def help_view(request, content_type = "overview"):
     # Get the member who is logged in (or redirect them to the login page)
     try:
