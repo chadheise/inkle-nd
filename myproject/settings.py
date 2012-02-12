@@ -9,9 +9,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-mysite_path = "/Users/cheise/Documents/Notre Dame/Courses/E-Technologies/homework/inkle/myproject/"
-#mysite_path = "/home/jwenger/inkle/myproject/"
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -59,7 +56,7 @@ MEDIA_URL = 'static/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = mysite_path + 'inkle/static/'
+STATIC_ROOT = 'inkle/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
